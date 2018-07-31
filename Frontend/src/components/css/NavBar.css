@@ -28,7 +28,8 @@
   float: left;
 }
 
-.text_for_middle span {
+.text_for_middle span,
+.text_for_popup span {
   color: black;
   float: left;
   font-size: 20px;
@@ -38,6 +39,14 @@
   color: cornflowerblue;
 }
 
-.text_for_middle span:hover {
+.text_for_middle span:hover,
+.text_for_popup span:hover {
   color: cornflowerblue;
+}
+
+.text_for_popup {
+  margin-top: 90px;
+  margin-left: 15px;
+  font-weight: bold;
+  float: left;
 }

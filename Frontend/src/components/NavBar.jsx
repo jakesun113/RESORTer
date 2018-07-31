@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./css/NavBar.css";
 import SmallEllipseBtn from "./SmallEllipseBtn";
+import ContactBtn from "./ContactBtn";
 class Navbar extends Component {
   state = {};
   render() {
@@ -40,10 +41,10 @@ class Navbar extends Component {
                   </a>
                 </li>
 
-                <li className="nav-item text_for_middle">
-                  <a className="nav-link" href="#">
-                    <span>Contect</span>
-                  </a>
+                <li className="nav-item text_for_popup">
+                  <span>
+                    <ContactBtn />
+                  </span>
                 </li>
 
                 <li className="nav-item">
