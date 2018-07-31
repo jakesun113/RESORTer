@@ -1,0 +1,17 @@
+1. Bootstrap Install
+
+npm i bootstrap
+
+npm install bootstrap jquery --save
+
+npm install popper.js --save
+
+import:
+
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.js";
+
+2. Font Awasome
+
+npm install @fortawesome/fontawesome-free
+import "@fortawesome/fontawesome-free/css/all.css";

@@ -1,0 +1,33 @@
+.botton_right {
+  text-align: right !important;
+}
+
+.btn-primary {
+  border-radius: 20px;
+  color: #fff;
+  background-color: orangered;
+  border-color: orangered;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: black;
+  border-color: black;
+}
+
+.btn-primary span {
+  margin: 10px;
+}
+
+.card-text {
+  font-size: 14px;
+}
+.card {
+  box-shadow: 2px 2px grey;
+}
+
+.card-body {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
