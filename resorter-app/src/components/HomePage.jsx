@@ -4,10 +4,10 @@ import PrompImageSlider from "./PrompImageSlider";
 import DiamondBtn from "./DiamondBtn";
 import SearchArea from "./SearchArea";
 import MostSearchArea from "./MostSearchArea";
-
 import FeedBackBtn from "./FeedBackBtn";
 import ChatBtn from "./ChatBtn";
 import FooterNavBar from "./FooterNavBar";
+
 const ShortLineStyle = {
   marginTop: "50px",
   width: "90%"

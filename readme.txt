@@ -15,3 +15,11 @@ import "bootstrap/dist/js/bootstrap.js";
 
 npm install @fortawesome/fontawesome-free
 import "@fortawesome/fontawesome-free/css/all.css";
+
+
+not use
+3.
+install reactjs-popup --save
+
+4.
+npm install react-modal
