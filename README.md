@@ -2,10 +2,12 @@
 
 ## Package Used
 
-| Package        | Install           | import:  |
-| ------------- |:-------------:| -----:|
-| Bootstrap Install      | * npm install bootstrap jquery --save * npm i bootstrap * npm install popper.js --save| * import "bootstrap/dist/css/bootstrap.css"; * import "bootstrap/dist/js/bootstrap.js";|
-| col 2 is      | centered      |   $12 |
+| Package        | Install           | Import      |
+| -------------- |:-----------------:| -----------:|
+| col 3 is      | * right-aligned.   | $1600.      |
+                  * left
+
+|       | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
 
 1. 
