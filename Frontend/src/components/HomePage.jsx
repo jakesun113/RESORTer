@@ -17,7 +17,9 @@ const LongLineStyle = {
   marginTop: "50px",
   width: "100%"
 };
-
+const color = {
+  background: "black"
+};
 class HomePage extends Component {
   state = { currentScrollHeight: 0 };
   render() {

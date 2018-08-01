@@ -52,6 +52,7 @@ class FooterNavBar extends Component {
             </div>
           </div>
         </div>
+
         {this.props.isHidden !== 1 ? (
           <BackTopBtn scrollStepInPx="50" delayInMs="16.66" />
         ) : (
