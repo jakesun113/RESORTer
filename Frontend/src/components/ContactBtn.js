@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "../css/ContactBtn.css";
+import "./css/ContactBtn.css";
+
 
 class ContactBtn extends Component {
   constructor() {
@@ -37,9 +38,6 @@ class ContactBtn extends Component {
     e.preventDefault();
     const { name, telephone, email, message, invest, work } = this.state;
 
-    //axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    //axios.defaults.xsrfCookieName = "csrftoken";
-
     const form = await axios({
       method: "post",
       url: "http://127.0.0.1:3333/api/form",
@@ -51,10 +49,7 @@ class ContactBtn extends Component {
         invest,
         work
       }
-      //xsrfCookieName: 'CSRF-TOKEN',
-      // xsrfHeaderName: 'X-CSRF-TOKEN'
-      //xsrfCookieName: csrfToken,
-      //xsrfHeaderName: csrfToken
+
     });
 
     window.alert("Thank you! We will contact you soon!");
@@ -93,7 +88,6 @@ class ContactBtn extends Component {
 
               <div class="modal-body">
                 <form onSubmit={this.handleSubmit} data-toggle="validator">
-                  <input type="hidden" name="_csrf" />
                   <div class="row">
                     <div class="col">
                       <div className="form-group">
