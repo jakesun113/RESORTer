@@ -64,7 +64,6 @@ class ContactBtn extends Component {
         <a data-toggle="modal" data-target="#exampleModal">
           Contact
         </a>
-
         <div
           class="modal fade"
           id="exampleModal"
@@ -218,7 +217,11 @@ class ContactBtn extends Component {
                       </label>
                     </div>
                   </div>
-                  <button type="submit" className="btn form-group btn-primary">
+                  <button
+                    data-toggle="modal"
+                    type="submit"
+                    className="btn form-group btn-primary"
+                  >
                     Send
                   </button>
                 </form>
