@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./css/PrompImageSlider.css";
+import "../css/PrompImageSlider.css";
 
 class PrompImageSlider extends Component {
   state = {};

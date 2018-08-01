@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./css/NavBar.css";
+import "../css/NavBar.css";
 import SmallEllipseBtn from "./SmallEllipseBtn";
 import ContactBtn from "./ContactBtn";
 class Navbar extends Component {

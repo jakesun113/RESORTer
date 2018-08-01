@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./css/ImageCard.css";
+import "../css/ImageCard.css";
 const CardSubTitleStyle = {
   color: "aqua"
 };

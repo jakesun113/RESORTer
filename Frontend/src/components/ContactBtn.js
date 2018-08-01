@@ -1,24 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "./css/ContactBtn.css";
+import "../css/ContactBtn.css";
 
-// const CenterText = {
-//   marginLeft: "auto"
-// };
-
-// const CardStyle = {
-//   color: "black"
-// };
-
-// const ButtonStyle = {
-//   marginLeft: "auto",
-//   background: "black"
-// };
-
-// const ButtonTextStyle = {
-//   width: "100%",
-//   color: "white"
-// };
 class ContactBtn extends Component {
   constructor() {
     super();

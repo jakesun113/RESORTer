@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Navbar from "./NavBar";
-import PrompImageSlider from "./PrompImageSlider";
-import DiamondBtn from "./DiamondBtn";
-import SearchArea from "./SearchArea";
-import MostSearchArea from "./MostSearchArea";
-import FeedBackBtn from "./FeedBackBtn";
-import ChatBtn from "./ChatBtn";
-import FooterNavBar from "./FooterNavBar";
+import Navbar from "../components/NavBar";
+import PrompImageSlider from "../components/PrompImageSlider";
+import DiamondBtn from "../components/DiamondBtn";
+import SearchArea from "../components/SearchArea";
+import MostSearchArea from "../components/MostSearchArea";
+import FeedBackBtn from "../components/FeedBackBtn";
+import ChatBtn from "../components/ChatBtn";
+import FooterNavBar from "../components/FooterNavBar";
 
 const ShortLineStyle = {
   marginTop: "50px",
