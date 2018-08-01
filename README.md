@@ -2,7 +2,13 @@
 
 ## Package Used
 
-1. Bootstrap Install
+| Package        | Install           | import:  |
+| ------------- |:-------------:| -----:|
+| Bootstrap Install      | npm install bootstrap jquery --save npm i bootstrap npm install popper.js --save| $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+
+1. 
 
 npm i bootstrap
 
