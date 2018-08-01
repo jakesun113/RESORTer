@@ -11,12 +11,12 @@
 
 
 # Merge Private Branch to "Dev" Branch
-1- Go to private branch: __git checkout "You Branch Name"__ 
-2- Commit:               __git commit -m "COMMENTS"__
-3- Go to "Dev" branch:   __git checkout Dev__
-4- Commit:               __git commit -m "COMMENTS"__
-5- In Dev branch do:     __git merge "Private Branch Name"__
-6- In Dev branch do:     __git push__
+- Go to private branch: __git checkout "You Branch Name"__ 
+- Commit:               __git commit -m "COMMENTS"__
+- Go to "Dev" branch:   __git checkout Dev__
+- Commit:               __git commit -m "COMMENTS"__
+- In Dev branch do:     __git merge "Private Branch Name"__
+- In Dev branch do:     __git push__
 
 
 
