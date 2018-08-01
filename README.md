@@ -10,6 +10,16 @@
 | Validator | npm install bootstrap-validator | |
 
 
+# Merge Private Branch to "Dev" Branch
+- Go to private branch: __git checkout "You Branch Name"__ 
+- Commit: __git commit -m "COMMENTS"__
+- Go to "Dev" branch:  __git checkout Dev__
+- Commit: __git commit -m "COMMENTS"__
+- In Dev branch do: __git merge "Private Branch Name"__
+- In Dev branch do: __git push__
+
+
+
 
 
 
