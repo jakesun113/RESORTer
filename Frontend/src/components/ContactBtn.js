@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "./css/ContactBtn.css";
-
+import "../css/ContactBtn.css";
 
 class ContactBtn extends Component {
   constructor() {
@@ -49,7 +48,6 @@ class ContactBtn extends Component {
         invest,
         work
       }
-
     });
 
     window.alert("Thank you! We will contact you soon!");
