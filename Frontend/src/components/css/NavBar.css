@@ -1,0 +1,52 @@
+.logo_front {
+  width: 183px;
+  height: 78px;
+  margin-right: 170px;
+}
+
+.logo_coming_soon span img {
+  position: relative;
+  transform: translateY(20%);
+  margin-left: 100px;
+  top: 20%;
+  bottom: 20%;
+  width: 100px;
+  height: 100px;
+}
+
+.button_admin a img {
+  margin-left: 10px;
+  width: 33px;
+  height: 33px;
+  background: grey;
+}
+
+.text_for_middle {
+  margin-top: 80px;
+  margin-left: 15px;
+  font-weight: bold;
+  float: left;
+}
+
+.text_for_middle span,
+.text_for_popup span {
+  color: black;
+  float: left;
+  font-size: 20px;
+}
+
+.active span {
+  color: cornflowerblue;
+}
+
+.text_for_middle span:hover,
+.text_for_popup span:hover {
+  color: cornflowerblue;
+}
+
+.text_for_popup {
+  margin-top: 90px;
+  margin-left: 15px;
+  font-weight: bold;
+  float: left;
+}

@@ -6,7 +6,8 @@ import registerServiceWorker from "./registerServiceWorker";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
-import HomePage from "./template/components/HomePage";
+import "@fortawesome/fontawesome-free/css/all.css";
+import HomePage from "./components/HomePage";
 
 ReactDOM.render(<HomePage />, document.getElementById("root"));
 registerServiceWorker();

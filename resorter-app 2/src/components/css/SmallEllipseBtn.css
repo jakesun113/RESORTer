@@ -1,0 +1,30 @@
+.small_button {
+  margin-top: 80px;
+  margin-left: 15px;
+  float: left;
+  margin-left: 190px;
+}
+
+.small_button p {
+  color: white;
+  border-radius: 20px;
+  background: orangered;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 35px;
+  padding-right: 35px;
+}
+.small_button p:hover {
+  animation-duration: 1s;
+  animation-name: changeLoginColor;
+  background: black;
+}
+
+@keyframes changeLoginColor {
+  from {
+    background-color: orangered;
+  }
+  to {
+    background-color: black;
+  }
+}
