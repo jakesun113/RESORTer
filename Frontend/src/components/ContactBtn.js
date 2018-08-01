@@ -223,11 +223,6 @@ class ContactBtn extends Component {
                   </button>
                 </form>
               </div>
-              {/* <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">
-                  Send
-                </button>
-              </div> */}
             </div>
           </div>
         </div>
