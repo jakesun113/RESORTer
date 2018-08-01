@@ -217,11 +217,7 @@ class ContactBtn extends Component {
                       </label>
                     </div>
                   </div>
-                  <button
-                    data-toggle="modal"
-                    type="submit"
-                    className="btn form-group btn-primary"
-                  >
+                  <button type="submit" className="btn form-group btn-primary">
                     Send
                   </button>
                 </form>
