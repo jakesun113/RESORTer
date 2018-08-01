@@ -1,6 +1,24 @@
 import React, { Component } from "react";
 import axios from "axios";
+import "./css/ContactBtn.css";
 
+// const CenterText = {
+//   marginLeft: "auto"
+// };
+
+// const CardStyle = {
+//   color: "black"
+// };
+
+// const ButtonStyle = {
+//   marginLeft: "auto",
+//   background: "black"
+// };
+
+// const ButtonTextStyle = {
+//   width: "100%",
+//   color: "white"
+// };
 class ContactBtn extends Component {
   constructor() {
     super();
@@ -61,12 +79,12 @@ class ContactBtn extends Component {
   render() {
     return (
       <React.Fragment>
-        <a data-toggle="modal" data-target="#exampleModal">
+        <a data-toggle="modal" data-target="#contactModal">
           Contact
         </a>
         <div
           class="modal fade"
-          id="exampleModal"
+          id="contactModal"
           tabindex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
@@ -74,7 +92,7 @@ class ContactBtn extends Component {
         >
           <div class="modal-dialog" role="document">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-header modal_header">
                 <h5 class="modal-title" id="exampleModalLabel">
                   Contact Us
                 </h5>
@@ -89,33 +107,41 @@ class ContactBtn extends Component {
               </div>
 
               {/* popup body */}
+
               <div class="modal-body">
                 <form onSubmit={this.handleSubmit} data-toggle="validator">
                   <input type="hidden" name="_csrf" />
-                  <div className="form-group mt-3 ">
-                    <label>Name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="exampleFormControlInput2"
-                      name="name"
-                      placeholder="Name"
-                      onChange={this.handleChange}
-                      required
-                    />
+                  <div class="row">
+                    <div class="col">
+                      <div className="form-group">
+                        <label>Name</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="exampleFormControlInput2"
+                          name="name"
+                          placeholder="Name"
+                          onChange={this.handleChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div className="form-group ">
+                        <label>Telephone</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="exampleFormControlInput3"
+                          required
+                          name="telephone"
+                          placeholder="Telephone number"
+                          onChange={this.handleChange}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="form-group ">
-                    <label>Telephone</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="exampleFormControlInput3"
-                      required
-                      name="telephone"
-                      placeholder="Telephone number"
-                      onChange={this.handleChange}
-                    />
-                  </div>
+
                   <div className="form-group">
                     <label>Email</label>
                     <input
@@ -217,8 +243,8 @@ class ContactBtn extends Component {
                       </label>
                     </div>
                   </div>
-                  <button type="submit" className="btn form-group btn-primary">
-                    Send
+                  <button type="submit" className="btn">
+                    <span>Send</span>
                   </button>
                 </form>
               </div>
