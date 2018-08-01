@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import Navbar from "../components/NavBar";
 import PrompImageSlider from "../components/PrompImageSlider";
 import DiamondBtn from "../components/DiamondBtn";
-import SearchArea from "../components/SearchArea";
-import MostSearchArea from "../components/MostSearchArea";
 import FeedBackBtn from "../components/FeedBackBtn";
 import ChatBtn from "../components/ChatBtn";
 import FooterNavBar from "../components/FooterNavBar";
+import SearchArea from "../components/homepageSearch&Popular/search"
+import MostSearchArea from "../components/homepageSearch&Popular/MostPopular"
 
 const ShortLineStyle = {
   marginTop: "50px",
