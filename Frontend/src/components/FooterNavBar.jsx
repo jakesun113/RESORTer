@@ -22,7 +22,7 @@ export default class Footer extends React.Component {
             
 
                <div className="col-md-6 mt-md-0 mt-3">
-                <Link class="privacy" to={`/privacy-statement`}>Privacy Statement</Link>
+                <Link className="privacy" to={`/privacy-statement`}>Privacy Statement</Link>
 
                </div>
                <hr/>
