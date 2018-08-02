@@ -9,14 +9,14 @@ class ImageCard extends Component {
   render() {
     return (
       <React.Fragment>
-        <div class="card h-100" style={{ width: "20rem" }}>
-          <img class="card-img-top" src={this.props.imgSrc} alt="Card image cap" />
-          <div class="card-body">
-            <h5 class="card-title">{this.props.title}</h5>
+        <div className="card h-100" style={{ width: "20rem" }}>
+          <img className="card-img-top" src={this.props.imgSrc} alt="Card image cap" />
+          <div className="card-body">
+            <h5 className="card-title">{this.props.title}</h5>
             <p style={CardSubTitleStyle}>{this.props.subTitle}</p>
             <p className="card-text card-body-size">{this.props.text}</p>
             <div className="botton_right">
-              <a href="#" class="btn btn-primary">
+              <a href="#" className="btn btn-primary">
                 <span>{this.props.btnText}</span>
               </a>
             </div>

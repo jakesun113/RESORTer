@@ -61,22 +61,22 @@ class ContactBtn extends Component {
           </span>
         </a>
         <div
-          class="modal fade"
+          className="modal fade"
           id="contactModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header modal_header">
-                <h5 class="modal-title" id="exampleModalLabel">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header modal_header">
+                <h5 className="modal-title" id="exampleModalLabel">
                   Contact Us
                 </h5>
                 <button
                   type="button"
-                  class="close"
+                  className="close"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
@@ -86,10 +86,10 @@ class ContactBtn extends Component {
 
               {/* popup body */}
 
-              <div class="modal-body">
+              <div className="modal-body">
                 <form onSubmit={this.handleSubmit} data-toggle="validator">
-                  <div class="row">
-                    <div class="col">
+                  <div className="row">
+                    <div className="col">
                       <div className="form-group">
                         <label>Name</label>
                         <input
@@ -103,7 +103,7 @@ class ContactBtn extends Component {
                         />
                       </div>
                     </div>
-                    <div class="col">
+                    <div className="col">
                       <div className="form-group ">
                         <label>Telephone</label>
                         <input
@@ -157,7 +157,7 @@ class ContactBtn extends Component {
                       />
                       <label
                         className="custom-control-label"
-                        for="inlineRadio1"
+                        htmlFor="inlineRadio1"
                       >
                         Yes
                       </label>
@@ -175,7 +175,7 @@ class ContactBtn extends Component {
                       />
                       <label
                         className="custom-control-label"
-                        for="inlineRadio2"
+                        htmlFor="inlineRadio2"
                       >
                         No
                       </label>
@@ -196,7 +196,8 @@ class ContactBtn extends Component {
                       />
                       <label
                         className="custom-control-label"
-                        for="inlineRadio3"
+                        htmlFor
+                            ="inlineRadio3"
                       >
                         Yes
                       </label>
@@ -214,7 +215,7 @@ class ContactBtn extends Component {
                       />
                       <label
                         className="custom-control-label"
-                        for="inlineRadio4"
+                        htmlFor="inlineRadio4"
                       >
                         No
                       </label>
