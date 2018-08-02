@@ -20,7 +20,7 @@ export default class Footer extends React.Component {
             
                <hr class="clearfix w-100 d-md-none pb-3" />
             
-               <div class="col-md-6 mb-md-0 mb-3">
+               <div class="col-md-6 mt-md-0 mt-3">
                 <Link class="privacy" to={`/privacy-statement`}>Privacy Statement</Link>
                </div>
                <hr/>

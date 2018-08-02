@@ -24,14 +24,14 @@ export default class BackTopButton extends Component {
   render() {
     return (
       <React.Fragment>
-        <button className="backTop" onClick={ () => { this.scrollToTop(); }}>
+        <div className="backTop" onClick={ () => { this.scrollToTop(); }}>
           <div className="icon">
             <i class="fas fa-chevron-circle-up"></i>
           </div>
           <div className="icon"> 
             <p>Top</p>
           </div>
-        </button>
+        </div>
       </React.Fragment>
     );
   }

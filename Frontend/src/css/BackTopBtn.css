@@ -1,34 +1,39 @@
 .backTop {
-  color: rgb(196, 193, 193);
-  border-style: solid;
-  border-width: 2px;
-  background: white;
+  /* color: rgb(196, 193, 193);
+  border-style: solid; */
+  /* border-width: 2px; */
+  /* background: white; */
   position: fixed;
   bottom: 0px;
   left: 0px;
-  width: 80px;
-  height: 100px;
+  /* width: 80px;
+  height: 100px; */
   cursor:pointer;
+  background-color: Transparent;
+  border: none;
 
 }
 
 .backTop:hover .icon i{
-  color: rgb(13, 95, 133);
+  /* color: rgb(13, 95, 133); */
+  opacity: 1;
 }
 .backTop:hover .icon p{
-  color: rgb(13, 95, 133);
+  /* color: rgb(13, 95, 133); */
+  opacity: 1;
 }
 
 .icon i {
+  opacity: 0.3;
   color: rgb(0, 174, 255);
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 5px;
   margin-top: 20px;
   font-size: 30px;
 }
 
 .icon p {
+  opacity: 0.3;
   color: rgb(0, 174, 255);
   text-align: center;
   margin: 5px;
