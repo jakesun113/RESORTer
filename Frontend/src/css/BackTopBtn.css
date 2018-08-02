@@ -1,0 +1,35 @@
+.backTop {
+  color: rgb(196, 193, 193);
+  border-style: solid;
+  border-width: 2px;
+  background: white;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 80px;
+  height: 100px;
+  cursor:pointer;
+
+}
+
+.backTop:hover .icon i{
+  color: rgb(13, 95, 133);
+}
+.backTop:hover .icon p{
+  color: rgb(13, 95, 133);
+}
+
+.icon i {
+  color: rgb(0, 174, 255);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  font-size: 30px;
+}
+
+.icon p {
+  color: rgb(0, 174, 255);
+  text-align: center;
+  margin: 5px;
+}
