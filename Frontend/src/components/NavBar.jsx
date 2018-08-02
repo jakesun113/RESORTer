@@ -47,13 +47,13 @@ class Navbar extends Component {
                     </a>
                   </div>
                   <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 left_border">
-                    <a className="nav-link button_style" href="#">
+                    <a className="nav-link button_style" href="/how-it-works">
                       How it Works
                     </a>
                   </div>
                   <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 left_border">
                     <a className="nav-link button_style" href="#">
-                      <ContactBtn buttonName="Contact" />
+                      <ContactBtn buttonName="Contact" isSHowUnderline="" />
                     </a>
                   </div>
                 </div>
