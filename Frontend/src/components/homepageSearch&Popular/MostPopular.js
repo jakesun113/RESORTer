@@ -9,8 +9,8 @@ class MostPopular extends Component {
       <div>
         <div className="text-justify">Most Searched Resorts</div>
 
-        <div class="row">
-          <div class="col-sm">
+        <div className="row">
+          <div className="col-sm">
             <ImageCard
               imgSrc="https://static.wixstatic.com/media/25b4a3_1a4b1cf38dfe4b77ba41b706e1d2b348~mv2.jpg/v1/fill/w_153,h_113,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_1a4b1cf38dfe4b77ba41b706e1d2b348~mv2.webp"
               title="Cardrona"
@@ -19,7 +19,7 @@ class MostPopular extends Component {
               btnText="Plan Now"
             />
           </div>
-          <div class="col-sm">
+          <div className="col-sm">
             <ImageCard
               imgSrc="https://static.wixstatic.com/media/25b4a3_ee71f812f1384d47afc896fdb57bf137~mv2.jpg/v1/fill/w_153,h_113,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_ee71f812f1384d47afc896fdb57bf137~mv2.webp"
               title="Coronet Peak"
@@ -28,7 +28,7 @@ class MostPopular extends Component {
               btnText="Plan Now"
             />
           </div>
-          <div class="col-sm">
+          <div className="col-sm">
             <ImageCard
               imgSrc="https://static.wixstatic.com/media/407189_5475794bed1646b29179d5f8440fcfd0~mv2_d_1923_1497_s_2.jpg/v1/fill/w_153,h_113,al_c,q_80,usm_0.66_1.00_0.01/407189_5475794bed1646b29179d5f8440fcfd0~mv2_d_1923_1497_s_2.webp"
               title="Falls Creek"
@@ -39,8 +39,8 @@ class MostPopular extends Component {
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-sm">
+        <div className="row">
+          <div className="col-sm">
             <ImageCard
               imgSrc="https://static.wixstatic.com/media/25b4a3_c4a876f919e94598a3e717714b801101~mv2.jpeg/v1/fill/w_153,h_113,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_c4a876f919e94598a3e717714b801101~mv2.webp"
               title="Mt.Buller"
@@ -49,7 +49,7 @@ class MostPopular extends Component {
               btnText="Plan Now"
             />
           </div>
-          <div class="col-sm">
+          <div className="col-sm">
             <ImageCard
               imgSrc="https://static.wixstatic.com/media/25b4a3_9fd9030e0acb4f3098694539631ad011~mv2.jpg/v1/fill/w_153,h_113,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_9fd9030e0acb4f3098694539631ad011~mv2.webp"
               title="Perisher"
@@ -58,7 +58,7 @@ class MostPopular extends Component {
               btnText="Plan Now"
             />
           </div>
-          <div class="col-sm">
+          <div className="col-sm">
             <ImageCard
               imgSrc="https://static.wixstatic.com/media/25b4a3_12262db407d3462fb2febe16847c72de~mv2.jpg/v1/fill/w_153,h_113,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_12262db407d3462fb2febe16847c72de~mv2.webp"
               title="Thredbo"

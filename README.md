@@ -9,8 +9,8 @@
 | Axios | npm install axios -- save | import axios from "axios";|
 | Validator | npm install bootstrap-validator |
 |  React Router | npm install --save react-router-dom | import { Route, BrowserRouter } from 'react-router-dom'；import { Link } from 'react-router-dom'
-
-
+| React Google Login | npm install react-google-login -- save | import {GoogleLogin} from 'react-google-login';|
+| React Facebook Login | npm install react-facebook-login -- save | import FacebookLogin from 'react-facebook-login';|
 
 
 # Merge Private Branch to "Dev" Branch

@@ -165,28 +165,28 @@ class Search extends Component {
    
     <TitlePart_1 />
 
-    <div class="row">
-            <div class="col-sm">
+    <div className="row">
+            <div className="col-sm">
             <Country setCountryChange={this.handleChangedCountry.bind(this)}/>
             </div>
-            <div class="col-sm">
+            <div className="col-sm">
             <ResortsFromCountry countryResorts={this.state.countryResorts} handleSelectedCountryResorts={this.handleSelectedCountryResorts.bind(this)}/>
             </div>
-            <div class="col-sm">
+            <div className="col-sm">
             <button className="btn">Make a Quote</button>
             </div>
     </div>
     
     <TitlePart_2 />
 
-    <div class="row">
-        <div class="col-sm">
+    <div className="row">
+        <div className="col-sm">
         <LeftPass setLeftPassChange={this.handleChangedLeftPass.bind(this)}/>
         </div>
-        <div class="col-sm">
+        <div className="col-sm">
         <ResortsFromLeftPass leftPassResorts={this.state.leftPassResorts} handleSelectedLeftPassResorts={this.handleSelectedLeftPassResorts.bind(this)}/>
         </div>
-        <div class="col-sm">
+        <div className="col-sm">
         <button className="btn">Make a Quote</button>
         </div>
     </div>
