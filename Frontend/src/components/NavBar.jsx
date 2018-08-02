@@ -41,7 +41,7 @@ class Navbar extends Component {
                   <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 left_border">
                     <a
                       className="nav-link button_style initial_active"
-                      href="#"
+                      href="/"
                     >
                       HOME
                     </a>

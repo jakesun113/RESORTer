@@ -55,28 +55,30 @@ class ContactBtn extends Component {
   render() {
     return (
       <React.Fragment>
+        {/* title */}
         <a data-toggle="modal" data-target="#contactModal">
           <span style={{ textDecoration: this.props.isSHowUnderline }}>
             {this.props.buttonName}
           </span>
         </a>
+        {/* body */}
         <div
-          class="modal fade"
+          className="modal fade"
           id="contactModal"
           tabindex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header modal_header">
-                <h5 class="modal-title" id="exampleModalLabel">
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content" id="contact_window">
+              <div className="modal-header modal_header">
+                <h5 className="modal-title" id="exampleModalLabel">
                   Contact Us
                 </h5>
                 <button
                   type="button"
-                  class="close"
+                  className="close"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
@@ -86,10 +88,10 @@ class ContactBtn extends Component {
 
               {/* popup body */}
 
-              <div class="modal-body">
+              <div className="modal-body">
                 <form onSubmit={this.handleSubmit} data-toggle="validator">
-                  <div class="row">
-                    <div class="col">
+                  <div className="row">
+                    <div className="col">
                       <div className="form-group">
                         <label>Name</label>
                         <input
@@ -142,85 +144,103 @@ class ContactBtn extends Component {
                       onChange={this.handleChange}
                     />
                   </div>
+                  {/* radio button */}
+
                   <div className="form-group">
-                    <label>Interested in investing with us?</label>
-
-                    <div className="custom-control custom-radio">
-                      <input
-                        className="custom-control-input"
-                        type="radio"
-                        name="invest"
-                        id="inlineRadio1"
-                        value="Yes"
-                        onChange={this.handleRadioChange}
-                        required
-                      />
-                      <label
-                        className="custom-control-label"
-                        for="inlineRadio1"
-                      >
-                        Yes
+                    <div
+                      className="row"
+                      style={{ marginRight: "300px", marginLeft: "50px" }}
+                    >
+                      <label className="col-sm">
+                        Interested in investing with us?
                       </label>
-                    </div>
+                      <div className="custom-control custom-radio col-sm">
+                        <input
+                          className="custom-control-input"
+                          type="radio"
+                          name="invest"
+                          id="inlineRadio1"
+                          value="Yes"
+                          onChange={this.handleRadioChange}
+                          required
+                        />
+                        <label
+                          className="custom-control-label"
+                          for="inlineRadio1"
+                        >
+                          Yes
+                        </label>
+                      </div>
 
-                    <div className="custom-control custom-radio">
-                      <input
-                        className="custom-control-input"
-                        type="radio"
-                        name="invest"
-                        id="inlineRadio2"
-                        value="No"
-                        onChange={this.handleRadioChange}
-                        required
-                      />
-                      <label
-                        className="custom-control-label"
-                        for="inlineRadio2"
-                      >
-                        No
-                      </label>
+                      <div className="custom-control custom-radio col-sm">
+                        <input
+                          className="custom-control-input"
+                          type="radio"
+                          name="invest"
+                          id="inlineRadio2"
+                          value="No"
+                          onChange={this.handleRadioChange}
+                          required
+                        />
+                        <label
+                          className="custom-control-label"
+                          for="inlineRadio2"
+                        >
+                          No
+                        </label>
+                      </div>
                     </div>
                   </div>
+
+                  {/* second choose */}
                   <div className="form-group">
-                    <label>Interested in working with us?</label>
-
-                    <div className="custom-control custom-radio">
-                      <input
-                        className="custom-control-input"
-                        type="radio"
-                        name="work"
-                        id="inlineRadio3"
-                        value="Yes"
-                        onChange={this.handleRadioChange}
-                        required
-                      />
-                      <label
-                        className="custom-control-label"
-                        for="inlineRadio3"
-                      >
-                        Yes
+                    <div
+                      className="row"
+                      style={{ marginRight: "300px", marginLeft: "50px" }}
+                    >
+                      <label className="col-sm">
+                        Interested in working with us?
                       </label>
-                    </div>
 
-                    <div className="custom-control custom-radio">
-                      <input
-                        className="custom-control-input"
-                        type="radio"
-                        name="work"
-                        id="inlineRadio4"
-                        value="No"
-                        onChange={this.handleRadioChange}
-                        required
-                      />
-                      <label
-                        className="custom-control-label"
-                        for="inlineRadio4"
-                      >
-                        No
-                      </label>
+                      <div className="custom-control custom-radio col-sm">
+                        <input
+                          className="custom-control-input"
+                          type="radio"
+                          name="work"
+                          id="inlineRadio3"
+                          value="Yes"
+                          onChange={this.handleRadioChange}
+                          required
+                        />
+                        <label
+                          className="custom-control-label"
+                          for="inlineRadio3"
+                        >
+                          Yes
+                        </label>
+                      </div>
+
+                      <div className="custom-control custom-radio col-sm">
+                        <input
+                          className="custom-control-input"
+                          type="radio"
+                          name="work"
+                          id="inlineRadio4"
+                          value="No"
+                          onChange={this.handleRadioChange}
+                          required
+                        />
+                        <label
+                          className="custom-control-label"
+                          for="inlineRadio4"
+                        >
+                          No
+                        </label>
+                      </div>
                     </div>
                   </div>
-                  <button type="submit" className="btn">
+                  {/* send button */}
+                  <button type="submit" className="button">
                     <span>Send</span>
                   </button>
                 </form>

@@ -29,11 +29,11 @@
   height: 33px;
   background: grey;
 }
-/* .initial_active,
+.initial_active,
 .button_style:hover {
   background: grey;
   color: white;
-} */
+}
 .button_style {
   color: black;
   clear: both;
