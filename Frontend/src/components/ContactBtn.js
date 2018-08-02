@@ -55,8 +55,12 @@ class ContactBtn extends Component {
   render() {
     return (
       <React.Fragment>
-        <a data-toggle="modal" data-target="#contactModal">
-          Contact
+        <a
+          data-toggle="modal"
+          data-target="#contactModal"
+          style={this.props.style}
+        >
+          {this.props.buttonName}
         </a>
         <div
           class="modal fade"
