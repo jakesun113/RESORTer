@@ -5,7 +5,7 @@ import DiamondBtn from "../components/DiamondBtn";
 import FeedBackBtn from "../components/FeedBackBtn";
 import ChatBtn from "../components/ChatBtn";
 import FooterNavBar from "../components/FooterNavBar";
-import SearchArea from "../components/homepageSearch&Popular/search"
+import SearchArea from "../components/homepageSearch&Popular/searchPart"
 import MostSearchArea from "../components/homepageSearch&Popular/MostPopular"
 
 const ShortLineStyle = {
