@@ -107,13 +107,13 @@ class Navbar extends Component {
                     </Link>
                   </div>
                   <div className="col-lg-3 col-md-3 col-sm-3 col-xs-4 left_border">
-                    <a
+                    <span
                       onClick={() => this.handleClick("contact")}
                       id={this.handleChangeActive("contact")}
                       className="nav-link button_style"
                     >
                       <ContactBtn buttonName="Contact" isSHowUnderline="" />
-                    </a>
+                    </span>
                   </div>
                 </div>
               </div>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "../css/ContactBtn.css";
+import "../css/LoginWindow.css";
 import LoginBtn from "../components/SmallEllipseBtn";
 import { Redirect } from "react-router-dom";
 import FacebookLogin from "react-facebook-login";
@@ -99,31 +99,115 @@ class LoginWindow extends Component {
               </div>
 
               {/* popup body */}
-
+              {/* left */}
               <div className="modal-body">
-                <div className="row body">
-                  <div className="medium-12 columns">
-                    <div className="medium-12 columns">
-                      <div data-dismiss="modal">
-                        <FacebookLogin
-                          data-dismiss="modal"
-                          appId="214931672529577"
-                          autoLoad={false}
-                          fields="name,email,picture"
-                          callback={responseFacebook}
+                <div className="row">
+                  <div className="col left_part">
+                    {/* user part */}
+                    <div className="row">
+                      <div className="col-md-1" />
+                      <div className="col-md-10">
+                        <input
+                          style={{ width: "100%" }}
+                          type="text"
+                          placeholder="Email"
                         />
+                      </div>
+                      <div className="col-md-1" />
+                    </div>
+
+                    <br />
+                    <div className="row">
+                      <div className="col-md-1" />
+                      <div className="col-md-10">
+                        <input
+                          style={{ width: "100%" }}
+                          type="text"
+                          placeholder="Password"
+                        />
+                      </div>
+                      <div className="col-md-1" />
+                    </div>
+                    <br />
+                    {/* forget pass */}
+                    <div className="row">
+                      <div className="col-md-1" />
+
+                      <div className="col-md-4">
+                        <span class="custom-control custom-checkbox">
+                          <input
+                            type="checkbox"
+                            class="custom-control-input"
+                            id="customCheck1"
+                          />
+                          <label
+                            style={{ whiteSpace: "nowrap" }}
+                            class="custom-control-label"
+                            for="customCheck1"
+                          >
+                            Remember Me
+                          </label>
+                        </span>
                       </div>
 
-                      <br />
-                      <br />
-                      <div data-dismiss="modal">
-                        <GoogleLogin
-                          clientId="664907700908-dk294rp498d65cplhmojae3c2mv5rar0.apps.googleusercontent.com"
-                          buttonText="Login with Google+"
-                          onSuccess={responseGoogle}
-                          onFailure={responseGoogle}
-                        />
+                      <div className="col-md-1" />
+
+                      <div className="col-md-4">
+                        <a style={{ whiteSpace: "nowrap" }} href="">
+                          Forgot password?
+                        </a>
                       </div>
+                      <div className="col-md-1" />
+                    </div>
+                    <br />
+                    {/* login btn */}
+                    <div>
+                      <div className="row">
+                        <div className="col-md-1" />
+                        <div className="col-md-10">
+                          <button
+                            className="login_btn"
+                            style={{ width: "100%" }}
+                          >
+                            Log In
+                          </button>
+                        </div>
+                        <div className="col-md-1" />
+                      </div>
+                    </div>
+                    <br />
+                    {/* don have count */}
+                    <div>
+                      <div className="row">
+                        <div className="col-md-1" />
+                        <div className="col-md-10">
+                          Don't have an account? <a href="">Sign Up</a>
+                        </div>
+                        <div className="col-md-1" />
+                      </div>
+                    </div>
+                  </div>
+                  {/* right */}
+                  <div className="col">
+                    <div data-dismiss="modal">
+                      <FacebookLogin
+                        cssClass="facebookBtn"
+                        data-dismiss="modal"
+                        appId="214931672529577"
+                        autoLoad={false}
+                        fields="name,email,picture"
+                        callback={responseFacebook}
+                      />
+                    </div>
+                    <br />
+                    <div data-dismiss="modal">
+                      <GoogleLogin
+                        className="googleBtn"
+                        clientId="664907700908-dk294rp498d65cplhmojae3c2mv5rar0.apps.googleusercontent.com"
+                        buttonText="Login with Google+"
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                      />
                     </div>
                   </div>
                 </div>
