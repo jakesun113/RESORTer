@@ -248,7 +248,6 @@ class HowItWorks extends Component {
   render() {
     return (
       <div className="HowItWorksCSS">
-        <Navbar />
         <SkiTripsMadeEasy />
         <BehindTheDesks />
         <ReosrtIMG />
