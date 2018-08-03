@@ -166,7 +166,7 @@ class LoginWindow extends Component {
                         <div className="col-md-1" />
                         <div className="col-md-10">
                           <button
-                            className="login_btn"
+                            className="login_btn_in_loginwindow"
                             style={{ width: "100%" }}
                           >
                             Log In

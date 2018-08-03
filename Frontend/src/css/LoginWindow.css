@@ -27,7 +27,7 @@
   display: inline-block;
 }
 
-.login_btn {
+.login_btn_in_loginwindow {
   background: rgba(127, 204, 247, 1);
   color: white;
   padding-top: 5px;
