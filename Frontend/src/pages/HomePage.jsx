@@ -3,10 +3,10 @@ import PrompImageSlider from "../components/PrompImageSlider";
 import DiamondBtn from "../components/DiamondBtn";
 import FeedBackBtn from "../components/FeedBackBtn";
 import ChatBtn from "../components/ChatBtn";
-import FooterNavBar from "../components/FooterNavBar";
+// import FooterNavBar from "../components/FooterNavBar";
 import SearchArea from "../components/homepageSearch&Popular/searchPart";
 import MostSearchArea from "../components/homepageSearch&Popular/MostPopular";
-
+import BackTopBtn from "../components/BackTopBtn";
 const ShortLineStyle = {
   marginTop: "50px",
   width: "90%"
@@ -66,7 +66,11 @@ class HomePage extends Component {
         <hr style={LongLineStyle} />
         <FeedBackBtn />
         <ChatBtn />
-        <FooterNavBar isHidden={opacity} />
+        {opacity !== 1 ? (
+          <BackTopBtn scrollStepInPx="50" delayInMs="16.66" />
+        ) : (
+          ""
+        )}
       </React.Fragment>
     );
   }

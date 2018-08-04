@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import NavBar from "../components/NavBar";
 import MainBody from "./MainBody";
-
+import FooterNavBar from "../components/FooterNavBar";
 class App extends Component {
   state = {
     user: "",
@@ -24,6 +24,7 @@ class App extends Component {
         {/* <NavBar /> */}
         <NavBar login={this.state.login} user={this.state.user} />
         <MainBody />
+        <FooterNavBar />
       </div>
     );
   }

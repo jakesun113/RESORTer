@@ -11,6 +11,7 @@ import icon_behindTheDesk from "../materials/howItWork/icon-behindTheDesk.png";
 import Navbar from "../components/NavBar";
 import Footer from "../components/FooterNavBar";
 import ContactBtn from "../components/ContactBtn";
+import BackTopBtn from "../components/BackTopBtn";
 
 class SkiTripsMadeEasy extends Component {
   handleClick = divID => {
@@ -245,7 +246,20 @@ class SideIcon extends Component {
 }
 
 class HowItWorks extends Component {
+  state = {
+    currentScrollHeight: 0
+  };
+
+  componentDidMount() {
+    window.onscroll = () => {
+      const newHeight = Math.ceil(window.scrollY / 50) * 50;
+      if (this.state.currentScrollHeight !== newHeight) {
+        this.setState({ currentScrollHeight: window.scrollY });
+      }
+    };
+  }
   render() {
+    const opacity = Math.min(100 / this.state.currentScrollHeight, 1);
     return (
       <div className="HowItWorksCSS">
         <SkiTripsMadeEasy />
@@ -254,7 +268,11 @@ class HowItWorks extends Component {
         <WorkWithUs />
         <HighFive />
         <SideIcon />
-        <Footer />
+        {opacity !== 1 ? (
+          <BackTopBtn scrollStepInPx="50" delayInMs="16.66" />
+        ) : (
+          ""
+        )}
       </div>
     );
   }
