@@ -17,6 +17,6 @@ const Route = use('Route')
 
 Route.on('/').render('welcome')
 
-Route.post('/api/form', 'ContactController.index')
+Route.post('/api/contact-form', 'ContactController.index')
 Route.post('/api/login/google', 'LoginWithAccountController.loginwithgoogle')
 Route.post('/api/login/facebook', 'LoginWithAccountController.loginwithfacebook')

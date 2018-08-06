@@ -39,7 +39,7 @@ class ContactBtn extends Component {
 
     const form = await axios({
       method: "post",
-      url: "http://127.0.0.1:3333/api/form",
+      url: "http://127.0.0.1:3333/api/contact-form",
       data: {
         name,
         telephone,
@@ -50,6 +50,7 @@ class ContactBtn extends Component {
       }
     });
 
+    //TODO: to be improved
     window.alert("Thank you! We will contact you soon!");
   }
 
@@ -143,6 +144,7 @@ class ContactBtn extends Component {
                       name="message"
                       placeholder="Message"
                       onChange={this.handleChange}
+                      required
                     />
                   </div>
                   {/* radio button */}
