@@ -134,16 +134,16 @@ class LoginWindow extends Component {
                       <div className="col-md-1" />
 
                       <div className="col-md-4">
-                        <span class="custom-control custom-checkbox">
+                        <span className="custom-control custom-checkbox">
                           <input
                             type="checkbox"
-                            class="custom-control-input"
+                            className="custom-control-input"
                             id="customCheck1"
                           />
                           <label
                             style={{ whiteSpace: "nowrap" }}
-                            class="custom-control-label"
-                            for="customCheck1"
+                            className="custom-control-label"
+                            htmlFor="customCheck1"
                           >
                             Remember Me
                           </label>
@@ -181,7 +181,7 @@ class LoginWindow extends Component {
                       <div className="row">
                         <div className="col-md-1" />
                         <div className="col-md-10">
-                          Don't have an account? <a href="">Sign Up</a>
+                          Don't have an account? <a href="/">Sign Up</a>
                         </div>
                         <div className="col-md-1" />
                       </div>

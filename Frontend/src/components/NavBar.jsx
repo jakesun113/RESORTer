@@ -142,7 +142,7 @@ class Navbar extends Component {
                     </div>
 
                     <div className="col-lg-3 col-md-2 col-sm-4 col-xs-4 userBtn">
-                      <a className="nav-link" href="/" onClick={this.logout}>
+                      <a className="nav-link" href="/">
                         <SmallEllipseBtn text={this.state.user} />
                       </a>
                     </div>
