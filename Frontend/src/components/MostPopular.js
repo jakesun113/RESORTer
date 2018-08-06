@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../../css/homepageSearch&Popular/search.css";
+import "../css/search.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ImageCard from "./ImageCard";
 
@@ -73,23 +73,3 @@ class MostPopular extends Component {
   }
 }
 export default MostPopular;
-
-/*Drop and Replace with ImageCard.jsx*/
-// class ResortsCard extends Component {
-//     render(){
-//         return(
-//             <div style={{width:'306px',height:'468px',position:'relative',boxShadow:'2px 2px 10px 0.5px #cdd3d9'}}>
-//                 <img src={this.props.imgSrc}
-//                 style={{height:'226px'}}/>
-//                 <div style={{paddingLeft:'10px',paddingRight:'10px'}}>
-//                     <div className="text-justify" style={{color:'#185b87'}}>{this.props.resortName}</div>
-//                     <div className="text-justify"style={{color:'#2ab4ff',fontSize:'15px'}}>{this.props.resortCountry}</div>
-//                     <div className="text-justify" style={{fontSize:'15px'}}>
-//                         {this.props.resortDescription}
-//                     </div>
-//                     <button className="btn" style={{width:'101px',position:'absolute',bottom:'2%',right:'2%'}}>Plan Now</button>
-//                 </div>
-//             </div>
-//         );
-//     }
-// }

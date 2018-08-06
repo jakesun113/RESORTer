@@ -4,8 +4,8 @@ import DiamondBtn from "../components/DiamondBtn";
 import FeedBackBtn from "../components/FeedBackBtn";
 import ChatBtn from "../components/ChatBtn";
 // import FooterNavBar from "../components/FooterNavBar";
-import SearchArea from "../components/homepageSearch&Popular/searchPart";
-import MostSearchArea from "../components/homepageSearch&Popular/MostPopular";
+import SearchArea from "../components/searchPart";
+import MostSearchArea from "../components/MostPopular";
 import BackTopBtn from "../components/BackTopBtn";
 const ShortLineStyle = {
   marginTop: "50px",
@@ -67,7 +67,7 @@ class HomePage extends Component {
         <FeedBackBtn />
         <ChatBtn />
         {opacity !== 1 ? (
-          <BackTopBtn scrollStepInPx="50" delayInMs="16.66" />
+          <BackTopBtn scrollStepInPx="50" delayInMs="16.6" />
         ) : (
           ""
         )}

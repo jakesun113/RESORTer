@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../css/homepageSearch&Popular/search.css';
+import '../css/search.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DropDown from './Dropdown'
 
@@ -59,9 +59,6 @@ class LeftPass extends Component{
 class ResortsFromCountry extends Component {
     constructor(props){
         super(props);
-        this.state = {
-          
-        }
     }
 
     handleResortChange(dropDownValue){
@@ -78,9 +75,6 @@ class ResortsFromCountry extends Component {
 class ResortsFromLeftPass extends Component {
     constructor(props){
         super(props);
-        this.state = {
-           
-        }
     }
 
     handleResortChange(dropDownValue){
@@ -111,7 +105,7 @@ class TitlePart_2 extends Component {
                <div className="text-justify" id="titleSearchPart2">
                 <h1>By Resort Alliance Program
                 <span id="invokeHidden">
-                    <img id="questionFig" src={require("../../materials/homepageSearch&Popular/questionFigHomePage.png")}  alt="questionTipFigure"></img>
+                    <img id="questionFig" src={require("../materials/homepageSearch&Popular/questionFigHomePage.png")}  alt="questionTipFigure"/>
                     <span id="hiddenTip">Plan a trip at any of the resorts in these Alliances and 
                     enjoy reciprocal benefits with other member resorts. See the specific 
                     Alliance's website for more details</span>

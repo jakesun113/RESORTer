@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import axios from "axios";
 import "../css/LoginWindow.css";
 import LoginBtn from "../components/SmallEllipseBtn";
 import { Redirect } from "react-router-dom";
 import FacebookLogin from "react-facebook-login";
 import { GoogleLogin } from "react-google-login";
-import { PostData } from "../components/SignUpPost";
+import { PostData } from "../components/LoginPost";
 
 class LoginWindow extends Component {
   constructor(props) {

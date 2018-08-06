@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import "../../css/homepageSearch&Popular/ImageCard.css";
+import "../css/ImageCard.css";
 const CardSubTitleStyle = {
   color: "#2ab4ff"
 };
 
 class ImageCard extends Component {
-  state = {};
   render() {
     return (
       <React.Fragment>
