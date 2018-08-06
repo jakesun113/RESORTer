@@ -1,26 +1,26 @@
 .HowItWorksCSS {
-  overflow-x: hidden;
+    overflow-x: hidden;
 }
 
 .goDownDiv {
-  padding: 10px 0;
-  width: 5%;
-  height: auto;
+    padding: 10px 0;
+    width: 5%;
+    height: auto;
 }
 
 .goDownDiv:hover {
-  content: url("../../materials/HowItWork/downward-hover.png");
-  cursor: pointer;
+    content: url("../../materials/HowItWork/downward-hover.png");
+    cursor: pointer;
 }
 
 .myflex {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .myArrow {
-  transform: translate(0, 30px);
+    transform: translate(0, 30px);
 }
 
 /*.myflex img {*/
@@ -34,169 +34,165 @@
 /*}*/
 
 #skiTripsMadeEasy {
-  background: url("../../materials/HowItWork/bg-main.jpg") no-repeat center center
-    fixed;
-  background-size: cover;
-  padding: 50px 0;
+    background: url("../../materials/HowItWork/bg-main-slim.jpg") no-repeat center center fixed;
+    background-size: cover;
+    padding: 50px 0;
 }
 
 #skiTripsMadeEasy h1 {
-  font-size: 3em;
-  color: #ffffff;
+    font-size: 3em;
+    color: #ffffff;
 }
 
 #skiTripsMadeEasy h2 {
-  font-size: 2em;
-  color: #ffffff;
-  padding: 10px 0;
+    font-size: 2em;
+    color: #ffffff;
+    padding: 10px 0;
 }
 
 #skiTripsMadeEasy p.plaintext {
-  color: #ffffff;
-  font-size: 1.5em;
-  font-family: futura-lt-w01-light, sans-serif;
-  padding: 10px 15%;
+    color: #ffffff;
+    font-size: 1.5em;
+    font-family: futura-lt-w01-light, sans-serif;
+    padding: 10px 15%;
 }
 
 #skiTripsMadeEasy .fa {
-  color: #ffffff;
-  font-size: 2em;
+    color: #ffffff;
+    font-size: 2em;
 }
 
 #skiTripsMadeEasy p.aroundicon {
-  color: #ffffff;
-  font-weight: bold;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 #behindTheDesks {
-  background-color: #1f1d0a;
-  width: 100%;
-  padding: 50px 5%;
+    background-color: #1f1d0a;
+    width: 100%;
+    padding: 50px 5%;
 }
 
 #behindTheDesks h1 {
-  font-size: 3em;
-  color: #ffffff;
+    font-size: 3em;
+    color: #ffffff;
 }
 
 #behindTheDesks h2 {
-  font-size: 2em;
-  color: #ffffff;
-  padding: 10px 0;
+    font-size: 2em;
+    color: #ffffff;
+    padding: 10px 0;
 }
 
 #behindTheDesks p.plaintext {
-  color: #ffffff;
-  font-size: 1.5em;
-  font-family: futura-lt-w01-light, sans-serif;
-  padding: 10px 15%;
+    color: #ffffff;
+    font-size: 1.5em;
+    font-family: futura-lt-w01-light, sans-serif;
+    padding: 10px 15%;
 }
 
 #resortIMG {
-  /*width: 100%;*/
-  height: 80vh;
-  background: url("../../materials/HowItWork/resortIMG.jpg") no-repeat center
-    center fixed;
-  background-size: cover;
+    /*width: 100%;*/
+    height: 80vh;
+    background: url("../../materials/HowItWork/resortIMG.jpg") no-repeat center center fixed;
+    background-size: cover;
 }
 
 #workWithUs {
-  background-color: #1f1d0a;
-  width: 100%;
-  padding: 50px 5%;
+    background-color: #1f1d0a;
+    width: 100%;
+    padding: 50px 5%;
 }
 
 #workWithUs h1 {
-  font-size: 3em;
-  color: #ffffff;
+    font-size: 3em;
+    color: #ffffff;
 }
 
 #workWithUs h2 {
-  font-size: 2em;
-  color: #ffffff;
-  padding: 10px 0;
+    font-size: 2em;
+    color: #ffffff;
+    padding: 10px 0;
 }
 
 #workWithUs p.plaintext {
-  color: #ffffff;
-  font-size: 1.5em;
-  font-family: futura-lt-w01-light, sans-serif;
-  padding: 10px 15%;
+    color: #ffffff;
+    font-size: 1.5em;
+    font-family: futura-lt-w01-light, sans-serif;
+    padding: 10px 15%;
 }
 
 #workWithUs a {
-  color: #ffffff;
-  text-decoration: underline;
+    color: #ffffff;
+    text-decoration: underline;
 }
 
 #highFiveIMG {
-  height: 70vh;
-  background: url("../../materials/HowItWork/highfive.jpg") no-repeat center center
-    fixed ;
+    height: 70vh;
+    background: url("../../materials/HowItWork/highfive.jpg") no-repeat center center fixed;
 
-
-  background-size: cover;
+    background-size: cover;
 }
 
 #sideIcon {
-  display: block;
-  position: fixed;
-  top: 50%;
-  left: 1%;
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 1%;
 }
 
 #sideIcon img {
-  width: 20%;
-  height: auto;
-  display: inline;
+    width: 20%;
+    height: auto;
+    display: inline;
 }
 
 #sideIcon p {
-  display: inline;
-  margin-left: 2%;
-  color: #ffffff;
+    display: inline;
+    margin-left: 2%;
+    color: #ffffff;
 }
 
 #sideIcon p:hover {
-  text-decoration: underline;
-  cursor: pointer;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {
-  #skiTripsMadeEasy p.aroundicon {
-    font-size: 0.8em;
-  }
+    #skiTripsMadeEasy p.aroundicon {
+        font-size: 0.8em;
+    }
 }
 
 @media (max-width: 576px) {
-  #skiTripsMadeEasy h1,
-  #behindTheDesks h1,
-  #workWithUs h1 {
-    font-size: 2em;
-  }
+    #skiTripsMadeEasy h1,
+    #behindTheDesks h1,
+    #workWithUs h1 {
+        font-size: 2em;
+    }
 
-  #skiTripsMadeEasy h2,
-  #behindTheDesks h2,
-  #workWithUs h2 {
-    font-size: 1.4em;
-  }
+    #skiTripsMadeEasy h2,
+    #behindTheDesks h2,
+    #workWithUs h2 {
+        font-size: 1.4em;
+    }
 
-  #skiTripsMadeEasy p.plaintext,
-  #behindTheDesks p.plaintext,
-  #workWithUs p.plaintext {
-    font-size: 1em;
-  }
+    #skiTripsMadeEasy p.plaintext,
+    #behindTheDesks p.plaintext,
+    #workWithUs p.plaintext {
+        font-size: 1em;
+    }
 
-  #skiTripsMadeEasy p.aroundicon {
-    font-size: 1em;
-  }
+    #skiTripsMadeEasy p.aroundicon {
+        font-size: 1em;
+    }
 
-  .fourIMGs {
-    width: 30%;
-    height: auto;
-  }
+    .fourIMGs {
+        width: 30%;
+        height: auto;
+    }
 
-  .myArrow {
-    transform: translate(0, 0);
-  }
+    .myArrow {
+        transform: translate(0, 0);
+    }
 }

@@ -256,7 +256,7 @@ class HowItWorks extends Component {
                 <ReosrtIMG/>
                 <WorkWithUs/>
                 <HighFive/>
-                <SideIcon/>
+                {/*<SideIcon/>*/}
                 {opacity !== 1 ? (
                     <BackTopBtn scrollStepInPx="50" delayInMs="16.66"/>
                 ) : (
