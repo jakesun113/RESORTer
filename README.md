@@ -22,7 +22,7 @@
 - In Dev branch do:     __git push__
 
 # How to Run the Application
-<ul><li>Backend:<p>npm install</p><p>adonis serve --dev</p></li><li>Frontend::<p>npm install</p><p>npm start</p></li></ul> 
+<ul><li>Backend:<p>npm install</p><p>adonis serve --dev</p></li><li>Frontend:<p>npm install</p><p>npm start</p></li></ul> 
 
 
 
