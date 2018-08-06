@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../css/BackTopBtn.css";
+import "../../css/template/BackTopBtn.css";
 
 export default class BackTopButton extends Component {
   constructor() {

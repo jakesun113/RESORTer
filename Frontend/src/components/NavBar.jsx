@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "../css/NavBar.css";
-import SmallEllipseBtn from "./SmallEllipseBtn";
-import ContactBtn from "./ContactBtn";
-import LoginWindow from "./LoginWindow";
+import SmallEllipseBtn from "./template/SmallEllipseBtn";
+import ContactBtn from "./HomePage/ContactBtn";
+import LoginWindow from "./HomePage/LoginWindow";
 import { Link } from "react-router-dom";
 
 class Navbar extends Component {

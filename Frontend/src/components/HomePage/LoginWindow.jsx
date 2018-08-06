@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import "../css/LoginWindow.css";
-import LoginBtn from "../components/SmallEllipseBtn";
+import "../../css/Homepage/LoginWindow.css";
+import LoginBtn from "../template/SmallEllipseBtn";
 import { Redirect } from "react-router-dom";
 import FacebookLogin from "react-facebook-login";
 import { GoogleLogin } from "react-google-login";
-import { PostData } from "../components/LoginPost";
+import { PostData } from "../template/LoginPost";
 
 class LoginWindow extends Component {
   constructor(props) {

@@ -1,15 +1,15 @@
 import React, {Component} from "react";
-import "../css/HowItWorksPage.css";
-import device from "../materials/howItWork/device.png";
-import service from "../materials/howItWork/service.png";
-import ski from "../materials/howItWork/ski.png";
-import world from "../materials/howItWork/world.png";
-import downward from "../materials/howItWork/downward.png";
+import "../css/HowItWorkPage/HowItWorksPage.css";
+import device from "../materials/HowItWork/device.png";
+import service from "../materials/HowItWork/service.png";
+import ski from "../materials/HowItWork/ski.png";
+import world from "../materials/HowItWork/world.png";
+import downward from "../materials/HowItWork/downward.png";
 import $ from "jquery";
-import icon_workWithUs from "../materials/howItWork/icon-workWithUs.png";
-import icon_behindTheDesk from "../materials/howItWork/icon-behindTheDesk.png";
-import ContactBtn from "../components/ContactBtn";
-import BackTopBtn from "../components/BackTopBtn";
+import icon_workWithUs from "../materials/HowItWork/icon-workWithUs.png";
+import icon_behindTheDesk from "../materials/HowItWork/icon-behindTheDesk.png";
+import ContactBtn from "../components/HomePage/ContactBtn";
+import BackTopBtn from "../components/template/BackTopBtn";
 
 class SkiTripsMadeEasy extends Component {
     handleClick = divID => {
@@ -77,16 +77,6 @@ class SkiTripsMadeEasy extends Component {
                         <p className="aroundicon ">...and you rest easy</p>
                     </div>
                 </div>
-
-                {/*<div className='row align-items-start no-gutters' style={{padding: "0 5% 10px 5%"}}>*/}
-                {/*/!*<p className='aroundicon col-sm-2 col-xs-5'>Plan your resort experience</p>*!/*/}
-                {/*<div className='col-sm-1 col-xs-1'/>*/}
-                {/*<p className='aroundicon col-sm-2 col-xs-5'>Resort confirms availability</p>*/}
-                {/*<div className='col-sm-1 col-xs-1'/>*/}
-                {/*<p className='aroundicon col-sm-2 col-xs-5'>...processes it</p>*/}
-                {/*<div className='col-sm-1 col-xs-1'/>*/}
-                {/*<p className='aroundicon col-sm-2 col-xs-5'>...and you rest easy</p>*/}
-                {/*</div>*/}
 
                 <p className="plaintext">
                     Choose in advance your Resort, dates, activities and experiences - eg.

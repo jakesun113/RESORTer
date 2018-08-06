@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import PrompImageSlider from "../components/PrompImageSlider";
-import DiamondBtn from "../components/DiamondBtn";
-import FeedBackBtn from "../components/FeedBackBtn";
-import ChatBtn from "../components/ChatBtn";
+import PrompImageSlider from "../components/HomePage/PrompImageSlider";
+import DiamondBtn from "../components/HomePage/DiamondBtn";
+import FeedBackBtn from "../components/template/FeedBackBtn";
+import ChatBtn from "../components/template/ChatBtn";
 // import FooterNavBar from "../components/FooterNavBar";
-import SearchArea from "../components/searchPart";
-import MostSearchArea from "../components/MostPopular";
-import BackTopBtn from "../components/BackTopBtn";
+import SearchArea from "../components/HomePage/searchPart";
+import MostSearchArea from "../components/HomePage/MostPopular";
+import BackTopBtn from "../components/template/BackTopBtn";
 const ShortLineStyle = {
   marginTop: "50px",
   width: "90%"
@@ -16,9 +16,7 @@ const LongLineStyle = {
   marginTop: "50px",
   width: "100%"
 };
-const color = {
-  background: "black"
-};
+
 
 class HomePage extends Component {
   constructor(props) {

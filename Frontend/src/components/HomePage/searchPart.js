@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import '../css/search.css';
+import '../../css/Homepage/search.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import DropDown from './Dropdown'
+import DropDown from '../template/Dropdown'
 
 // Params from Country will be pass into Search Class, and eventually passing into ResortsFromCountry Class 
 // Reference on Official Document "Lefting State Up" (https://reactjs.org/docs/lifting-state-up.html)
@@ -105,7 +105,7 @@ class TitlePart_2 extends Component {
                <div className="text-justify" id="titleSearchPart2">
                 <h1>By Resort Alliance Program
                 <span id="invokeHidden">
-                    <img id="questionFig" src={require("../materials/homepageSearch&Popular/questionFigHomePage.png")}  alt="questionTipFigure"/>
+                    <img id="questionFig" src={require("../../materials/HomePage/questionFigHomePage.png")} alt="questionTipFigure"/>
                     <span id="hiddenTip">Plan a trip at any of the resorts in these Alliances and 
                     enjoy reciprocal benefits with other member resorts. See the specific 
                     Alliance's website for more details</span>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../css/SmallEllipseBtn.css";
+import "../../css/template/SmallEllipseBtn.css";
 class SmallEllipseBtn extends Component {
   state = {};
   render() {

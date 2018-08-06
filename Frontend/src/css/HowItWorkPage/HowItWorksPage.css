@@ -9,7 +9,7 @@
 }
 
 .goDownDiv:hover {
-  content: url("../materials/howItWork/downward-hover.png");
+  content: url("../../materials/HowItWork/downward-hover.png");
   cursor: pointer;
 }
 
@@ -34,7 +34,7 @@
 /*}*/
 
 #skiTripsMadeEasy {
-  background: url("../materials/howItWork/bg-main.jpg") no-repeat center center
+  background: url("../../materials/HowItWork/bg-main.jpg") no-repeat center center
     fixed;
   background-size: cover;
   padding: 50px 0;
@@ -95,7 +95,7 @@
 #resortIMG {
   /*width: 100%;*/
   height: 80vh;
-  background: url("../materials/howItWork/resortIMG.jpg") no-repeat center
+  background: url("../../materials/HowItWork/resortIMG.jpg") no-repeat center
     center fixed;
   background-size: cover;
 }
@@ -131,7 +131,7 @@
 
 #highFiveIMG {
   height: 70vh;
-  background: url("../materials/howItWork/highfive.jpg") no-repeat center center
+  background: url("../../materials/HowItWork/highfive.jpg") no-repeat center center
     fixed ;
 
 
