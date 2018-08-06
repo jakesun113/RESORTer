@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import Navbar from "../components/NavBar";
 import PrompImageSlider from "../components/PrompImageSlider";
 import DiamondBtn from "../components/DiamondBtn";
 import FeedBackBtn from "../components/FeedBackBtn";
 import ChatBtn from "../components/ChatBtn";
-import FooterNavBar from "../components/FooterNavBar";
-import SearchArea from "../components/homepageSearch&Popular/search"
-import MostSearchArea from "../components/homepageSearch&Popular/MostPopular"
-
+// import FooterNavBar from "../components/FooterNavBar";
+import SearchArea from "../components/homepageSearch&Popular/searchPart";
+import MostSearchArea from "../components/homepageSearch&Popular/MostPopular";
+import BackTopBtn from "../components/BackTopBtn";
 const ShortLineStyle = {
   marginTop: "50px",
   width: "90%"
@@ -20,13 +19,42 @@ const LongLineStyle = {
 const color = {
   background: "black"
 };
+
 class HomePage extends Component {
-  state = { currentScrollHeight: 0 };
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentScrollHeight: 0
+    };
+  }
+
+  componentDidMount() {
+    window.onscroll = () => {
+      const newHeight = Math.ceil(window.scrollY / 50) * 50;
+      if (this.state.currentScrollHeight !== newHeight) {
+        this.setState({ currentScrollHeight: window.scrollY });
+      }
+    };
+
+    if (sessionStorage.getItem("userSocialData") || this.state.redirect) {
+      let data = JSON.parse(sessionStorage.getItem("userSocialData"));
+      this.setState({
+        user: data.name,
+        login: true
+      });
+    }
+  }
+
   render() {
     const opacity = Math.min(100 / this.state.currentScrollHeight, 1);
+
+    //when clicking "make plan", if not login, redirect to login page
+    // if (!sessionStorage.getItem('userSocialData') || this.state.redirect) {
+    //     return (<Redirect to={'/login'}/>)
+    // }
+
     return (
       <React.Fragment>
-        <Navbar />
         <PrompImageSlider />
         <div className="container">
           <DiamondBtn text="Sneak Peek" />
@@ -38,18 +66,13 @@ class HomePage extends Component {
         <hr style={LongLineStyle} />
         <FeedBackBtn />
         <ChatBtn />
-        <FooterNavBar isHidden={opacity} />
+        {opacity !== 1 ? (
+          <BackTopBtn scrollStepInPx="50" delayInMs="16.66" />
+        ) : (
+          ""
+        )}
       </React.Fragment>
     );
-  }
-
-  componentDidMount() {
-    window.onscroll = () => {
-      const newHeight = Math.ceil(window.scrollY / 50) * 50;
-      if (this.state.currentScrollHeight !== newHeight) {
-        this.setState({ currentScrollHeight: window.scrollY });
-      }
-    };
   }
 }
 

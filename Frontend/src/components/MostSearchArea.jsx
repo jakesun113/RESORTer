@@ -22,7 +22,7 @@ class MostSearchArea extends Component {
 
           <div class="container">
             <div style={TopBufferStyle} class="row">
-              <div class="col">
+              <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                 <ImageCard
                   img="https://static.wixstatic.com/media/25b4a3_1a4b1cf38dfe4b77ba41b706e1d2b348~mv2.jpg/v1/fill/w_612,h_452,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_1a4b1cf38dfe4b77ba41b706e1d2b348~mv2.webp"
                   title="Cardrona"
@@ -32,7 +32,7 @@ class MostSearchArea extends Component {
                 />
               </div>
               {/* second */}
-              <div class="col">
+              <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                 <ImageCard
                   img="https://static.wixstatic.com/media/25b4a3_ee71f812f1384d47afc896fdb57bf137~mv2.jpg/v1/fill/w_612,h_452,al_c,lg_1,q_80/25b4a3_ee71f812f1384d47afc896fdb57bf137~mv2.webp"
                   title="Coronet Peak"
@@ -42,7 +42,7 @@ class MostSearchArea extends Component {
                 />
               </div>
               {/* third */}
-              <div class="col">
+              <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
                 <ImageCard
                   img="https://static.wixstatic.com/media/407189_5475794bed1646b29179d5f8440fcfd0~mv2_d_1923_1497_s_2.jpg/v1/fill/w_612,h_452,al_c,q_80,usm_0.66_1.00_0.01/407189_5475794bed1646b29179d5f8440fcfd0~mv2_d_1923_1497_s_2.webp"
                   title="Falls Creek"
@@ -52,41 +52,41 @@ class MostSearchArea extends Component {
                 />
               </div>
             </div>
-            <div style={TopBufferStyle} class="row">
-              {/* first */}
-              <div class="col">
-                <ImageCard
-                  img="https://static.wixstatic.com/media/25b4a3_c4a876f919e94598a3e717714b801101~mv2.jpeg/v1/fill/w_612,h_452,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_c4a876f919e94598a3e717714b801101~mv2.webp"
-                  title="Mt. Buller"
-                  subTitle="Australia"
-                  text="Just three hours' drive from Melbourne, Mt Buller is close enough for a day’s escape yet far enough away for a holiday. Mt Buller has everything you need for the perfect winter snow experience."
-                  btnText="Plan Now"
-                />
-              </div>
-              {/* second */}
-              <div class="col">
-                <ImageCard
-                  img="https://static.wixstatic.com/media/25b4a3_9fd9030e0acb4f3098694539631ad011~mv2.jpg/v1/fill/w_535,h_395,al_c,q_80/25b4a3_9fd9030e0acb4f3098694539631ad011~mv2.webp"
-                  title="Perisher"
-                  subTitle="Australia"
-                  text="With four resort areas and over 3,000 acres of skiable terrain all of which interlink, you will definitely want to get around all of them."
-                  btnText="Plan Now"
-                />
-              </div>
+            {/* <div style={TopBufferStyle} class="row"> */}
+            {/* first */}
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+              <ImageCard
+                img="https://static.wixstatic.com/media/25b4a3_c4a876f919e94598a3e717714b801101~mv2.jpeg/v1/fill/w_612,h_452,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_c4a876f919e94598a3e717714b801101~mv2.webp"
+                title="Mt. Buller"
+                subTitle="Australia"
+                text="Just three hours' drive from Melbourne, Mt Buller is close enough for a day’s escape yet far enough away for a holiday. Mt Buller has everything you need for the perfect winter snow experience."
+                btnText="Plan Now"
+              />
+            </div>
+            {/* second */}
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+              <ImageCard
+                img="https://static.wixstatic.com/media/25b4a3_9fd9030e0acb4f3098694539631ad011~mv2.jpg/v1/fill/w_535,h_395,al_c,q_80/25b4a3_9fd9030e0acb4f3098694539631ad011~mv2.webp"
+                title="Perisher"
+                subTitle="Australia"
+                text="With four resort areas and over 3,000 acres of skiable terrain all of which interlink, you will definitely want to get around all of them."
+                btnText="Plan Now"
+              />
+            </div>
 
-              {/* third */}
-              <div class="col">
-                <ImageCard
-                  img="https://static.wixstatic.com/media/25b4a3_12262db407d3462fb2febe16847c72de~mv2.jpg/v1/fill/w_567,h_419,al_c,lg_1,q_80/25b4a3_12262db407d3462fb2febe16847c72de~mv2.webp"
-                  title="Thredbo"
-                  subTitle="Australia"
-                  text="Thredbo, located within the Kosciuszko National Park, boasts some of Australia’s highest mountains between 1365 to 1930 metres above sea level."
-                  btnText="Plan Now"
-                />
-              </div>
+            {/* third */}
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+              <ImageCard
+                img="https://static.wixstatic.com/media/25b4a3_12262db407d3462fb2febe16847c72de~mv2.jpg/v1/fill/w_567,h_419,al_c,lg_1,q_80/25b4a3_12262db407d3462fb2febe16847c72de~mv2.webp"
+                title="Thredbo"
+                subTitle="Australia"
+                text="Thredbo, located within the Kosciuszko National Park, boasts some of Australia’s highest mountains between 1365 to 1930 metres above sea level."
+                btnText="Plan Now"
+              />
             </div>
           </div>
         </div>
+        {/* </div> */}
       </React.Fragment>
     );
   }

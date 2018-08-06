@@ -1,12 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-// import registerServiceWorker from "./registerServiceWorker";
-
+import { Route, BrowserRouter } from "react-router-dom";
+// package
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap.js";
+import "bootstrap/dist/js/bootstrap";
 import "@fortawesome/fontawesome-free/css/all.css";
-import HomePage from "./pages/HomePage";
+// page
+import App from "./pages/App";
 
-ReactDOM.render(<HomePage />, document.getElementById("root"));
-// registerServiceWorker();
+// component
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+
+    {/* <div>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/privacy-statement" component={Privacy} />
+      <Route path="/how-it-works" component={HowItWorkPage} />
+      <Route exact path="/login" component={SignUpPage} />
+    </div> */}
+  </BrowserRouter>,
+  document.getElementById("root")
+);

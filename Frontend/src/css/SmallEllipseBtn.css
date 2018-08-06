@@ -1,9 +1,6 @@
-.small_button {
-  margin-top: 80px;
-  margin-left: 15px;
+/* .small_button {
   float: left;
-  margin-left: 190px;
-}
+} */
 
 .small_button p {
   color: white;
@@ -11,8 +8,14 @@
   background: orangered;
   padding-top: 3px;
   padding-bottom: 3px;
-  padding-left: 35px;
-  padding-right: 35px;
+  /* padding-left: 35px;
+  padding-right: 35px; */
+  width: 100px;
+  clear: both;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
 }
 .small_button p:hover {
   animation-duration: 1s;

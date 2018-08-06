@@ -12,11 +12,6 @@
     font-weight:bold;
 
 }
-.custom-select{
-    height: 38px;
-    width: 20%;
-    border-radius: 15px;
-}
 .btn{
     height: 38px;
     width:80%;
@@ -27,6 +22,7 @@
     font-weight: bold;
     font-size: 15px;
 }
+
 
 #questionFig{
     height:25px;
@@ -49,9 +45,10 @@
     color: black;
     border-radius: 15px;
     padding: 10px;
+    margin-left: 3px;
 }
 
-#titleSearchPart2:hover #hiddenTip{
+#invokeHidden:hover #hiddenTip{
     visibility: visible;
     opacity: 1;
 }
@@ -60,11 +57,6 @@
     display:none;
 }
 
-.container div{
-    margin: 10px auto;
-}
-.line{
-    margin-top: 2%;
-    border-bottom: thick solid #cdd3d9;
-    width:100%;
+.col-sm{
+    margin:10px auto;
 }
