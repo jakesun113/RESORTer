@@ -26,7 +26,7 @@ export default class BackTopButton extends Component {
       <React.Fragment>
         <div className="backTop" onClick={ () => { this.scrollToTop(); }}>
           <div className="icon">
-            <i className="fas fa-chevron-circle-up"></i>
+            <i className="fas fa-chevron-circle-up"/>
           </div>
           <div className="icon"> 
             <p>Top</p>
