@@ -132,7 +132,9 @@
 #highFiveIMG {
   height: 70vh;
   background: url("../materials/howItWork/highfive.jpg") no-repeat center center
-    fixed;
+    fixed ;
+
+
   background-size: cover;
 }
 
