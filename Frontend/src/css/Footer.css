@@ -1,0 +1,31 @@
+  footer {
+    font-size: 18px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  .footer-copyright {
+    color: black;
+    font-size: 15px;
+}
+
+.terms {
+    color: #686369;
+    text-decoration: underline;
+    left: 0px;
+    width: 111px;
+
+}
+
+.privacy {
+    color: #686369;
+    text-decoration: underline;
+    left: 279px;
+    width: 160px;
+
+}
+
+
+
+
+

@@ -1,0 +1,33 @@
+/* .small_button {
+  float: left;
+} */
+
+.small_button p {
+  color: white;
+  border-radius: 20px;
+  background: orangered;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  /* padding-left: 35px;
+  padding-right: 35px; */
+  width: 100px;
+  clear: both;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+}
+.small_button p:hover {
+  animation-duration: 1s;
+  animation-name: changeLoginColor;
+  background: black;
+}
+
+@keyframes changeLoginColor {
+  from {
+    background-color: orangered;
+  }
+  to {
+    background-color: black;
+  }
+}

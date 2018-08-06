@@ -1,0 +1,35 @@
+.left_part {
+  border-right: 2px solid grey;
+}
+.facebookBtn {
+  width: 334px;
+  height: 48px;
+  border-radius: 4px;
+  background: #3b5998;
+  color: white;
+  border: 0px transparent;
+  text-align: center;
+  margin: 5px;
+
+  display: inline-block;
+}
+
+.googleBtn {
+  width: 334px;
+  height: 48px;
+  border-radius: 4px;
+  background: #db3236;
+  color: white;
+  border: 0px transparent;
+  text-align: center;
+  margin: 5px;
+
+  display: inline-block;
+}
+
+.login_btn_in_loginwindow {
+  background: rgba(127, 204, 247, 1);
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
