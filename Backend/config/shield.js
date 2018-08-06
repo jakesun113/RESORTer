@@ -134,7 +134,7 @@ module.exports = {
   csrf: {
     enable: true,
     methods: ['POST', 'PUT', 'DELETE'],
-    filterUris: ['/api/form','/api/login/google','/api/login/facebook'],
+    filterUris: ['/api/contact-form','/api/login/google','/api/login/facebook'],
     cookieOptions: {
       httpOnly: false,
       sameSite: true,

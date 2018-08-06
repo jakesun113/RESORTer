@@ -20,7 +20,7 @@ class ContactController {
     });
 
     const email = new Email();
-    email.render('first/html', {
+    email.render('contactForm/html', {
       name: request.body.name,
       telephone: request.body.telephone,
       email: request.body.email,
@@ -36,8 +36,10 @@ class ContactController {
 
         //setup email data with unicode symbols
         let mailOptions = {
+          //NOTE: not work, "from" filed always return host email
           from: request.body.email, // sender address
           to: 'jakesun113@gmail.com', // list of receivers
+          replyTo: request.body.email,
           subject: 'User Request from Resorter.app', // Subject line
           text: request.body.message, // plain text body
           html: htmlEmail // html body
