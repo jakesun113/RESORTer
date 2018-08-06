@@ -6,18 +6,14 @@ import LoginWindow from "./LoginWindow";
 import { Link } from "react-router-dom";
 
 class Navbar extends Component {
-  state = {
-    activeTabName: "home",
-    user: "",
-    login: false,
-    redirect: false
-  };
   constructor(props) {
     super(props);
-
-    console.log(props.user);
-    console.log(props.login);
-    console.log(props);
+    this.state = {
+      activeTabName: "home",
+      user: "",
+      login: false,
+      redirect: false
+    };
   }
 
   logout = () => {
@@ -25,7 +21,7 @@ class Navbar extends Component {
       user: "",
       login: false
     });
-    sessionStorage.clear();
+    sessionStorage.removeItem("userSocialData");
   };
 
   //   animation of nav bar
@@ -72,7 +68,7 @@ class Navbar extends Component {
                 </span>
               </div>
               <div className="col-xs-12 col-sm-4 col-sm-4 col-lg-3 button_admin">
-                <a className="navbar-brand" href="#">
+                <a className="navbar-brand" href="/">
                   <img src="https://static.wixstatic.com/media/25b4a3_fae0b5a09c5c4a4cbd36b211a9075836~mv2.png/v1/fill/w_66,h_66,al_c,lg_1/25b4a3_fae0b5a09c5c4a4cbd36b211a9075836~mv2.png" />
                 </a>
               </div>

@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3b701641-9a59-4646-aff7-a0200cb42fbd" name="Default" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/Frontend/src/css/HowItWorksPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/css/HowItWorksPage.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/src/pages/HowItWorksPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/pages/HowItWorksPage.jsx" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/Backend/start/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/start/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/components/ContactBtn.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/components/ContactBtn.jsx" afterDir="false" />
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -47,29 +52,59 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="HowItWorksPage.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Frontend/src/pages/HowItWorksPage.jsx">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="21">
               <caret line="1" column="31" lean-forward="true" selection-start-line="1" selection-start-column="31" selection-end-line="1" selection-end-column="31" />
+=======
+      <file leaf-file-name="NavBar.jsx" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Frontend/src/components/NavBar.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="24" column="15" lean-forward="true" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="routes.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Backend/start/routes.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="375">
               <caret line="19" column="45" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
+=======
+      <file leaf-file-name="ContactBtn.jsx" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Frontend/src/components/ContactBtn.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="400">
+              <caret line="146" column="30" selection-start-line="146" selection-start-column="30" selection-end-line="146" selection-end-column="30" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="ContactController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Backend/app/Controllers/Http/ContactController.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="903">
               <caret line="43" column="10" lean-forward="true" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="10" />
+=======
+      <file leaf-file-name="routes.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Backend/start/routes.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="317">
+              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
             </state>
           </provider>
         </entry>
@@ -77,6 +112,7 @@
       <file leaf-file-name="html.pug" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Backend/emails/first/html.pug">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="42">
               <caret line="2" column="18" lean-forward="true" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
             </state>
@@ -97,6 +133,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="235">
               <caret line="136" column="2" selection-start-line="136" selection-start-column="2" selection-end-line="136" selection-end-column="2" />
+=======
+            <state relative-caret-position="2929">
+              <caret line="183" column="59" selection-start-line="183" selection-start-column="59" selection-end-line="183" selection-end-column="59" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
             </state>
           </provider>
         </entry>
@@ -133,7 +176,6 @@
       <list>
         <option value="$PROJECT_DIR$/Frontend/src/components/ContactBtn.js" />
         <option value="$PROJECT_DIR$/Frontend/src/components/SignUpPost.js" />
-        <option value="$PROJECT_DIR$/Backend/start/routes.js" />
         <option value="$PROJECT_DIR$/Backend/app/Controllers/Http/LoginWithAccountController.js" />
         <option value="$PROJECT_DIR$/Frontend/src/index.js" />
         <option value="$PROJECT_DIR$/README.md" />
@@ -145,14 +187,18 @@
         <option value="$PROJECT_DIR$/Frontend/src/components/homepageSearch&amp;Popular/MostPopular.js" />
         <option value="$PROJECT_DIR$/Frontend/src/components/FeedBackBtn.jsx" />
         <option value="$PROJECT_DIR$/Frontend/src/components/ChatBtn.jsx" />
-        <option value="$PROJECT_DIR$/Frontend/src/components/ContactBtn.jsx" />
         <option value="$PROJECT_DIR$/Frontend/src/components/FooterNavBar.jsx" />
         <option value="$PROJECT_DIR$/Frontend/src/components/BackTopBtn.jsx" />
         <option value="$PROJECT_DIR$/Backend/.gitignore" />
         <option value="$PROJECT_DIR$/Frontend/src/components/LoginWindow.jsx" />
         <option value="$PROJECT_DIR$/Frontend/src/components/NavBar.jsx" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/Frontend/src/pages/HowItWorksPage.jsx" />
         <option value="$PROJECT_DIR$/Frontend/src/css/HowItWorksPage.css" />
+=======
+        <option value="$PROJECT_DIR$/Backend/start/routes.js" />
+        <option value="$PROJECT_DIR$/Frontend/src/components/ContactBtn.jsx" />
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
       </list>
     </option>
   </component>
@@ -198,14 +244,22 @@
               <item name="RESORTer" type="b2602c69:ProjectViewProjectNode" />
               <item name="RESORTer" type="462c0819:PsiDirectoryNode" />
               <item name="Backend" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="emails" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
             </path>
             <path>
               <item name="RESORTer" type="b2602c69:ProjectViewProjectNode" />
               <item name="RESORTer" type="462c0819:PsiDirectoryNode" />
               <item name="Backend" type="462c0819:PsiDirectoryNode" />
+<<<<<<< HEAD
               <item name="emails" type="462c0819:PsiDirectoryNode" />
               <item name="first" type="462c0819:PsiDirectoryNode" />
+=======
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
             </path>
             <path>
               <item name="RESORTer" type="b2602c69:ProjectViewProjectNode" />
@@ -251,6 +305,7 @@
     <property name="node.js.detected.package.prettier" value="true" />
     <property name="node.js.path.for.package.prettier" value="project" />
     <property name="node.js.selected.package.prettier" value="" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -287,12 +342,16 @@
       <workItem from="1533202946531" duration="12395000" />
       <workItem from="1533300135071" duration="1719000" />
       <workItem from="1533435709334" duration="187000" />
-      <workItem from="1533512322969" duration="3056000" />
+      <workItem from="1533512322969" duration="5270000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="50753000" />
+=======
+    <option name="totallyTimeSpent" value="49423000" />
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -343,6 +402,35 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Frontend/src/pages/HomePage.jsx">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+=======
+        <state relative-caret-position="800">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Frontend/src/components/LoginWindow.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Frontend/src/components/NavBar.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2800">
+          <caret line="145" column="31" selection-start-line="145" selection-start-column="31" selection-end-line="145" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Frontend/src/pages/HomePage.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
         <state relative-caret-position="920">
           <caret line="46" selection-start-line="46" selection-end-line="46" />
         </state>
@@ -494,6 +582,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Backend/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="334">
@@ -502,12 +591,16 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Backend/.gitignore">
+=======
+    <entry file="file://$PROJECT_DIR$/Frontend/src/components/FooterNavBar.jsx">
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Frontend/src/components/LoginWindow.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1309">
@@ -526,6 +619,19 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="15917" column="12" selection-start-line="15917" selection-start-column="12" selection-end-line="15917" selection-end-column="12" />
+=======
+    <entry file="file://$PROJECT_DIR$/Frontend/src/pages/HomePage.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="800">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
         </state>
       </provider>
     </entry>
@@ -536,6 +642,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Frontend/src/components/NavBar.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="213">
@@ -554,10 +661,19 @@
             <element signature="e#0#26#0" expanded="true" />
             <element signature="e#151#193#0" expanded="true" />
             <element signature="e#337#371#0" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/Frontend/src/components/LoginWindow.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2929">
+          <caret line="183" column="59" selection-start-line="183" selection-start-column="59" selection-end-line="183" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Frontend/src/pages/App.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -606,12 +722,19 @@
     <entry file="file://$PROJECT_DIR$/Frontend/src/components/ContactBtn.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state>
+=======
+    <entry file="file://$PROJECT_DIR$/Frontend/src/components/NavBar.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="24" column="15" lean-forward="true" selection-start-line="24" selection-start-column="15" selection-end-line="24" selection-end-column="15" />
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/Backend/emails/first/html.pug">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
@@ -644,6 +767,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
           <caret line="136" column="2" selection-start-line="136" selection-start-column="2" selection-end-line="136" selection-end-column="2" />
+=======
+    <entry file="file://$PROJECT_DIR$/Backend/start/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Frontend/src/components/ContactBtn.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="146" column="30" selection-start-line="146" selection-start-column="30" selection-end-line="146" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+>>>>>>> a55511c1ca62c8e402fefe9361d3833817609e01
         </state>
       </provider>
     </entry>
