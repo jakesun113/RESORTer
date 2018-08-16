@@ -12,6 +12,7 @@
 | React Google Login | npm install react-google-login -- save | import {GoogleLogin} from 'react-google-login';|
 | React Facebook Login | npm install react-facebook-login -- save | import FacebookLogin from 'react-facebook-login';|
 | Tooltip | npm install react-tooltip | import ReactTooltip from 'react-tooltip'|
+|Encryption|Pre-Installed| use('Encryption')
 
 # Merge Private Branch to "Dev" Branch
 - Go to private branch: __git checkout "You Branch Name"__ 
