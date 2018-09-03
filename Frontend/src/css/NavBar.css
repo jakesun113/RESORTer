@@ -29,10 +29,14 @@
   height: 33px;
   background: grey;
 }
-#initial_active,
+
 .button_style:hover {
   background: grey;
   color: white;
+}
+.initial_active {
+  background: grey;
+  color: white !important;
 }
 .button_style {
   color: black;
@@ -53,8 +57,38 @@
 
 /* right */
 .userBtn {
-  clear: both;
-  display: inline-block;
-  white-space: nowrap;
+  clear: both !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+
+.dropdown:hover > .dropdown-menu {
+  display: block !important;
+  margin-top: 0;
+}
+.dropdown > .dropdown-toggle:active {
+  /*Without this, clicking will make it sticky*/
+  pointer-events: none;
+}
+
+/* right */
+.user_profile_btn {
+  width: 48px;
+  height: 48px;
+  margin-top: -15px;
+  background-color: aliceblue;
+  /* margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0; */
+  border-radius: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 3px solid cornflowerblue;
+  /* position: absolute; */
   text-align: center;
+  display: inline-block;
+  overflow: hidden;
+  clear: both;
 }

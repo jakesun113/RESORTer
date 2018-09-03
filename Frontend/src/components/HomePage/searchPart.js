@@ -57,9 +57,6 @@ class LeftPass extends Component{
 }
 
 class ResortsFromCountry extends Component {
-    constructor(props){
-        super(props);
-    }
 
     handleResortChange(dropDownValue){
         //params will be use
@@ -73,9 +70,6 @@ class ResortsFromCountry extends Component {
 }
 
 class ResortsFromLeftPass extends Component {
-    constructor(props){
-        super(props);
-    }
 
     handleResortChange(dropDownValue){
         

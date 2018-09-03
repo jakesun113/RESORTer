@@ -17,7 +17,7 @@ class Dropdown extends Component{
         return(
         <div>
             <select className="custom-select" onChange={this.handleChange.bind(this)}>
-            <option selected="" value="" default="" disabled="" id="hiddenSearch">{this.props.defaultName}</option>
+            <option selected="" value="" disabled="" id="hiddenSearch">{this.props.defaultName}</option>
             {
                 this.props.options.length === 0 ? null : this.props.options.map((option) =>{
                     return <option  key={option}>{option}</option>

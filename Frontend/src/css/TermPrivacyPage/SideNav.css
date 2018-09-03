@@ -1,0 +1,14 @@
+#navbar-all-list li {
+  margin: 0 0 10px 0;
+
+  overflow: hidden;
+  float: left;
+}
+#navbar-all-list li:hover {
+  background: rgb(200, 216, 247) !important;
+}
+
+.active {
+  background: rgb(200, 216, 247);
+  font-weight: bold;
+}

@@ -1,39 +1,44 @@
-import React, {Component} from "react";
-
-const ChatBoxStyle = {
-    width: "50px",
-    height: "50px",
-    WebkitBorderRadius: "50px",
-    MozBorderRadius: "50px",
-    borderRadius: "50px",
-    borderStyle: "solid",
-    borderWidth: "1px",
-    background: "cornflowerblue",
-    position: "fixed",
-    bottom: "20px",
-    right: "10px",
-    padding: "auto"
-};
+import React, { Component } from "react";
+import "../../css/template/ChatBtn.css";
+import ChatOnline from "../template/ChatOnline";
 const IconStyle = {
-    color: "white",
-    textAlign: "center",
-    marginTop: "8px"
+  color: "white",
+  textAlign: "center",
+  marginTop: "8px"
 };
 
 class ChatBtn extends Component {
-    state = {};
+  state = { isShowChatWindow: false };
 
-    render() {
-        return (
-            <React.Fragment>
-                <a href="">
-                    <div style={ChatBoxStyle} className="text-center">
-                        <i style={IconStyle} className="fas fa-comment fa-2x"/>
-                    </div>
-                </a>
-            </React.Fragment>
-        );
-    }
+  handleClose = () => {
+    this.setState({ isShowChatWindow: false });
+  };
+
+  handleOpen = () => {
+    this.setState({ isShowChatWindow: true });
+  };
+
+  render() {
+    return (
+      <React.Fragment>
+        <div
+          style={{ cursor: "pointer" }}
+          className="chatBtn text-center"
+          id="chat_btn"
+          onClick={this.handleOpen}
+        >
+          <i style={IconStyle} className="fas fa-comment fa-2x" />
+        </div>
+        {this.state.isShowChatWindow === true ? (
+          <div>
+            <ChatOnline onHandleClose={this.handleClose} />
+          </div>
+        ) : (
+          ""
+        )}
+      </React.Fragment>
+    );
+  }
 }
 
 export default ChatBtn;

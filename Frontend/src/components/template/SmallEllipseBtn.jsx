@@ -5,9 +5,17 @@ class SmallEllipseBtn extends Component {
   render() {
     return (
       <React.Fragment>
-        <span className="small_button">
-          <p>{this.props.text}</p>
-        </span>
+        <button
+          className="small_button"
+          type={this.props.btnType}
+          style={{
+            background: this.props.btnColor,
+            paddingLeft: this.props.paddingLeft,
+            paddingRight: this.props.paddingRight
+          }}
+        >
+          {this.props.text}
+        </button>
       </React.Fragment>
     );
   }

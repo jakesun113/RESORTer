@@ -6,10 +6,9 @@ import ski from "../materials/HowItWork/ski.png";
 import world from "../materials/HowItWork/world.png";
 import downward from "../materials/HowItWork/downward.png";
 import $ from "jquery";
-import icon_workWithUs from "../materials/HowItWork/icon-workWithUs.png";
-import icon_behindTheDesk from "../materials/HowItWork/icon-behindTheDesk.png";
-import ContactBtn from "../components/HomePage/ContactBtn";
 import BackTopBtn from "../components/template/BackTopBtn";
+import FeedBackBtn from "../components/template/FeedBackBtn";
+import {Link} from "react-router-dom";
 
 class SkiTripsMadeEasy extends Component {
     handleClick = divID => {
@@ -43,6 +42,7 @@ class SkiTripsMadeEasy extends Component {
                             className="img-fluid fourIMGs"
                             src={device}
                             style={{"max-width": "70%", height: "auto"}}
+                            alt=""
                         />
                         <p className="aroundicon ">Plan your resort experience</p>
                     </div>
@@ -53,6 +53,7 @@ class SkiTripsMadeEasy extends Component {
                             className="img-fluid fourIMGs"
                             src={world}
                             style={{"max-width": "70%", height: "auto"}}
+                            alt=""
                         />
                         <p className="aroundicon ">Resort confirms availability</p>
                     </div>
@@ -63,6 +64,7 @@ class SkiTripsMadeEasy extends Component {
                             className="img-fluid fourIMGs"
                             src={service}
                             style={{"max-width": "70%", height: "auto"}}
+                            alt=""
                         />
                         <p className="aroundicon ">...processes it</p>
                     </div>
@@ -73,6 +75,7 @@ class SkiTripsMadeEasy extends Component {
                             className="img-fluid fourIMGs"
                             src={ski}
                             style={{maxWidth: "70%", height: "auto"}}
+                            alt=""
                         />
                         <p className="aroundicon ">...and you rest easy</p>
                     </div>
@@ -101,6 +104,7 @@ class SkiTripsMadeEasy extends Component {
                     className="goDownDiv"
                     src={downward}
                     onClick={() => this.handleClick("behindTheDesks")}
+                    alt=""
                 />
             </div>
         );
@@ -146,6 +150,7 @@ class BehindTheDesks extends Component {
                     className="goDownDiv"
                     src={downward}
                     onClick={() => this.handleClick("resortIMG")}
+                    alt=""
                 />
             </div>
         );
@@ -165,6 +170,7 @@ class ReosrtIMG extends Component {
                     src={downward}
                     style={{position: "relative", top: "80%"}}
                     onClick={() => this.handleClick("workWithUs")}
+                    alt=""
                 />
             </div>
         );
@@ -187,13 +193,16 @@ class WorkWithUs extends Component {
                 </p>
 
                 <p className="plaintext">
-                    <ContactBtn buttonName="drop us a line" isSHowUnderline="underline"/>
+                    <Link className="privacy" to={`/contact`}>
+                        drop us a line
+                    </Link>
                 </p>
 
                 <img
                     className="goDownDiv"
                     src={downward}
                     onClick={() => this.handleClick("highFiveIMG")}
+                    alt=""
                 />
             </div>
         );
@@ -210,28 +219,28 @@ class HighFive extends Component {
     }
 }
 
-class SideIcon extends Component {
-    handleClick = divID => {
-        $("html,body").animate({scrollTop: $("#" + divID).offset().top}, "slow");
-    };
+// class SideIcon extends Component {
+//   handleClick = divID => {
+//     $("html,body").animate({ scrollTop: $("#" + divID).offset().top }, "slow");
+//   };
 
-    render() {
-        return (
-            <div id="sideIcon">
-                <div style={{marginBottom: "5%"}}>
-                    <img src={icon_behindTheDesk} alt="icon_behindTheDesk"/>
-                    <p onClick={() => this.handleClick("behindTheDesks")}>
-                        Behind The Desk
-                    </p>
-                </div>
-                <div>
-                    <img src={icon_workWithUs} alt="icon_workWithUs"/>
-                    <p onClick={() => this.handleClick("workWithUs")}>Work With Us</p>
-                </div>
-            </div>
-        );
-    }
-}
+//   render() {
+//     return (
+//       <div id="sideIcon">
+//         <div style={{ marginBottom: "5%" }}>
+//           <img src={icon_behindTheDesk} alt="icon_behindTheDesk" alt="" />
+//           <p onClick={() => this.handleClick("behindTheDesks")}>
+//             Behind The Desk
+//           </p>
+//         </div>
+//         <div>
+//           <img src={icon_workWithUs} alt="icon_workWithUs" alt="" />
+//           <p onClick={() => this.handleClick("workWithUs")}>Work With Us</p>
+//         </div>
+//       </div>
+//     );
+//   }
+// }
 
 class HowItWorks extends Component {
     state = {
@@ -256,6 +265,7 @@ class HowItWorks extends Component {
                 <ReosrtIMG/>
                 <WorkWithUs/>
                 <HighFive/>
+                <FeedBackBtn/>
                 {/*<SideIcon/>*/}
                 {opacity !== 1 ? (
                     <BackTopBtn scrollStepInPx="50" delayInMs="16.66"/>

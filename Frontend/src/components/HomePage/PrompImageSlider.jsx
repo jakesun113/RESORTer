@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import "../../css/Homepage/PrompImageSlider.css";
-
+import firstSlide from "../../materials/SliderBackground/ValThorens-France-Getty.jpg";
+import secondSlide from "../../materials/SliderBackground/holly-mandarich-525173.jpg";
+import thirdSlide from "../../materials/SliderBackground/ski-lessons-at-cardrona-alpine-resort.jpg";
+const UpperTextStyle = {
+  textTransform: "uppercase",
+  fontWeight: "bold",
+  fontSize: "88px",
+  textAlign: "center"
+};
 class PrompImageSlider extends Component {
   state = {};
   render() {
@@ -21,25 +29,72 @@ class PrompImageSlider extends Component {
             <li data-target="#carouselExampleIndicators" data-slide-to="2" />
           </ol>
           <div className="carousel-inner">
-            <div className="carousel-item active">
+            {/* first */}
+            <div className="carousel-item active ">
+              <div className="text-block-first">
+                <h1 style={UpperTextStyle}>Experiences</h1>
+                <h2 style={{ fontSize: "50px", textAlign: "center" }}>
+                  Ski Resort Experience Planner
+                </h2>
+                <br />
+                <h3 style={{ fontSize: "38px" }}>
+                  Accommodation | Liftpass | Equipment Rental | Lessons
+                </h3>
+              </div>
               <img
                 className="d-block w-100"
-                src="https://img.grouponcdn.com/deal/5gzjirZ1RrkenmdES7yK/4n-2048x1229/v1/c700x420.jpg"
+                src={firstSlide}
                 alt="First slide"
               />
             </div>
+            {/* second */}
             <div className="carousel-item">
+              <div className="text-block-second">
+                <h1 style={UpperTextStyle}>plan</h1>
+                <h2 style={{ fontSize: "50px" }}>
+                  Fast, Efficient Ski Trip Planner
+                </h2>
+                <br />
+                <h3 style={{ fontSize: "38px" }}>
+                  <img
+                    src="http://localhost:3000/static/media/service.ada9988a.png"
+                    alt=""
+                  />
+                </h3>
+              </div>
               <img
                 className="d-block w-100"
-                src="https://img.grouponcdn.com/iam/eKTeB8onKCmeWunNGeHN/se-2048x1242/v1/c700x420.jpg"
+                src={secondSlide}
                 alt="Second slide"
+                style={{
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center center",
+                  WebkitBackgroundSize: "cover",
+                  MozBackgroundSize: "cover",
+                  OBackgroundSize: "cover",
+                  backgroundSize: "cover"
+                }}
               />
             </div>
-            <div className="carousel-item">
+            {/* third */}
+            <div className="carousel-item ">
+              <div className="text-block-third">
+                <span style={UpperTextStyle}>
+                  Plan now. <br /> pay later.
+                </span>
+              </div>
               <img
                 className="d-block w-100"
-                src="https://pcsindependentleft.files.wordpress.com/2018/03/image-php.jpg"
+                src={thirdSlide}
                 alt="Third slide"
+                style={{
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "center center",
+                  WebkitBackgroundSize: "fill",
+                  MozBackgroundSize: "fill",
+                  OBackgroundSize: "fill",
+                  backgroundSize: "fill"
+                }}
               />
             </div>
           </div>

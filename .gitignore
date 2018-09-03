@@ -1,2 +1,8 @@
 
-Frontend/.idea/workspace.xml
+.idea/
+
+Backend/app/Models/.PasswordReset.js.icloud
+Backend/database/migrations/.1534319949631_member_schema.js.icloud
+Frontend/.package-lock 2.json.icloud
+.DS_Store
+.DS_Store

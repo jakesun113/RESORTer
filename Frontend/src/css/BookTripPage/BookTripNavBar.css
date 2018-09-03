@@ -1,0 +1,35 @@
+.circle_navbar_in_bookpage {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #fff;
+  line-height: 60px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.4s ease 0s;
+}
+.circle_navbar_in_bookpage:hover {
+  background-color: rgb(255, 0, 0);
+}
+.line_navbar_in_bookpage {
+  width: 86px;
+  /* top: 80px; */
+  /* align-items: center; */
+  border-bottom: 5px solid rgba(232, 89, 12, 1);
+  height: 0 !important;
+  min-height: 0 !important;
+  /* display: inline-block; */
+}
+.active_navbar_in_bookpage {
+  background-color: rgba(90, 215, 76, 1);
+}
+
+.finished_navbar_in_bookpage {
+  background-color: rgba(255, 138, 128, 1);
+}
+
+.initial_navbar_in_bookpage {
+  background-color: rgba(204, 204, 204, 1);
+  border-color: rgba(204, 204, 204, 1);
+}
