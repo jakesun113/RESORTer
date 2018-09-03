@@ -1,57 +1,74 @@
-'use strict'
+'use strict';
 
 /**
- * Resourceful controller for interacting with members
+ * Deal with Member table
+ * create a member - "register"
+ * edit information - change password
  */
 class MemberController {
-  /**
-   * Show a list of all members.
-   * GET members
-   */
-  async index ({ request, response, view }) {
-  }
+  async changePassword({request, auth}) {
+    //token is valid
+    try {
+      const isTokenValid = await auth.check();
+      console.log(isTokenValid);
 
-  /**
-   * Render a form to be used for creating a new member.
-   * GET members/create
-   */
-  async create ({ request, response, view }) {
-  }
+      const requestData = request.all();
 
-  /**
-   * Create/save a new member.
-   * POST members
-   */
-  async store ({ request, response }) {
-  }
+      const token = requestData.token;
+      const originPwd = requestData.originPwd;
+      const newPwd = requestData.newPwd;
 
-  /**
-   * Display a single member.
-   * GET members/:id
-   */
-  async show ({ params, request, response, view }) {
-  }
+      const dbMemberID = await Database.table('validation_tokens')
+        .where("Token", token).select('MemberID');
 
-  /**
-   * Render a form to update an existing member.
-   * GET members/:id/edit
-   */
-  async edit ({ params, request, response, view }) {
-  }
+      const dbpwd = await Database.table('members')
+        .where("id", dbMemberID[0].MemberID).select('EncryptedPW');
 
-  /**
-   * Update member details.
-   * PUT or PATCH members/:id
-   */
-  async update ({ params, request, response }) {
-  }
+      const decrptpwd = Encryption.decrypt(dbpwd[0].EncryptedPW);
 
-  /**
-   * Delete a member with id.
-   * DELETE members/:id
-   */
-  async destroy ({ params, request, response }) {
+      //wrong password
+      if (originPwd !== decrptpwd) {
+        console.log("wrong password");
+        return JSON.stringify({
+          tokenValid: true,
+          wrongpwd: true
+        });
+      }
+
+      //all correct
+      else {
+        console.log("change password success");
+
+        const member = await Member.findBy('id', dbMemberID[0].MemberID);
+        const encrypted = Encryption.encrypt(newPwd);
+        member.merge({EncryptedPW: encrypted});
+        await member.save();
+
+        const dbToken = await Token.findBy({
+          'MemberID': dbMemberID[0].MemberID,
+          'Type': "EmailLogin"
+        });
+        const newToken = await auth.generate(member);
+        console.log(newToken);
+        //only change token
+        dbToken.merge({Token: newToken.token});
+        await dbToken.save();
+
+        return JSON.stringify({
+          tokenValid: true,
+          wrongpwd: false,
+          token: dbToken.Token
+        })
+      }
+
+    } catch (e) {
+      console.log('token expired');
+      console.log(e);
+      return JSON.stringify({
+        tokenValid: false
+      });
+    }
   }
 }
 
-module.exports = MemberController
+module.exports = MemberController;

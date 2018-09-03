@@ -20,18 +20,25 @@ const Route = use("Route");
 Route.on("/").render("welcome");
 
 Route.post("/api/contact-form", "ContactController.index");
-/*login route start*/
+
+/*MemberController start*/
+//change password
+Route.post("/api/change-password", "MemberController.changePassword");
+/*MemberController end*/
+
+
+/*ValidationTokenController start*/
+//login route
 Route.post("/api/login/email", "ValidationTokenController.loginWithEmail");
 Route.post("/api/login/google", "ValidationTokenController.loginWithGoogle");
 Route.post("/api/login/facebook", "ValidationTokenController.loginWithFacebook");
-/*login route end*/
+/*ValidationTokenController end*/
 
 Route.post(
   "/api/forgot-password",
   "Auth/PasswordResetController.sendResetLinkEmail"
 );
 Route.post("/api/reset-password", "Auth/PasswordResetController.reset");
-Route.post("/api/change-password", "ProfileController.changePassword");
 
 Route.post("/api/register", "RegisterController.register");
 Route.post("/api/activateUser", "RegisterController.activateUser");
@@ -48,5 +55,4 @@ Route.post('/api/check-token', 'AuthenticationController.check');
 
 Route.get("/pushResortInfo", "ResortInfoController.pushResortInfo");
 
-Route.resource("member", "MemberController");
 Route.resource("familyMembers", "FamilyMemberController");
