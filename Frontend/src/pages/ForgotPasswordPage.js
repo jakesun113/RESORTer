@@ -69,19 +69,6 @@ export default class ForgotPasswordPage extends Component {
 
     }
 
-    // back to home page
-    // handleRedirect = () => {
-    //     if (this.state.successSend === true) {
-    //         this.setState({isShow: true});
-    //     }
-    // };
-
-    // renderRedirect = () => {
-    //     if (this.state.redirect === true) {
-    //         return <Redirect to="/"/>;
-    //     }
-    // };
-
     render() {
         return (
             <React.Fragment>

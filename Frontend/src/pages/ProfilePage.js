@@ -7,7 +7,6 @@ import DisabilityTip from "../components/template/DisabilityTip";
 import { withCookies, Cookies } from "react-cookie";
 import { instanceOf } from "prop-types";
 import AlertWindow from "../components/template/AlertWindow";
-import NavBar from "../components/NavBar";
 import axios from "axios";
 import moment from "moment";
 
@@ -57,61 +56,58 @@ class ProfilePage extends Component {
   };
 
         componentDidMount() {
+          if (this.state.token === null && sessionStorage.getItem("userToken")) {
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-            console.log(tokenData.token)
-            if (this.state.token === null && sessionStorage.getItem("userToken")) {
-                this.setState({
-                    token: tokenData.token
-                });
-            }
-            
-            let postData;
-            postData = {
+            this.setState({
                 token: tokenData.token
-            };
-
-            const setState = this.setState.bind(this);      
-
-            axios.post("http://127.0.0.1:3333/api/show-profile", postData).then(
-                response => {
-                    //console.log(response.data);
-    
+            });
+          }
+          
+            // let postData;
+            // postData = {
+            //     token: tokenData.token
+            // };
+            const setState = this.setState.bind(this);  
+            let url =  "http://127.0.0.1:3333/api/user-profile/"+ JSON.parse(sessionStorage.getItem("userToken")).token
+            console.log(url)
+            axios.get(url).then(
+                response => {    
                     //handle token is not valid
-                    if (response.data.tokenValid === false) {
-                        console.log("token expired");
-                        this.setState({
-                            isValidToken: false,
-                            isShow: true
-                        });
-                    }
-                    //change success
-                    else {
+                    // if (response.data.tokenValid === false) {
+                    //     console.log("token expired");
+                    //     this.setState({
+                    //         isValidToken: false,
+                    //         isShow: true
+                    //     });
+                    // }
+                    // //change success
+                    // else {
                         console.log("get success");
-                        let sessionData;
-                        sessionData = {
-                            token: response.data.token
-                        };
-                        sessionStorage.setItem("userToken", JSON.stringify(sessionData));
-                        this.setState({
-                            token: response.data.token,
-                            isValidToken: true
-                            //isShow: true
-                        });
+                        // let sessionData;
+                        // sessionData = {
+                        //     token: response.data.token
+                        // };
+                        // sessionStorage.setItem("userToken", JSON.stringify(sessionData));
+                        // this.setState({
+                        //     token: response.data.token,
+                        //     isValidToken: true
+                        //     //isShow: true
+                        // });
     
     
                         //save token into cookie
-                        let date = new Date();
-                        date.setTime(date.getTime() + +2592000);
-                        const {cookies} = this.props;
+                        // let date = new Date();
+                        // date.setTime(date.getTime() + +2592000);
+                        // const {cookies} = this.props;
     
-                        //console.log(cookies);
-                        cookies.set("access-token", this.state.token, {
-                            expires: date,
-                            path: "/"
-                        });
-                        console.log(
-                          "token has been extended. Token is: " + cookies.get("access-token")
-                        );
+                        // //console.log(cookies);
+                        // cookies.set("access-token", this.state.token, {
+                        //     expires: date,
+                        //     path: "/"
+                        // });
+                        // console.log(
+                        //   "token has been extended. Token is: " + cookies.get("access-token")
+                        // );
                       
                       
                        if (response.data.skiability != null) {
@@ -149,36 +145,37 @@ class ProfilePage extends Component {
 
                        setState({email: response.data.email})
                        
-                       if (response.data.gender != null) {
-                         document.getElementById("gender").value = response.data.gender;
-                       }
-                       if (response.data.firstname != null) {
-                         document.getElementById("firstName").value = response.data.firstname;
-                       }
-                       if (response.data.lastname != null) {
-                         document.getElementById("lastName").value = response.data.lastname;
-                       }
-                       if (response.data.phonecode != null) {
-                         document.getElementById("phone_number_pre").value = response.data.phonecode;
-                       }
-                       if (response.data.phonenumber != null) {
-                        document.getElementById("phoneNumber").value = response.data.phonenumber;
-                       }
-                       if (response.data.dob != null) {
-                        document.getElementById("dob").value = moment(response.data.dob).format("YYYY-MM-DD");
-                        let age = moment().diff(moment(response.data.dob).format("YYYY"),'years')
-                        document.getElementById("age").value = age;
-                       }
-                       document.getElementById("country").value = response.data.country;
-                       document.getElementById("postcode").value = response.data.postcode;
+                      if (response.data.gender != null) {
+                        document.getElementById("gender").value = response.data.gender;
+                      }
+                      if (response.data.firstname != null) {
+                        document.getElementById("firstName").value = response.data.firstname;
+                      }
+                      if (response.data.lastname != null) {
+                        document.getElementById("lastName").value = response.data.lastname;
+                      }
+                      if (response.data.phonecode != null) {
+                        document.getElementById("phone_number_pre").value = response.data.phonecode;
+                      }
+                      if (response.data.phonenumber != null) {
+                       document.getElementById("phoneNumber").value = response.data.phonenumber;
+                      }
+                      if (response.data.dob != null) {
+                       document.getElementById("dob").value = moment(response.data.dob).format("YYYY-MM-DD");
+                       let age = moment().diff(moment(response.data.dob).format("YYYY"),'years')
+                       document.getElementById("age").value = age;
+                      }
+                      document.getElementById("country").value = response.data.country;
+                      document.getElementById("postcode").value = response.data.postcode;
+                      
                        
-                       if(this.state.hasDisability) {
+                      if(this.state.hasDisability) {
                         document.getElementById("is_disability").checked = true
-                       } else {
+                      } else {
                         document.getElementById("is_disability").checked = false
-                       }
+                      }
                     }
-                }
+                //}
             );
             // if (skiability != null) {
             //   console.log(skiability)
@@ -191,12 +188,12 @@ class ProfilePage extends Component {
 
     handleSubmit = e => {
       e.preventDefault();
-      let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-            if (this.state.token === null && sessionStorage.getItem("userToken")) {
-                this.setState({
-                    token: tokenData.token
-                });
-            }
+      if (this.state.token === null && sessionStorage.getItem("userToken")) {
+        let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+        this.setState({
+            token: tokenData.token
+        });
+      }
             
       const isDisabledValue = document.getElementById("is_disability").checked;
       let disabilityMembershipValue = "";
@@ -218,8 +215,6 @@ class ProfilePage extends Component {
         disabilityDetailValue = "";
       }
   
-      //this.setState({skiability: document.getElementById("ski_ability").value})
-
       const data = JSON.stringify({    
         SkiAbility: document.getElementById("ski_ability").value,
         SnowboardAbility: document.getElementById("snowboard_ability").value,
@@ -231,7 +226,7 @@ class ProfilePage extends Component {
         DisabilityMembership: disabilityMembershipValue,
         DisabilityMembershipID: disabilityMembershipIDValue,
         DisabilityDetail: disabilityDetailValue,
-        token: tokenData.token,
+        token: this.state.token,
         FirstName: document.getElementById("firstName").value,
         LastName: document.getElementById("lastName").value,
         Gender: document.getElementById("gender").value,
@@ -245,7 +240,7 @@ class ProfilePage extends Component {
       console.log(this.state.skiability)
       console.log(document.getElementById("ski_ability").value)
 
-      axios.post("http://127.0.0.1:3333/api/add-profile", JSON.parse(data)).then(
+      axios.put("http://127.0.0.1:3333/api/user-profile", JSON.parse(data)).then(
         /*Proceed subsequent actions based on value */
         response => {
           //handle token is not valid
@@ -263,17 +258,18 @@ class ProfilePage extends Component {
               token: response.data.token
             };
             sessionStorage.setItem("userToken", JSON.stringify(sessionData));
-            this.setState({
-              token: response.data.token,
-              isValidToken: true,
-              isShow: true
-            });
+           
             //save token into cookie
     
             let date = new Date();
             date.setTime(date.getTime() + +2592000);
             const { cookies } = this.props;
-    
+            this.setState({
+                token: response.data.token,
+                isValidToken: true, 
+                isShow: true
+             });
+
             //only when user click "remember me", update the token in cookies
             if (cookies.get("access-token")) {
               cookies.set("access-token", this.state.token, {
@@ -283,8 +279,9 @@ class ProfilePage extends Component {
     
               console.log(
                 "token has been extended. Token is: " + cookies.get("access-token")
-              );
-         
+              ); 
+              
+          
           }
         }
       }
@@ -455,7 +452,8 @@ class ProfilePage extends Component {
                     <label htmlFor="phoneNumber">Phone</label>
                     <div className="form-row">
                       <div className="form-group col-4 col-lg-4">
-                        <select className="custom-select" id='phone_number_pre'>
+                        <select className="custom-select" id='phone_number_pre'
+                        >
                           <option value="+61">+61</option>
                           <option value="2">Two</option>
                           <option value="3">Three</option>
@@ -504,12 +502,14 @@ class ProfilePage extends Component {
                   <div className="form-group col-lg-2" />
                   <div className="form-group col-12 col-lg-4">
                     <label htmlFor="inputEmail">Country</label>
-                    <input type="" className="form-control" id="country" placeholder="" />
+                    <input type="" className="form-control" id="country" placeholder="" 
+                     />
                   </div>
                   &ensp; &ensp;
                   <div className="form-group col-12 col-lg-4">
                     <label htmlFor="inputPassword">Postcode</label>
-                    <input type="" className="form-control" id="postcode" placeholder="" />
+                    <input type="" className="form-control" id="postcode" placeholder="" 
+                    />
                   </div>
                   <div className="form-group col-lg-2" />
                 </div>
@@ -681,10 +681,9 @@ class ProfilePage extends Component {
             btnText="OK"
             linkTo="/login"
             onHandleClose={() => {
-              this.setState({ isShow: false });
+              this.setState({isShow: false});
               this.handleLogout();
-              <NavBar />.forceUpdate();
-            }}
+          }}
           />
         ) : (
           ""

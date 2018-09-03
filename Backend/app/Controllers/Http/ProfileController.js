@@ -69,32 +69,31 @@ class ProfileController {
     }
   }
 
-  async showProfile({request, auth}) {
+  async showProfile({params}) {
         //token is valid
         try {
-
-          const requestData = request.all();
-          const token = requestData.token;
+          const token = params.token;
           console.log(token)
           const dbMemberID = await Database.table('validation_tokens')
             .where("Token", token).select('MemberID');
 
-          if (dbMemberID[0].Type == "EmailLogin") {
-            const isTokenValid = await auth.check();
-            console.log(isTokenValid)
-          }
-          console.log(token)
+          // if (dbMemberID[0].Type == "EmailLogin") {
+          //   const isTokenValid = await auth.check();
+          //   console.log(isTokenValid)
+          // }
+          //console.log(token)
+         
           const member = await Member.findBy('id', dbMemberID[0].MemberID);
+          
+          // const dbToken = await Token.findBy({
+          //     'MemberID': dbMemberID[0].MemberID
+          // });
 
-          const dbToken = await Token.findBy({
-              'MemberID': dbMemberID[0].MemberID
-          });
-
-            const newToken = await auth.generate(member);
-            console.log(newToken);
-            //only change token
-            dbToken.merge({Token: newToken.token});
-            await dbToken.save();
+          //   const newToken = await auth.generate(member);
+          //   console.log(newToken);
+          //   //only change token
+          //   dbToken.merge({Token: newToken.token});
+          //   await dbToken.save();
     
             return JSON.stringify({
               email: member.Email,
@@ -116,17 +115,17 @@ class ProfileController {
               snowbikeability: member.SnowbikeAbility,
               snowmobileability: member.SnowmobileAbility,
               snowshoeability: member.SnowshoeAbility,
-              portrait: member.Portrait,
-              token: dbToken.Token,
-              tokenValid: true
+              portrait: member.Portrait
+              //token: dbToken.Token
+              //tokenValid: true
             })
         
         } catch (e) {
-          console.log('token expired');
+          //console.log('token expired');
           console.log(e);
-          return JSON.stringify({
-            tokenValid: false
-          });
+          // return JSON.stringify({
+          //   tokenValid: false
+          // });
         }
       }
 
@@ -136,20 +135,14 @@ class ProfileController {
     
         const requestData = request.all();
         const token = requestData.token;
-        
-        const dbMemberID = await Database.table('validation_tokens')
-          .where("Token", token).select('MemberID');
+        const dbToken = await Token.findBy("Token", token);
 
-        if (dbMemberID[0].Type == "EmailLogin") {
+        if (dbToken.Type == "EmailLogin") {
           const isTokenValid = await auth.check();
           console.log(isTokenValid)
         }
         console.log(token)
-        const member = await Member.findBy('id', dbMemberID[0].MemberID);
-
-          const dbToken = await Token.findBy({
-              'MemberID': dbMemberID[0].MemberID
-          });
+        const member = await Member.findBy('id', dbToken.MemberID);
 
             const newToken = await auth.generate(member);
             console.log(newToken);
