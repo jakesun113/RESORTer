@@ -20,11 +20,11 @@ const Route = use("Route");
 Route.on("/").render("welcome");
 
 Route.post("/api/contact-form", "ContactController.index");
-Route.post("/api/login/email", "LoginController.loginwithemail");
-Route.post("/api/login/google", "LoginController.loginwithgoogle");
-Route.post("/api/login/facebook", "LoginController.loginwithfacebook");
-
-Route.post("/api/contact-form", "ContactController.index");
+/*login route start*/
+Route.post("/api/login/email", "ValidationTokenController.loginWithEmail");
+Route.post("/api/login/google", "ValidationTokenController.loginWithGoogle");
+Route.post("/api/login/facebook", "ValidationTokenController.loginWithFacebook");
+/*login route end*/
 
 Route.post(
   "/api/forgot-password",
@@ -35,7 +35,7 @@ Route.post("/api/change-password", "ProfileController.changePassword");
 
 Route.post("/api/register", "RegisterController.register");
 Route.post("/api/activateUser", "RegisterController.activateUser");
-Route.post("/api/resendConfirmEmail", "RegisterController.resendConfirmEmail")
+Route.post("/api/resendConfirmEmail", "RegisterController.resendConfirmEmail");
 
 Route.post("/api/add-member", "FamilyMemberController.addMember");
 
