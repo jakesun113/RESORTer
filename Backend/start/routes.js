@@ -33,7 +33,10 @@ Route.post("/api/change-password", "ProfileController.changePassword");
 Route.post("/api/register", "RegisterController.register");
 Route.post("/api/activateUser", "RegisterController.activateUser");
 Route.post("/api/add-member", "FamilyMemberController.addMember");
-Route.post("/api/resendConfirmEmail", "RegisterController.resendConfirmEmail");
+Route.post("/api/resendConfirmEmail", "RegisterController.resendConfirmEmail")
+
+Route.post("/api/show-profile", "ProfileController.showProfile");
+Route.post("/api/add-profile", "ProfileController.addProfile");
 //sign up profile
 Route.post("/api/signupProfile", "RegisterController.fillProfile");
 Route.post('/api/check-token', 'AuthenticationController.check');
