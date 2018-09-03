@@ -1,5 +1,5 @@
-'use strict'
-const nodemailer = require('nodemailer')
+'use strict';
+const nodemailer = require('nodemailer');
 const Email = require('email-templates');
 
 class ContactController {
@@ -14,8 +14,8 @@ class ContactController {
       port: 465,
       secure: true, // true for 465, false for other ports
       auth: {
-        user: 'jakesun113@gmail.com', // generated ethereal user
-        pass: 'ausjc113' // generated ethereal password
+        user: 'resorterintern@gmail.com', // generated ethereal user
+        pass: 'interns@123' // generated ethereal password
       }
     });
 
@@ -30,7 +30,7 @@ class ContactController {
     }).then(
       (result) => {
 
-        const htmlEmail = result
+        const htmlEmail = result;
 
         //console.log(htmlEmail)
 
@@ -38,7 +38,7 @@ class ContactController {
         let mailOptions = {
           //NOTE: not work, "from" filed always return host email
           from: request.body.email, // sender address
-          to: 'jakesun113@gmail.com', // list of receivers
+          to: 'resorterintern@gmail.com', // list of receivers
           replyTo: request.body.email,
           subject: 'User Request from Resorter.app', // Subject line
           text: request.body.message, // plain text body
@@ -60,4 +60,4 @@ class ContactController {
   }
 }
 
-module.exports = ContactController
+module.exports = ContactController;

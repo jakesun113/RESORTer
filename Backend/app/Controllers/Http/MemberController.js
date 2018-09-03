@@ -1,11 +1,15 @@
 'use strict';
-
+const Database = use("Database");
+const Member = use("App/Models/Member");
+const Token = use("App/Models/ValidationToken");
+const Encryption = use("Encryption");
 /**
  * Deal with Member table
  * create a member - "register"
  * edit information - change password
  */
 class MemberController {
+
   async changePassword({request, auth}) {
     //token is valid
     try {
