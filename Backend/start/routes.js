@@ -12,7 +12,9 @@
 | http://adonisjs.com/docs/4.1/routing
 |
 */
-
+//TODO: change route name to meaningful
+//todo: move different(register) controllers into MemberController
+//todo: move other controllers (rather than change db table) to a new controller (in a new folder)
 const Route = use("Route");
 
 Route.on("/").render("welcome");
@@ -30,10 +32,13 @@ Route.post(
 );
 Route.post("/api/reset-password", "Auth/PasswordResetController.reset");
 Route.post("/api/change-password", "ProfileController.changePassword");
+
 Route.post("/api/register", "RegisterController.register");
 Route.post("/api/activateUser", "RegisterController.activateUser");
-Route.post("/api/add-member", "FamilyMemberController.addMember");
 Route.post("/api/resendConfirmEmail", "RegisterController.resendConfirmEmail")
+
+Route.post("/api/add-member", "FamilyMemberController.addMember");
+
 
 Route.post("/api/show-profile", "ProfileController.showProfile");
 Route.post("/api/add-profile", "ProfileController.addProfile");

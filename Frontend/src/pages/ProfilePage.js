@@ -57,6 +57,7 @@ class ProfilePage extends Component {
   };
 
         componentDidMount() {
+            //fixme: bug: no token information at first
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
             console.log(tokenData.token)
             if (this.state.token === null && sessionStorage.getItem("userToken")) {
@@ -64,7 +65,8 @@ class ProfilePage extends Component {
                     token: tokenData.token
                 });
             }
-            
+
+            //fixme: change to not verify token at first, use "get" method
             let postData;
             postData = {
                 token: tokenData.token
