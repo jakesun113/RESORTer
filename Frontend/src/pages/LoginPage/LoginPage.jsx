@@ -190,6 +190,7 @@ class LoginPage extends Component {
             });
     }
 
+    //TODO: change style of "rememberMe" checkbox
     render() {
         if (this.state.redirect) {
             return <Redirect to={"/"}/>;
@@ -384,15 +385,14 @@ class LoginPage extends Component {
                   <input
                       className="form-control custom-control-input"
                       type="checkbox"
-                      id="rememberme"
-                      ref="rememberMe"
-                      placeholder="Remember Me"
+                      id="rememberMe"
                       onChange={this.toggleRememberMe}
+                      value={this.state.rememberMe}
                   />
                   <label
                       style={{whiteSpace: "nowrap"}}
                       className="custom-control-label"
-                      htmlFor="rememberme"
+                      htmlFor="rememberMe"
                   >
                     Remember Me
                   </label>
