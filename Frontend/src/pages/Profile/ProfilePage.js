@@ -5,6 +5,7 @@ import DisabilityForm from "../../components/template/DisabilityForm";
 import AbilityLevelTip from "../../components/template/AbilityLevelTip";
 import DisabilityTip from "../../components/template/DisabilityTip";
 import {withCookies, Cookies} from "react-cookie";
+import {Redirect} from "react-router-dom";
 import {instanceOf} from "prop-types";
 import AlertWindow from "../../components/template/AlertWindow";
 import axios from "axios";
@@ -47,6 +48,16 @@ class ProfilePage extends Component {
         if (e.target.id === "upload_btn") {
             e.target.style.backgroundColor = "rgba(78, 183, 245, 1)";
         }
+    };
+
+    handleLogout = () => {
+        const {cookies} = this.props;
+
+        sessionStorage.removeItem("userSocialData");
+        sessionStorage.removeItem("userToken");
+        cookies.remove("user-name");
+        cookies.remove("access-token");
+        cookies.remove("user-pic");
     };
 
     componentDidMount() {
@@ -254,6 +265,36 @@ class ProfilePage extends Component {
     }
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to={"/"}/>;
+        }
+
+        //if token has been expired, redirect to login page
+        //console.log(this.props.location.state);
+        if (this.props.location.state) {
+            const {lastValid} = this.props.location.state;
+            //console.log(lastValid);
+
+            if (!lastValid) {
+                return <Redirect
+                    to={{
+                        pathname: "/login",
+                        state: {from: this.props.location.pathname}
+                    }}
+                />
+            }
+        }
+
+        //if directly type this page's url, redirect to login page
+        if (!sessionStorage.getItem("userToken")) {
+            return <Redirect
+                to={{
+                    pathname: "/login",
+                    state: {from: this.props.location.pathname}
+                }}
+            />
+        }
+
         if (this.state.email) {
             return (
                 <React.Fragment>
