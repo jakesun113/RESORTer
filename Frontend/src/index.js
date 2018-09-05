@@ -23,6 +23,7 @@ import ChangePwdPage from "./pages/ChangePwdPage";
 
 // test
 import NewUserProfilePage from "./pages/NewUserProfilePage";
+import PromptPage from "./pages/PromptPage";
 // BookTrip
 
 import BookApp from "./BookApp";
@@ -50,8 +51,14 @@ ReactDOM.render(
             path="/forgotPasswordToken/:id/:token"
             component={ResetPasswordPage}
           />
+          <Route
+            path="/forgotPasswordToken/:id/:token"
+            component={ResetPasswordPage}
+          />
+
           {/* test */}
           <Route path="/test" component={NewUserProfilePage} />
+          <Route path="/about-us" component={PromptPage} />
           {/* login required */}
           <Route path="/profile" component={ProfilePage} />
           {/*TODO: "My trip" page to be added*/}

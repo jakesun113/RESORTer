@@ -323,7 +323,13 @@ class Navbar extends Component {
                     <NavLink
                       activeClassName="initial_active"
                       className="nav-link button_style"
-                      to="/about-us"
+                      to={{
+                        pathname: "/about-us",
+                        state: {
+                          text:
+                            "Thank you for active your account,sb Jiacheng Sun"
+                        }
+                      }}
                     >
                       About Us
                     </NavLink>
