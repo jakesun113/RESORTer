@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import axios from "axios";
 import AlertWindow from "../components/template/AlertWindow"
-//fixme: after sending email, nav is refreshed
+
 export default class ForgotPasswordPage extends Component {
     constructor() {
         super();
         this.state = {
+            //redirect: false,
             emailExisted: true,
             emailDuplicated: false,
             duplicatedProvider: null,
@@ -26,6 +27,22 @@ export default class ForgotPasswordPage extends Component {
         document.getElementById("InputEmail").style.borderColor = "";
     }
 
+    //Resend confirmation Email
+    handleResendEmail() {
+        fetch('http://127.0.0.1:3333/api/resendConfirmEmail', {
+            method: 'post',
+            headers: {
+                'Content-Type': "application/json",
+            },
+            body: JSON.stringify({email: document.getElementById("inputEmail").value})
+        }).then(result => {
+            result.json()
+        })
+          .then(response => {
+            alert('Email Resend Successfully')
+        })
+    }
+    
     async handleSubmit(e) {
         e.preventDefault();
         const email = document.getElementById("InputEmail").value;
@@ -54,7 +71,8 @@ export default class ForgotPasswordPage extends Component {
                 else if (res.data.isActive === false) {
                     console.log("user email is not activated");
                     this.setState({
-                        isActive: false
+                        isActive: false,
+                       // redirect: false
                     });
                 }
 
@@ -131,20 +149,19 @@ export default class ForgotPasswordPage extends Component {
                     </span>
                                 </div>
                             ) : null}
-                            {this.state.isActive ? null : (
-                                    <div
-                                        id="emailError"
-                                        style={{color: "red", fontWeight: "bolder"}}
-                                    >
-                                        Email has not been activated
-                                        <span hidden>
-                      {
-                          (document.getElementById(
-                              "InputEmail"
-                          ).style.borderColor = "red")
-                      }
-                    </span>
-                                    </div>
+                            {this.state.isActive === false ? (
+                                    <AlertWindow
+                                        displayText="Sorry, your email has not been activated, do you want to send a confirmation email now?"
+                                        btnNum="1"
+                                        mode="linkMode"
+                                        btnText="OK"
+                                        linkTo="/"
+                                        onHandleClose={() => {
+                                            this.handleResendEmail();
+                                        }}
+                                    />
+                                ) : (
+                                    ""
                                 )}
                         </div>
                         <div className="col-md-4"/>

@@ -50,9 +50,9 @@ Route.post("/api/add-member", "FamilyMemberController.addMember");
 
 Route.post(
   "/api/forgot-password",
-  "Auth/PasswordResetController.sendResetLinkEmail"
+  "MemberController.sendResetLinkEmail"
 );
-Route.post("/api/reset-password", "Auth/PasswordResetController.resetPassword");
+Route.post("/api/reset-password", "MemberController.resetPassword");
 
 Route.get("/api/user-profile/:token", "ProfileController.showProfile");
 Route.put("/api/user-profile", "ProfileController.addProfile");

@@ -40,9 +40,14 @@ class ProfileCard extends Component {
                 <div className="userName">{this.props.userName}</div>
                 <br/>
                 {/* btn */}
-                <a className="dropdown-item" href="/profile">
-                    My Profile
-                </a>
+                <Link className="dropdown-item" to={{
+                    pathname: "/profile",
+                    state: {lastValid: this.props.tokenValid}
+                }}
+                      onClick={this.handleInvalid}
+                >
+                    My Profile</Link>
+                
                 <div className="dropdown-divider"/>
                 <Link className="dropdown-item" to={{
                     pathname: "/group-member",
