@@ -3,6 +3,7 @@ import "../../css/Homepage/LoginWindow.css";
 import FacebookLogin from "../../components/template/FacebookLoginBtn";
 import GoogleLogin from "../../components/template/GoogleLoginBtn";
 import AlertWindow from "../../components/template/AlertWindow";
+import {Redirect} from "react-router-dom";
 
 class SignUpPage extends Component {
     constructor(props) {
@@ -113,6 +114,10 @@ class SignUpPage extends Component {
     }
 
     render() {
+        if (this.state.isSignUp) {
+            return <Redirect to={"/"}/>;
+        }
+
         let alertWindow;
         if (this.state.showAlertWindow) {
             let link = (

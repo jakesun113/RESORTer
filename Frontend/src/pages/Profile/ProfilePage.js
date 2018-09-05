@@ -10,7 +10,10 @@ import {instanceOf} from "prop-types";
 import AlertWindow from "../../components/template/AlertWindow";
 import axios from "axios";
 import moment from "moment";
+
 //TODO: add save photo to "public" folder function
+//FIXME: if login with google or facebook, cannot change name or portrait
+//FIXME: MemberShipID field cannot be empty if "isDisabled" is checked
 class ProfilePage extends Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -22,6 +25,7 @@ class ProfilePage extends Component {
         this.state = {
             // activeTabName: "home",
             token: cookies.get('access-token') || null,
+            provider: null,
             isValidToken: true,
             isShow: false,
             email: null,
@@ -38,9 +42,12 @@ class ProfilePage extends Component {
             isDisabled: false,
             disabilityMembership: null,
             disabilityMemberId: null,
-            disabilityDetail: null
+            disabilityDetail: null,
+            user_pic:
+                "https://static.wixstatic.com/media/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png/v1/fill/w_96,h_96,al_c,usm_0.66_1.00_0.01/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png"
 
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     //   upload btn animation
@@ -61,6 +68,16 @@ class ProfilePage extends Component {
     };
 
     componentDidMount() {
+
+        if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
+            let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
+            if (userData.provider) {
+                this.setState({
+                    provider: userData.provider
+                });
+            }
+        }
+
         if (this.state.token === null && sessionStorage.getItem("userToken")) {
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
             this.setState({
@@ -78,7 +95,7 @@ class ProfilePage extends Component {
                         setState({
                             skiAbility: response.data.skiAbility
                         });
-                        console.log(this.state.skiAbility)
+                        //console.log(this.state.skiAbility)
                     }
                     if (response.data.snowboardAbility != null) {
                         setState({snowboardAbility: response.data.snowboardAbility});
@@ -107,7 +124,7 @@ class ProfilePage extends Component {
 
                     }
 
-                    setState({email: response.data.email})
+                    setState({email: response.data.email});
 
                     if (response.data.gender != null) {
                         document.getElementById("gender").value = response.data.gender;
@@ -156,27 +173,20 @@ class ProfilePage extends Component {
                         age: countAge
                     })
                 }
-                console.log(countAge)
+                //console.log(countAge)
             });
 
-    }
+    };
 
-
-    handleSubmit = e => {
+    async handleSubmit(e) {
         e.preventDefault();
-        if (this.state.token === null && sessionStorage.getItem("userToken")) {
-            let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-            this.setState({
-                token: tokenData.token
-            });
-        }
-
 
         const isDisabledValue = document.getElementById("is_disability").checked;
-        let disabilityMembershipValue = "";
-        let disabilityMembershipIDValue = "";
-        let disabilityDetailValue = "";
+        let disabilityMembershipValue = null;
+        let disabilityMembershipIDValue = null;
+        let disabilityDetailValue = null;
 
+        //FIXME: the IDs here are wrong
         if (isDisabledValue === true) {
             disabilityMembershipValue = document.getElementById(
                 "disability_membership"
@@ -187,12 +197,12 @@ class ProfilePage extends Component {
             disabilityDetailValue = document.getElementById("disability_detail")
                 .value;
         } else {
-            disabilityMembershipValue = "";
-            disabilityMembershipIDValue = "";
-            disabilityDetailValue = "";
+            disabilityMembershipValue = null;
+            disabilityMembershipIDValue = null;
+            disabilityDetailValue = null;
         }
 
-        const data = JSON.stringify({
+        const data = {
             SkiAbility: document.getElementById("ski_ability").value,
             SnowboardAbility: document.getElementById("snowboard_ability").value,
             TelemarkAbility: document.getElementById("telemark_ability").value,
@@ -204,6 +214,7 @@ class ProfilePage extends Component {
             DisabilityMembershipID: disabilityMembershipIDValue,
             DisabilityDetail: disabilityDetailValue,
             token: this.state.token,
+            provider: this.state.provider,
             FirstName: document.getElementById("firstName").value,
             LastName: document.getElementById("lastName").value,
             Gender: document.getElementById("gender").value,
@@ -212,12 +223,12 @@ class ProfilePage extends Component {
             PhoneNumber: document.getElementById("phoneNumber").value,
             Country: document.getElementById("country").value,
             Postcode: document.getElementById("postcode").value,
-        });
+        };
 
-        console.log(this.state.skiAbility)
-        console.log(document.getElementById("ski_ability").value)
+        //console.log(this.state.skiAbility);
+        //console.log(document.getElementById("ski_ability").value);
 
-        axios.put("http://127.0.0.1:3333/api/user-profile", JSON.parse(data)).then(
+        await axios.put("http://127.0.0.1:3333/api/user-profile", data).then(
             /*Proceed subsequent actions based on value */
             response => {
                 //handle token is not valid
@@ -230,26 +241,36 @@ class ProfilePage extends Component {
                 } else {
                     console.log("change success");
                     //save token into session
-                    let sessionData;
-                    sessionData = {
+                    let userSocialData;
+                    userSocialData = {
+                        name: response.data.name,
+                        //TODO: to be changed
+                        provider_pic: this.state.user_pic
+                    };
+                    sessionStorage.setItem("userSocialData", JSON.stringify(userSocialData));
+                    let userToken;
+                    userToken = {
                         token: response.data.token
                     };
-                    sessionStorage.setItem("userToken", JSON.stringify(sessionData));
+                    sessionStorage.setItem("userToken", JSON.stringify(userToken));
 
                     //save token into cookie
-
-                    let date = new Date();
-                    date.setTime(date.getTime() + +2592000);
                     const {cookies} = this.props;
-                    this.setState({
-                        token: response.data.token,
-                        isValidToken: true,
-                        isShow: true
-                    });
 
                     //only when user click "remember me", update the token in cookies
                     if (cookies.get("access-token")) {
+                        let date = new Date();
+                        date.setTime(date.getTime() + +2592000);
                         cookies.set("access-token", this.state.token, {
+                            expires: date,
+                            path: "/"
+                        });
+                        cookies.set("user-name", response.data.name, {
+                            expires: date,
+                            path: "/"
+                        });
+                        //TODO: to be changed
+                        cookies.set("user-pic", this.state.user_pic, {
                             expires: date,
                             path: "/"
                         });
@@ -257,12 +278,17 @@ class ProfilePage extends Component {
                         console.log(
                             "token has been extended. Token is: " + cookies.get("access-token")
                         );
-
                     }
+
+                    this.setState({
+                        token: response.data.token,
+                        isValidToken: true,
+                        isShow: true
+                    });
                 }
             }
         );
-    }
+    };
 
     render() {
         if (this.state.redirect) {

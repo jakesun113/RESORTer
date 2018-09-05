@@ -4,6 +4,7 @@ const Member = use("App/Models/Member");
 const Token = use("App/Models/ValidationToken");
 const Mail = use("Mail");
 const Encryption = use('Encryption');
+
 /**
  * Deal with Member table
  * create a member - "register"
@@ -77,7 +78,7 @@ class MemberController {
   }
 
   //Activate user's IsActive
-  async activateUser({ request, auth, response }) {
+  async activateUser({request, auth, response}) {
     try {
       await auth.check();
       // get user by the provider token
@@ -88,7 +89,7 @@ class MemberController {
 
       //if the user is already activated
       if (member.IsActive === true) {
-        response.send(JSON.stringify({ status: "activated" }));
+        response.send(JSON.stringify({status: "activated"}));
       }
 
       member.IsActive = true;
@@ -106,6 +107,7 @@ class MemberController {
       });
     }
   }
+
   //Sending Confirmation Email
   async sendConfirmationEmail(userEmail, token, id) {
     try {
@@ -128,7 +130,7 @@ class MemberController {
   }
 
   /* API:/api/resendConfirmEmail  request: {'email':EMAIL,'id':id}  response:{'email':EMAIL, status: 'success/fail'}  */
-  async resendConfirmEmail({ request, auth, response }) {
+  async resendConfirmEmail({request, auth, response}) {
     try {
       let member;
       if ("email" in request.all()) {
@@ -141,16 +143,16 @@ class MemberController {
       this.sendConfirmationEmail(member.Email, userToken.token, member.id);
 
       response.send(
-        JSON.stringify({ status: "success", email: request.input("email") })
+        JSON.stringify({status: "success", email: request.input("email")})
       );
     } catch (err) {
-      response.send(JSON.stringify({ status: "fail" }));
+      response.send(JSON.stringify({status: "fail"}));
       console.log(err);
     }
   }
 
   //Sign Up Function
-  async register({ request, auth }) {
+  async register({request, auth}) {
     try {
       const requestData = request.all();
       const encrypted = Encryption.encrypt(requestData.registerPassword);
@@ -161,7 +163,7 @@ class MemberController {
       //email is not exist -> new user
       if (userEmail.length <= 0) {
         const member = new Member();
-        member.Email = requestData.registerEmail ;
+        member.Email = requestData.registerEmail;
         member.EncryptedPW = encrypted;
         member.IsActive = false;
         member.Provider = requestData.provider;
@@ -197,7 +199,7 @@ class MemberController {
   }
 
   //After SignUp, Filling in the personal profile.
-  async fillProfile({ request }) {
+  async fillProfile({request}) {
     try {
       const requestData = request.all();
 
@@ -281,7 +283,7 @@ class MemberController {
             isActive: false
           });
         } else {
-          console.log(user.Email);
+          //console.log(user.Email);
 
           const newToken = await auth.generate(user);
 
@@ -290,7 +292,7 @@ class MemberController {
             token: newToken.token
           };
 
-          console.log(newToken.token);
+          //console.log(newToken.token);
 
           await Mail.send('auth.emails.password_reset', mailData, message => {
             message
@@ -319,7 +321,7 @@ class MemberController {
       console.log(isTokenValid);
       // get user by the provider token
       const user = await Member.findBy('id', request.input('id'));
-      console.log(user.Email);
+      //console.log(user.Email);
       user.EncryptedPW = Encryption.encrypt(request.input('password'));
       await user.save();
       console.log("password reset successful " + Encryption.decrypt(user.EncryptedPW));
@@ -345,27 +347,11 @@ class MemberController {
     //token is valid
     try {
       const token = params.token;
-      console.log(token)
+      //console.log(token);
       const dbMemberID = await Database.table('validation_tokens')
         .where("Token", token).select('MemberID');
 
-      // if (dbMemberID[0].Type == "EmailLogin") {
-      //   const isTokenValid = await auth.check();
-      //   console.log(isTokenValid)
-      // }
-      //console.log(token)
-
       const member = await Member.findBy('id', dbMemberID[0].MemberID);
-
-      // const dbToken = await Token.findBy({
-      //     'MemberID': dbMemberID[0].MemberID
-      // });
-
-      //   const newToken = await auth.generate(member);
-      //   console.log(newToken);
-      //   //only change token
-      //   dbToken.merge({Token: newToken.token});
-      //   await dbToken.save();
 
       return JSON.stringify({
         email: member.Email,
@@ -388,39 +374,84 @@ class MemberController {
         snowmobileAbility: member.SnowmobileAbility,
         snowshoeAbility: member.SnowshoeAbility,
         portrait: member.Portrait
-        //token: dbToken.Token
-        //tokenValid: true
       })
 
     } catch (e) {
-      //console.log('token expired');
-      console.log(e);
-      // return JSON.stringify({
-      //   tokenValid: false
-      // });
+      //console.log(e);
     }
   }
 
-  async editProfile({request, auth}){
+  async editProfile({request, auth}) {
 
-    try{
+    const requestData = request.all();
+    //if the user login with email, check token
+    if (requestData.provider === null) {
 
-      const requestData = request.all();
+      try {
+        const isTokenValid = await auth.check();
+        console.log(isTokenValid);
+
+        const token = requestData.token;
+        const dbToken = await Token.findBy("Token", token);
+
+        const member = await Member.findBy('id', dbToken.MemberID);
+
+        const newToken = await auth.generate(member);
+        //console.log(newToken);
+        //only change token
+        dbToken.merge({Token: newToken.token});
+        await dbToken.save();
+
+        member.merge({
+          FirstName: requestData.FirstName,
+          LastName: requestData.LastName,
+          Gender: requestData.Gender,
+          DOB: requestData.DOB,
+          PhoneAreaCode: requestData.PhoneAreaCode,
+          PhoneNumber: requestData.PhoneNumber,
+          Country: requestData.Country,
+          Postcode: requestData.Postcode,
+          SkiAbility: requestData.SkiAbility,
+          SnowboardAbility: requestData.SnowboardAbility,
+          TelemarkAbility: requestData.TelemarkAbility,
+          SnowbikeAbility: requestData.SnowbikeAbility,
+          SnowmobileAbility: requestData.SnowmobileAbility,
+          SnowshoeAbility: requestData.SnowshoeAbility,
+          IsDisabled: requestData.IsDisabled,
+          DisabilityMembership: requestData.DisabilityMembership,
+          DisabilityMembershipID: requestData.DisabilityMembershipID,
+          DisabilityDetail: requestData.DisabilityDetail
+        });
+
+        await member.save();
+
+        //console.log(member);
+        console.log("success saved");
+
+        const userName = requestData.FirstName + " " + requestData.LastName;
+        //console.log(userName);
+
+        return JSON.stringify({
+          token: dbToken.Token,
+          name: userName,
+          tokenValid: true
+        })
+
+      } catch (e) {
+        console.log('token expired');
+        console.log(e);
+        return JSON.stringify({
+          tokenValid: false
+        });
+      }
+    }
+
+    //if login with google and facebook
+    //TODO: if login with google or facebook, cannot change name or portrait
+    else {
       const token = requestData.token;
       const dbToken = await Token.findBy("Token", token);
-
-      if (dbToken.Type == "EmailLogin") {
-        const isTokenValid = await auth.check();
-        console.log(isTokenValid)
-      }
-      console.log(token)
       const member = await Member.findBy('id', dbToken.MemberID);
-
-      const newToken = await auth.generate(member);
-      console.log(newToken);
-      //only change token
-      dbToken.merge({Token: newToken.token});
-      await dbToken.save();
 
       member.merge({
         FirstName: requestData.FirstName,
@@ -445,25 +476,18 @@ class MemberController {
 
       await member.save();
 
-      console.log(member)
-      console.log("success saved")
+      //console.log(member);
+      console.log("success saved");
 
       return JSON.stringify({
         token: dbToken.Token,
         tokenValid: true
-      })
-
-    }catch(e){
-      console.log('token expired');
-      console.log(e);
-      return JSON.stringify({
-        tokenValid: false
       });
     }
+
   }
 
 }
-
 
 
 module.exports = MemberController;

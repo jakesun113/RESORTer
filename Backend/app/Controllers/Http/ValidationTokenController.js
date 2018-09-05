@@ -107,7 +107,7 @@ class ValidationTokenController {
               // const newToken = await auth.withRefreshToken().attempt(email, dbpwd[0].EncryptedPW);
 
               const newToken = await auth.generate(member);
-              console.log(newToken);
+              //console.log(newToken);
 
               const dbToken = await Token.findBy({
                 'MemberID': dbMemberID[0].id,
@@ -345,7 +345,7 @@ class ValidationTokenController {
         'Type': "EmailLogin"
       });
       const newToken = await auth.generate(member);
-      console.log(newToken);
+      //console.log(newToken);
       //only change token
       dbToken.merge({Token: newToken.token});
       await dbToken.save();
