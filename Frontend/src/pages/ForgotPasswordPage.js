@@ -66,7 +66,6 @@ export default class ForgotPasswordPage extends Component {
                     });
                 }
 
-                //todo: add "resend email" function, refer to login page
                 //handle email is not activated
                 else if (res.data.isActive === false) {
                     console.log("user email is not activated");

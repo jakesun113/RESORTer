@@ -12,18 +12,14 @@
 | http://adonisjs.com/docs/4.1/routing
 |
 */
-//TODO: change route name to meaningful
-//todo: move different(register) controllers into MemberController
-//todo: move other controllers (rather than change db table) to a new controller (in a new folder)
+
 const Route = use("Route");
 
 Route.on("/").render("welcome");
 
-Route.post("/api/contact-form", "ContactController.index");
+Route.post("/api/contact-form", "Other/ContactController.index");
 
 /*MemberController start*/
-//change password
-Route.post("/api/change-password", "MemberController.changePassword");
 
 //SignUp
 Route.post("/api/register", "MemberController.register");
@@ -33,32 +29,36 @@ Route.post("/api/resendConfirmEmail", "MemberController.resendConfirmEmail");
 //Sign up profile
 Route.post("/api/signupProfile", "MemberController.fillProfile");
 
+//profile
+Route.get("/api/user-profile/:token", "MemberController.showProfile");
+Route.put("/api/user-profile", "MemberController.editProfile");
+
+//forget password
+Route.post("/api/forgot-password", "MemberController.sendResetLinkEmail");
+
+//reset password
+Route.post("/api/reset-password", "MemberController.resetPassword");
+
+//change password
+Route.post("/api/change-password", "MemberController.changePassword");
+
 /*MemberController end*/
 
-
 /*ValidationTokenController start*/
+
 //login route
 Route.post("/api/login/email", "ValidationTokenController.loginWithEmail");
 Route.post("/api/login/google", "ValidationTokenController.loginWithGoogle");
 Route.post("/api/login/facebook", "ValidationTokenController.loginWithFacebook");
+
+//authenticate token
+Route.post('/api/check-token', 'ValidationTokenController.check');
 /*ValidationTokenController end*/
 
-/*FamilyMemberController*/
+/*FamilyMemberController start*/
+
 //Add Family Member
 Route.post("/api/add-member", "FamilyMemberController.addMember");
 /*FamilyMemberController end*/
 
-Route.post(
-  "/api/forgot-password",
-  "MemberController.sendResetLinkEmail"
-);
-Route.post("/api/reset-password", "MemberController.resetPassword");
-
-Route.get("/api/user-profile/:token", "ProfileController.showProfile");
-Route.put("/api/user-profile", "ProfileController.addProfile");
-
-Route.post('/api/check-token', 'AuthenticationController.check');
-
 Route.get("/pushResortInfo", "ResortInfoController.pushResortInfo");
-
-Route.resource("familyMembers", "FamilyMemberController");
