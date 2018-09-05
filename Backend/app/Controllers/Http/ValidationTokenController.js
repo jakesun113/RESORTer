@@ -71,9 +71,9 @@ class ValidationTokenController {
 
             //console.log(dbpwd[0].EncryptedPW);
 
-            const decrptpwd = Encryption.decrypt(dbpwd[0].EncryptedPW);
+            const decrptPwd = Encryption.decrypt(dbpwd[0].EncryptedPW);
             //wrong password
-            if (password !== decrptpwd) {
+            if (password !== decrptPwd) {
               console.log("wrong password");
               return JSON.stringify({
                 emailExisted: true,

@@ -153,7 +153,7 @@ class MemberController {
   async register({ request, auth }) {
     try {
       const requestData = request.all();
-      const encrypted = Encryption.encrypt(requestData.registerEmail);
+      const encrypted = Encryption.encrypt(requestData.registerPassword);
       const userEmail = await Database.table("members")
         .where("Email", requestData.registerEmail)
         .select("Email");
@@ -161,8 +161,8 @@ class MemberController {
       //email is not exist -> new user
       if (userEmail.length <= 0) {
         const member = new Member();
-        member.Email =  encrypted;
-        member.EncryptedPW = requestData.registerPassword;
+        member.Email = requestData.registerEmail ;
+        member.EncryptedPW = encrypted;
         member.IsActive = false;
         member.Provider = requestData.provider;
         await member.save();
