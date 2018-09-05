@@ -687,7 +687,10 @@ class ProfilePage extends Component {
                             btnNum="1"
                             mode="linkMode"
                             btnText="OK"
-                            linkTo="/login"
+                            linkTo={{
+                                pathname: "/login",
+                                state: {from: this.props.location.pathname}
+                            }}
                             onHandleClose={() => {
                                 this.setState({isShow: false});
                                 this.handleLogout();
