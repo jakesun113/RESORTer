@@ -25,25 +25,19 @@ class ProfilePage extends Component {
             isShow: false,
             email: "",
             portrait: "",
-            firstname: "",
-            lastname: "",
-            gender: "",
             dob: "",
-            phonecode: "",
-            phonenumber: "",
-            country: "",
-            postcode: "",
-            skiability: "",
-            snowboardability: "",
-            telemarkability: "",
-            snowbikeability: "",
-            snowmobileability: "",
-            snowshoeability: "",
-            hasDisability: false,
-            isdisabled: false,
-            disabilitymembership: "",
-            disabilitymemberid: "",
-            disabilitydetail: ""
+            age: "",
+            skiAbility: "",
+            snowboardAbility: "",
+            telemarkAbility: "",
+            snowbikeAbility: "",
+            snowmobileAbility: "",
+            snowshoeAbility: "",
+            hasDisAbility: false,
+            isDisabled: false,
+            disabilityMembership: "",
+            disabilityMemberId: "",
+            disabilityDetail: ""
         
         };
     }
@@ -110,36 +104,36 @@ class ProfilePage extends Component {
                         // );
                       
                       
-                       if (response.data.skiability != null) {
+                       if (response.data.skiAbility != null) {
                         setState({
-                          skiability: response.data.skiability
+                          skiAbility: response.data.skiAbility
                         })
-                        console.log(this.state.skiability)
+                        console.log(this.state.skiAbility)
                        }                  
-                       if (response.data.snowboardability != null) {
-                        setState({snowboardability: response.data.snowboardability});
+                       if (response.data.snowboardAbility != null) {
+                        setState({snowboardAbility: response.data.snowboardAbility});
                        }
-                       if (response.data.telemarkability != null) {
-                        setState({telemarkability: response.data.telemarkability});
+                       if (response.data.telemarkAbility != null) {
+                        setState({telemarkAbility: response.data.telemarkAbility});
                        }
-                       if (response.data.snowbikeability != null) {
-                        setState({snowbikeability: response.data.snowbikeability});
+                       if (response.data.snowbikeAbility != null) {
+                        setState({snowbikeAbility: response.data.snowbikeAbility});
                        }
-                       if (response.data.snowmobileability != null) {
-                        setState({snowmobileability: response.data.snowmobileability});
+                       if (response.data.snowmobileAbility != null) {
+                        setState({snowmobileAbility: response.data.snowmobileAbility});
                        }
-                       if (response.data.snowshoeability != null) {
-                        setState({snowshoeability: response.data.snowshoeability});
+                       if (response.data.snowshoeAbility != null) {
+                        setState({snowshoeAbility: response.data.snowshoeAbility});
                        }                       
                     
-                       if(response.data.isdisabled) {
+                       if(response.data.isDisabled) {
                         this.setState ({
                           hasDisability: true 
                         });
-                        setState({isdisabled: response.data.isdisabled});
-                        setState({disabilitymembership: response.data.disabilitymembership});  
-                        setState({disabilitymemberid: response.data.disabilitymembershipid});  
-                        setState({disabilitydetail: response.data.disabilitydetail});
+                        setState({isDisabled: response.data.isDisabled});
+                        setState({disabilityMembership: response.data.disabilityMembership});  
+                        setState({disabilityMemberId: response.data.disabilityMembershipId});  
+                        setState({disabilityDetail: response.data.disabilityDetail});
                       
                       }
 
@@ -148,22 +142,23 @@ class ProfilePage extends Component {
                       if (response.data.gender != null) {
                         document.getElementById("gender").value = response.data.gender;
                       }
-                      if (response.data.firstname != null) {
-                        document.getElementById("firstName").value = response.data.firstname;
+                      if (response.data.firstName != null) {
+                        document.getElementById("firstName").value = response.data.firstName;
                       }
-                      if (response.data.lastname != null) {
-                        document.getElementById("lastName").value = response.data.lastname;
+                      if (response.data.lastName != null) {
+                        document.getElementById("lastName").value = response.data.lastName;
                       }
-                      if (response.data.phonecode != null) {
-                        document.getElementById("phone_number_pre").value = response.data.phonecode;
+                      if (response.data.phoneCode != null) {
+                        document.getElementById("phone_number_pre").value = response.data.phoneCode;
                       }
-                      if (response.data.phonenumber != null) {
-                       document.getElementById("phoneNumber").value = response.data.phonenumber;
+                      if (response.data.phoneNumber != null) {
+                       document.getElementById("phoneNumber").value = response.data.phoneNumber;
                       }
                       if (response.data.dob != null) {
-                       document.getElementById("dob").value = moment(response.data.dob).format("YYYY-MM-DD");
-                       let age = moment().diff(moment(response.data.dob).format("YYYY"),'years')
-                       document.getElementById("age").value = age;
+                       //document.getElementById("dob").value = moment(response.data.dob).format("YYYY-MM-DD");
+                       setState({dob: response.data.dob});  
+                       let countAge = moment().diff(moment(this.state.dob).format("YYYY"),'years')
+                       document.getElementById("age").value =countAge
                       }
                       document.getElementById("country").value = response.data.country;
                       document.getElementById("postcode").value = response.data.postcode;
@@ -182,9 +177,25 @@ class ProfilePage extends Component {
             //   document.getElementById("ski_ability").value = skiability;
               
             //  }   
-            console.log(this.state.skiability)
+            console.log(this.state.skiAbility)
 
     }
+
+  
+    ageCount = e => {
+      this.setState (
+        {dob: e.target.value}, () => {
+           let countAge = moment().diff(moment(this.state.dob).format("YYYY"),'years')
+           if (countAge !== this.state.age) {
+            this.setState ({
+            age: countAge
+           })
+         }
+      console.log(countAge)
+      });
+ 
+    }
+
 
     handleSubmit = e => {
       e.preventDefault();
@@ -194,7 +205,8 @@ class ProfilePage extends Component {
             token: tokenData.token
         });
       }
-            
+      
+    
       const isDisabledValue = document.getElementById("is_disability").checked;
       let disabilityMembershipValue = "";
       let disabilityMembershipIDValue = "";
@@ -237,7 +249,7 @@ class ProfilePage extends Component {
         Postcode: document.getElementById("postcode").value,
       });
 
-      console.log(this.state.skiability)
+      console.log(this.state.skiAbility)
       console.log(document.getElementById("ski_ability").value)
 
       axios.put("http://127.0.0.1:3333/api/user-profile", JSON.parse(data)).then(
@@ -280,8 +292,7 @@ class ProfilePage extends Component {
               console.log(
                 "token has been extended. Token is: " + cookies.get("access-token")
               ); 
-              
-          
+                       
           }
         }
       }
@@ -480,6 +491,8 @@ class ProfilePage extends Component {
                           className="form-control"
                           id="dob"
                           placeholder="YYYY-MM-DD"
+                          value={this.state.dob}
+                          onChange={this.ageCount}
                         />
                       </div>
                       <div className="form-group col-2 col-lg-2">
@@ -489,6 +502,7 @@ class ProfilePage extends Component {
                           className="form-control"
                           id="age"
                           placeholder=""
+                          value={this.state.age}
                           readOnly
                         />
                       </div>
@@ -547,8 +561,7 @@ class ProfilePage extends Component {
                       max="7"
                       id="ski_ability"
                       name="skiability"
-                      value={this.state.skiability}
-                      //nChange={e => this.handleSetState(e)}
+                      value={this.state.skiAbility}
                     />
                   </div>
                   &ensp; &ensp;
@@ -558,7 +571,7 @@ class ProfilePage extends Component {
                       min="1"
                       max="7"
                       id="snowboard_ability"
-                      value={this.state.snowboardability}
+                      value={this.state.snowboardAbility}
                     />
                   </div>
                   <div className="form-group col-lg-2" />
@@ -573,7 +586,7 @@ class ProfilePage extends Component {
                       min="1"
                       max="7"
                       id="telemark_ability"
-                      value={this.state.telemarkability}
+                      value={this.state.telemarkAbility}
                     />
                   </div>
                   &ensp; &ensp;
@@ -583,7 +596,7 @@ class ProfilePage extends Component {
                       min="1"
                       max="7"
                       id="snowbike_ability"
-                      value={this.state.snowbikeability}
+                      value={this.state.snowbikeAbility}
                     />
                   </div>
                   <div className="form-group  col-lg-2" />
@@ -598,7 +611,7 @@ class ProfilePage extends Component {
                       min="1"
                       max="7"
                       id="snowmobile_ability"
-                      value={this.state.snowmobileability}
+                      value={this.state.snowmobileAbility}
                     />
                   </div>
                   &ensp; &ensp;
@@ -608,7 +621,7 @@ class ProfilePage extends Component {
                       min="1"
                       max="7"
                       id="snowshoe_ability"
-                      value={this.state.snowshoeability}
+                      value={this.state.snowshoeAbility}
                     />
                   </div>
                   <div className="form-group col-lg-2" />
@@ -625,7 +638,7 @@ class ProfilePage extends Component {
                         this.setState({ hasDisability: e.target.checked });
                       }}
                       id="is_disability"
-                      value={this.state.isdisabled}
+                      value={this.state.isDisabled}
                     />
                     <label className="form-check-label" htmlFor="is_disability">
                       Any physical or learning disabilities?
@@ -639,9 +652,9 @@ class ProfilePage extends Component {
                 {/* disable form */}
                 {this.state.hasDisability === true ? 
                 <DisabilityForm 
-                selected={this.state.disabilitymembership}
-                disabilityMemberid={this.state.disabilitymemberid}
-                disabilityDetail={this.state.disabilitydetail}
+                selected={this.state.disabilityMembership}
+                disabilityMemberid={this.state.disabilityMemberId}
+                disabilityDetail={this.state.disabilityDetail}
                 /> : ""}
     
                 {/* save btn */}

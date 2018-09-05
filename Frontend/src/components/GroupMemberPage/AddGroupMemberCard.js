@@ -43,8 +43,8 @@ class AddGroupMemberCard extends Component {
             startDate: moment(),
             birth_format_wrong: false,
             token: this.props.token,
-            alert: null, //what is the statu of the alertwindow
-            showAlertWindow: false, //whether show the alertwindow
+            alert: null, //what is the status of the alertWindow
+            showAlertWindow: false, //whether show the alertWindow
             redirect: false //redirect to login page
         };
     }

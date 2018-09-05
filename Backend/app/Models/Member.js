@@ -11,6 +11,7 @@ class Member extends Model {
   static boot() {
     super.boot();
     this.addHook('beforeCreate', 'MemberHook.hashPassword')
+    this.addHook('beforeUpdate', 'MemberHook.hashPassword')
   }
 }
 
