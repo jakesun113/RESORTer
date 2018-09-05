@@ -3,7 +3,7 @@ const Database = use("Database");
 const Member = use("App/Models/Member");
 const Token = use("App/Models/ValidationToken");
 const Mail = use("Mail");
-const Hash = use("Hash");
+const Encryption = use('Encryption');
 /**
  * Deal with Member table
  * create a member - "register"
@@ -29,16 +29,14 @@ class MemberController {
       const dbpwd = await Database.table('members')
         .where("id", dbMemberID[0].MemberID).select('EncryptedPW');
 
-      //fixme: no verify password
-      const isSame = true;
-      //const isSame = await Hash.verify(originPwd, dbpwd[0].EncryptedPW);
+      const decrptpwd = Encryption.decrypt(dbpwd[0].EncryptedPW);
 
       //wrong password
-      if (!isSame) {
+      if (originPwd !== decrptpwd) {
         console.log("wrong password");
         return JSON.stringify({
           tokenValid: true,
-          wrongpwd: true
+          wrongPwd: true
         });
       }
 
@@ -47,7 +45,9 @@ class MemberController {
         console.log("change password success");
 
         const member = await Member.findBy('id', dbMemberID[0].MemberID);
-        member.merge({EncryptedPW: newPwd});
+
+        const encrypted = Encryption.encrypt(newPwd);
+        member.merge({EncryptedPW: encrypted});
         await member.save();
 
         const dbToken = await Token.findBy({
@@ -62,7 +62,7 @@ class MemberController {
 
         return JSON.stringify({
           tokenValid: true,
-          wrongpwd: false,
+          wrongPwd: false,
           token: dbToken.Token
         })
       }
@@ -153,7 +153,7 @@ class MemberController {
   async register({ request, auth }) {
     try {
       const requestData = request.all();
-
+      const encrypted = Encryption.encrypt(requestData.registerPassword);
       const userEmail = await Database.table("members")
         .where("Email", requestData.registerEmail)
         .select("Email");
@@ -161,8 +161,8 @@ class MemberController {
       //email is not exist -> new user
       if (userEmail.length <= 0) {
         const member = new Member();
-        member.Email = requestData.registerEmail;
-        member.EncryptedPW = requestData.registerPassword;
+        member.Email = requestData.registerEmail ;
+        member.EncryptedPW = encrypted;
         member.IsActive = false;
         member.Provider = requestData.provider;
         await member.save();

@@ -113,15 +113,6 @@ class SignUpPage extends Component {
     }
 
     render() {
-
-        if (this.state.isSignUp) {
-            // make use fill profile
-            this.props.history.push({
-                pathname: "/test",
-                state: {signupEmail: document.getElementById("registerEmail").value}
-            });
-            // return <Redirect to={"/login"} />;
-        }
         let alertWindow;
         if (this.state.showAlertWindow) {
             let link = (
@@ -147,9 +138,6 @@ class SignUpPage extends Component {
                     btnNum="1"
                     btnText="OK"
                     mode="customMode"
-                    onHandleClose={() => {
-                        this.setState({showAlertWindow: false, isSignUp: true});
-                    }}
                     onHandClick={() => {
                         this.setState({isSignUp: true, showAlertWindow: false});
                     }}

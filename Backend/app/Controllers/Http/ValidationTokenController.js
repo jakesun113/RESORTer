@@ -2,7 +2,7 @@
 const Database = use("Database");
 const Member = use("App/Models/Member");
 const Token = use("App/Models/ValidationToken");
-const Hash = use("Hash");
+const Encryption = use('Encryption');
 
 /**
  * deal with login related function.
@@ -30,7 +30,7 @@ class ValidationTokenController {
         console.log("email does not exist");
         return JSON.stringify({
           emailExisted: false,
-          authencationFailed: false
+          authenticationFailed: false
         });
       }
       //email is duplicated
@@ -47,7 +47,7 @@ class ValidationTokenController {
             emailExisted: true,
             emailDuplicated: true,
             duplicatedProvider: dbProvider[0].Provider,
-            authencationFailed: false
+            authenticationFailed: false
           });
         }
         else {
@@ -61,7 +61,7 @@ class ValidationTokenController {
               emailExisted: true,
               emailDuplicated: false,
               isActive: false,
-              authencationFailed: false
+              authenticationFailed: false
             });
           }
           else {
@@ -71,19 +71,16 @@ class ValidationTokenController {
 
             //console.log(dbpwd[0].EncryptedPW);
 
-            //fixme: no verify password
-            const isSame = true;
-            //const isSame = await Hash.verify(password, dbpwd[0].EncryptedPW);
-            //console.log(decrptpwd);
+            const decrptPwd = Encryption.decrypt(dbpwd[0].EncryptedPW);
             //wrong password
-            if (!isSame) {
+            if (password !== decrptPwd) {
               console.log("wrong password");
               return JSON.stringify({
                 emailExisted: true,
                 emailDuplicated: false,
                 isActive: true,
-                wrongpwd: true,
-                authencationFailed: false
+                wrongPwd: true,
+                authenticationFailed: false
               });
             }
             //all correct
@@ -136,11 +133,11 @@ class ValidationTokenController {
                   emailExisted: true,
                   emailDuplicated: false,
                   isActive: true,
-                  wrongpwd: false,
+                  wrongPwd: false,
                   token: token.Token,
                   name: userName,
                   user_pic: dbPortrait[0].Portrait,
-                  authencationFailed: false
+                  authenticationFailed: false
                 });
               }
               //already log in before , update token
@@ -154,11 +151,11 @@ class ValidationTokenController {
                   emailExisted: true,
                   emailDuplicated: false,
                   isActive: true,
-                  wrongpwd: false,
+                  wrongPwd: false,
                   token: dbToken.Token,
                   name: userName,
                   user_pic: dbPortrait[0].Portrait,
-                  authencationFailed: false
+                  authenticationFailed: false
                 });
               }
             }
@@ -170,7 +167,7 @@ class ValidationTokenController {
       console.log('authentication failed');
       //console.log(e);
       return JSON.stringify({
-        authencationFailed: true
+        authenticationFailed: true
       });
     }
   }
@@ -210,7 +207,7 @@ class ValidationTokenController {
         return JSON.stringify({
           facebookDuplicated: false,
           duplicatedProvider: "",
-          authencationFailed: false
+          authenticationFailed: false
         });
       }
       else {
@@ -222,7 +219,7 @@ class ValidationTokenController {
           return JSON.stringify({
             facebookDuplicated: true,
             duplicatedProvider: dbProvider[0].Provider,
-            authencationFailed: false
+            authenticationFailed: false
           });
         }
         else {
@@ -238,7 +235,7 @@ class ValidationTokenController {
           return JSON.stringify({
             facebookDuplicated: false,
             duplicatedProvider: "",
-            authencationFailed: false
+            authenticationFailed: false
           });
         }
       }
@@ -247,7 +244,7 @@ class ValidationTokenController {
       console.log('authentication failed');
       // console.log(e);
       return JSON.stringify({
-        authencationFailed: true
+        authenticationFailed: true
       });
     }
   }
@@ -285,7 +282,7 @@ class ValidationTokenController {
         return JSON.stringify({
           googleDuplicated: false,
           duplicatedProvider: "",
-          authencationFailed: false
+          authenticationFailed: false
         });
       }
       else {
@@ -297,7 +294,7 @@ class ValidationTokenController {
           return JSON.stringify({
             googleDuplicated: true,
             duplicatedProvider: dbProvider[0].Provider,
-            authencationFailed: false
+            authenticationFailed: false
           });
         }
         else {
@@ -312,7 +309,7 @@ class ValidationTokenController {
           return JSON.stringify({
             googleDuplicated: false,
             duplicatedProvider: "",
-            authencationFailed: false
+            authenticationFailed: false
           });
         }
       }
@@ -321,7 +318,7 @@ class ValidationTokenController {
       console.log('authentication failed');
       console.log(e);
       return JSON.stringify({
-        authencationFailed: true
+        authenticationFailed: true
       });
     }
   }
