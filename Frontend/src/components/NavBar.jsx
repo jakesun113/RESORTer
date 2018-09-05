@@ -8,6 +8,66 @@ import YouTube from "react-youtube";
 import { withCookies, Cookies } from "react-cookie";
 import { instanceOf } from "prop-types";
 import axios from "axios/index";
+import AlertWindow from "../components/template/AlertWindow";
+
+class Youtube extends Component {
+  state = {};
+  render() {
+    // youtube video
+    const video = {
+      height: "390",
+      width: "640",
+      playerVars: {
+        // https://developers.google.com/youtube/player_parameters
+        autoplay: 1
+      }
+    };
+    return (
+      <React.Fragment>
+        {/* youtube video */}
+        <div
+          className="container"
+          style={{
+            zIndex: "100",
+            position: "fixed",
+            color: "rgb(93, 135, 221)",
+            top: "30%",
+            left: "30%",
+            width: "auto",
+            height: "auto",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+            border: "1px solid rgb(130, 171, 255)",
+            borderRadius: "10px 10px 10px 10px",
+            paddingTop: "15px",
+            paddingBottom: "10px",
+            paddingLeft: "20px",
+            paddingRight: "25px"
+          }}
+        >
+          <span
+            style={{
+              fontSize: "35px",
+              position: "absolute",
+              top: "0px",
+              right: " 0px",
+              color: "black"
+            }}
+            onClick={this.props.onHandleClose}
+          >
+            <i className="fas fa-times" />
+          </span>
+          <YouTube
+            videoId="s51aYCGDYD8"
+            opts={video}
+            // onReady={this._onReady}
+          />
+        </div>
+      </React.Fragment>
+    );
+  }
+}
 
 class Navbar extends Component {
   static propTypes = {
@@ -23,7 +83,9 @@ class Navbar extends Component {
       token: cookies.get("access-token") || null,
       user_pic: cookies.get("user-pic") || null,
       provider: null,
-      isValidToken: true
+      isValidToken: true,
+      isShowLoginWindow: false,
+      isShowVideo: false
     };
 
     this.handleAuth = this.handleAuth.bind(this);
@@ -196,15 +258,6 @@ class Navbar extends Component {
   }
 
   render() {
-    // youtube video
-    const video = {
-      height: "390",
-      width: "640",
-      playerVars: {
-        // https://developers.google.com/youtube/player_parameters
-        autoplay: 1
-      }
-    };
     return (
       <React.Fragment>
         {/* new design */}
@@ -243,11 +296,11 @@ class Navbar extends Component {
 
             <div className="row" style={{ borderBottom: "2px solid grey" }}>
               {/* left */}
-              <div className="col-xs-12 col-lg-6">
+              <div className="col-xs-12 col-lg-8 col-md-12">
                 <div className="row">
-                  <div className="col-xl-3 col-lg-1" />
+                  <div className="col-xl-2 col-lg-1" />
 
-                  <div className="col-xl-3 col-lg-3 col-12 left_border">
+                  <div className="col-xl-2 col-lg-2 col-sm-12 col-12 left_border">
                     <NavLink
                       exact
                       activeClassName="initial_active"
@@ -257,7 +310,7 @@ class Navbar extends Component {
                       HOME
                     </NavLink>
                   </div>
-                  <div className="col-xl-3 col-lg-4 col-12 left_border">
+                  <div className="col-xl-2 col-lg-3 col-sm-12 col-12 left_border">
                     <NavLink
                       activeClassName="initial_active"
                       className="nav-link button_style"
@@ -266,7 +319,16 @@ class Navbar extends Component {
                       How it Works
                     </NavLink>
                   </div>
-                  <div className="col-xl-3 col-lg-4 col-12 left_border">
+                  <div className="col-xl-2 col-lg-3 col-sm-12 col-12 left_border">
+                    <NavLink
+                      activeClassName="initial_active"
+                      className="nav-link button_style"
+                      to="/about-us"
+                    >
+                      About Us
+                    </NavLink>
+                  </div>
+                  <div className="col-xl-2 col-lg-3 col-sm-12 col-12 left_border">
                     <NavLink
                       activeClassName="initial_active"
                       className="nav-link button_style"
@@ -275,17 +337,18 @@ class Navbar extends Component {
                       Contact Us
                     </NavLink>
                   </div>
+                  <div className="col-xl-2" />
                 </div>
               </div>
 
               {/* right */}
-              <div className="col-12 col-lg-6 col-xl-6">
+              <div className="col-xs-12 col-lg-4 col-md-12">
                 {this.state.token ? (
                   // login state
                   <div className="row">
-                    <div className="col-xl-4 col-lg-2" />
+                    <div className="col-xl-1 col-lg-1" />
                     {/* my trip btn */}
-                    <div className="col-xl-2  col-lg-2 userBtn">
+                    <div className="col-xl-3  col-lg-5 userBtn">
                       <Link className="nav-link" to="/my-trip">
                         <SmallEllipseBtn
                           text="My trip"
@@ -295,7 +358,7 @@ class Navbar extends Component {
                     </div>
                     <div className="col-lg-1" />
                     {/* profile btn */}
-                    <div className="col-xl-2  col-lg-4 userBtn dropdown">
+                    <div className="col-xl-3  col-lg-4 userBtn dropdown">
                       <div
                         className="nav-link "
                         data-toggle="dropdown"
@@ -325,27 +388,22 @@ class Navbar extends Component {
                         />
                       </div>
                     </div>
-                    <div className="col-xl-2" />
+                    <div className="col-xl-4 col-lg-1" />
                   </div>
                 ) : (
                   // not login state
                   <div className="row">
-                    <div className="col-lg-5 col-md-5 col-sm-5 col-xs-0" />
-                    <div className="col-lg-2 col-md-2 col-sm-4 col-xs-4 userBtn">
+                    <div className="col-xl-2 col-lg-2" />
+                    <div className="col-xl-2 col-lg-2 userBtn">
                       <span
                         onClick={() => {
-                          document.getElementById(
-                            "pop-up-login-window"
-                          ).style.display = "block";
-                          document.getElementById(
-                            "pop-up-login-window"
-                          ).style.visibility = "visible";
+                          this.setState({ isShowLoginWindow: true });
                         }}
                       >
                         <SmallEllipseBtn text="Log in" btnColor="orangered" />
                       </span>
                     </div>
-                    <div className="col-lg-3 col-md-2 col-sm-0 col-xs-0" />
+                    <div className="col-xl-8 col-lg-8" />
                   </div>
                 )}
               </div>
@@ -353,131 +411,35 @@ class Navbar extends Component {
           </nav>
 
           {/* pop up for video */}
-          <div
-            className="container"
-            id="pop-up-login-window"
-            style={{
-              zIndex: "100",
-              display: "none",
-              visibility: "hidden",
-              position: "fixed",
-              background: "white",
-              color: "rgb(93, 135, 221)",
-              top: "40%",
-              left: "30%",
-              // margin: "auto",
-              width: "auto",
-              height: "auto",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-              border: "1px solid rgb(130, 171, 255)",
-              borderRadius: "10px 10px 10px 10px",
-              paddingTop: "10px",
-              paddingBottom: "10px",
-              paddingLeft: "20px",
-              paddingRight: "20px"
-            }}
-          >
-            <br />
-            <h4>Want a sneak peek of the booking journey before you log in?</h4>
-            <br />
-            <div className="row">
-              <div className="col">
-                <span
-                  onClick={() => {
-                    document.getElementById(
-                      "pop-up-login-window"
-                    ).style.display = "none";
-                    document.getElementById(
-                      "pop-up-login-window"
-                    ).style.visibility = "hidden";
-                    document.getElementById("sneak-peek-video").style.display =
-                      "block";
-                    document.getElementById(
-                      "sneak-peek-video"
-                    ).style.visibility = "visible";
-                  }}
-                >
-                  <SmallEllipseBtn
-                    text="Yes"
-                    btnColor="rgba(255, 97, 97, 1)"
-                    paddingLeft="90px"
-                    paddingRight="90px"
-                  />
-                </span>
-              </div>
-              <div className="col">
-                <Link
-                  to={"/login"}
-                  onClick={() => {
-                    document.getElementById(
-                      "pop-up-login-window"
-                    ).style.display = "none";
-                    document.getElementById(
-                      "pop-up-login-window"
-                    ).style.visibility = "hidden";
-                  }}
-                >
-                  <SmallEllipseBtn
-                    text="No, I want to log in now."
-                    btnColor="rgba(104, 99, 105, 1)"
-                  />
-                </Link>
-              </div>
-            </div>
-
-            <br />
-          </div>
-          {/* youtube video */}
-          <div
-            className="container"
-            id="sneak-peek-video"
-            style={{
-              zIndex: "100",
-              display: "none",
-              visibility: "hidden",
-              position: "fixed",
-              color: "rgb(93, 135, 221)",
-              top: "30%",
-              left: "30%",
-              // margin: "auto",
-              width: "auto",
-              height: "auto",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-              border: "1px solid rgb(130, 171, 255)",
-              borderRadius: "10px 10px 10px 10px",
-              paddingTop: "15px",
-              paddingBottom: "10px",
-              paddingLeft: "20px",
-              paddingRight: "25px"
-            }}
-          >
-            <span
-              style={{
-                fontSize: "35px",
-                position: "absolute",
-                top: "0px",
-                right: " 0px",
-                color: "white"
+          {this.state.isShowVideo === true ? (
+            <Youtube
+              onHandleClose={() => {
+                this.setState({ isShowVideo: false });
               }}
-              onClick={() => {
-                document.getElementById("sneak-peek-video").style.display =
-                  "none";
-                document.getElementById("sneak-peek-video").style.visibility =
-                  "hidden";
-              }}
-            >
-              <i className="fas fa-times" />
-            </span>
-            <YouTube
-              videoId="s51aYCGDYD8"
-              opts={video}
-              // onReady={this._onReady}
             />
-          </div>
+          ) : (
+            ""
+          )}
+          {this.state.isShowLoginWindow === true ? (
+            <AlertWindow
+              onHandleClose={() => {
+                this.setState({ isShowLoginWindow: false });
+              }}
+              btnNum="2"
+              displayText="Want a sneak peek of the booking journey before you log in?"
+              btnOneMode="customMode"
+              onHandClickOne={() => {
+                this.setState({ isShowVideo: true, isShowLoginWindow: false });
+              }}
+              btnOneText="Yes"
+              btnTwoMode="linkMode"
+              btnTwoLinkTo="/login"
+              btnTwoText="No, I want to log in now."
+            />
+          ) : (
+            ""
+          )}
+
           {/* end container */}
         </div>
       </React.Fragment>
