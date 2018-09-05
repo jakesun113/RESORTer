@@ -48,8 +48,8 @@ Route.post("/api/change-password", "MemberController.changePassword");
 
 //login route
 Route.post("/api/login/email", "ValidationTokenController.loginWithEmail");
-Route.post("/api/login/google", "ValidationTokenController.loginWithGoogle");
 Route.post("/api/login/facebook", "ValidationTokenController.loginWithFacebook");
+Route.post("/api/login/google", "ValidationTokenController.loginWithGoogle");
 
 //authenticate token
 Route.post('/api/check-token', 'ValidationTokenController.check');

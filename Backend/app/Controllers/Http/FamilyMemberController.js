@@ -14,6 +14,10 @@ Request JSON
     { IsDisabled:"0 or 1",DisabilityMembership:"",DisabilityMembershipID:"",DisabilityDetail:"" }
 }
 */
+/**
+ * Deal with Family Member table
+ * add a new group member - "addMember"
+ */
 class FamilyMemberController {
 
   async addMember({request, response, auth}) {
@@ -71,4 +75,4 @@ class FamilyMemberController {
   }
 }
 
-module.exports = FamilyMemberController
+module.exports = FamilyMemberController;

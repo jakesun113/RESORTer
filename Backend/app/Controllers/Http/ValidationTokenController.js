@@ -5,8 +5,10 @@ const Token = use("App/Models/ValidationToken");
 const Encryption = use('Encryption');
 
 /**
- * deal with login related function.
- * create or update token when users log in
+ * deal with Validation Token table
+ * login - "loginWithEmail" (generate new token or update token)
+ * login with social account - "loginWithFacebook", "loginWithGoogle" (act like register)
+ * verify token - "check"
  */
 class ValidationTokenController {
 

@@ -8,71 +8,60 @@ const Encryption = use('Encryption');
 /**
  * Deal with Member table
  * create a member - "register"
- * edit information - change password
+ * change user active state - "activateUser"
+ * send confirm email again - "resendConfirmEmail"
+ * sign up profile - "fillProfile"
+ * get profile - "showProfile"
+ * edit profile - "editProfile"
+ * forget password - "sendResetLinkEmail"
+ * reset password - "resetPassword"
+ * change password - "changePassword"
  */
 class MemberController {
 
-  async changePassword({request, auth}) {
-    //token is valid
+  //Sign Up Function
+  async register({request, auth}) {
     try {
-      const isTokenValid = await auth.check();
-      console.log(isTokenValid);
-
       const requestData = request.all();
+      const encrypted = Encryption.encrypt(requestData.registerPassword);
+      const userEmail = await Database.table("members")
+        .where("Email", requestData.registerEmail)
+        .select("Email");
 
-      const token = requestData.token;
-      const originPwd = requestData.originPwd;
-      const newPwd = requestData.newPwd;
-
-      const dbMemberID = await Database.table('validation_tokens')
-        .where("Token", token).select('MemberID');
-
-      const dbpwd = await Database.table('members')
-        .where("id", dbMemberID[0].MemberID).select('EncryptedPW');
-
-      const decrptpwd = Encryption.decrypt(dbpwd[0].EncryptedPW);
-
-      //wrong password
-      if (originPwd !== decrptpwd) {
-        console.log("wrong password");
-        return JSON.stringify({
-          tokenValid: true,
-          wrongPwd: true
-        });
-      }
-
-      //all correct
-      else {
-        console.log("change password success");
-
-        const member = await Member.findBy('id', dbMemberID[0].MemberID);
-
-        const encrypted = Encryption.encrypt(newPwd);
-        member.merge({EncryptedPW: encrypted});
+      //email is not exist -> new user
+      if (userEmail.length <= 0) {
+        const member = new Member();
+        member.Email = requestData.registerEmail;
+        member.EncryptedPW = encrypted;
+        member.IsActive = false;
+        member.Provider = requestData.provider;
         await member.save();
 
-        const dbToken = await Token.findBy({
-          'MemberID': dbMemberID[0].MemberID,
-          'Type': "EmailLogin"
-        });
-        const newToken = await auth.generate(member);
-        console.log(newToken);
-        //only change token
-        dbToken.merge({Token: newToken.token});
-        await dbToken.save();
+        //Generate a JWT to a user that needs confirm email
+        let userToken = await auth.generate(member);
+
+        //send confirmation email
+        this.sendConfirmationEmail(
+          requestData.registerEmail,
+          userToken.token,
+          member.id
+        );
 
         return JSON.stringify({
-          tokenValid: true,
-          wrongPwd: false,
-          token: dbToken.Token
-        })
+          registerEmail: requestData.registerEmail,
+          status: "success"
+        });
+      } else {
+        return JSON.stringify({
+          registerEmail: requestData.registerEmail,
+          status: "fail"
+        });
       }
+    } catch (err) {
+      console.log(err);
 
-    } catch (e) {
-      console.log('token expired');
-      console.log(e);
       return JSON.stringify({
-        tokenValid: false
+        status: "fail"
       });
     }
   }
@@ -151,53 +140,6 @@ class MemberController {
     }
   }
 
-  //Sign Up Function
-  async register({request, auth}) {
-    try {
-      const requestData = request.all();
-      const encrypted = Encryption.encrypt(requestData.registerPassword);
-      const userEmail = await Database.table("members")
-        .where("Email", requestData.registerEmail)
-        .select("Email");
-
-      //email is not exist -> new user
-      if (userEmail.length <= 0) {
-        const member = new Member();
-        member.Email = requestData.registerEmail;
-        member.EncryptedPW = encrypted;
-        member.IsActive = false;
-        member.Provider = requestData.provider;
-        await member.save();
-
-        //Generate a JWT to a user that needs confirm email
-        let userToken = await auth.generate(member);
-
-        //send confirmation email
-        this.sendConfirmationEmail(
-          requestData.registerEmail,
-          userToken.token,
-          member.id
-        );
-
-        return JSON.stringify({
-          registerEmail: requestData.registerEmail,
-          status: "success"
-        });
-      } else {
-        return JSON.stringify({
-          registerEmail: requestData.registerEmail,
-          status: "fail"
-        });
-      }
-    } catch (err) {
-      console.log(err);
-
-      return JSON.stringify({
-        status: "fail"
-      });
-    }
-  }
-
   //After SignUp, Filling in the personal profile.
   async fillProfile({request}) {
     try {
@@ -242,105 +184,6 @@ class MemberController {
         status: "fail"
       });
     }
-  }
-
-  async sendResetLinkEmail({request, auth}) {
-    // validate from inputs
-    try {
-      const user = await Member.findBy('Email', request.input('email'));
-
-      const dbProvider = await Database.table('members')
-        .where("Email", request.input('email')).select('Provider');
-
-      //email does not exist
-      if (user == null) {
-        console.log("email does not exist");
-        return JSON.stringify({
-          emailExisted: false
-        });
-      }
-
-      //email is duplicated
-      else if (dbProvider[0].Provider !== "email") {
-        console.log("cannot modify social account email");
-        return JSON.stringify({
-          emailExisted: true,
-          emailDuplicated: true,
-          duplicatedProvider: dbProvider[0].Provider
-        });
-      }
-
-      else {
-        const dbActive = await Database.table('members')
-          .where("Email", user.Email).select('IsActive');
-
-        //not active account
-        if (dbActive[0].IsActive === 0) {
-          console.log("email is not activated");
-          return JSON.stringify({
-            emailExisted: true,
-            emailDuplicated: false,
-            isActive: false
-          });
-        } else {
-          //console.log(user.Email);
-
-          const newToken = await auth.generate(user);
-
-          const mailData = {
-            user: user.toJSON(),
-            token: newToken.token
-          };
-
-          //console.log(newToken.token);
-
-          await Mail.send('auth.emails.password_reset', mailData, message => {
-            message
-              .to(user.Email)
-              .from('resorterapp-test <no-reply@site-members.com>')
-              .subject('Reset your password')
-          });
-          console.log("email sent successful");
-          return JSON.stringify({
-            emailExisted: true
-          });
-        }
-      }
-
-    } catch (error) {
-      console.log(error)
-
-    }
-  }
-
-
-  async resetPassword({request, response, auth}) {
-
-    try {
-      const isTokenValid = await auth.check();
-      console.log(isTokenValid);
-      // get user by the provider token
-      const user = await Member.findBy('id', request.input('id'));
-      //console.log(user.Email);
-      user.EncryptedPW = Encryption.encrypt(request.input('password'));
-      await user.save();
-      console.log("password reset successful " + Encryption.decrypt(user.EncryptedPW));
-      return response.send(JSON.stringify({
-          status: 'success'
-        })
-      )
-
-    }
-    catch (error) {
-      // display error message
-      console.log(error);
-      return response.send(JSON.stringify({
-          status: 'fail',
-          reason: 'token expires'
-        })
-      )
-    }
-
   }
 
   async showProfile({params}) {
@@ -488,6 +331,170 @@ class MemberController {
       });
     }
 
+  }
+
+  async sendResetLinkEmail({request, auth}) {
+    // validate from inputs
+    try {
+      const user = await Member.findBy('Email', request.input('email'));
+
+      const dbProvider = await Database.table('members')
+        .where("Email", request.input('email')).select('Provider');
+
+      //email does not exist
+      if (user == null) {
+        console.log("email does not exist");
+        return JSON.stringify({
+          emailExisted: false
+        });
+      }
+
+      //email is duplicated
+      else if (dbProvider[0].Provider !== "email") {
+        console.log("cannot modify social account email");
+        return JSON.stringify({
+          emailExisted: true,
+          emailDuplicated: true,
+          duplicatedProvider: dbProvider[0].Provider
+        });
+      }
+
+      else {
+        const dbActive = await Database.table('members')
+          .where("Email", user.Email).select('IsActive');
+
+        //not active account
+        if (dbActive[0].IsActive === 0) {
+          console.log("email is not activated");
+          return JSON.stringify({
+            emailExisted: true,
+            emailDuplicated: false,
+            isActive: false
+          });
+        } else {
+          //console.log(user.Email);
+
+          const newToken = await auth.generate(user);
+
+          const mailData = {
+            user: user.toJSON(),
+            token: newToken.token
+          };
+
+          //console.log(newToken.token);
+
+          await Mail.send('auth.emails.password_reset', mailData, message => {
+            message
+              .to(user.Email)
+              .from('resorterapp-test <no-reply@site-members.com>')
+              .subject('Reset your password')
+          });
+          console.log("email sent successful");
+          return JSON.stringify({
+            emailExisted: true
+          });
+        }
+      }
+
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+
+
+  async resetPassword({request, response, auth}) {
+
+    try {
+      const isTokenValid = await auth.check();
+      console.log(isTokenValid);
+      // get user by the provider token
+      const user = await Member.findBy('id', request.input('id'));
+      //console.log(user.Email);
+      user.EncryptedPW = Encryption.encrypt(request.input('password'));
+      await user.save();
+      console.log("password reset successful " + Encryption.decrypt(user.EncryptedPW));
+      return response.send(JSON.stringify({
+          status: 'success'
+        })
+      )
+
+    }
+    catch (error) {
+      // display error message
+      console.log(error);
+      return response.send(JSON.stringify({
+          status: 'fail',
+          reason: 'token expires'
+        })
+      )
+    }
+
+  }
+
+  async changePassword({request, auth}) {
+    //token is valid
+    try {
+      const isTokenValid = await auth.check();
+      console.log(isTokenValid);
+
+      const requestData = request.all();
+
+      const token = requestData.token;
+      const originPwd = requestData.originPwd;
+      const newPwd = requestData.newPwd;
+
+      const dbMemberID = await Database.table('validation_tokens')
+        .where("Token", token).select('MemberID');
+
+      const dbpwd = await Database.table('members')
+        .where("id", dbMemberID[0].MemberID).select('EncryptedPW');
+
+      const decrptpwd = Encryption.decrypt(dbpwd[0].EncryptedPW);
+
+      //wrong password
+      if (originPwd !== decrptpwd) {
+        console.log("wrong password");
+        return JSON.stringify({
+          tokenValid: true,
+          wrongPwd: true
+        });
+      }
+
+      //all correct
+      else {
+        console.log("change password success");
+
+        const member = await Member.findBy('id', dbMemberID[0].MemberID);
+
+        const encrypted = Encryption.encrypt(newPwd);
+        member.merge({EncryptedPW: encrypted});
+        await member.save();
+
+        const dbToken = await Token.findBy({
+          'MemberID': dbMemberID[0].MemberID,
+          'Type': "EmailLogin"
+        });
+        const newToken = await auth.generate(member);
+        console.log(newToken);
+        //only change token
+        dbToken.merge({Token: newToken.token});
+        await dbToken.save();
+
+        return JSON.stringify({
+          tokenValid: true,
+          wrongPwd: false,
+          token: dbToken.Token
+        })
+      }
+
+    } catch (e) {
+      console.log('token expired');
+      console.log(e);
+      return JSON.stringify({
+        tokenValid: false
+      });
+    }
   }
 
 }
