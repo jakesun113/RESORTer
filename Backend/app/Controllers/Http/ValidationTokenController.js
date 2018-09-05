@@ -1,8 +1,8 @@
 'use strict';
-const Encryption = use("Encryption");
 const Database = use("Database");
 const Member = use("App/Models/Member");
 const Token = use("App/Models/ValidationToken");
+const Hash = use("Hash");
 
 /**
  * deal with login related function.
@@ -70,11 +70,11 @@ class ValidationTokenController {
               .where("Email", email).select('EncryptedPW');
 
             //console.log(dbpwd[0].EncryptedPW);
-            const decrptpwd = Encryption.decrypt(dbpwd[0].EncryptedPW);
 
+            const isSame = await Hash.verify(password, dbpwd[0].EncryptedPW);
             //console.log(decrptpwd);
             //wrong password
-            if (password !== decrptpwd) {
+            if (!isSame) {
               console.log("wrong password");
               return JSON.stringify({
                 emailExisted: true,

@@ -30,7 +30,7 @@ Route.post("/api/register", "MemberController.register");
 Route.put("/api/activateUser", "MemberController.activateUser");
 Route.post("/api/resendConfirmEmail", "MemberController.resendConfirmEmail");
 
-//sign up profile
+//Sign up profile
 Route.post("/api/signupProfile", "MemberController.fillProfile");
 
 /*MemberController end*/
