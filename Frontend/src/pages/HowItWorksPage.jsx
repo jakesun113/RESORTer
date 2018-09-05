@@ -213,7 +213,7 @@ class HighFive extends Component {
     render() {
         return (
             <div id="highFiveIMG" className="text-center container-fluid">
-                {/*todo: make picture grey to see the */}
+                {/*TODO: make picture grey to see the */}
             </div>
         );
     }

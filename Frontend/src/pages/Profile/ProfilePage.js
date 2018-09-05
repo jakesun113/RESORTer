@@ -10,7 +10,7 @@ import {instanceOf} from "prop-types";
 import AlertWindow from "../../components/template/AlertWindow";
 import axios from "axios";
 import moment from "moment";
-
+//TODO: add save photo to "public" folder function
 class ProfilePage extends Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired

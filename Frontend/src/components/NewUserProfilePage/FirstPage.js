@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
 
+//TODO: add "upload" photo function
 class FirstPage extends Component {
   state = {
     first_name_wrong: false,

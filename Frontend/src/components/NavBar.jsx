@@ -110,7 +110,6 @@ class Navbar extends Component {
     //check authentication when the profile list is shown
     async handleAuth() {
         //only handle login with email user
-        console.log(this.state.provider)
         if (!this.state.provider) {
             let BaseURL = "http://127.0.0.1:3333/api/";
             let postData;

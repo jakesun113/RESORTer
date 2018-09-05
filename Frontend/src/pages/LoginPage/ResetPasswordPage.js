@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import AlertWindow from "../../components/template/AlertWindow"
-//todo: change reset password page UI (consistent with change password)
+//TODO: change reset password page UI (consistent with change password)
 
 export default class ResetPasswordPage extends Component {
     constructor() {

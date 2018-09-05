@@ -137,7 +137,7 @@ class LoginPage extends Component {
                     let userSocialData;
                     userSocialData = {
                         name: response.data.name,
-                        //todo: to be changed
+                        //TODO: to be changed
                         provider_pic: this.state.user_pic
                     };
                     sessionStorage.setItem("userSocialData", JSON.stringify(userSocialData));
@@ -162,7 +162,7 @@ class LoginPage extends Component {
                             expires: date,
                             path: "/"
                         });
-                        //todo: to be changed
+                        //TODO: to be changed
                         cookies.set("user-pic", this.state.user_pic, {
                             expires: date,
                             path: "/"

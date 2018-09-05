@@ -99,7 +99,7 @@ class ValidationTokenController {
 
               //console.log(userName);
 
-              //todo: actually, user picture is saved in the local "public" file
+              //TODO: actually, user picture is saved in the local "public" file
               const dbPortrait = await Database.table('members')
                 .where("Email", email).select('Portrait');
 
