@@ -21,11 +21,11 @@ class LoginPage extends Component {
             redirectToReferrer: false,
             rememberMe: false,
             emailExisted: true,
-            wrongpwd: false,
+            wrongPwd: false,
             isActive: true,
             emailDuplicated: false,
             duplicatedProvider: null,
-            authencationFailed: false,
+            authenticationFailed: false,
             user_pic:
                 "https://static.wixstatic.com/media/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png/v1/fill/w_96,h_96,al_c,usm_0.66_1.00_0.01/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png"
         };
@@ -50,7 +50,7 @@ class LoginPage extends Component {
         this.setState({
             emailExisted: true,
             isActive: true,
-            wrongpwd: false,
+            wrongPwd: false,
             emailDuplicated: false
         });
 
@@ -91,10 +91,10 @@ class LoginPage extends Component {
             response => {
 
                 //handle authentication failed
-                if (response.data.authencationFailed === true) {
+                if (response.data.authenticationFailed === true) {
                     console.log("authentication failed");
                     this.setState({
-                        authencationFailed: true,
+                        authenticationFailed: true,
                         redirect: false
                     });
                 }
@@ -124,10 +124,10 @@ class LoginPage extends Component {
                     });
                 }
                 //handle password is not matched
-                else if (response.data.wrongpwd === true) {
+                else if (response.data.wrongPwd === true) {
                     console.log("wrong password");
                     this.setState({
-                        wrongpwd: true,
+                        wrongPwd: true,
                         redirect: false
                     });
                 }
@@ -361,7 +361,7 @@ class LoginPage extends Component {
                                         }
                                     }}
                                 />
-                                {this.state.wrongpwd ? (
+                                {this.state.wrongPwd ? (
                                     <div style={{color: "red", fontWeight: "bolder"}}>
                                         Password is wrong
                                         <span hidden>
@@ -420,7 +420,7 @@ class LoginPage extends Component {
                                     >
                                         Log In
                                     </button>
-                                    {this.state.authencationFailed ? (
+                                    {this.state.authenticationFailed ? (
                                         <div style={{color: "red", fontWeight: "bolder"}}>
                                             Authentication failed - Internal server error
                                         </div>

@@ -19,6 +19,7 @@ class ChangePwdPage extends Component {
             provider: null,
             isValidToken: true,
             isShow: false,
+            wrongPwd: false
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -69,10 +70,10 @@ class ChangePwdPage extends Component {
                 });
             }
             //handle password is not matched
-            else if (response.data.wrongpwd === true) {
+            else if (response.data.wrongPwd === true) {
                 console.log("wrong password");
                 this.setState({
-                    wrongpwd: true
+                    wrongPwd: true
                 });
             }
             //change success
@@ -114,7 +115,7 @@ class ChangePwdPage extends Component {
 
     handleChange = () => {
         this.setState({
-            wrongpwd: false
+            wrongPwd: false
         });
 
         this.validate();
@@ -185,7 +186,6 @@ class ChangePwdPage extends Component {
         }
 
         //todo: change "cannot change password" page UI
-        //todo: add Link state (from: "pathname") Line 370
         return (
             <React.Fragment>
                 <br/>
@@ -255,7 +255,7 @@ class ChangePwdPage extends Component {
                                         onChange={this.handleChange}
                                         required
                                     />
-                                    {this.state.wrongpwd ? (
+                                    {this.state.wrongPwd ? (
                                         <div style={{color: "red", fontWeight: "bolder"}}>
                                             Password is wrong
                                             <span hidden>
@@ -370,7 +370,10 @@ class ChangePwdPage extends Component {
                         btnNum="1"
                         mode="linkMode"
                         btnText="OK"
-                        linkTo="/login"
+                        linkTo={{
+                            pathname: "/login",
+                            state: {from: this.props.location.pathname}
+                        }}
                         onHandleClose={() => {
                             this.setState({isShow: false});
                             this.handleLogout();
