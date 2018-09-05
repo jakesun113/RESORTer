@@ -13,7 +13,6 @@ import moment from "moment";
 
 //TODO: add save photo to "public" folder function
 //FIXME: if login with google or facebook, cannot change name or portrait
-//FIXME: MemberShipID field cannot be empty if "isDisabled" is checked
 class ProfilePage extends Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -186,7 +185,6 @@ class ProfilePage extends Component {
         let disabilityMembershipIDValue = null;
         let disabilityDetailValue = null;
 
-        //FIXME: the IDs here are wrong
         if (isDisabledValue === true) {
             disabilityMembershipValue = document.getElementById(
                 "disability_membership"

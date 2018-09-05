@@ -479,8 +479,11 @@ class MemberController {
       //console.log(member);
       console.log("success saved");
 
+      const userName = requestData.FirstName + " " + requestData.LastName;
+
       return JSON.stringify({
         token: dbToken.Token,
+        name: userName,
         tokenValid: true
       });
     }
