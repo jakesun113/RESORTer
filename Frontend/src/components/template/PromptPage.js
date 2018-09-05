@@ -14,7 +14,7 @@ class PromptPage extends Component {
               height: "auto"
             }}
           >
-            {this.props.location.state.text}
+            {this.props.text}
           </div>
         </div>
       </React.Fragment>

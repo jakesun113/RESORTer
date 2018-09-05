@@ -5,6 +5,7 @@ import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import AlertWindow from "../../components/template/AlertWindow";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
+import PromptPage from "../../components/template/PromptPage";
 
 class ChangePwdPage extends Component {
     static propTypes = {
@@ -185,17 +186,13 @@ class ChangePwdPage extends Component {
             />
         }
 
-        //todo: change "cannot change password" page UI
         return (
             <React.Fragment>
                 <br/>
 
                 {/* main window */}
                 {this.state.provider ? (
-                    <div className="font-weight-light">
-                        Sorry, user who logged in with {this.state.provider} cannot change
-                        password
-                    </div>
+                    <PromptPage text={"Sorry, user who logged in with " + this.state.provider + " cannot change password"}/>
                 ) : (
                     <form onSubmit={this.handleSubmit} data-toggle="validator">
                         <div>
