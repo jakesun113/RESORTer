@@ -10,7 +10,7 @@ class ConfirmationEmailPage extends Component {
   }
     componentDidMount(){
         fetch('http://127.0.0.1:3333/api/activateUser',{
-                    method:'post',
+                    method:'put',
                     headers: {
                         'Content-Type':  "application/json",
                     },
