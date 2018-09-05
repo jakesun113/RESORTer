@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import GoogleMap from "../components/template/GoogleMapRender";
-import DatePicker from "../components/template/SelectTripDate";
-import SmallEllipseBtn from "../components/template/SmallEllipseBtn";
-import GroupMemberInfoCard from "../components/GroupMemberPage/GroupMemberInfoCard";
+import GoogleMap from "../../components/template/GoogleMapRender";
+import DatePicker from "../../components/template/SelectTripDate";
+import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
+import GroupMemberInfoCard from "../../components/GroupMemberPage/GroupMemberInfoCard";
 
 class BookTripPage extends Component {
     state = {};

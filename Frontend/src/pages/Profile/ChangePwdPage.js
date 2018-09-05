@@ -3,8 +3,8 @@ import {Redirect} from "react-router-dom";
 import axios from "axios";
 import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
-import AlertWindow from "../components/template/AlertWindow";
-import SmallEllipseBtn from "../components/template/SmallEllipseBtn";
+import AlertWindow from "../../components/template/AlertWindow";
+import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 
 class ChangePwdPage extends Component {
     static propTypes = {

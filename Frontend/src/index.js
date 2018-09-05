@@ -11,22 +11,22 @@ import NavBar from "./components/NavBar";
 import FooterNavBar from "./components/FooterNavBar";
 import HomePage from "./pages/HomePage";
 import HowItWorkPage from "./pages/HowItWorksPage";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import SignupPage from "./pages/LoginPage/SignupPage";
 import ContactPage from "./pages/ContactPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import ResetPasswordPage from "./pages/ResetPasswordPage";
-import ProfilePage from "./pages/ProfilePage";
-import GroupMemberPage from "./pages/GroupMemberPage";
-import ConfirmationEmailPage from "./pages/ConfirmationEmailPage";
-import ChangePwdPage from "./pages/ChangePwdPage";
+import ForgotPasswordPage from "./pages/LoginPage/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/LoginPage/ResetPasswordPage";
+import ProfilePage from "./pages/Profile/ProfilePage";
+import GroupMemberPage from "./pages/Profile/GroupMemberPage";
+import ConfirmationEmailPage from "./pages/LoginPage/ConfirmationEmailPage";
+import ChangePwdPage from "./pages/Profile/ChangePwdPage";
 
 // test
-import NewUserProfilePage from "./pages/NewUserProfilePage";
-import PromptPage from "./pages/PromptPage";
+import NewUserProfilePage from "./pages/Profile/NewUserProfilePage";
+import PromptPage from "./components/template/PromptPage";
 // BookTrip
 
-import BookApp from "./BookApp";
+import BookIndex from "./pages/BookPage/BookIndex";
 
 // term of use
 import GuestUserTerms from "./components/TermPrivacyPage/GuestUserTerms";
@@ -73,7 +73,7 @@ ReactDOM.render(
           />
 
           {/* book page */}
-          <Route path="/booking/:placeName/" component={BookApp} />
+          <Route path="/booking/:placeName/" component={BookIndex} />
 
           {/* term privacy */}
           <Route path="/term-privacy">

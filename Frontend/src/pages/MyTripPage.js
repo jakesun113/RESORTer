@@ -16,7 +16,7 @@ class MyTripPage extends Component {
             <div className="form-group col-6" />
           </div>
           {/* table title */}
-          <table class="table">
+          <table className="table">
             <thead>
               <tr>
                 <th scope="col">Submit Date</th>

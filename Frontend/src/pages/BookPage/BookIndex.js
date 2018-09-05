@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {Switch, Route} from "react-router-dom";
-import BookTripNavBar from "./components/BookTripPage/BookTripNavBar";
-import BookTripWhoPage from "./pages/BookTripWhoPage";
-import BookingAccommodation from './pages/BookingAccommodation'
+import BookTripNavBar from "../../components/BookTripPage/BookTripNavBar";
+import BookTripWhoPage from "./BookTripWhoPage";
+import BookingAccommodation from './BookingAccommodation'
 
-class BookApp extends Component {
+class BookIndex extends Component {
     state = {};
 
     render() {
@@ -33,4 +33,4 @@ class BookApp extends Component {
     }
 }
 
-export default BookApp;
+export default BookIndex;

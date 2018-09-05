@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import moment from "moment";
-import "../css/NewUserProfilePage/NewUserProfilePage.css";
+import "../../css/NewUserProfilePage/NewUserProfilePage.css";
 // pages
-import FirstPage from "../components/NewUserProfilePage/FirstPage";
-import SecondPage from "../components/NewUserProfilePage/SecondPage";
-import ThirdPage from "../components/NewUserProfilePage/ThirdPage";
-import ForthPage from "../components/NewUserProfilePage/ForthPage";
-import FifthPage from "../components/NewUserProfilePage/FifthPage";
-import AlertWindow from "../components/template/AlertWindow";
+import FirstPage from "../../components/NewUserProfilePage/FirstPage";
+import SecondPage from "../../components/NewUserProfilePage/SecondPage";
+import ThirdPage from "../../components/NewUserProfilePage/ThirdPage";
+import ForthPage from "../../components/NewUserProfilePage/ForthPage";
+import FifthPage from "../../components/NewUserProfilePage/FifthPage";
+import AlertWindow from "../../components/template/AlertWindow";
 // main component
 class NewUserProfilePage extends Component {
   state = {

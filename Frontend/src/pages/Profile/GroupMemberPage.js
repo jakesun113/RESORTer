@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import SmallEllipseBtn from "../components/template/SmallEllipseBtn";
-import AddGroupMemberCard from "../components/GroupMemberPage/AddGroupMemberCard";
-import GroupMemberInfoCard from "../components/GroupMemberPage/GroupMemberInfoCard";
+import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
+import AddGroupMemberCard from "../../components/GroupMemberPage/AddGroupMemberCard";
+import GroupMemberInfoCard from "../../components/GroupMemberPage/GroupMemberInfoCard";
 import {withCookies, Cookies} from 'react-cookie';
 import {instanceOf} from 'prop-types';
 import {Redirect} from "react-router-dom";

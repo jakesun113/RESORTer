@@ -1,12 +1,12 @@
 import React, {Component} from "react";
-import "../css/Homepage/LoginWindow.css";
+import "../../css/Homepage/LoginWindow.css";
 import {Redirect} from "react-router-dom";
-import FacebookLogin from "../components/template/FacebookLoginBtn";
-import GoogleLogin from "../components/template/GoogleLoginBtn";
+import FacebookLogin from "../../components/template/FacebookLoginBtn";
+import GoogleLogin from "../../components/template/GoogleLoginBtn";
 import axios from "axios/index";
 import {withCookies, Cookies} from 'react-cookie';
 import {instanceOf} from 'prop-types';
-import AlertWindow from "../components/template/AlertWindow"
+import AlertWindow from "../../components/template/AlertWindow"
 
 class LoginPage extends Component {
 

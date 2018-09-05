@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import "../css/Homepage/LoginWindow.css";
-import FacebookLogin from "../components/template/FacebookLoginBtn";
-import GoogleLogin from "../components/template/GoogleLoginBtn";
-import AlertWindow from "../components/template/AlertWindow";
+import "../../css/Homepage/LoginWindow.css";
+import FacebookLogin from "../../components/template/FacebookLoginBtn";
+import GoogleLogin from "../../components/template/GoogleLoginBtn";
+import AlertWindow from "../../components/template/AlertWindow";
 
 class SignUpPage extends Component {
     constructor(props) {
