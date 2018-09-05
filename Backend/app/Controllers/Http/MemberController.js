@@ -245,7 +245,7 @@ class MemberController {
   async sendResetLinkEmail({request, auth}) {
     // validate from inputs
     try {
-      const user = await User.findBy('Email', request.input('email'));
+      const user = await Member.findBy('Email', request.input('email'));
 
       const dbProvider = await Database.table('members')
         .where("Email", request.input('email')).select('Provider');
@@ -318,7 +318,7 @@ class MemberController {
       const isTokenValid = await auth.check();
       console.log(isTokenValid);
       // get user by the provider token
-      const user = await User.findBy('id', request.input('id'));
+      const user = await Member.findBy('id', request.input('id'));
       console.log(user.Email);
       user.EncryptedPW = Encryption.encrypt(request.input('password'));
       await user.save();
