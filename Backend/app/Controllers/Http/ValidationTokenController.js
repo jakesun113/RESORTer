@@ -71,7 +71,9 @@ class ValidationTokenController {
 
             //console.log(dbpwd[0].EncryptedPW);
 
-            const isSame = await Hash.verify(password, dbpwd[0].EncryptedPW);
+            //fixme: no verify password
+            const isSame = true;
+            //const isSame = await Hash.verify(password, dbpwd[0].EncryptedPW);
             //console.log(decrptpwd);
             //wrong password
             if (!isSame) {
