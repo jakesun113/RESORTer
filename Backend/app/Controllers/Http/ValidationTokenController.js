@@ -22,7 +22,7 @@ class ValidationTokenController {
       const dbEmail = await Database.table('members')
         .where("Email", email).select('Email');
 
-      // console.log(dbEmail);
+      //console.log(dbEmail);
 
       //email does not exist
       if (dbEmail.length <= 0) {

@@ -327,7 +327,7 @@ class Navbar extends Component {
                         pathname: "/about-us",
                         state: {
                           text:
-                            "Thank you for active your account,sb Jiacheng Sun"
+                            "Thank you for active your account, "
                         }
                       }}
                     >

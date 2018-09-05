@@ -1,12 +1,12 @@
 import React, {Component} from "react";
-import "../css/ProfilePage/ProfilePage.css";
-import SliderBar from "../components/template/SliderBar";
-import DisabilityForm from "../components/template/DisabilityForm";
-import AbilityLevelTip from "../components/template/AbilityLevelTip";
-import DisabilityTip from "../components/template/DisabilityTip";
+import "../../css/ProfilePage/ProfilePage.css";
+import SliderBar from "../../components/template/SliderBar";
+import DisabilityForm from "../../components/template/DisabilityForm";
+import AbilityLevelTip from "../../components/template/AbilityLevelTip";
+import DisabilityTip from "../../components/template/DisabilityTip";
 import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
-import AlertWindow from "../components/template/AlertWindow";
+import AlertWindow from "../../components/template/AlertWindow";
 import axios from "axios";
 import moment from "moment";
 

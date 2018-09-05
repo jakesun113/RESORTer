@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios";
-import AlertWindow from "../components/template/AlertWindow"
+import AlertWindow from "../../components/template/AlertWindow"
 
 export default class ForgotPasswordPage extends Component {
     constructor() {
