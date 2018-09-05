@@ -34,7 +34,7 @@ export default class ForgotPasswordPage extends Component {
             headers: {
                 'Content-Type': "application/json",
             },
-            body: JSON.stringify({email: document.getElementById("inputEmail").value})
+            body: JSON.stringify({email: document.getElementById("InputEmail").value})
         }).then(result => {
             result.json()
         })
