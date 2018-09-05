@@ -24,6 +24,15 @@ Route.post("/api/contact-form", "ContactController.index");
 /*MemberController start*/
 //change password
 Route.post("/api/change-password", "MemberController.changePassword");
+
+//SignUp
+Route.post("/api/register", "MemberController.register");
+Route.pull("/api/activateUser", "MemberController.activateUser");
+Route.post("/api/resendConfirmEmail", "MemberController.resendConfirmEmail");
+
+//sign up profile
+Route.post("/api/signupProfile", "MemberController.fillProfile");
+
 /*MemberController end*/
 
 
@@ -34,23 +43,20 @@ Route.post("/api/login/google", "ValidationTokenController.loginWithGoogle");
 Route.post("/api/login/facebook", "ValidationTokenController.loginWithFacebook");
 /*ValidationTokenController end*/
 
+/*FamilyMemberController*/
+//Add Family Member
+Route.post("/api/add-member", "FamilyMemberController.addMember");
+/*FamilyMemberController end*/
+
 Route.post(
   "/api/forgot-password",
   "Auth/PasswordResetController.sendResetLinkEmail"
 );
 Route.post("/api/reset-password", "Auth/PasswordResetController.reset");
 
-Route.post("/api/register", "RegisterController.register");
-Route.post("/api/activateUser", "RegisterController.activateUser");
-Route.post("/api/resendConfirmEmail", "RegisterController.resendConfirmEmail");
-
-Route.post("/api/add-member", "FamilyMemberController.addMember");
-
-
 Route.get("/api/user-profile/:token", "ProfileController.showProfile");
 Route.put("/api/user-profile", "ProfileController.addProfile");
-//sign up profile
-Route.post("/api/signupProfile", "RegisterController.fillProfile");
+
 Route.post('/api/check-token', 'AuthenticationController.check');
 
 Route.get("/pushResortInfo", "ResortInfoController.pushResortInfo");

@@ -1,7 +1,6 @@
 'use strict'
 
 const Model = use('Model')
-const Hash = use('Hash')
 
 class Member extends Model {
 
@@ -9,6 +8,10 @@ class Member extends Model {
     return this.hasMany('App/Models/FamilyMember')
   }
 
+  static boot() {
+    super.boot();
+    this.addHook('beforeCreate', 'MemberHook.hashPassword')
+  }
 }
 
 module.exports = Member
