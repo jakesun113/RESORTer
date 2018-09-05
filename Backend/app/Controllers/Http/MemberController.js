@@ -4,6 +4,7 @@ const Member = use("App/Models/Member");
 const Token = use("App/Models/ValidationToken");
 const Mail = use("Mail");
 const Hash = use("Hash");
+const Encryption = use('Encryption')
 /**
  * Deal with Member table
  * create a member - "register"
@@ -153,7 +154,7 @@ class MemberController {
   async register({ request, auth }) {
     try {
       const requestData = request.all();
-
+      const encrypted = Encryption.encrypt(requestData.registerEmail);
       const userEmail = await Database.table("members")
         .where("Email", requestData.registerEmail)
         .select("Email");
@@ -161,7 +162,7 @@ class MemberController {
       //email is not exist -> new user
       if (userEmail.length <= 0) {
         const member = new Member();
-        member.Email = requestData.registerEmail;
+        member.Email =  encrypted;
         member.EncryptedPW = requestData.registerPassword;
         member.IsActive = false;
         member.Provider = requestData.provider;
