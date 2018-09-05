@@ -90,7 +90,7 @@ class NewUserProfilePage extends Component {
           }
           //Register Fails
           else if (response.status === "fail") {
-            alert("注册失败");
+            alert("fail");
           }
         }
       );
