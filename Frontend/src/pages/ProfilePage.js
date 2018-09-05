@@ -25,14 +25,7 @@ class ProfilePage extends Component {
             isShow: false,
             email: "",
             portrait: "",
-            firstname: "",
-            lastname: "",
-            gender: "",
-            dob: "",
-            phonecode: "",
-            phonenumber: "",
-            country: "",
-            postcode: "",
+            age: "",
             skiability: "",
             snowboardability: "",
             telemarkability: "",
@@ -162,8 +155,7 @@ class ProfilePage extends Component {
                       }
                       if (response.data.dob != null) {
                        document.getElementById("dob").value = moment(response.data.dob).format("YYYY-MM-DD");
-                       let age = moment().diff(moment(response.data.dob).format("YYYY"),'years')
-                       document.getElementById("age").value = age;
+                       
                       }
                       document.getElementById("country").value = response.data.country;
                       document.getElementById("postcode").value = response.data.postcode;
@@ -186,6 +178,14 @@ class ProfilePage extends Component {
 
     }
 
+    ageCount = () => {
+      let countAge = moment().diff(moment(document.getElementById("dob")).format("YYYY"),'years')
+      this.setState ({
+        age: countAge
+      })
+    }
+
+
     handleSubmit = e => {
       e.preventDefault();
       if (this.state.token === null && sessionStorage.getItem("userToken")) {
@@ -194,7 +194,9 @@ class ProfilePage extends Component {
             token: tokenData.token
         });
       }
-            
+      
+    
+
       const isDisabledValue = document.getElementById("is_disability").checked;
       let disabilityMembershipValue = "";
       let disabilityMembershipIDValue = "";
@@ -480,6 +482,7 @@ class ProfilePage extends Component {
                           className="form-control"
                           id="dob"
                           placeholder="YYYY-MM-DD"
+                          onblur={this.ageCount()}
                         />
                       </div>
                       <div className="form-group col-2 col-lg-2">
@@ -489,6 +492,7 @@ class ProfilePage extends Component {
                           className="form-control"
                           id="age"
                           placeholder=""
+                          value={this.state.age}
                           readOnly
                         />
                       </div>
