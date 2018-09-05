@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {GoogleLogin} from "react-google-login";
 import axios from "axios/index";
 import {Redirect} from "react-router-dom";
-
+//todo: verify google token (send request)
 class GoogleLoginBtn extends Component {
     constructor(props) {
         super(props);

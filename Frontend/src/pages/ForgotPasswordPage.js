@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios";
 import AlertWindow from "../components/template/AlertWindow"
-
+//fixme: after sending email, nav is refreshed
 export default class ForgotPasswordPage extends Component {
     constructor() {
         super();

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import FacebookLogin from "react-facebook-login";
 import axios from "axios/index";
 import {Redirect} from "react-router-dom";
-
+//todo: verify facebook token (send request)
 class FacebookLoginBtn extends Component {
     constructor(props) {
         super(props);

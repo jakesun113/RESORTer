@@ -8,7 +8,7 @@ const Hash = use("Hash");
 class RegisterController {
   async activateUser({ request, auth, response }) {
     try {
-      const isTokenValid = await auth.check();
+      await auth.check();
       // get user by the provider token
 
       const member = await Member.query()
@@ -16,7 +16,7 @@ class RegisterController {
         .first();
 
       //if the user is already activated
-      if (member.IsActive == true) {
+      if (member.IsActive === true) {
         response.send(JSON.stringify({ status: "activated" }));
       }
 
@@ -35,7 +35,7 @@ class RegisterController {
       });
     }
   }
-
+//todo: merge email functions
   async sendConfirmationEmail(userEmail, token, id) {
     try {
       const mailData = {
@@ -94,7 +94,6 @@ class RegisterController {
         member.EncryptedPW = encrypted;
         member.IsActive = false;
         member.Provider = requestData.provider;
-        member.Portrait = requestData.provider_pic;
         await member.save();
 
         //Generate a JWT to a user that needs confirm email
