@@ -2,8 +2,8 @@
 const Database = use("Database");
 const Member = use("App/Models/Member");
 const Token = use("App/Models/ValidationToken");
-const Encryption = use("Encryption");
 const Mail = use("Mail");
+const Hash = use("Hash");
 /**
  * Deal with Member table
  * create a member - "register"
@@ -29,10 +29,10 @@ class MemberController {
       const dbpwd = await Database.table('members')
         .where("id", dbMemberID[0].MemberID).select('EncryptedPW');
 
-      const decrptpwd = Encryption.decrypt(dbpwd[0].EncryptedPW);
+      const isSame = await Hash.verify(originPwd, dbpwd[0].EncryptedPW);
 
       //wrong password
-      if (originPwd !== decrptpwd) {
+      if (!isSame) {
         console.log("wrong password");
         return JSON.stringify({
           tokenValid: true,
@@ -45,8 +45,7 @@ class MemberController {
         console.log("change password success");
 
         const member = await Member.findBy('id', dbMemberID[0].MemberID);
-        const encrypted = Encryption.encrypt(newPwd);
-        member.merge({EncryptedPW: encrypted});
+        member.merge({EncryptedPW: newPwd});
         await member.save();
 
         const dbToken = await Token.findBy({
