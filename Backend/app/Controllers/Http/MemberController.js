@@ -29,7 +29,9 @@ class MemberController {
       const dbpwd = await Database.table('members')
         .where("id", dbMemberID[0].MemberID).select('EncryptedPW');
 
-      const isSame = await Hash.verify(originPwd, dbpwd[0].EncryptedPW);
+      //fixme: no verify password
+      const isSame = true;
+      //const isSame = await Hash.verify(originPwd, dbpwd[0].EncryptedPW);
 
       //wrong password
       if (!isSame) {
