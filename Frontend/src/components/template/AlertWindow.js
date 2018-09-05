@@ -44,6 +44,7 @@ class AlertWindow extends Component {
               />
             </div>
             <br />
+
             <h4>{this.props.displayText}</h4>
             <br />
             {/* one btn */}
@@ -83,33 +84,63 @@ class AlertWindow extends Component {
             {/* two btn */}
             {this.props.btnNum === "2" ? (
               <div className="row">
+                {/* left btn */}
                 <div className="col">
-                  <span>
-                    <SmallEllipseBtn
-                      text="Yes"
-                      btnColor="rgba(255, 97, 97, 1)"
-                      paddingLeft="90px"
-                      paddingRight="90px"
-                    />
-                  </span>
+                  {this.props.btnOneMode === "linkMode" ? (
+                    <Link
+                      to={this.props.btnOneLinkTo}
+                      onClick={this.props.onHandleClose}
+                    >
+                      <SmallEllipseBtn
+                        text={this.props.btnOneText}
+                        btnColor="rgba(104, 99, 105, 1)"
+                      />
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+                  {/* customer mode */}
+                  {this.props.btnOneMode === "customMode" ? (
+                    <span onClick={this.props.onHandClickOne}>
+                      <SmallEllipseBtn
+                        text={this.props.btnOneText}
+                        btnColor="rgba(255, 97, 97, 1)"
+                        paddingLeft="90px"
+                        paddingRight="90px"
+                      />
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
+                {/* right btn */}
                 <div className="col">
-                  <Link
-                    to={this.props.linkToSecond}
-                    onClick={() => {
-                      document.getElementById(
-                        "pop-up-login-window"
-                      ).style.display = "none";
-                      document.getElementById(
-                        "pop-up-login-window"
-                      ).style.visibility = "hidden";
-                    }}
-                  >
-                    <SmallEllipseBtn
-                      text="No, I want to log in now."
-                      btnColor="rgba(104, 99, 105, 1)"
-                    />
-                  </Link>
+                  {this.props.btnTwoMode === "linkMode" ? (
+                    <Link
+                      to={this.props.btnTwoLinkTo}
+                      onClick={this.props.onHandleClose}
+                    >
+                      <SmallEllipseBtn
+                        text={this.props.btnTwoText}
+                        btnColor="rgba(104, 99, 105, 1)"
+                      />
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+                  {/* customer mode */}
+                  {this.props.btnTwoMode === "customMode" ? (
+                    <span onClick={this.props.onHandClickTwo}>
+                      <SmallEllipseBtn
+                        text={this.props.btnTwoText}
+                        btnColor="rgba(255, 97, 97, 1)"
+                        paddingLeft="90px"
+                        paddingRight="90px"
+                      />
+                    </span>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             ) : (

@@ -130,7 +130,6 @@ class ChangePwdPage extends Component {
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
-        console.log("after remove");
     };
 
     validate = () => {
@@ -186,6 +185,7 @@ class ChangePwdPage extends Component {
         }
 
         //todo: change "cannot change password" page UI
+        //todo: add Link state (from: "pathname") Line 370
         return (
             <React.Fragment>
                 <br/>

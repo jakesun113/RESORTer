@@ -52,7 +52,7 @@ Route.post(
   "/api/forgot-password",
   "Auth/PasswordResetController.sendResetLinkEmail"
 );
-Route.post("/api/reset-password", "Auth/PasswordResetController.reset");
+Route.post("/api/reset-password", "Auth/PasswordResetController.resetPassword");
 
 Route.get("/api/user-profile/:token", "ProfileController.showProfile");
 Route.put("/api/user-profile", "ProfileController.addProfile");

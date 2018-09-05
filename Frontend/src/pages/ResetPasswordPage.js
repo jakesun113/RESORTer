@@ -6,8 +6,8 @@ export default class ResetPasswordPage extends Component {
     constructor() {
         super();
         this.state = {
-            token: "",
-            id: "",
+            token: null,
+            id: null,
             isValidToken: true,
             isShow: false
         };
@@ -18,11 +18,9 @@ export default class ResetPasswordPage extends Component {
 
 
     componentDidMount() {
-        const token = this.props.match.params.token;
-        const id = this.props.match.params.id;
         this.setState({
-            token: token,
-            id: id,
+            token: this.props.match.params.token,
+            id: this.props.match.params.id,
         });
     }
 
@@ -47,13 +45,11 @@ export default class ResetPasswordPage extends Component {
                         this.setState({
                             isShow: true
                         })
-                        //window.alert("Your password has been changed.");
                     } else {
                         this.setState({
                             isValidToken: false,
                             isShow: true
                         })
-                        //window.alert("Sorry, you token has expired, please enter email address to reset password again");
                     }
                 })
     }
@@ -103,7 +99,6 @@ export default class ResetPasswordPage extends Component {
                                 className="form-control"
                                 id="retypePassword"
                                 onChange={this.validatePassword}
-                                onKeyUp={this.validatePassword}
                                 required/>
                         </div>
                         <div className="col-md-8">
@@ -127,7 +122,7 @@ export default class ResetPasswordPage extends Component {
                         }}
                     />
                 ) : (
-                    ""
+                    null
                 )}
 
                 {this.state.isValidToken === false && this.state.isShow ? (
@@ -142,7 +137,7 @@ export default class ResetPasswordPage extends Component {
                         }}
                     />
                 ) : (
-                    ""
+                    null
                 )}
             </React.Fragment>
 
