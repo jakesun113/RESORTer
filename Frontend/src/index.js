@@ -57,7 +57,7 @@ ReactDOM.render(
           />
 
           {/* test */}
-          <Route path="/test" component={NewUserProfilePage} />
+          <Route path="/newProfile" component={NewUserProfilePage} />
           <Route path="/about-us" component={PromptPage} />
           {/* login required */}
           <Route path="/profile" component={ProfilePage} />

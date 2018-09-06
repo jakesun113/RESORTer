@@ -21,7 +21,6 @@ class ProfilePage extends Component {
         super(props);
         const {cookies} = props;
         this.state = {
-            // activeTabName: "home",
             token: cookies.get('access-token') || null,
             provider: null,
             isValidToken: true,
@@ -288,10 +287,6 @@ class ProfilePage extends Component {
     };
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to={"/"}/>;
-        }
-
         //if token has been expired, redirect to login page
         //console.log(this.props.location.state);
         if (this.props.location.state) {

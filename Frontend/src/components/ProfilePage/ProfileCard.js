@@ -7,7 +7,8 @@ class ProfileCard extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+        };
     }
 
     handleLogout = () => {
@@ -40,14 +41,21 @@ class ProfileCard extends Component {
                 <div className="userName">{this.props.userName}</div>
                 <br/>
                 {/* btn */}
-                <Link className="dropdown-item" to={{
+                {this.props.userName === "" ? (
+                    <Link className="dropdown-item" to={{
+                        pathname: "/newProfile",
+                        state: {lastValid: this.props.tokenValid}
+                    }}
+                          onClick={this.handleInvalid}
+                    >
+                        My Profile</Link>
+                ) : <Link className="dropdown-item" to={{
                     pathname: "/profile",
                     state: {lastValid: this.props.tokenValid}
                 }}
-                      onClick={this.handleInvalid}
+                          onClick={this.handleInvalid}
                 >
-                    My Profile</Link>
-                
+                    My Profile</Link>}
                 <div className="dropdown-divider"/>
                 <Link className="dropdown-item" to={{
                     pathname: "/group-member",

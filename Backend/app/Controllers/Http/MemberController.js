@@ -10,7 +10,6 @@ const Encryption = use('Encryption');
  * create a member - "register"
  * change user active state - "activateUser"
  * Handle email confirmation token expire - "resendConfirmEmail"
- * sign up profile - "fillProfile"
  * get profile - "showProfile"
  * edit profile - "editProfile"
  * forget password - "sendResetLinkEmail"
@@ -184,52 +183,6 @@ class MemberController {
       console.log(err);
       return response.send(JSON.stringify({status: "fail", reason: "SERVER ERROR: Please Try Again"}));
 
-    }
-  }
-
-  //After SignUp, Filling in the personal profile.
-  async fillProfile({request}) {
-    try {
-      const requestData = request.all();
-
-      const userEmail = await Database.table("members")
-        .where("Email", requestData.email)
-        .select("Email");
-      // can find user
-      if (userEmail.length > 0) {
-        const member = await Member.findBy("Email", requestData.email);
-
-        // member.Email = requestData.registerEmail;
-        member.Firstname = requestData.firstName;
-        member.Lastname = requestData.lastName;
-        member.Gender = requestData.gender;
-        member.PhoneAreaCode = requestData.phoneNumberPre;
-        member.PhoneNumber = requestData.phoneNumber;
-        member.DOB = requestData.dob;
-        member.Country = requestData.country;
-        member.Postcode = requestData.postcode;
-        member.IsDisabled = requestData.hasDisability;
-        member.DisabilityMembership = requestData.disabilityMembership;
-        member.DisabilityMembershipID = requestData.disabilityMemberid;
-        member.DisabilityDetail = requestData.disabilityDetail;
-        member.SkiAbility = requestData.skiAbility;
-        member.SnowboardAbility = requestData.snowboardAbility;
-        member.TelemarkAbility = requestData.telemarkAbility;
-        member.SnowbikeAbility = requestData.snowbikeAbility;
-        member.SnowmobileAbility = requestData.snowmobileAbility;
-        member.SnowshoeAbility = requestData.snowshoeAbility;
-
-        await member.save();
-        return JSON.stringify({
-          registerEmail: requestData.registerEmail,
-          status: "success"
-        });
-      }
-    } catch (err) {
-      console.log(err);
-      return JSON.stringify({
-        status: "fail"
-      });
     }
   }
 
