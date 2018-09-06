@@ -4,6 +4,7 @@ import FacebookLogin from "../../components/template/FacebookLoginBtn";
 import GoogleLogin from "../../components/template/GoogleLoginBtn";
 import AlertWindow from "../../components/template/AlertWindow";
 import {Redirect} from "react-router-dom";
+import axios from "axios"
 
 class SignUpPage extends Component {
     constructor(props) {
@@ -52,6 +53,8 @@ class SignUpPage extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
+
+        //Proceed Validation
         const err = this.validate();
         err.then(result => {
             if (!result) {
@@ -87,7 +90,7 @@ class SignUpPage extends Component {
                         }
                     );
             } else {
-                console.log("error");
+                alert("Validation Error, Please Input your information again");
             }
         });
     };
@@ -97,20 +100,20 @@ class SignUpPage extends Component {
     }
 
     handleResendEmail() {
-        fetch("http://127.0.0.1:3333/api/resendConfirmEmail", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({email: document.getElementById("registerEmail").value})
-        })
-            .then(result => {
-                console.log(result);
-                result.json();
-            })
+        axios.post('http://127.0.0.1:3333/api/resendConfirmEmail',{'id':this.props.match.params.id})
             .then(response => {
-                alert("Email Resend Successfully");
-            });
+                
+                //If email is successfully sent
+                if(response.data.status === 'success'){
+
+                    alert('Email Resend Successfully, Please Confirm again')
+
+                }else if(response.data.status === 'fail'){
+
+                    alert('Error: Please Refresh and Resend again')
+
+                }
+            })
     }
 
     render() {
