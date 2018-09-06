@@ -1,5 +1,6 @@
-import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 class ConfirmationEmailPage extends Component {
     constructor() {
@@ -24,7 +25,7 @@ class ConfirmationEmailPage extends Component {
             .then(
                 /*Proceed subsequent actions based on value */
                 response => {
-                    //console.log(response.status);
+                    console.log(response.status);
                     if (response.status === 'success') {
                         this.setState({
                             isValidToken: 'success'
@@ -43,54 +44,55 @@ class ConfirmationEmailPage extends Component {
 
     //Resend confirmation Email
     handleResendEmail() {
-        fetch('http://127.0.0.1:3333/api/resendConfirmEmail', {
-            method: 'post',
-            headers: {
-                'Content-Type': "application/json",
-            },
-            body: JSON.stringify({id: this.props.match.params.id})
-        }).then(result => {
-            result.json()
-        })
+        axios.post('http://127.0.0.1:3333/api/resendConfirmEmail', { 'id': this.props.match.params.id })
             .then(response => {
-                alert('Email Resend Successfully')
+
+                //If email is successfully sent
+                if (response.data.status === 'success') {
+
+                    alert('Email Resend Successfully, Please Confirm again')
+
+                } else if (response.data.status === 'fail') {
+
+                    alert('Error: Please Refresh and Resend again')
+
+                }
             })
     }
 
-
-    //TODO: change confirm page UI
     render() {
+        
         let tip = '';
         let click;
         if (this.state.isValidToken === 'success') {
             click = <Link to={`/login`} className="badge badge-pill badge-light"
-                          style={{color: 'red', textDecoration: 'underline'}}>Login</Link>
+                style={{ color: 'red', textDecoration: 'underline' }}>Login</Link>
             tip =
-                <div className="font-weight-light" style={{fontSize: '18px'}}>Congratulation, Your account is activated
+                <div className="font-weight-light" style={{ fontSize: '18px' }}>Congratulation, Your account is activated
                     successfully, Please login</div>
 
         } else if (this.state.isValidToken === 'fail') {
 
-            click = <a className="badge badge-pill badge-light" style={{color: 'red', textDecoration: 'underline'}}
-                       onClick={() => {
-                           this.handleResendEmail()
-                       }}>Click for resend confirmation email :)</a>
+            click = <a className="badge badge-pill badge-light" style={{ color: 'red', textDecoration: 'underline' }}
+                onClick={() => {
+                    this.handleResendEmail()
+                }}>Click for resend confirmation email :)</a>
             tip = <div className="font-weight-light">Sorry, you token has expired, please try to confirm your email
                 again</div>;
 
         } else if (this.state.isValidToken === 'activated') {
 
             click = <Link to={`/login`} className="badge badge-pill badge-light"
-                          style={{color: 'red', textDecoration: 'underline'}}>Login</Link>
+                style={{ color: 'red', textDecoration: 'underline' }}>Login</Link>
             tip =
-                <div className="font-weight-light" style={{fontSize: '18px'}}>Woops, Your account is already activated,
+                <div className="font-weight-light" style={{ fontSize: '18px' }}>Woops, Your account is already activated,
                     Please</div>;
 
         } else {
-            click = <a className="badge badge-pill badge-light" style={{color: 'red', textDecoration: 'underline'}}
-                       onClick={() => {
-                           this.handleResendEmail()
-                       }}>Click for resend confirmation email :)</a>
+            click = <a className="badge badge-pill badge-light" style={{ color: 'red', textDecoration: 'underline' }}
+                onClick={() => {
+                    this.handleResendEmail()
+                }}>Click for resend confirmation email :)</a>
             tip = <div className="font-weight-light">Waiting for confirmation, Please wait</div>
 
         }

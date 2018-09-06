@@ -9,7 +9,7 @@ const Encryption = use('Encryption');
  * Deal with Member table
  * create a member - "register"
  * change user active state - "activateUser"
- * send confirm email again - "resendConfirmEmail"
+ * Handle email confirmation token expire - "resendConfirmEmail"
  * sign up profile - "fillProfile"
  * get profile - "showProfile"
  * edit profile - "editProfile"
@@ -21,8 +21,11 @@ class MemberController {
 
   //Sign Up Function
   async register({request, auth}) {
+
     try {
       const requestData = request.all();
+
+      //Use Encryption to encrypt user plain password
       const encrypted = Encryption.encrypt(requestData.registerPassword);
       const userEmail = await Database.table("members")
         .where("Email", requestData.registerEmail)
@@ -49,94 +52,138 @@ class MemberController {
 
         return JSON.stringify({
           registerEmail: requestData.registerEmail,
-          status: "success"
+          status: "success",
+          reason:"success register"
         });
-      } else {
+
+      }else{
+
         return JSON.stringify({
           registerEmail: requestData.registerEmail,
-          status: "fail"
+          status: "fail",
+          reason: "Email already exists"
         });
+
       }
     } catch (err) {
-      console.log(err);
 
+      console.log(err);
       return JSON.stringify({
-        status: "fail"
+        status: "fail",
+        reason: "Server Error"
       });
+
     }
   }
 
   //Activate user's IsActive
   async activateUser({request, auth, response}) {
+
     try {
+
+      //Identify whether JWT token is expired
       await auth.check();
-      // get user by the provider token
 
       const member = await Member.query()
         .where("id", request.input("id"))
         .first();
 
       //if the user is already activated
-      if (member.IsActive === true) {
+      if (member.IsActive === 1) {
+
         response.send(JSON.stringify({status: "activated"}));
+
       }
 
+      //If user is not activated
       member.IsActive = true;
       await member.save();
 
       return JSON.stringify({
         status: "success"
       });
+
     } catch (error) {
+
       // display error message
       console.log(error);
       return JSON.stringify({
         status: "fail",
         reason: "token expires"
       });
+
     }
   }
 
   //Sending Confirmation Email
-  async sendConfirmationEmail(userEmail, token, id) {
+  async sendConfirmationEmail(userEmail, token, id){
+
     try {
       const mailData = {
-        userEmail,
-        token,
-        id
+        userEmail,  //Member's Email
+        token,      //Temporary JWT token
+        id          //MemberId
       };
+
       await Mail.send("auth.emails.confirmationEmail", mailData, message => {
         message
           .to(userEmail)
           .from("resorterapp-test <no-reply@site-members.com>")
           .subject("Email Confirmation");
       });
+
       console.log("email sent successful");
-      return "You have successfully sent confirmation Email";
+
+      return JSON.stringify({
+        status: "Email successfully send"
+      });
+
     } catch (error) {
+
       console.log(error);
+
     }
   }
 
-  /* API:/api/resendConfirmEmail  request: {'email':EMAIL,'id':id}  response:{'email':EMAIL, status: 'success/fail'}  */
+  /* API:/api/resendConfirmEmail
+     request: {'email':EMAIL,'id':id}
+     response:{'email':EMAIL, status: 'success/fail'}
+  */
   async resendConfirmEmail({request, auth, response}) {
+
     try {
+
       let member;
+
+      //Judge whether request contains Email or Id
       if ("email" in request.all()) {
+
         member = await Member.findBy("Email", request.input("email"));
-      } else {
+
+      }else if('id' in request.all()) {
+
         member = await Member.findBy("id", request.input("id"));
+
+      }else{
+
+        return JSON.stringify({
+          status: "fail",
+          reason: "INFORMATION LOST: request require email or id."
+        });
       }
 
       let userToken = await auth.generate(member);
       this.sendConfirmationEmail(member.Email, userToken.token, member.id);
 
-      response.send(
+      return response.send(
         JSON.stringify({status: "success", email: request.input("email")})
       );
+
     } catch (err) {
-      response.send(JSON.stringify({status: "fail"}));
+
       console.log(err);
+      return response.send(JSON.stringify({status: "fail", reason: "SERVER ERROR: Please Try Again"}));
+
     }
   }
 
