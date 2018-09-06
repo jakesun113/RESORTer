@@ -193,7 +193,6 @@ class LoginPage extends Component {
     );
   }
 
-  //TODO: change style of "rememberMe" checkbox
   render() {
     if (this.state.redirect) {
       return <Redirect to={"/"} />;

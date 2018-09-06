@@ -213,34 +213,10 @@ class HighFive extends Component {
     render() {
         return (
             <div id="highFiveIMG" className="text-center container-fluid">
-                {/*TODO: make picture grey to see the */}
             </div>
         );
     }
 }
-
-// class SideIcon extends Component {
-//   handleClick = divID => {
-//     $("html,body").animate({ scrollTop: $("#" + divID).offset().top }, "slow");
-//   };
-
-//   render() {
-//     return (
-//       <div id="sideIcon">
-//         <div style={{ marginBottom: "5%" }}>
-//           <img src={icon_behindTheDesk} alt="icon_behindTheDesk" alt="" />
-//           <p onClick={() => this.handleClick("behindTheDesks")}>
-//             Behind The Desk
-//           </p>
-//         </div>
-//         <div>
-//           <img src={icon_workWithUs} alt="icon_workWithUs" alt="" />
-//           <p onClick={() => this.handleClick("workWithUs")}>Work With Us</p>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
 
 class HowItWorks extends Component {
     state = {

@@ -337,7 +337,6 @@ class MemberController {
     }
 
     //if login with google and facebook
-    //TODO: if login with google or facebook, cannot change name or portrait
     else {
       const token = requestData.token;
       const dbToken = await Token.findBy("Token", token);
