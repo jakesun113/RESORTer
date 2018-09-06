@@ -12,7 +12,6 @@ import axios from "axios";
 import moment from "moment";
 
 //TODO: add save photo to "public" folder function
-//FIXME: if login with google or facebook, cannot change name or portrait
 class ProfilePage extends Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -319,6 +318,14 @@ class ProfilePage extends Component {
             />
         }
 
+        if (this.state.provider != null) {
+            var readOnly = true
+            var disabled = true
+        } else {
+            var readOnly = false
+            var disabled = false
+        }
+
         if (this.state.email) {
             return (
                 <React.Fragment>
@@ -395,7 +402,7 @@ class ProfilePage extends Component {
                                     onMouseLeave={this.handleMouseLeave}
                                 >
                                     Upload photo +
-                                    <input type="file" accept="image/*" hidden/>
+                                    <input type="file" accept="image/*" hidden disabled={disabled}/>
                                 </label>
                                 <div className="form-group col-3 col-lg-5"/>
                             </div>
@@ -459,6 +466,7 @@ class ProfilePage extends Component {
                                         className="form-control"
                                         id="firstName"
                                         placeholder="First Name"
+                                        readOnly={readOnly}
                                     />
                                 </div>
                                 &ensp; &ensp;
@@ -469,6 +477,7 @@ class ProfilePage extends Component {
                                         className="form-control"
                                         id="lastName"
                                         placeholder="Last Name"
+                                        readOnly={readOnly}
                                     />
                                 </div>
                                 <div className="form-group col-lg-2"/>
