@@ -79,7 +79,7 @@ class Navbar extends Component {
         super(props);
         const {cookies} = props;
         this.state = {
-            // activeTabName: "home",
+            // DO NOT change the initial value of user as empty string
             user: cookies.get("user-name") || "",
             token: cookies.get("access-token") || null,
             user_pic: cookies.get("user-pic") || null,

@@ -7,7 +7,7 @@ import axios from "axios/index";
 import { withCookies, Cookies } from "react-cookie";
 import { instanceOf } from "prop-types";
 import AlertWindow from "../../components/template/AlertWindow";
-
+//TODO: add alert (slide down for 3 seconds) when redirect to login page due to token expired
 class LoginPage extends Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
