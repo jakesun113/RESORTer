@@ -313,12 +313,14 @@ class ProfilePage extends Component {
             />
         }
 
+        let readOnly;
+        let disabled;
         if (this.state.provider != null) {
-            var readOnly = true
-            var disabled = true
+            readOnly = true;
+            disabled = true;
         } else {
-            var readOnly = false
-            var disabled = false
+            readOnly = false;
+            disabled = false;
         }
 
         if (this.state.email) {

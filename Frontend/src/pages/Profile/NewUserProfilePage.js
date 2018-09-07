@@ -230,9 +230,8 @@ class NewUserProfilePage extends Component {
                         <div className="form-group col-12">
                             <div className="progress form-row">
                                 <div
-                                    className="form-group col-12"
+                                    className="form-group col-12 progress-bar"
                                     id="progress_in_new_profile"
-                                    className="progress-bar"
                                     role="progressbar"
                                     style={{width: this.state.progress}}
                                     aria-valuenow={this.state.progress.replace(/%/, "")}

@@ -57,7 +57,7 @@ class ActivitySelector extends Component {
                     </div>
                     <CHECKBOX className='col-1 form-check'>
                         <input className="form-check-input" type="checkbox" value="" id="ski"/>
-                        <label className="form-check-label" for="ski"/>
+                        <label className="form-check-label" htmlFor="ski"/>
                     </CHECKBOX>
                 </ROW>
                 <ROW className='row'>

@@ -128,7 +128,6 @@ export default class ResetPasswordPage extends Component {
                 type="submit"
                 className="login_btn_in_loginwindow"
                 style={{ width: "100%" }}
-                type="submit"
               >
                 Reset Password
               </button>
