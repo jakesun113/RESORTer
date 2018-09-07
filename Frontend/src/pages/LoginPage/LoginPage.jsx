@@ -262,13 +262,13 @@ class LoginPage extends Component {
           <br />
           {/* or line */}
           <div className="row">
-            <div className="col" />
-            <div className="col">
+            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
+            <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
               <p className="or-style">
                 <span>or</span>
               </p>
             </div>
-            <div className="col" />
+            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
           </div>
           <br />
           {/* login with email*/}
