@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-// import  from 'react-router-dom';
+import 'react-router-dom';
 
 
 const HeaderLine = styled.div`
@@ -239,20 +239,29 @@ class BookingAccommodation extends Component {
     // };
 
     skipAccommodation = () => {
-
+        const {place, history} = this.props;
+        const url = `/booking/${place}/doing`;
+        history.push(url);
     };
 
     goPrevious = () => {
-
+        const {place, history} = this.props;
+        const url = `/booking/${place}/who`;
+        history.push(url);
     };
 
     goNext = () => {
+        const {place, history} = this.props;
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom} = this.state;
-
         if (acco_type === '' || acco_cate === '' || num_adult === '' || num_child === '' || num_toddler === '' || num_bedroom === '' || num_bathroom === '') {
             this.setState({
                 warning_status: true,
             })
+        }
+        else {
+            //todo: connect to backend database (need master memberID)
+            const url = `/booking/${place}/doing`;
+            history.push(url);
         }
     };
 
@@ -264,6 +273,7 @@ class BookingAccommodation extends Component {
 
     render() {
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement, warning_status} = this.state;
+        console.log(this.props);
         return (
             <div className='container' style={{marginTop: '20px'}}>
                 <HeaderLine>
@@ -311,7 +321,6 @@ class BookingAccommodation extends Component {
 
                 <div style={{height: '20px'}}/>
 
-
                 <LeaveRow>
                     <BtmEllipseButton onClick={this.goPrevious}>
                         <div style={{
@@ -328,7 +337,6 @@ class BookingAccommodation extends Component {
                         </div>
                     </BtmEllipseButton>
                 </LeaveRow>
-
             </div>
         )
     }

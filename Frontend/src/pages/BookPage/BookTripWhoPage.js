@@ -9,6 +9,7 @@ class BookTripPage extends Component {
 
     render() {
         const {place} = this.props;
+        console.log(this.props);
         return (
             <React.Fragment>
                 <div className="container">
