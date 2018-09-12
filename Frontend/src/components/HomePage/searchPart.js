@@ -31,7 +31,7 @@ class Search extends Component {
         await axios.post(BaseURL + "getResortsByCountry", postData)
             .then(response => {
               console.log("read resorts successfully");
-              let resorts = response.data.resortArray;
+              let resorts = response.data.sortedResortArray;
               //Make HTTP request HERE for country based resorts
               this.setState({countryResorts: resorts}); 
             });

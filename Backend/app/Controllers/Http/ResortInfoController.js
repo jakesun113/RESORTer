@@ -57,7 +57,7 @@ class ResortInfoController {
     //console.log(countryArray);
 
     const sortedCountryArray = countryArray.sort();
-    console.log(sortedCountryArray);
+    //console.log(sortedCountryArray);
 
     return JSON.stringify({
       sortedCountryArray
@@ -80,10 +80,12 @@ class ResortInfoController {
       resortArray[i] = resortName[i].Name;
     }
 
-    console.log(resortArray);
+    //console.log(resortArray);
 
+    const sortedResortArray = resortArray.sort();
+    //console.log(sortedResortArray);
     return JSON.stringify({
-      resortArray
+      sortedResortArray
     });
 
   }
