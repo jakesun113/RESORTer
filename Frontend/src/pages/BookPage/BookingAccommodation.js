@@ -3,11 +3,11 @@ import styled from "styled-components";
 import 'react-router-dom';
 
 
-const HeaderLine = styled.div`
+export const HeaderLine = styled.div`
   margin: 20px 0 30px 0;
 `;
 
-const Title = styled.span`
+export const Title = styled.span`
   color: rgb(73,131,178);
   font-size: 25px;
   padding-right: 20px;
@@ -53,7 +53,7 @@ const TextInput = styled.textarea`
   }
 `;
 
-const BtmEllipseButton = styled.button`
+export const BtmEllipseButton = styled.button`
   border: 0 solid black;
   padding: 10px 40px;
   background-color: rgba(255, 97, 97, 1);
@@ -273,7 +273,6 @@ class BookingAccommodation extends Component {
 
     render() {
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement, warning_status} = this.state;
-        console.log(this.props);
         return (
             <div className='container' style={{marginTop: '20px'}}>
                 <HeaderLine>

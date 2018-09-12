@@ -7,15 +7,15 @@ class ResortInfoSchema extends Schema {
     this.create('resort_infos', (table) => {
       table.increments();
       table.timestamps();
-      table.string('Name').notNullable().unique();
+      table.string('Name').notNullable();
       table.decimal('Longitude', 8).notNullable();
       table.decimal('Latitude', 8).notNullable();
       table.string('Image');
       table.text('Description');
-      table.boolean('IsOnBoard').notNullable();
+      table.boolean('IsOnBoard');
       table.string('Logo');
       table.string('Country').notNullable();
-      table.string('Continent').notNullable();
+      table.string('Continent');
       table.string('Union');
       table.string('WixID');
       table.string('Owner');
