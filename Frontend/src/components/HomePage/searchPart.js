@@ -3,6 +3,8 @@ import "../../css/Homepage/search.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DropDown from "../template/Dropdown";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
+import axios from "axios";
+
 
 class Search extends Component {
     constructor(props) {
@@ -14,93 +16,116 @@ class Search extends Component {
             selectedLiftPassResorts: "",
             liftPasses: ["Collective", "Epic", "Ikon"],
             countryName: [
-                "Algeria",
-                "Andorra",
-                "Argentina",
-                "Armenia",
-                "Australia",
-                "Austria",
-                "Azerbaijan",
-                "Belgium",
-                "Bosnia and Herzegovina",
-                "Brazil",
-                "Bulgaria",
-                "Canada",
-                "Central Russia",
-                "Chile",
-                "China",
-                "Croatia",
-                "Cyprus",
-                "Czech Republic",
-                "Denmark",
-                "Egypt",
-                "Estonia",
-                "Far Eastern Federal District",
-                "Finland",
-                "France",
-                "Georgia",
-                "Germany",
-                "Greece",
-                "Greenland",
-                "Hungary",
-                "Iceland",
-                "India",
-                "Iran",
-                "Israel",
-                "Italy",
-                "Japan",
-                "Kazakhstan",
-                "Kosovo",
-                "Kyrgyzstan",
-                "Latvia",
-                "Lebanon",
-                "Lesotho",
-                "Liechtenstein",
-                "Lithuania",
-                "Macedonia",
-                "Mexico",
-                "Mongolia",
-                "Montenegro",
-                "Morocco",
-                "Netherlands",
-                "New Zealand",
-                "North Caucasus",
-                "North Korea",
-                "Northwest Russia",
-                "Norway",
-                "Pakistan",
-                "Poland",
-                "Portugal",
-                "Romania",
-                "Serbia",
-                "Siberia",
-                "Slovakia",
-                "Slovenia",
-                "South Africa",
-                "South Korea",
-                "Southern Russia",
-                "Spain",
-                "Sweden",
-                "Switzerland",
-                "Turkey",
-                "Ukraine",
-                "United Arab Emirates",
-                "United Kingdom",
-                "USA"
+                // "Algeria",
+                // "Andorra",
+                // "Argentina",
+                // "Armenia",
+                // "Australia",
+                // "Austria",
+                // "Azerbaijan",
+                // "Belgium",
+                // "Bosnia and Herzegovina",
+                // "Brazil",
+                // "Bulgaria",
+                // "Canada",
+                // "Central Russia",
+                // "Chile",
+                // "China",
+                // "Croatia",
+                // "Cyprus",
+                // "Czech Republic",
+                // "Denmark",
+                // "Egypt",
+                // "Estonia",
+                // "Far Eastern Federal District",
+                // "Finland",
+                // "France",
+                // "Georgia",
+                // "Germany",
+                // "Greece",
+                // "Greenland",
+                // "Hungary",
+                // "Iceland",
+                // "India",
+                // "Iran",
+                // "Israel",
+                // "Italy",
+                // "Japan",
+                // "Kazakhstan",
+                // "Kosovo",
+                // "Kyrgyzstan",
+                // "Latvia",
+                // "Lebanon",
+                // "Lesotho",
+                // "Liechtenstein",
+                // "Lithuania",
+                // "Macedonia",
+                // "Mexico",
+                // "Mongolia",
+                // "Montenegro",
+                // "Morocco",
+                // "Netherlands",
+                // "New Zealand",
+                // "North Caucasus",
+                // "North Korea",
+                // "Northwest Russia",
+                // "Norway",
+                // "Pakistan",
+                // "Poland",
+                // "Portugal",
+                // "Romania",
+                // "Serbia",
+                // "Siberia",
+                // "Slovakia",
+                // "Slovenia",
+                // "South Africa",
+                // "South Korea",
+                // "Southern Russia",
+                // "Spain",
+                // "Sweden",
+                // "Switzerland",
+                // "Turkey",
+                // "Ukraine",
+                // "United Arab Emirates",
+                // "United Kingdom",
+                // "USA"
             ]
         };
     }
 
+
     // Will be called in "Country" class so as to change the "selectedCountry" in state
     handleChangedCountry(selected) {
-        //Make HTTP request HERE for country based resorts
-        this.setState({countryResorts: [selected]});
+        let BaseURL = "http://127.0.0.1:3333/api/";
+        let postData;
+        postData = {
+            country: selected
+        };
+
+        axios.post(BaseURL + "getResortsByCountry", postData)
+            .then(response => {
+              console.log("read resorts successfully");
+              let resorts = response.data.resorts;
+              //Make HTTP request HERE for country based resorts
+              this.setState({countryResorts: resorts}); 
+            });
     }
 
     // Will be called in "LiftPass" class so as to change the "selectedLiftPass" in state
     handleChangedLiftPass(selected) {
-        //Make HTTP request HERE for LiftPass based resorts
-        this.setState({liftPassResorts: [selected]});
+        let BaseURL = "http://127.0.0.1:3333/api/";
+        let postData;
+        postData = {
+            liftPass: selected
+        };
+
+        axios.post(BaseURL + "getResortsByLiftPass", postData)
+            .then(response => {
+              console.log("read resorts successfully");
+              let resorts = response.data.resorts;
+              //Make HTTP request HERE for LiftPass based resorts
+              this.setState({liftPassResorts: resorts}); 
+            });
     }
 
     //Set the selected Resort, it will be used to make order
@@ -111,6 +136,17 @@ class Search extends Component {
     //Set the selected Resort, it will be used to make order
     handleSelectedLiftPassResorts(selected) {
         this.setState({selectedLiftPassResorts: selected});
+    }
+
+
+    componentDidMount() {
+        let BaseURL = "http://127.0.0.1:3333/api/";
+        axios.get(BaseURL + "getCountry").then(
+            response => {
+                console.log("read countries successfully");
+                this.setState({countryName: response.data.countries}); 
+            }
+        )
     }
 
     render() {
