@@ -62,10 +62,16 @@ Route.post("/api/add-member", "FamilyMemberController.addMember");
 //import data from csv to database at first
 Route.get("/getResortInfo", "ResortInfoController.getResortInfo");
 
-//get country list at first
+//get country list
 Route.get("/api/getCountry", "ResortInfoController.getCountry");
+
+//get liftPass list
+Route.get("/api/getLiftPass", "ResortInfoController.getLiftPass");
 
 //based on given country name, get resort list
 Route.post("/api/getResortsByCountry", "ResortInfoController.getResortsByCountry");
+
+//based on given lift-pass name, get resort list
+Route.post("/api/getResortsByLiftPass", "ResortInfoController.getResortsByLiftPass");
 
 /*ResortInfoController end*/

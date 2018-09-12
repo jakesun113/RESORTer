@@ -65,6 +65,29 @@ class ResortInfoController {
 
   }
 
+  //get the list of all the liftPasses
+  async getLiftPass() {
+
+    //TODO: get liftPass from database table (may change the position of the method)
+    //const countryName = await Database.table('resort_infos').column('Country').distinct();
+    //console.log(liftPassName);
+    let liftPassArray = [];
+    for (let i = 0; i < liftPassName.length; i++) {
+      //TODO: column may subject to change
+      liftPassArray[i] = liftPassName[i].LiftPass;
+    }
+
+    //console.log(liftPassArray);
+
+    const sortedLiftPassArray = liftPassArray.sort();
+    //console.log(sortedCountryArray);
+
+    return JSON.stringify({
+      sortedLiftPassArray
+    });
+
+  }
+
   //based on the country, get the list of resorts
   async getResortsByCountry({request}) {
 
@@ -89,6 +112,33 @@ class ResortInfoController {
     });
 
   }
+
+  //based on the lift pass, get the list of resorts
+  async getResortsByLiftPass({request}) {
+
+    const requestData = request.all();
+    const liftPass = requestData.liftPass;
+
+    //TODO: query the database table to get resorts name based on the liftPass
+    // const resortName = await Database.table('resort_infos')
+    //   .where("Country", country).select('Name');
+
+    let resortArray = [];
+
+    for (let i = 0; i < resortName.length; i++) {
+      resortArray[i] = resortName[i].Name;
+    }
+
+    //console.log(resortArray);
+
+    const sortedResortArray = resortArray.sort();
+    //console.log(sortedResortArray);
+    return JSON.stringify({
+      sortedResortArray
+    });
+
+  }
+
 }
 
 module.exports = ResortInfoController;
