@@ -63,9 +63,9 @@ Route.post("/api/add-member", "FamilyMemberController.addMember");
 Route.get("/getResortInfo", "ResortInfoController.getResortInfo");
 
 //get country list at first
-Route.get("/getCountry", "ResortInfoController.getCountry");
+Route.get("/api/getCountry", "ResortInfoController.getCountry");
 
 //based on given country name, get resort list
-Route.post("/getResortsByCountry", "ResortInfoController.getResortsByCountry");
+Route.post("/api/getResortsByCountry", "ResortInfoController.getResortsByCountry");
 
 /*ResortInfoController end*/

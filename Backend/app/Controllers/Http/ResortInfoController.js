@@ -74,16 +74,16 @@ class ResortInfoController {
     const resortName = await Database.table('resort_infos')
       .where("Country", country).select('Name');
 
-    let nameArray = [];
+    let resortArray = [];
 
     for (let i = 0; i < resortName.length; i++) {
-      nameArray[i] = resortName[i].Name;
+      resortArray[i] = resortName[i].Name;
     }
 
-    console.log(nameArray);
+    console.log(resortArray);
 
     return JSON.stringify({
-      nameArray
+      resortArray
     });
 
   }

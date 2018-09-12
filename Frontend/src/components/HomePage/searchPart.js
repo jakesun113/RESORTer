@@ -15,97 +15,23 @@ class Search extends Component {
             selectedCountryResorts: "",
             selectedLiftPassResorts: "",
             liftPasses: ["Collective", "Epic", "Ikon"],
-            countryName: [
-                // "Algeria",
-                // "Andorra",
-                // "Argentina",
-                // "Armenia",
-                // "Australia",
-                // "Austria",
-                // "Azerbaijan",
-                // "Belgium",
-                // "Bosnia and Herzegovina",
-                // "Brazil",
-                // "Bulgaria",
-                // "Canada",
-                // "Central Russia",
-                // "Chile",
-                // "China",
-                // "Croatia",
-                // "Cyprus",
-                // "Czech Republic",
-                // "Denmark",
-                // "Egypt",
-                // "Estonia",
-                // "Far Eastern Federal District",
-                // "Finland",
-                // "France",
-                // "Georgia",
-                // "Germany",
-                // "Greece",
-                // "Greenland",
-                // "Hungary",
-                // "Iceland",
-                // "India",
-                // "Iran",
-                // "Israel",
-                // "Italy",
-                // "Japan",
-                // "Kazakhstan",
-                // "Kosovo",
-                // "Kyrgyzstan",
-                // "Latvia",
-                // "Lebanon",
-                // "Lesotho",
-                // "Liechtenstein",
-                // "Lithuania",
-                // "Macedonia",
-                // "Mexico",
-                // "Mongolia",
-                // "Montenegro",
-                // "Morocco",
-                // "Netherlands",
-                // "New Zealand",
-                // "North Caucasus",
-                // "North Korea",
-                // "Northwest Russia",
-                // "Norway",
-                // "Pakistan",
-                // "Poland",
-                // "Portugal",
-                // "Romania",
-                // "Serbia",
-                // "Siberia",
-                // "Slovakia",
-                // "Slovenia",
-                // "South Africa",
-                // "South Korea",
-                // "Southern Russia",
-                // "Spain",
-                // "Sweden",
-                // "Switzerland",
-                // "Turkey",
-                // "Ukraine",
-                // "United Arab Emirates",
-                // "United Kingdom",
-                // "USA"
-            ]
+            countryName: []
         };
     }
 
 
     // Will be called in "Country" class so as to change the "selectedCountry" in state
-    handleChangedCountry(selected) {
+   async handleChangedCountry(selected) {
         let BaseURL = "http://127.0.0.1:3333/api/";
         let postData;
         postData = {
             country: selected
         };
 
-        axios.post(BaseURL + "getResortsByCountry", postData)
+        await axios.post(BaseURL + "getResortsByCountry", postData)
             .then(response => {
               console.log("read resorts successfully");
-              let resorts = response.data.resorts;
+              let resorts = response.data.resortArray;
               //Make HTTP request HERE for country based resorts
               this.setState({countryResorts: resorts}); 
             });
@@ -144,7 +70,9 @@ class Search extends Component {
         axios.get(BaseURL + "getCountry").then(
             response => {
                 console.log("read countries successfully");
-                this.setState({countryName: response.data.countries}); 
+                let countries = response.data.sortedCountryArray;
+                console.log(countries)
+                this.setState({countryName: countries}); 
             }
         )
     }
