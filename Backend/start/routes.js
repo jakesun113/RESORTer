@@ -58,4 +58,14 @@ Route.post('/api/check-token', 'ValidationTokenController.check');
 Route.post("/api/add-member", "FamilyMemberController.addMember");
 /*FamilyMemberController end*/
 
-Route.get("/pushResortInfo", "ResortInfoController.pushResortInfo");
+/*ResortInfoController start*/
+//import data from csv to database at first
+Route.get("/getResortInfo", "ResortInfoController.getResortInfo");
+
+//get country list at first
+Route.get("/getCountry", "ResortInfoController.getCountry");
+
+//based on given country name, get resort list
+Route.post("/getResortsByCountry", "ResortInfoController.getResortsByCountry");
+
+/*ResortInfoController end*/
