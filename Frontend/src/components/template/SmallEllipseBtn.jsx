@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../../css/template/SmallEllipseBtn.css";
+//TODO: modify this component to make it "linkable"
 class SmallEllipseBtn extends Component {
   state = {};
   render() {

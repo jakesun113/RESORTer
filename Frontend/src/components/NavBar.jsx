@@ -79,8 +79,8 @@ class Navbar extends Component {
         super(props);
         const {cookies} = props;
         this.state = {
-            // activeTabName: "home",
-            user: cookies.get("user-name") || null,
+            // DO NOT change the initial value of user as empty string
+            user: cookies.get("user-name") || "",
             token: cookies.get("access-token") || null,
             user_pic: cookies.get("user-pic") || null,
             provider: null,
@@ -95,7 +95,7 @@ class Navbar extends Component {
     handleLogout = () => {
         const {cookies} = this.props;
         this.setState({
-            user: null,
+            user: "",
             token: null,
             user_pic: null
         });

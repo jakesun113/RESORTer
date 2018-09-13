@@ -91,21 +91,18 @@ class ValidationTokenController {
               const dbMemberID = await Database.table('members')
                 .where("Email", email).select('id');
 
-              const dbFirstName = await Database.table('members')
-                .where("Email", email).select('Firstname');
-
-              const dbLastName = await Database.table('members')
-                .where("Email", email).select('Lastname');
-
-              const userName = dbFirstName[0].Firstname + " " + dbLastName[0].Lastname;
-
-              //console.log(userName);
-
               //TODO: actually, user picture is saved in the local "public" file
               const dbPortrait = await Database.table('members')
                 .where("Email", email).select('Portrait');
 
               const member = await Member.findBy('Email', email);
+
+              let userName = "";
+              if(member.Firstname !== null && member.Lastname !== null)
+              {
+                userName = member.Firstname + " " + member.Lastname;
+              }
+              //console.log(userName);
               // const newToken = await auth.withRefreshToken().attempt(email, dbpwd[0].EncryptedPW);
 
               const newToken = await auth.generate(member);

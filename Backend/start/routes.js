@@ -26,9 +26,6 @@ Route.post("/api/register", "MemberController.register");
 Route.put("/api/activateUser", "MemberController.activateUser");
 Route.post("/api/resendConfirmEmail", "MemberController.resendConfirmEmail");
 
-//Sign up profile
-Route.post("/api/signupProfile", "MemberController.fillProfile");
-
 //profile
 Route.get("/api/user-profile/:token", "MemberController.showProfile");
 Route.put("/api/user-profile", "MemberController.editProfile");
@@ -65,4 +62,20 @@ Route.get("/api/acquireGroupMember/:token","FamilyMemberController.acquireGroupM
 Route.delete("/api/delete-member", "FamilyMemberController.deleteMember");
 /*FamilyMemberController end*/
 
-Route.get("/pushResortInfo", "ResortInfoController.pushResortInfo");
+/*ResortInfoController start*/
+//import data from csv to database at first
+Route.get("/getResortInfo", "ResortInfoController.getResortInfo");
+
+//get country list
+Route.get("/api/getCountry", "ResortInfoController.getCountry");
+
+//get liftPass list
+Route.get("/api/getLiftPass", "ResortInfoController.getLiftPass");
+
+//based on given country name, get resort list
+Route.post("/api/getResortsByCountry", "ResortInfoController.getResortsByCountry");
+
+//based on given lift-pass name, get resort list
+Route.post("/api/getResortsByLiftPass", "ResortInfoController.getResortsByLiftPass");
+
+/*ResortInfoController end*/

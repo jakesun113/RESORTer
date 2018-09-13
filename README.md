@@ -25,6 +25,11 @@
 # How to Run the Application
 <ul><li>Backend:<p>npm install</p><p>adonis serve --dev</p></li><li>Frontend:<p>npm install</p><p>npm start</p></li></ul> 
 
-
+# Get Resort Information from CSV file
+- Type the url of backend + "/getResortInfo" 
+- For example, if your backend home url is "http://127.0.0.1:3333",
+- just type "http://127.0.0.1:3333/getResortInfo" on the browser
+- and you will see the data is start loading from your backend console
+- You will get informed once the loading is finished.
 
 

@@ -104,7 +104,7 @@ class ConfirmationEmailPage extends Component {
                 <div className="card-body">
                     <h5 className="card-title">Email Confirmation</h5>
                     <p className="card-text">{tip}</p>
-                    <a href="#">{click}</a>
+                    {click}
                 </div>
                 <div className="card-footer text-muted">
                     Please follow the instruction above to finish confirmation :)

@@ -68,9 +68,8 @@ class AddGroupMemberCard extends Component {
     };
 
     validator = () => {
-        var isValid = true;
-        // DOB
-        var dob;
+        let isValid = true;
+
         if (
             moment(this.state.startDate).format("YYYY-MM-DD") ===
             moment().format("YYYY-MM-DD") ||

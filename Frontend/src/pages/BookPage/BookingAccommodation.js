@@ -1,13 +1,13 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-// import  from 'react-router-dom';
+import 'react-router-dom';
 
 
-const HeaderLine = styled.div`
+export const HeaderLine = styled.div`
   margin: 20px 0 30px 0;
 `;
 
-const Title = styled.span`
+export const Title = styled.span`
   color: rgb(73,131,178);
   font-size: 25px;
   padding-right: 20px;
@@ -53,7 +53,7 @@ const TextInput = styled.textarea`
   }
 `;
 
-const BtmEllipseButton = styled.button`
+export const BtmEllipseButton = styled.button`
   border: 0 solid black;
   padding: 10px 40px;
   background-color: rgba(255, 97, 97, 1);
@@ -239,20 +239,29 @@ class BookingAccommodation extends Component {
     // };
 
     skipAccommodation = () => {
-
+        const {place, history} = this.props;
+        const url = `/booking/${place}/doing`;
+        history.push(url);
     };
 
     goPrevious = () => {
-
+        const {place, history} = this.props;
+        const url = `/booking/${place}/who`;
+        history.push(url);
     };
 
     goNext = () => {
+        const {place, history} = this.props;
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom} = this.state;
-
         if (acco_type === '' || acco_cate === '' || num_adult === '' || num_child === '' || num_toddler === '' || num_bedroom === '' || num_bathroom === '') {
             this.setState({
                 warning_status: true,
             })
+        }
+        else {
+            //todo: connect to backend database (need master memberID)
+            const url = `/booking/${place}/doing`;
+            history.push(url);
         }
     };
 
@@ -311,7 +320,6 @@ class BookingAccommodation extends Component {
 
                 <div style={{height: '20px'}}/>
 
-
                 <LeaveRow>
                     <BtmEllipseButton onClick={this.goPrevious}>
                         <div style={{
@@ -328,7 +336,6 @@ class BookingAccommodation extends Component {
                         </div>
                     </BtmEllipseButton>
                 </LeaveRow>
-
             </div>
         )
     }

@@ -7,7 +7,7 @@ import axios from "axios/index";
 import { withCookies, Cookies } from "react-cookie";
 import { instanceOf } from "prop-types";
 import AlertWindow from "../../components/template/AlertWindow";
-
+//TODO: add alert (slide down for 3 seconds) when redirect to login page due to token expired
 class LoginPage extends Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -216,7 +216,13 @@ class LoginPage extends Component {
           <div className="row">
             <div className="col" />
             <div className="col">
-              <div style={{ textAlign: "center", marginBottom: "50px" }}>
+              <div
+                style={{
+                  textAlign: "center",
+                  marginBottom: "50px",
+                  whiteSpace: "nowrap"
+                }}
+              >
                 <span style={{ fontSize: "2.5rem" }}>Log In</span>
                 <br />
                 New to this site?
@@ -231,31 +237,38 @@ class LoginPage extends Component {
 
           {/* facebook login */}
           <div className="row">
-            <div className="col" />
-            <div className="col">
+            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
+            <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
               <FacebookLogin />
             </div>
-            <div className="col" />
+            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
           </div>
           <br />
           {/* google login */}
           <div className="row">
-            <div className="col" />
-            <div className="col">
+            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
+            <div
+              className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4"
+              style={{
+                display: "block",
+                marginLeft: "auto",
+                marginRight: "auto"
+              }}
+            >
               <GoogleLogin />
             </div>
-            <div className="col" />
+            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
           </div>
           <br />
           {/* or line */}
           <div className="row">
-            <div className="col" />
-            <div className="col">
+            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
+            <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
               <p className="or-style">
                 <span>or</span>
               </p>
             </div>
-            <div className="col" />
+            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
           </div>
           <br />
           {/* login with email*/}
@@ -266,8 +279,8 @@ class LoginPage extends Component {
           >
             {/* email */}
             <div className="row">
-              <div className="col-md-4" />
-              <div className="col-md-4">
+              <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
+              <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
                 <input
                   id="loginEmail"
                   className="form-control"
@@ -322,13 +335,13 @@ class LoginPage extends Component {
                   ""
                 )}
               </div>
-              <div className="col-md-4" />
+              <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
             </div>
             <br />
             {/* password */}
             <div className="row">
-              <div className="col-md-4" />
-              <div className="col-md-4">
+              <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
+              <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
                 <input
                   id="loginpwd"
                   className="form-control"
@@ -376,14 +389,15 @@ class LoginPage extends Component {
                   </div>
                 ) : null}
               </div>
-              <div className="col-md-4" />
+              <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
             </div>
             <br />
+
             {/* forget pass */}
             <div className="row">
-              <div className="col-md-4" />
-              <div className="col-md-2">
-                <span className="custom-control custom-checkbox">
+              <div className="col-sm-2 col-md-3 col-lg-4" />
+              <div className="col-5 col-sm-3 col-md-2 col-lg-2">
+                <div className="custom-control custom-checkbox">
                   <input
                     className="form-control custom-control-input"
                     type="checkbox"
@@ -398,23 +412,25 @@ class LoginPage extends Component {
                   >
                     Remember Me
                   </label>
-                </span>
+                </div>
               </div>
-              &ensp; &ensp;
+              {/* space */}
+              <div className="col-2 col-sm-2 col-md-2 col-lg-1" />
               {/* forget pass */}
-              <div className="col-md-2">
+              <div className="col-4 col-sm-3 col-md-2 col-lg-2">
                 <a style={{ whiteSpace: "nowrap" }} href="/forgot-password">
                   Forgot password?
                 </a>
               </div>
-              <div className="col-md-4" />
+              <div className="col-1 col-sm-2 col-md-3 col-lg-4" />
             </div>
             <br />
+
             {/* login btn */}
             <div>
               <div className="row">
-                <div className="col-md-4" />
-                <div className="col-md-4">
+                <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
+                <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
                   <button
                     className="login_btn_in_loginwindow"
                     style={{ width: "100%" }}
@@ -428,7 +444,7 @@ class LoginPage extends Component {
                     </div>
                   ) : null}
                 </div>
-                <div className="col-md-4" />
+                <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4" />
               </div>
             </div>
             <br />
