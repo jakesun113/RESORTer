@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
 
-//TODO: add "upload" photo function
 class FirstPage extends Component {
   state = {
     first_name_wrong: false,
@@ -134,9 +133,22 @@ class FirstPage extends Component {
                   accept="image/*"
                   hidden
                   onChange={e => {
-                    this.setState({
-                      userPic: e.target.files[0]
-                    });
+                      if (window.FileReader) {
+                          const reader = new FileReader();
+                          const file = e.target.files[0];
+                          reader.addEventListener(
+                              "load",
+                              () => {
+                                  this.setState({ user_pic: reader.result });
+                              },
+                              false
+                          );
+                          if (file) {
+                              reader.readAsDataURL(file);
+                          }
+                      } else {
+                          alert("Not supported by your browser!");
+                      }
                   }}
                 />
                 {this.state.userPic.name !== undefined

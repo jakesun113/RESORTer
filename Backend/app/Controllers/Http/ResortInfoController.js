@@ -1,8 +1,12 @@
 'use strict';
 const Database = use("Database");
 const Resorts = use("App/Models/ResortInfo");
+const LiftPass = use("App/Models/Liftpass");
+const ResortLiftPass = use("App/Models/ResortLiftpass");
 const csv = require('csvtojson');
-const csvFilePath = "Data/Resorts.csv";
+const resortInfo = "Data/Resorts.csv";
+const liftPass = "Data/LiftPass.csv";
+const resortLiftPass = "Data/ResortLiftPass.csv";
 
 
 class ResortInfoController {
@@ -10,10 +14,12 @@ class ResortInfoController {
   //import resort data from csv
   async getResortInfo() {
     const resortCount = await Resorts.getCount();
+    const liftPassCount = await LiftPass.getCount();
+    const resortLiftPassCount = await ResortLiftPass.getCount();
     //console.log(resortCount);
     //import data only when the ResortInfo table is empty
     if (resortCount === 0) {
-      const jsonArray = await csv().fromFile(csvFilePath);
+      const jsonArray = await csv().fromFile(resortInfo);
       //console.log(jsonArray.length);
       console.log("Start loading resorts data.");
       for (let i = 0; i < jsonArray.length; i++) {
@@ -37,6 +43,38 @@ class ResortInfoController {
 
       console.log("Finish loading resorts data.");
     }
+    //import data only when the Liftpass table is empty
+    if (liftPassCount === 0) {
+      const jsonArray = await csv().fromFile(liftPass);
+      //console.log(jsonArray.length);
+      console.log("Start loading liftpass data.");
+      for (let i = 0; i < jsonArray.length; i++) {
+        const liftPass = new LiftPass();
+        liftPass.Name = jsonArray[i].Name;
+        liftPass.WixID = jsonArray[i].WixID;
+        await liftPass.save();
+        //console.log(i);
+      }
+
+      console.log("Finish loading liftpass data.");
+    }
+
+    //import data only when the ResortLiftpass table is empty
+    if (resortLiftPassCount === 0) {
+      const jsonArray = await csv().fromFile(resortLiftPass);
+      //console.log(jsonArray.length);
+      console.log("Start loading resortLiftpass data.");
+      for (let i = 0; i < jsonArray.length; i++) {
+        const resortLiftPass = new ResortLiftPass();
+        resortLiftPass.ResortWixID = jsonArray[i].ResortWixID;
+        resortLiftPass.LiftpassWixID = jsonArray[i].LiftpassWixID;
+        await resortLiftPass.save();
+        //console.log(i);
+      }
+
+      console.log("Finish loading resortLiftpass data.");
+    }
+
     else {
       console.log("You have loaded resorts data.")
     }
@@ -68,13 +106,11 @@ class ResortInfoController {
   //get the list of all the liftPasses
   async getLiftPass() {
 
-    //TODO: get liftPass from database table (may change the position of the method)
-    //const countryName = await Database.table('resort_infos').column('Country').distinct();
+    const liftPassName = await Database.table('liftpasses').column('Name');
     //console.log(liftPassName);
     let liftPassArray = [];
     for (let i = 0; i < liftPassName.length; i++) {
-      //TODO: column may subject to change
-      liftPassArray[i] = liftPassName[i].LiftPass;
+      liftPassArray[i] = liftPassName[i].Name;
     }
 
     //console.log(liftPassArray);
@@ -119,14 +155,21 @@ class ResortInfoController {
     const requestData = request.all();
     const liftPass = requestData.liftPass;
 
-    //TODO: query the database table to get resorts name based on the liftPass
-    // const resortName = await Database.table('resort_infos')
-    //   .where("Country", country).select('Name');
+    const liftPassID = await Database.table('liftpasses').where("Name", liftPass).select('WixID');
+    //console.log(liftPassID);
+    const resortIDList = await Database.table('resort_liftpasses')
+      .where("LiftpassWixID", liftPassID[0].WixID).select('ResortWixID');
 
+    //console.log(resortIDList);
     let resortArray = [];
 
-    for (let i = 0; i < resortName.length; i++) {
-      resortArray[i] = resortName[i].Name;
+    for (let i = 0; i < resortIDList.length; i++) {
+      //resortIDArray[i] = resortIDList[i].ResortWixID;
+      const resortName = await Database.table('resort_infos')
+        .where("WixID", resortIDList[i].ResortWixID).select('Name');
+
+      //append each resort into the array
+      resortArray.push(resortName[0].Name);
     }
 
     //console.log(resortArray);
