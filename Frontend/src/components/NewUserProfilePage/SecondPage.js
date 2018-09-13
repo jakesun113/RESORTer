@@ -17,9 +17,10 @@ function StartDate(props) {
     return (
         <React.Fragment>
             <DatePicker
+                placeholderText= "YYYY-MM-DD"
                 selected={props.startDate}
                 onChange={handleChange}
-                minDate={props.validMinDate}
+                maxDate={moment()}
                 dateFormat="YYYY-MM-DD"
             />
         </React.Fragment>
