@@ -5,7 +5,9 @@ import SmallEllipseBtn from "../template/SmallEllipseBtn";
 class FirstPage extends Component {
   state = {
     first_name_wrong: false,
-    last_name_wrong: false
+    last_name_wrong: false,
+    userPic:
+      "url(https://static.wixstatic.com/media/25b4a3_29bd27b433da40b28e6f1df4987482b9~mv2_d_2240_2240_s_2.png/v1/fill/w_150,h_150,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_29bd27b433da40b28e6f1df4987482b9~mv2_d_2240_2240_s_2.webp)"
   };
 
   validator = () => {
@@ -49,7 +51,7 @@ class FirstPage extends Component {
   };
 
   storeInfo() {
-    const userPic = document.getElementById("user_pic").backgroundImage;
+    const userPic = this.state.userPic;
     const firstName = document.getElementById("first_name").value;
     const lastName = document.getElementById("last_name").value;
     this.props.onChangeState("userPic", userPic);
@@ -95,8 +97,7 @@ class FirstPage extends Component {
                   border: "5px solid white",
                   backgroundSize: "contain",
                   margin: "auto auto",
-                  backgroundImage:
-                    "url(https://static.wixstatic.com/media/25b4a3_29bd27b433da40b28e6f1df4987482b9~mv2_d_2240_2240_s_2.png/v1/fill/w_150,h_150,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_29bd27b433da40b28e6f1df4987482b9~mv2_d_2240_2240_s_2.webp)"
+                  backgroundImage: this.state.userPic
                 }}
               />
             </div>
@@ -107,28 +108,43 @@ class FirstPage extends Component {
           {/* upload btn */}
           <div className="form-row">
             <div className="form-group col-3 col-lg-5" />
-            <div
-              id="upload_btn"
-              className="form-group col-6 col-lg-2"
-              style={{
-                width: "100%",
-                height: "auto",
-                borderRadius: "20px 20px 20px 20px",
-                backgroundColor: "rgba(56, 153, 236, 1)",
-                boxShadow: "1px 1px 1px gray",
-                textAlign: "center",
-                margin: "auto auto",
-                padding: "5px 20px",
-                color: "white",
-                cursor: "pointer",
-                fontSize: "20px",
-                whiteSpace: "nowrap"
-              }}
-              onMouseEnter={this.handleHover}
-              onMouseLeave={this.handleMouseLeave}
-            >
-              Upload photo +
+            <div className="form-group col-6 col-lg-2">
+              <label
+                id="upload_btn"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "20px 20px 20px 20px",
+                  backgroundColor: "rgba(56, 153, 236, 1)",
+                  boxShadow: "1px 1px 1px gray",
+                  textAlign: "center",
+                  margin: "auto auto",
+                  padding: "5px 20px",
+                  color: "white",
+                  cursor: "pointer",
+                  fontSize: "20px",
+                  whiteSpace: "nowrap"
+                }}
+                onMouseEnter={this.handleHover}
+                onMouseLeave={this.handleMouseLeave}
+              >
+                Upload photo +
+                <input
+                  type="file"
+                  accept="image/*"
+                  hidden
+                  onChange={e => {
+                    this.setState({
+                      userPic: e.target.files[0]
+                    });
+                  }}
+                />
+                {this.state.userPic.name !== undefined
+                  ? alert(new FileReader().readAsDataURL(this.state.userPic))
+                  : ""}
+              </label>
             </div>
+
             <div className="form-group col-3 col-lg-5" />
           </div>
           {/* max size text */}
