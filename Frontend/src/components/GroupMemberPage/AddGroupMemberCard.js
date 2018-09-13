@@ -45,7 +45,8 @@ class AddGroupMemberCard extends Component {
             token: this.props.token,
             alert: null, //what is the status of the alertWindow
             showAlertWindow: false, //whether show the alertWindow
-            redirect: false //redirect to login page
+            redirect: false, //redirect to login page
+            provider:null //Login provider
         };
     }
 
@@ -95,6 +96,16 @@ class AddGroupMemberCard extends Component {
         document
             .getElementsByClassName("react-datepicker__input-container")[0]
             .getElementsByTagName("input")[0].className = "form-control";
+
+        //Acquiring provider
+        if (sessionStorage.getItem("userSocialData")) {
+            let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
+            if (userData.provider) {
+                this.setState({
+                    provider: userData.provider
+                });
+            }
+        }
     }
 
     handleSubmit = event => {
@@ -121,6 +132,7 @@ class AddGroupMemberCard extends Component {
         }
 
         const data = JSON.stringify({
+            provider:this.state.provider,
             token: JSON.parse(sessionStorage.getItem("userToken")).token,
             FirstName: document.getElementById("firstName").value,
             LastName: document.getElementById("lastName").value,
