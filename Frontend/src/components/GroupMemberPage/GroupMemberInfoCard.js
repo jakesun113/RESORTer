@@ -27,17 +27,30 @@ class GroupMemberInfoCard extends Component {
     this.state = {
       tokenExpire: false,
       alert: null,
-      showAlertWindow: false //whether show the alertWindow
+      showAlertWindow: false, //whether show the alertWindow
+      provider:null
     };
   }
 
+  componentDidMount(){
+    //Acquiring provider
+    if (sessionStorage.getItem("userSocialData")) {
+      let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
+      if (userData.provider) {
+          this.setState({
+              provider: userData.provider
+          });
+      }
+  }
+  }
   //Delete Group Member
   handleOnClick = () => {
     axios
       .delete("http://127.0.0.1:3333/api/delete-member", {
         data: {
           id: this.props.id,
-          token: JSON.parse(sessionStorage.getItem("userToken")).token
+          token: JSON.parse(sessionStorage.getItem("userToken")).token,
+          provider:this.state.provider
         }
       })
       .then(response => {
