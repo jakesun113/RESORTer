@@ -102,6 +102,7 @@ class Search extends Component {
                             />
                         </div>
                         <div className="col-sm">
+                        <a href={`/booking/${this.state.selectedCountryResorts}/who`}>
                             <SmallEllipseBtn
                                 text="Make a Quote"
                                 btnColor="rgba(255, 97, 97, 1)"
@@ -110,6 +111,8 @@ class Search extends Component {
                                 paddingTop="8px"
                                 paddingBottom="8px"
                             />
+                         </a>
+
                         </div>
                     </div>
 
@@ -146,6 +149,7 @@ class Search extends Component {
                             />
                         </div>
                         <div className="col-sm">
+                        <a href={`/booking/${this.state.selectedLiftPassResorts}/who`}>
                             <SmallEllipseBtn
                                 text="Make a Quote"
                                 btnColor="rgba(255, 97, 97, 1)"
@@ -154,6 +158,7 @@ class Search extends Component {
                                 paddingTop="8px"
                                 paddingBottom="8px"
                             />
+                        </a>
                         </div>
                     </div>
                 </div>

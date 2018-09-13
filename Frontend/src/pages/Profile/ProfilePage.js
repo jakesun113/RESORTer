@@ -74,7 +74,6 @@ class ProfilePage extends Component {
                 });
             }
         }
-
         if (this.state.token === null && sessionStorage.getItem("userToken")) {
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
             this.setState({
