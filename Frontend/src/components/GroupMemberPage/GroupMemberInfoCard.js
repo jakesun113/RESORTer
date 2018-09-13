@@ -83,7 +83,7 @@ class GroupMemberInfoCard extends Component {
 
             console.log(
               "token has been extended. Token is: " +
-              cookies.get("access-token")
+                cookies.get("access-token")
             );
           }
           //Update the numberOfGroupMember in GroupMemberPage, also Pass the token
@@ -185,9 +185,9 @@ class GroupMemberInfoCard extends Component {
           </div>
           <br />
           <div className="row">
-            <div className="col-1" />
+            <div className="col-4 col-lg-1" />
             {/* user photo */}
-            <div className="col-2">
+            <div className="col-4 col-lg-2">
               <img
                 id="user_pic"
                 style={{
@@ -205,9 +205,9 @@ class GroupMemberInfoCard extends Component {
                 src="https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/crop/x_7,y_0,w_1184,h_1184/fill/w_96,h_96,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
               />
             </div>
-            <div className="col-1" />
+            <div className="col-4 col-lg-1" />
             {/* name and dob */}
-            <div className="col-7">
+            <div className="col-lg-7">
               <span
                 style={{
                   display: "table",
@@ -224,7 +224,7 @@ class GroupMemberInfoCard extends Component {
                 </p>
               </span>
             </div>
-            <div className="col-1" />
+            <div className="col-lg-1" />
           </div>
 
           {/* ability level */}
@@ -232,45 +232,47 @@ class GroupMemberInfoCard extends Component {
           {/* first row */}
           <div className="row">
             {/* left */}
-            <div className="col-1" />
-            <div className="col-2">
+            <div className="col-2 col-lg-1" />
+            <div className="col-4 col-lg-2">
               <span>
                 Lv <span id="ski_level">{this.props.skierLevel}</span>
               </span>
             </div>
-            <div className="col-2">
+            <div className="col-4 col-lg-1">
               <span>Skier</span>
             </div>
-            <div className="col-1" />
+            <div className="col-2 col-lg-1" />
             {/* right */}
-            <div className="col-2">
+            <div className="col-2 col-lg-1" />
+            <div className="col-4 col-lg-2">
               <span>
                 Lv <span id="snowbiker_level">{this.props.snowBikerLevel}</span>
               </span>
             </div>
-            <div className="col-3">
+            <div className="col-4 col-lg-3">
               <span>Snowbiker</span>
             </div>
-            <div className="col-1" />
+            <div className="col-1 col-lg-1" />
           </div>
 
           {/* second row */}
 
           <div className="row">
             {/* left */}
-            <div className="col-1" />
-            <div className="col-2">
+            <div className="col-2 col-lg-1" />
+            <div className="col-4 col-lg-2">
               <span>
                 Lv{" "}
                 <span id="snowboarder_level">{this.props.snowBorderLevel}</span>
               </span>
             </div>
-            <div className="col-2">
+            <div className="col-4 col-lg-1">
               <span>Snowboarder</span>
             </div>
-            <div className="col-1" />
+            <div className="col-2 col-lg-1" />
             {/* right */}
-            <div className="col-2">
+            <div className="col-2 col-lg-1" />
+            <div className="col-4 col-lg-2">
               <span>
                 Lv{" "}
                 <span id="snowmobiler_level">
@@ -278,37 +280,38 @@ class GroupMemberInfoCard extends Component {
                 </span>
               </span>
             </div>
-            <div className="col-3">
+            <div className="col-4 col-lg-3">
               <span>Snowmobiler</span>
             </div>
-            <div className="col-1" />
+            <div className="col-1 col-lg-1" />
           </div>
 
           {/* third row */}
 
           <div className="row">
             {/* left */}
-            <div className="col-1" />
-            <div className="col-2">
+            <div className="col-2 col-lg-1" />
+            <div className="col-4 col-lg-2">
               <span>
                 Lv{" "}
                 <span id="telemarker_level">{this.props.teleMarkerLevel}</span>
               </span>
             </div>
-            <div className="col-2">
+            <div className="col-4 col-lg-1">
               <span>Telemarker</span>
             </div>
-            <div className="col-1" />
+            <div className="col-2 col-lg-1" />
             {/* right */}
-            <div className="col-2">
+            <div className="col-2 col-lg-1" />
+            <div className="col-4 col-lg-2">
               <span>
                 Lv <span id="snowshoer_level">{this.props.snowShoerLevel}</span>
               </span>
             </div>
-            <div className="col-3">
+            <div className="col-4 col-lg-3">
               <span>Snowshoer</span>
             </div>
-            <div className="col-1" />
+            <div className="col-1 col-lg-1" />
           </div>
         </MemberInfoCard>
       </React.Fragment>
