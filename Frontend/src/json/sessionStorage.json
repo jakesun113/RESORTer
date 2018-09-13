@@ -6,5 +6,9 @@
         "provider_id(optional)": "Google or Facebook login id",
         "token(optional)": "Google or Facebook login id",
         "email":"Member's email"
+    },
+    "userToken":{
+        "token": "token"
     }
+
 }

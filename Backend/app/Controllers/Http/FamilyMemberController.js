@@ -1,5 +1,7 @@
 'use strict';
-
+const Member = use('App/Models/Member');
+const ValidationToken = use('App/Models/ValidationToken');
+const FamilyMember = use('App/Models/FamilyMember');
 /*
 Request JSON
 {
@@ -20,6 +22,57 @@ Request JSON
  */
 class FamilyMemberController {
 
+  async deleteMember({response, request,auth}){
+
+    try{
+      //1) if token expired
+      try{
+
+        await auth.check()
+
+      }catch(err){
+
+        console.log(err);
+        return response.send(JSON.stringify({status: 'ExpiredJWT'}))
+
+      }
+      //2) Delete familyMember
+      const familyMember = await FamilyMember.find(request.input('id'));
+      await familyMember.delete()
+
+      //3) Generate new Token and merge old one
+      const validationToken = await ValidationToken.findBy('Token', request.input('token'));
+      const member = await Member.findBy('id', validationToken.MemberID);
+
+
+      let userToken = await auth.generate(member);
+      validationToken.merge({Token: userToken.token});
+      await validationToken.save();
+
+      return response.send(JSON.stringify({status:'success',token:userToken}))
+
+    }catch(err){
+      console.log(err)
+      return response.send(JSON.stringify({status:'fail'}))
+    }
+  }
+  async acquireGroupMember({response,params}){
+
+    try{
+      const validationToken = await ValidationToken.findBy('Token', params.token);
+      const familyMember = await FamilyMember
+                      .query()
+                      .where('MemberID', '=', validationToken.MemberID)
+                      .fetch()
+
+      return response.send(familyMember.toJSON());
+
+    }catch (err){
+
+      console.log(err)
+
+    }
+  }
   async addMember({request, response, auth}) {
     try {
 
@@ -32,9 +85,6 @@ class FamilyMemberController {
       }
 
       const requestData = request.post();
-      const Member = use('App/Models/Member');
-      const ValidationToken = use('App/Models/ValidationToken');
-      const newGroupMember = use('App/Models/FamilyMember');
 
       const validationToken = await ValidationToken.findBy('Token', request.input('token'));
       const member = await Member.findBy('id', validationToken.MemberID);
@@ -44,7 +94,7 @@ class FamilyMemberController {
       validationToken.merge({Token: userToken.token});
       await validationToken.save();
 
-      const newMember = new newGroupMember();
+      const newMember = new FamilyMember();
       newMember.memberID = validationToken.MemberID,
         newMember.FirstName = request.input('FirstName'),
         newMember.LastName = request.input('LastName'),
