@@ -17,7 +17,7 @@ class ResortInfoSchema extends Schema {
       table.string('Country').notNullable();
       table.string('Continent');
       table.string('Union');
-      table.string('WixID');
+      table.string('WixID').unique().notNullable();
       table.string('Owner');
       table.string('OwnerEmail');
     })
