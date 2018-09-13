@@ -121,7 +121,7 @@ class AddGroupMemberCard extends Component {
         }
 
         const data = JSON.stringify({
-            token: this.state.token,
+            token: JSON.parse(sessionStorage.getItem("userToken")).token,
             FirstName: document.getElementById("firstName").value,
             LastName: document.getElementById("lastName").value,
             Gender: document.getElementById("gender").value,
@@ -146,21 +146,17 @@ class AddGroupMemberCard extends Component {
             response => {
 
                 if (response.data.status === 'ExpiredJWT') {
-                    console.log("token expired");
-
                     this.setState({
                         token: "",
                         alert: 'ExpiredJWT'
                     });
 
                 } else if (response.data.status === 'fail') {
-                    console.log("token expired");
                     this.setState({
                         alert: 'fail'
                     })
 
                 } else if (response.data.status === 'success') {
-                    console.log("token valid");
                     let userToken = {
                         token: response.data.token
                     };
@@ -189,6 +185,8 @@ class AddGroupMemberCard extends Component {
                         token: response.data.token,
                         alert: 'success'
                     })
+                    //Change State in GroupMemberPage: update the groupMember number
+                    this.props.addGroupNumber(this.state.token);
                 }
                 this.setState({showAlertWindow: true})
             }

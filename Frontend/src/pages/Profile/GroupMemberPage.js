@@ -5,7 +5,9 @@ import GroupMemberInfoCard from "../../components/GroupMemberPage/GroupMemberInf
 import {withCookies, Cookies} from 'react-cookie';
 import {instanceOf} from 'prop-types';
 import {Redirect} from "react-router-dom";
+import axios from 'axios';
 
+//TODO: Using the database data to create groupMember card
 class GroupMemberPage extends Component {
 
     static propTypes = {
@@ -17,31 +19,84 @@ class GroupMemberPage extends Component {
         const {cookies} = props;
         this.state = {
             token: cookies.get('access-token') || null,
-            isAddMember: false
+            isAddMember: false, //Whether show the interface of Adding groupMember
+            numberOfGroupMember: 0, //Count the number of groupMember & Global state for Card Component and addGroupMember Component
+            lastNumberOfGroupMember:0, //Use to limit the infinite cycle of componentDidUpdate()
+            groupMember : [] //groupMember Info
         };
     }
 
+    // Update new number of groupMember, when 'numberOfGroupMember' is changed
+    componentDidUpdate(){
+
+        if(this.state.numberOfGroupMember !== this.state.lastNumberOfGroupMember){
+
+            //Acquire the groupMember information while groupMember was edited
+            axios.get('http://127.0.0.1:3333/api/acquireGroupMember/'+ JSON.parse(sessionStorage.getItem("userToken")).token)
+            .then(response => {
+                this.setState({
+                //Update number and detail of groupMember
+                numberOfGroupMember : response.data.length,
+                lastNumberOfGroupMember : response.data.length,
+                groupMember : response.data
+                })
+            })
+        }
+    }
+
     componentDidMount() {
+       try{
+
+        let tokenData
+        //If cookies does not have token, then try to find token from sessionStorage
         if (this.state.token === null && sessionStorage.getItem("userToken")) {
-            let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+            tokenData = JSON.parse(sessionStorage.getItem("userToken")).token;
             this.setState({
-                token: tokenData.token
+                token: tokenData
             });
         }
+
+        //Acquire the groupMember information when loading
+        axios.get('http://127.0.0.1:3333/api/acquireGroupMember/'+ JSON.parse(sessionStorage.getItem("userToken")).token)
+        .then(response => {
+            //Update number and detail of groupMember
+            this.setState({
+            numberOfGroupMember : response.data.length,
+            lastNumberOfGroupMember : response.data.length,
+            groupMember : response.data
+            })
+        })
+
+       }catch(err){
+           console.log(err)
+       }
     }
 
     handleClose = () => {
         this.setState({isAddMember: false});
     };
 
+    // update param once added a new groupMember => Invoke by AddGroupMemberCard
+    addGroupNumber = (newToken) => {
+        this.setState({
+            numberOfGroupMember : this.state.numberOfGroupMember + 1,
+            token : newToken
+        })
+    }
+
+    // update param once delete a existed groupMember => Invoke by GroupMemberInfoCard
+    deleteGroupNumber = (newToken) => {
+        this.setState({
+            numberOfGroupMember :  this.state.numberOfGroupMember - 1,
+            token : newToken
+        })
+    }
+
     render() {
-
-
         //if token has been expired, redirect to login page
         //console.log(this.props.location.state);
         if (this.props.location.state) {
             const {lastValid} = this.props.location.state;
-            //console.log(lastValid);
 
             if (!lastValid) {
                 return <Redirect
@@ -94,7 +149,7 @@ class GroupMemberPage extends Component {
                     <br/>
                     {/* add member window */}
                     {this.state.isAddMember === true ? (
-                        <AddGroupMemberCard onHandleClose={this.handleClose} token={this.state.token}/>
+                        <AddGroupMemberCard addGroupNumber={this.addGroupNumber} onHandleClose={this.handleClose} token={this.state.token}/>
                     ) : (
                         ""
                     )}
@@ -109,7 +164,24 @@ class GroupMemberPage extends Component {
             them to any trips in the future to boost your booking experience!
           </span>
                     {/* group member card */}
-                    <GroupMemberInfoCard/>
+                    <div className="row">
+                    {this.state.groupMember.map((info) => {
+
+                        return (<div className="col-sm">
+                        <GroupMemberInfoCard 
+                            id={info.id}
+                            name={info.LastName + ' ' + info.FirstName}
+                            dob={info.DOB} 
+                            skierLevel={info.SkiAbility}
+                            snowBikerLevel={info.SnowbikeAbility}
+                            snowBorderLevel={info.SnowboardAbility}
+                            snowMobilerLevel={info.SnowmobileAbility}
+                            snowShoerLevel={info.SnowshoeAbility}
+                            teleMarkerLevel={info.TelemarkAbility}
+                            deleteGroupNumber={this.deleteGroupNumber}/>
+                        </div>)
+                    })}
+                    </div>
                     {/* end container */}
                 </div>
             </React.Fragment>
