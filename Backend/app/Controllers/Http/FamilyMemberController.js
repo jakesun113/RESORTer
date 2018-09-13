@@ -100,12 +100,12 @@ class FamilyMemberController {
       const requestData = request.post();
 
       const validationToken = await ValidationToken.findBy('Token', request.input('token'));
-      // const member = await Member.findBy('id', validationToken.MemberID);
+      const member = await Member.findBy('id', validationToken.MemberID);
 
 
-      // let userToken = await auth.generate(member);
-      // validationToken.merge({Token: userToken.token});
-      // await validationToken.save();
+      let userToken = await auth.generate(member);
+      validationToken.merge({Token: userToken.token});
+      await validationToken.save();
 
       const newMember = new FamilyMember();
       newMember.memberID = validationToken.MemberID,

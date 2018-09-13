@@ -28,20 +28,20 @@ class GroupMemberInfoCard extends Component {
       tokenExpire: false,
       alert: null,
       showAlertWindow: false, //whether show the alertWindow
-      provider:null
+      provider: null
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     //Acquiring provider
     if (sessionStorage.getItem("userSocialData")) {
       let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
       if (userData.provider) {
-          this.setState({
-              provider: userData.provider
-          });
+        this.setState({
+          provider: userData.provider
+        });
       }
-  }
+    }
   }
   //Delete Group Member
   handleOnClick = () => {
@@ -50,7 +50,7 @@ class GroupMemberInfoCard extends Component {
         data: {
           id: this.props.id,
           token: JSON.parse(sessionStorage.getItem("userToken")).token,
-          provider:this.state.provider
+          provider: this.state.provider
         }
       })
       .then(response => {
@@ -83,7 +83,7 @@ class GroupMemberInfoCard extends Component {
 
             console.log(
               "token has been extended. Token is: " +
-                cookies.get("access-token")
+              cookies.get("access-token")
             );
           }
           //Update the numberOfGroupMember in GroupMemberPage, also Pass the token
