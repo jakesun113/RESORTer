@@ -14,7 +14,7 @@ class Search extends Component {
             liftPassResorts: [],
             selectedCountryResorts: "",
             selectedLiftPassResorts: "",
-            liftPasses: ["Collective", "Epic", "Ikon"],
+            liftPasses: [],
             countryName: []
         };
     }
@@ -31,24 +31,24 @@ class Search extends Component {
         await axios.post(BaseURL + "getResortsByCountry", postData)
             .then(response => {
               console.log("read resorts successfully");
-              let resorts = response.data.resortArray;
+              let resorts = response.data.sortedResortArray;
               //Make HTTP request HERE for country based resorts
               this.setState({countryResorts: resorts}); 
             });
     }
 
     // Will be called in "LiftPass" class so as to change the "selectedLiftPass" in state
-    handleChangedLiftPass(selected) {
+    async handleChangedLiftPass(selected) {
         let BaseURL = "http://127.0.0.1:3333/api/";
         let postData;
         postData = {
             liftPass: selected
         };
 
-        axios.post(BaseURL + "getResortsByLiftPass", postData)
+        await axios.post(BaseURL + "getResortsByLiftPass", postData)
             .then(response => {
               console.log("read resorts successfully");
-              let resorts = response.data.resorts;
+              let resorts = response.data.sortedResortArray;
               //Make HTTP request HERE for LiftPass based resorts
               this.setState({liftPassResorts: resorts}); 
             });
@@ -67,14 +67,23 @@ class Search extends Component {
 
     componentDidMount() {
         let BaseURL = "http://127.0.0.1:3333/api/";
+        //get the list of countries
         axios.get(BaseURL + "getCountry").then(
             response => {
                 console.log("read countries successfully");
                 let countries = response.data.sortedCountryArray;
-                console.log(countries)
+                //console.log(countries);
                 this.setState({countryName: countries}); 
-            }
-        )
+            });
+
+        //get the list of liftPasses
+        axios.get(BaseURL + "getLiftPass").then(
+            response => {
+                console.log("read liftPass successfully");
+                let liftPass = response.data.sortedLiftPassArray;
+                //console.log(countries);
+                this.setState({liftPasses: liftPass});
+            });
     }
 
     render() {

@@ -36,30 +36,36 @@ const MemberInfo = styled.p`
 `;
 
 class BookingActivity extends Component {
-    constructor(props) {
-        super(props);
-        this.d2 = {
-            "a": {"activity": [0, 1, 0, 1, 0], "ability": [1, 2, 3, 2, 4, 5]},
-            "b": {"activity": [0, 1, 0, 1, 0], "ability": [1, 2, 3, 2, 4, 5]},
-        };
-        this.members = {};
-
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.members = {
+    //         "member1": {"activity": [true, false, true, false, true, false], "ability": [1, 2, 3, 4, 5, 6], "age": 25},
+    //         "member2": {"activity": [0, 1, 0, 1, 0, 1], "ability": [6, 5, 4, 3, 2, 1], 'age': 30},
+    //     };
+    // }
 
     state = {
-        currentMember: "",
+        currentMember: 'member1',
+        members: {
+            "member1": {"activity": [true, false, true, false, true, false], "ability": [1, 2, 3, 4, 5, 6], "age": 25},
+            "member2": {"activity": [false, true, false, true, false, true], "ability": [6, 5, 4, 3, 2, 1], 'age': 30},
+        }
     };
 
     componentDidMount() {
-        //call api
+        //todo: call api
     }
 
-    changeAbility = (id, v) => {
-        this.members[this.state.currentMember]['ability'][id] = v
+
+    handleActivityChange = (id, isChecked) => {
+        const {members, currentMember} = this.state;
+        members[currentMember]['activity'][id] = isChecked;
+        this.forceUpdate();
     };
 
-
     render() {
+        let {currentMember, members} = this.state;
+        // console.log(members[currentMember]['activity']);
 
         return (
             <div className='container' style={{marginTop: '20px'}}>
@@ -141,14 +147,21 @@ class BookingActivity extends Component {
                         <MemberInfo style={{marginRight: '14vw'}}>Select
                             activities
                             for <span
-                                style={{color: 'rgba(255, 97, 97, 1)', marginLeft: '10px'}}>Member 1</span></MemberInfo>
+                                style={{
+                                    color: 'rgba(255, 97, 97, 1)',
+                                    marginLeft: '10px'
+                                }}>{currentMember}</span></MemberInfo>
                         <MemberInfo style={{display: 'inline-block'}}>Age: <span
-                            style={{color: 'rgba(255, 97, 97, 1)', marginLeft: '10px'}}>18</span></MemberInfo>
+                            style={{
+                                color: 'rgba(255, 97, 97, 1)',
+                                marginLeft: '10px'
+                            }}>{members[currentMember]['age']}</span></MemberInfo>
                     </div>
 
                     <div className='row'>
-                        <div className='col-6 '>
-                            <ActivitySelector/>
+                        <div className='col-6'>
+                            <ActivitySelector activity={members[currentMember]['activity']}
+                                              onChange={this.handleActivityChange}/>
                         </div>
                         <div className='col-6'>
                             <SliderBar/>
