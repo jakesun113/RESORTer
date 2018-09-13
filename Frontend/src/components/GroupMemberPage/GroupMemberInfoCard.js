@@ -17,6 +17,7 @@ class GroupMemberInfoCard extends Component {
       tokenExpire:false,
       alert:null,
       showAlertWindow: false, //whether show the alertWindow
+      provider:null
     }
   }
 
@@ -28,11 +29,21 @@ class GroupMemberInfoCard extends Component {
       "width:" +
       widthValue +
       "px";
+
+    //Acquiring provider
+    if (sessionStorage.getItem("userSocialData")) {
+      let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
+      if (userData.provider) {
+          this.setState({
+              provider: userData.provider
+          });
+      }
+    }
   }
 
   //Delete Group Member
   handleOnClick = () => {
-    axios.delete("http://127.0.0.1:3333/api/delete-member",{data:{id:this.props.id,token:JSON.parse(sessionStorage.getItem("userToken")).token}})
+    axios.delete("http://127.0.0.1:3333/api/delete-member",{data:{id:this.props.id,token:JSON.parse(sessionStorage.getItem("userToken")).token},provider:this.state.provider})
     .then(
       response=>{
         
@@ -46,7 +57,7 @@ class GroupMemberInfoCard extends Component {
           //Update token
           console.log("token valid");
           let userToken = {
-            token: response.data.token.token
+            token: response.data.token
           };
 
         //save token into session
@@ -59,7 +70,7 @@ class GroupMemberInfoCard extends Component {
 
         //only when user click "remember me", update the token in cookies
         if (cookies.get("access-token")) {
-            cookies.set("access-token", response.data.token.token, {
+            cookies.set("access-token", response.data.token, {
                 expires: date,
                 path: "/"
             });
@@ -69,7 +80,7 @@ class GroupMemberInfoCard extends Component {
             );
         }
         //Update the numberOfGroupMember in GroupMemberPage, also Pass the token
-        this.props.deleteGroupNumber(response.data.token.token);
+        this.props.deleteGroupNumber(response.data.token);
         }
         //If Fail => either token expire or member does not exist
         else if(response.data.status === 'fail'){
