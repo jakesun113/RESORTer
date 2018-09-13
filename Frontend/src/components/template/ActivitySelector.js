@@ -14,7 +14,6 @@ const IMG = styled.img`
 
 const IMG_Container = styled.div`
     padding-left:0
-
 `;
 
 const TEXT = styled.span`
@@ -22,16 +21,16 @@ const TEXT = styled.span`
 `;
 
 const CHECKBOX = styled.div`
-    transform: translate(8px,-9px);
-    @media(max-width: 992px){
-      transform: translate(15px,-9px);
-    }
-    @media(max-width: 768px){
-      transform: translate(30px,-9px);
-    }
-    @media(max-width: 576px){
-      transform: translate(60px,-9px);
-    }
+    //transform: translate(8px,-9px);
+    //@media(max-width: 992px){
+    //  transform: translate(15px,-9px);
+    //}
+    //@media(max-width: 768px){
+    //  transform: translate(30px,-9px);
+    //}
+    //@media(max-width: 576px){
+    //  transform: translate(60px,-9px);
+    //}
 `;
 
 const ROW = styled.div`
@@ -43,83 +42,64 @@ const NOTE = styled.p`
     font-size: 0.6rem;
 `;
 
-class ActivitySelector extends Component {
+class ActivityRow extends Component {
+
+    handleChange = (e) => {
+        const {onChange} = this.props;
+        onChange(e.target.id, e.target.checked);
+    };
+
     render() {
+        const {pic, alt, text, checkStatus, id} = this.props;
         return (
-            <div className='container'>
+            <ROW className='row'>
+                <IMG_Container className='col-1'>
+                    <IMG src={pic} alt={alt}/>
+                </IMG_Container>
+                <div className='col-md-8 col-9' style={{transform: 'translate(0,5px)'}}>
+                    <TEXT><strong>{text}</strong></TEXT>
+                </div>
+                <CHECKBOX className='col-2 form-check'>
+                    <input className="form-check-input" type="checkbox" checked={checkStatus} id={id}
+                           onChange={this.handleChange}/>
+                    <label className="form-check-label" htmlFor={id}/>
+                </CHECKBOX>
+            </ROW>
+        )
+    }
+}
+
+class ActivitySelector extends Component {
+
+    handleChange = (id, isChecked) => {
+        const {onChange} = this.props;
+        onChange(id, isChecked);
+    };
+
+    render() {
+        const {activity} = this.props;
+        return (
+            <div className='container' style={{paddingLeft: '0'}}>
                 <p><strong>Activity</strong></p>
-                <ROW className='row'>
-                    <IMG_Container className='col-1'>
-                        <IMG src={pic_ski} alt="ski"/>
-                    </IMG_Container>
-                    <div className='col-2' style={{transform: 'translate(0,5px)'}}>
-                        <TEXT><strong>Ski</strong></TEXT>
-                    </div>
-                    <CHECKBOX className='col-1 form-check'>
-                        <input className="form-check-input" type="checkbox" value="" id="ski"/>
-                        <label className="form-check-label" htmlFor="ski"/>
-                    </CHECKBOX>
-                </ROW>
-                <ROW className='row'>
-                    <IMG_Container className='col-1'>
-                        <IMG src={pic_snowboard} alt="snowboard"/>
-                    </IMG_Container>
-                    <div className='col-2' style={{transform: 'translate(0,5px)'}}>
-                        <TEXT><strong>Snowboard</strong></TEXT>
-                    </div>
-                    <CHECKBOX className='col-1 form-check'>
-                        <input className="form-check-input" type="checkbox" value="" id="snowboard"/>
-                        <label className="form-check-label" htmlFor="snowboard"/>
-                    </CHECKBOX>
-                </ROW>
-                <ROW className='row'>
-                    <IMG_Container className='col-1'>
-                        <IMG src={pic_telemark} alt="telemark"/>
-                    </IMG_Container>
-                    <div className='col-2' style={{transform: 'translate(0,5px)'}}>
-                        <TEXT><strong>Telemark*</strong></TEXT>
-                    </div>
-                    <CHECKBOX className='col-1 form-check'>
-                        <input className="form-check-input" type="checkbox" value="" id="telemark"/>
-                        <label className="form-check-label" htmlFor="telemark"/>
-                    </CHECKBOX>
-                </ROW>
-                <ROW className='row'>
-                    <IMG_Container className='col-1'>
-                        <IMG src={pic_snowbiking} alt="snowbiking"/>
-                    </IMG_Container>
-                    <div className='col-2' style={{transform: 'translate(0,5px)'}}>
-                        <TEXT><strong>Snowbiking*</strong></TEXT>
-                    </div>
-                    <CHECKBOX className='col-1 form-check'>
-                        <input className="form-check-input" type="checkbox" value="" id="snowbiking"/>
-                        <label className="form-check-label" htmlFor="snowbiking"/>
-                    </CHECKBOX>
-                </ROW>
-                <ROW className='row'>
-                    <IMG_Container className='col-1'>
-                        <IMG src={pic_snowshoeing} alt="snowshoeing"/>
-                    </IMG_Container>
-                    <div className='col-2' style={{transform: 'translate(0,5px)'}}>
-                        <TEXT><strong>Snowshoeing*</strong></TEXT>
-                    </div>
-                    <CHECKBOX className='col-1 form-check'>
-                        <input className="form-check-input" type="checkbox" value="" id="snowshoeing"/>
-                        <label className="form-check-label" htmlFor="snowshoeing"/>
-                    </CHECKBOX>
-                </ROW>
-                <ROW className='row'>
-                    <IMG_Container className='col-1'>
-                        <IMG src={pic_snowmobile} alt="snowmobile"/>
-                    </IMG_Container>
-                    <div className='col-2' style={{transform: 'translate(0,5px)'}}>
-                        <TEXT><strong>Snowmobiling*</strong></TEXT>
-                    </div>
-                    <CHECKBOX className='col-1 form-check'>
-                        <input className="form-check-input" type="checkbox" value="" id="snowmobile"/>
-                        <label className="form-check-label" htmlFor="snowmobile"/>
-                    </CHECKBOX>
-                </ROW>
+                <ActivityRow onChange={this.handleChange} pic={pic_ski} alt={'ski'} text={'Ski'}
+                             checkStatus={activity[0]}
+                             id={'0'}/>
+                <ActivityRow onChange={this.handleChange} pic={pic_snowboard} alt={'snowboard'} text={'Snowboard'}
+                             checkStatus={activity[1]}
+                             id={'1'}/>
+                <ActivityRow onChange={this.handleChange} pic={pic_telemark} alt={'telemark'} text={'Telemark*'}
+                             checkStatus={activity[2]}
+                             id={'2'}/>
+                <ActivityRow onChange={this.handleChange} pic={pic_snowbiking} alt={'snowbiking'} text={'Snowbiking*'}
+                             checkStatus={activity[3]}
+                             id={'3'}/>
+                <ActivityRow onChange={this.handleChange} pic={pic_snowshoeing} alt={'snowshoeing'}
+                             text={'Snowshoeing*'}
+                             checkStatus={activity[4]}
+                             id={'4'}/>
+                <ActivityRow onChange={this.handleChange} pic={pic_snowmobile} alt={'snowmobile'} text={'Snowmobiling*'}
+                             checkStatus={activity[5]}
+                             id={'5'}/>
                 <NOTE>*Lessons and rental in this are subject to availability at resort</NOTE>
             </div>
 
