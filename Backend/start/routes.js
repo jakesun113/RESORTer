@@ -59,6 +59,10 @@ Route.post('/api/check-token', 'ValidationTokenController.check');
 
 //Add Family Member
 Route.post("/api/add-member", "FamilyMemberController.addMember");
+//Acquire Family Member
+Route.get("/api/acquireGroupMember/:token","FamilyMemberController.acquireGroupMember")
+//Delete Family Member
+Route.delete("/api/delete-member", "FamilyMemberController.deleteMember");
 /*FamilyMemberController end*/
 
 Route.get("/pushResortInfo", "ResortInfoController.pushResortInfo");

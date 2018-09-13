@@ -1,7 +1,25 @@
 import React, { Component } from "react";
-
+import SmallEllipseBtn from "../template/SmallEllipseBtn";
+import axios from "axios"
+import {withCookies, Cookies} from 'react-cookie';
+import {instanceOf} from 'prop-types';
+import {Redirect} from "react-router-dom";
+import AlertWindow from "../template/AlertWindow"
 class GroupMemberInfoCard extends Component {
-  state = {};
+  
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
+
+  constructor(props){
+    super(props);
+    this.state = {
+      tokenExpire:false,
+      alert:null,
+      showAlertWindow: false, //whether show the alertWindow
+    }
+  }
+
   componentDidMount() {
     // css
     let widthValue = window.screen.width > 750 ? "450" : "350";
@@ -11,9 +29,117 @@ class GroupMemberInfoCard extends Component {
       widthValue +
       "px";
   }
+
+  //Delete Group Member
+  handleOnClick = () => {
+    axios.delete("http://127.0.0.1:3333/api/delete-member",{data:{id:this.props.id,token:JSON.parse(sessionStorage.getItem("userToken")).token}})
+    .then(
+      response=>{
+        
+        //If Success => alert Success
+        if(response.data.status === 'success'){
+          
+          this.setState({
+            alert:'success'
+          })
+
+          //Update token
+          console.log("token valid");
+          let userToken = {
+            token: response.data.token.token
+          };
+
+        //save token into session
+        sessionStorage.setItem("userToken", JSON.stringify(userToken));
+
+        //save token into cookie
+        let date = new Date();
+        date.setTime(date.getTime() + +2592000);
+        const {cookies} = this.props;
+
+        //only when user click "remember me", update the token in cookies
+        if (cookies.get("access-token")) {
+            cookies.set("access-token", response.data.token.token, {
+                expires: date,
+                path: "/"
+            });
+
+            console.log(
+                "token has been extended. Token is: " + cookies.get("access-token")
+            );
+        }
+        //Update the numberOfGroupMember in GroupMemberPage, also Pass the token
+        this.props.deleteGroupNumber(response.data.token.token);
+        }
+        //If Fail => either token expire or member does not exist
+        else if(response.data.status === 'fail'){
+
+          this.setState({
+            alert:'fail'
+          })
+
+        }else if(response.data.status === 'ExpiredJWT'){
+
+          this.setState({
+            alert:'tokenExpire'
+        });
+
+        }
+      })
+      this.setState({showAlertWindow: true})
+  }
+
+  handleLogout = () => {
+    const {cookies} = this.props;
+
+    sessionStorage.removeItem("userSocialData");
+    sessionStorage.removeItem("userToken");
+    cookies.remove("user-name");
+    cookies.remove("access-token");
+    cookies.remove("user-pic");
+};
   render() {
+
+    if (this.state.tokenExpire) {
+      return <Redirect to={"/login"}/>;
+  }
+  let alertWindow;
+  if (this.state.showAlertWindow) {
+      if (this.state.alert === 'success') {
+          alertWindow = <AlertWindow
+              displayText={<div>Congratulation, You have already successfully delete your group member.</div>}
+              btnNum='1'
+              btnText="OK"
+              mode='customMode'
+              onHandClick={() => this.setState({showAlertWindow: false})}
+          />
+      } else if (this.state.alert === 'tokenExpire') {
+          alertWindow = <AlertWindow
+              displayText={<div>Sorry, you token is expired. Please login again.</div>}
+              btnNum='1'
+              btnText="Login"
+              mode='customMode'
+              onHandClick={() => {
+                  this.setState({showAlertWindow: false});
+                  this.setState({tokenExpire: true});
+                  this.handleLogout();
+              }}
+          />
+      } else if (this.state.alert === 'fail') {
+        alertWindow = <AlertWindow
+            displayText={<div>Woops, This user has been deleted. Please refresh.</div>}
+            mode='customMode'
+            onHandClick={() => {
+                this.setState({showAlertWindow: false});
+                this.handleLogout();
+            }}
+        />
+    }
+  }
+
     return (
       <React.Fragment>
+        {alertWindow}
         <div id="info-card-in-member-page">
           <div
             style={{
@@ -22,12 +148,10 @@ class GroupMemberInfoCard extends Component {
               paddingRight: "20px"
             }}
           >
-            <i
-              className="fas fa-times"
-              style={{ fontSize: "3ex" }}
-              id="close_chat_btn"
-              onClick={this.props.onHandleDelete}
-            />
+            <span onClick = {this.handleOnClick}>
+              <SmallEllipseBtn text = "DELETE"/>
+            </span>
+
           </div>
           {/* user photo */}
           <div className="form-row">
@@ -58,10 +182,10 @@ class GroupMemberInfoCard extends Component {
                   margin: "0 auto"
                 }}
               >
-                <span id="phone_number">1313 13123131</span>
+                <span id="name">{this.props.name}</span>
                 <br />
                 {/* Date of Birth: */}
-                <span id="birthday">1 Feb 1980</span>
+                <span id="birthday">{this.props.dob}</span>
               </span>
             </div>
           </div>
@@ -73,7 +197,7 @@ class GroupMemberInfoCard extends Component {
               <div className="row">
                 <div className="col-3">
                   <span>
-                    Lv <span id="ski_level">1</span>
+                    Lv <span id="ski_level">{this.props.skierLevel}</span>
                   </span>
                 </div>
                 <div className="col-9">
@@ -86,7 +210,7 @@ class GroupMemberInfoCard extends Component {
               <div className="row">
                 <div className="col-3">
                   <span>
-                    Lv <span id="snowbiker_level">1</span>
+                    Lv <span id="snowbiker_level">{this.props.snowBikerLevel}</span>
                   </span>
                 </div>
                 <div className="col-9">
@@ -101,7 +225,7 @@ class GroupMemberInfoCard extends Component {
               <div className="row">
                 <div className="col-3">
                   <span>
-                    Lv <span id="snowboarder_level">1</span>
+                    Lv <span id="snowboarder_level">{this.props.snowBorderLevel}</span>
                   </span>
                 </div>
                 <div className="col-9">
@@ -113,7 +237,7 @@ class GroupMemberInfoCard extends Component {
               <div className="row">
                 <div className="col-3">
                   <span>
-                    Lv <span id="snowmobiler_level">1</span>
+                    Lv <span id="snowmobiler_level">{this.props.snowMobilerLevel}</span>
                   </span>
                 </div>
                 <div className="col-9">
@@ -128,7 +252,7 @@ class GroupMemberInfoCard extends Component {
               <div className="row">
                 <div className="col-3">
                   <span>
-                    Lv <span id="telemarker_level">1</span>
+                    Lv <span id="telemarker_level">{this.props.teleMarkerLevel}</span>
                   </span>
                 </div>
                 <div className="col-9">
@@ -140,7 +264,7 @@ class GroupMemberInfoCard extends Component {
               <div className="row">
                 <div className="col-3">
                   <span>
-                    Lv <span id="snowshoer_level">1</span>
+                    Lv <span id="snowshoer_level">{this.props.snowShoerLevel}</span>
                   </span>
                 </div>
                 <div className="col-9">
@@ -155,4 +279,4 @@ class GroupMemberInfoCard extends Component {
   }
 }
 
-export default GroupMemberInfoCard;
+export default withCookies(GroupMemberInfoCard);

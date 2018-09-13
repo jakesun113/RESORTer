@@ -154,7 +154,7 @@ class MemberController {
     try {
 
       let member;
-
+      console.log(request.all())
       //Judge whether request contains Email or Id
       if ("email" in request.all()) {
 
