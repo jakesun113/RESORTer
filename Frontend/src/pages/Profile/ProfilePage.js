@@ -10,6 +10,26 @@ import { instanceOf } from "prop-types";
 import AlertWindow from "../../components/template/AlertWindow";
 import axios from "axios";
 import moment from "moment";
+import DatePicker from "react-datepicker";
+
+function Birthday(props) {
+  function handleChange(date) {
+      props.onChange(date, "dob");
+      props.checkValidate();
+  }
+  
+  return (
+      <React.Fragment>
+          <DatePicker
+              selected={moment(props.dob)}
+              onChange={handleChange}
+              dateFormat="YYYY-MM-DD"
+              maxDate={moment().subtract(1, "days")}
+              placeholderText= "YYYY-MM-DD"
+          />
+      </React.Fragment>
+  );
+}
 
 //TODO: add save photo to "public" folder function
 class ProfilePage extends Component {
@@ -28,7 +48,13 @@ class ProfilePage extends Component {
       email: null,
       portrait: null,
       dob: null,
+      birth_format_wrong: false,
       age: null,
+      gender: null,
+      firstName: null,
+      lastName: null,
+      phoneCode: null,
+      phoneNumber: null,
       skiAbility: null,
       snowboardAbility: null,
       telemarkAbility: null,
@@ -43,8 +69,62 @@ class ProfilePage extends Component {
       user_pic:
         "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/crop/x_7,y_0,w_1184,h_1184/fill/w_96,h_96,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
     };
+
     this.handleSubmit = this.handleSubmit.bind(this);
+    
   }
+
+//   validator = () => {
+//     let isValid = true;
+
+//     if (
+//         moment(this.state.startDate).format("YYYY-MM-DD") ===
+//         moment().format("YYYY-MM-DD") ||
+//         moment(this.state.startDate).format("YYYY-MM-DD") >
+//         moment().format("YYYY-MM-DD")
+//     ) {
+//         document
+//             .getElementsByClassName("react-datepicker__input-container")[0]
+//             .getElementsByTagName("input")[0].style.boxShadow =
+//             "0px 2px 0px 0px red";
+//         this.setState({birth_format_wrong: true});
+//         isValid = false;
+//     }
+
+//     return isValid;
+// };
+
+validateDate = () => {
+
+  let aDate   = moment(this.state.dob, 'YYYY-MM-DD', true),
+  isValid = aDate.isValid(),
+  birthday = this.refs.birthday;
+  console.log(birthday)
+  // if (isValid === false) {
+  //   birthday.setCustomValidity("Invalid date format");
+  // } else {
+  //   birthday.setCustomValidity("");
+  // }
+}
+
+dateChanged = (date, choice) => {
+  this.setState({ 
+    [choice]: date,
+    dob: date
+  }, () => {
+    let countAge = moment().diff(
+      moment(this.state.dob).format("YYYY"),
+      "years"
+    );
+    if (countAge !== this.state.age) {
+      this.setState({
+        age: countAge
+      });
+    }
+    this.validateDate();
+  });
+
+};
 
   //   upload btn animation
   handleHover = e => {
@@ -126,24 +206,22 @@ class ProfilePage extends Component {
         setState({ email: response.data.email });
 
         if (response.data.gender != null) {
-          document.getElementById("gender").value = response.data.gender;
+          //document.getElementById("gender").value = response.data.gender;
+          setState({ gender: response.data.gender });
         }
         if (response.data.firstName != null) {
-          document.getElementById("firstName").value = response.data.firstName;
+          setState({ firstName: response.data.firstName });
         }
         if (response.data.lastName != null) {
-          document.getElementById("lastName").value = response.data.lastName;
+          setState({ lastName: response.data.lastName });
         }
         if (response.data.phoneCode != null) {
-          document.getElementById("phone_number_pre").value =
-            response.data.phoneCode;
+          setState({ phoneCode: response.data.phoneCode });
         }
         if (response.data.phoneNumber != null) {
-          document.getElementById("phoneNumber").value =
-            response.data.phoneNumber;
+          setState({ phoneNumber: response.data.phoneNumber });
         }
         if (response.data.dob != null) {
-          //document.getElementById("dob").value = moment(response.data.dob).format("YYYY-MM-DD");
           setState({ dob: response.data.dob });
           let countAge = moment().diff(
             moment(this.state.dob).format("YYYY"),
@@ -218,7 +296,7 @@ class ProfilePage extends Component {
       FirstName: document.getElementById("firstName").value,
       LastName: document.getElementById("lastName").value,
       Gender: document.getElementById("gender").value,
-      DOB: moment(document.getElementById("dob").value).format("YYYY-MM-DD"),
+      DOB: moment(this.state.dob).format("YYYY-MM-DD"),
       PhoneAreaCode: document.getElementById("phone_number_pre").value,
       PhoneNumber: document.getElementById("phoneNumber").value,
       Country: document.getElementById("country").value,
@@ -337,7 +415,7 @@ class ProfilePage extends Component {
       disabled = false;
     }
 
-    if (this.state.email) {
+    if (this.state.dob) {
       return (
         <React.Fragment>
           <div className="container">
@@ -477,7 +555,7 @@ class ProfilePage extends Component {
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="gender">Gender</label>
 
-                  <select id="gender" className="form-control">
+                  <select id="gender" className="form-control" value={this.state.gender}>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
@@ -496,6 +574,7 @@ class ProfilePage extends Component {
                     id="firstName"
                     placeholder="First Name"
                     readOnly={readOnly}
+                    value={this.state.firstName}
                   />
                 </div>
                 &ensp; &ensp;
@@ -507,6 +586,7 @@ class ProfilePage extends Component {
                     id="lastName"
                     placeholder="Last Name"
                     readOnly={readOnly}
+                    value={this.state.lastName}
                   />
                 </div>
                 <div className="form-group col-lg-2" />
@@ -520,7 +600,7 @@ class ProfilePage extends Component {
                   <label htmlFor="phoneNumber">Phone</label>
                   <div className="form-row">
                     <div className="form-group col-4 col-lg-4">
-                      <select className="custom-select" id="phone_number_pre">
+                      <select className="custom-select" id="phone_number_pre" value={this.state.phoneCode}>
                         <option value="+61">+61</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
@@ -532,6 +612,7 @@ class ProfilePage extends Component {
                         className="form-control"
                         id="phoneNumber"
                         placeholder="Phone"
+                        value={this.state.phoneNumber}
                       />
                     </div>
                   </div>
@@ -542,14 +623,29 @@ class ProfilePage extends Component {
                   <div className="form-row">
                     <div className="form-group col-10 col-lg-10">
                       <label htmlFor="inputPassword">Date of Birth</label>
-                      <input
+                      {/* <input
                         type="text"
                         className="form-control"
                         id="dob"
                         placeholder="YYYY-MM-DD"
                         value={this.state.dob}
                         onChange={this.ageCount}
+                      /> */}
+                      <Birthday
+                          ref = "birthday"
+                          checkValidate={() => {
+                                this.setState({birth_format_wrong: false});
+                          }}
+                          
+                          dob={this.state.dob}
+                          onChange={this.dateChanged}
                       />
+                            {/* if wrong */}
+                            {/* {this.state.birth_format_wrong ? (
+                                <div style={{color: "red"}}>Please fill a valid birthday</div>
+                            ) : (
+                                ""
+                            )} */}
                     </div>
                     <div className="form-group col-2 col-lg-2">
                       <label htmlFor="inputPassword">Age</label>
