@@ -102,7 +102,7 @@ class SignUpPage extends Component {
   handleResendEmail() {
     axios
       .post("http://127.0.0.1:3333/api/resendConfirmEmail", {
-        id: this.props.match.params.id
+        email: document.getElementById("registerEmail").value
       })
       .then(response => {
         //If email is successfully sent
