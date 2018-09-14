@@ -13,9 +13,10 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 
 function Birthday(props) {
+
   function handleChange(date) {
       props.onChange(date, "dob");
-      props.checkValidate();
+      
   }
   
   return (
@@ -26,6 +27,8 @@ function Birthday(props) {
               dateFormat="YYYY-MM-DD"
               maxDate={moment().subtract(1, "days")}
               placeholderText= "YYYY-MM-DD"
+              showYearDropdown
+              dropdownMode="select"
           />
       </React.Fragment>
   );
@@ -48,7 +51,6 @@ class ProfilePage extends Component {
       email: null,
       portrait: null,
       dob: null,
-      birth_format_wrong: false,
       age: null,
       gender: null,
       firstName: null,
@@ -74,40 +76,8 @@ class ProfilePage extends Component {
     
   }
 
-//   validator = () => {
-//     let isValid = true;
-
-//     if (
-//         moment(this.state.startDate).format("YYYY-MM-DD") ===
-//         moment().format("YYYY-MM-DD") ||
-//         moment(this.state.startDate).format("YYYY-MM-DD") >
-//         moment().format("YYYY-MM-DD")
-//     ) {
-//         document
-//             .getElementsByClassName("react-datepicker__input-container")[0]
-//             .getElementsByTagName("input")[0].style.boxShadow =
-//             "0px 2px 0px 0px red";
-//         this.setState({birth_format_wrong: true});
-//         isValid = false;
-//     }
-
-//     return isValid;
-// };
-
-validateDate = () => {
-
-  let aDate   = moment(this.state.dob, 'YYYY-MM-DD', true),
-  isValid = aDate.isValid(),
-  birthday = this.refs.birthday;
-  console.log(birthday)
-  // if (isValid === false) {
-  //   birthday.setCustomValidity("Invalid date format");
-  // } else {
-  //   birthday.setCustomValidity("");
-  // }
-}
-
 dateChanged = (date, choice) => {
+  console.log("date changed")
   this.setState({ 
     [choice]: date,
     dob: date
@@ -121,7 +91,6 @@ dateChanged = (date, choice) => {
         age: countAge
       });
     }
-    this.validateDate();
   });
 
 };
@@ -152,6 +121,9 @@ dateChanged = (date, choice) => {
         });
       }
     }
+    document
+    .getElementsByClassName("react-datepicker__input-container")[0];
+    console.log(document.getElementsByClassName("react-datepicker__input-container"))
 
     if (sessionStorage.getItem("userToken")) {
       let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
@@ -221,6 +193,7 @@ dateChanged = (date, choice) => {
         if (response.data.phoneNumber != null) {
           setState({ phoneNumber: response.data.phoneNumber });
         }
+
         if (response.data.dob != null) {
           setState({ dob: response.data.dob });
           let countAge = moment().diff(
@@ -242,24 +215,10 @@ dateChanged = (date, choice) => {
     }
   }
 
-  ageCount = e => {
-    this.setState({ dob: e.target.value }, () => {
-      let countAge = moment().diff(
-        moment(this.state.dob).format("YYYY"),
-        "years"
-      );
-      if (countAge !== this.state.age) {
-        this.setState({
-          age: countAge
-        });
-      }
-      //console.log(countAge)
-    });
-  };
 
   async handleSubmit(e) {
     e.preventDefault();
-
+      
     const isDisabledValue = document.getElementById("is_disability").checked;
     let disabilityMembershipValue = null;
     let disabilityMembershipIDValue = null;
@@ -372,6 +331,7 @@ dateChanged = (date, choice) => {
         }
       }
     );
+    
   }
 
   render() {
@@ -631,21 +591,11 @@ dateChanged = (date, choice) => {
                         value={this.state.dob}
                         onChange={this.ageCount}
                       /> */}
-                      <Birthday
-                          ref = "birthday"
-                          checkValidate={() => {
-                                this.setState({birth_format_wrong: false});
-                          }}
-                          
+                      <Birthday 
                           dob={this.state.dob}
                           onChange={this.dateChanged}
+                         
                       />
-                            {/* if wrong */}
-                            {/* {this.state.birth_format_wrong ? (
-                                <div style={{color: "red"}}>Please fill a valid birthday</div>
-                            ) : (
-                                ""
-                            )} */}
                     </div>
                     <div className="form-group col-2 col-lg-2">
                       <label htmlFor="inputPassword">Age</label>
