@@ -91,9 +91,10 @@ class ValidationTokenController {
               const dbMemberID = await Database.table('members')
                 .where("Email", email).select('id');
 
-              //TODO: actually, user picture is saved in the local "public" file
               const dbPortrait = await Database.table('members')
                 .where("Email", email).select('Portrait');
+
+              //console.log(dbPortrait)
 
               const member = await Member.findBy('Email', email);
 
@@ -128,6 +129,7 @@ class ValidationTokenController {
 
                 await token.save();
 
+                //FIXME: get image is wrong
                 return JSON.stringify({
                   emailExisted: true,
                   emailDuplicated: false,
