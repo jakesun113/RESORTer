@@ -32,4 +32,10 @@
 - and you will see the data is start loading from your backend console
 - You will get informed once the loading is finished.
 
+# How to display different languages properly in the database
+- Set the Collation in MySQL as "utf8_unicode_ci", 
+- at The database level, The table level, and the column level
+- Reference: 
+https://confluence.atlassian.com/confkb/how-to-fix-the-collation-and-character-set-of-a-mysql-database-670958160.html
+
 

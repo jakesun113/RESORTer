@@ -5,6 +5,7 @@ const LiftPass = use("App/Models/Liftpass");
 const ResortLiftPass = use("App/Models/ResortLiftpass");
 const csv = require('csvtojson');
 const resortInfo = "Data/Resorts.csv";
+const onBoard = "Data/isOnBoard.csv";
 const liftPass = "Data/LiftPass.csv";
 const resortLiftPass = "Data/ResortLiftPass.csv";
 
@@ -20,30 +21,30 @@ class ResortInfoController {
     //import data only when the ResortInfo table is empty
     if (resortCount === 0) {
       const jsonArray = await csv().fromFile(resortInfo);
+      const jsonArray2 = await csv().fromFile(onBoard);
       //console.log(jsonArray.length);
       console.log("Start loading resorts data.");
       for (let i = 0; i < jsonArray.length; i++) {
         const resort = new Resorts();
         resort.Name = jsonArray[i].Name;
-        resort.Longitude = jsonArray[i].Longitude;
-        resort.Latitude = jsonArray[i].Latitude;
-        resort.Image = jsonArray[i].Image;
-        resort.Description = jsonArray[i].Description;
-        resort.IsOnBoard = jsonArray[i].IsOnBoard;
-        resort.Logo = jsonArray[i].Logo;
+        resort.Longitude = jsonArray[i].longitude;
+        resort.Latitude = jsonArray[i].latitude;
+        resort.Image = jsonArray[i].image;
+        resort.Description = jsonArray[i].description;
+        resort.IsOnBoard = jsonArray2[i].isOnBoard;
+        resort.Logo = jsonArray[i].logo;
         resort.Country = jsonArray[i].Country;
         resort.Continent = jsonArray[i].Continent;
         resort.Union = jsonArray[i].Union;
-        resort.WixID = jsonArray[i].WixID;
+        resort.WixID = jsonArray[i].ID;
         resort.Owner = jsonArray[i].Owner;
-        resort.OwnerEmail = jsonArray[i].OwnerEmail;
+        resort.OwnerEmail = jsonArray[i].Email;
         await resort.save();
         console.log(i);
       }
-
       console.log("Finish loading resorts data.");
     }
-    //import data only when the Liftpass table is empty
+
     if (liftPassCount === 0) {
       const jsonArray = await csv().fromFile(liftPass);
       //console.log(jsonArray.length);
@@ -75,9 +76,6 @@ class ResortInfoController {
       console.log("Finish loading resortLiftpass data.");
     }
 
-    else {
-      console.log("You have loaded resorts data.")
-    }
 
   }
 
