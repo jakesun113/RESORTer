@@ -56,6 +56,8 @@ class ProfilePage extends Component {
             lastName: null,
             phoneCode: null,
             phoneNumber: null,
+            country: null,
+            postcode: null,
             skiAbility: null,
             snowboardAbility: null,
             telemarkAbility: null,
@@ -197,14 +199,21 @@ dateChanged = (date, choice) => {
                     );
                     document.getElementById("age").value = countAge;
                 }
-                document.getElementById("country").value = response.data.country;
-                document.getElementById("postcode").value = response.data.postcode;
 
-                if (this.state.hasDisability) {
-                    document.getElementById("is_disability").checked = true;
-                } else {
-                    document.getElementById("is_disability").checked = false;
+                if (response.data.country != null) {
+                    setState({country: response.data.country});
                 }
+
+                if (response.data.postcode != null) {
+                    setState({postcode: response.data.postcode });
+                }
+
+                
+                // if (this.state.hasDisability) {
+                //     document.getElementById("is_disability").checked = true;
+                // } else {
+                //     document.getElementById("is_disability").checked = false;
+                // }
             });
             //console.log(this.state.skiAbility)
         }
@@ -384,7 +393,7 @@ dateChanged = (date, choice) => {
             disabled = false;
         }
 
-        if (this.state.dob) {
+        if (this.state.phoneNumber) {
             return (
                 <React.Fragment>
                     <div className="container">
@@ -633,6 +642,7 @@ dateChanged = (date, choice) => {
                     className="form-control"
                     id="country"
                     placeholder=""
+                    value={this.state.country}
                   />
                 </div>
                 &ensp; &ensp;
@@ -643,6 +653,7 @@ dateChanged = (date, choice) => {
                     className="form-control"
                     id="postcode"
                     placeholder=""
+                    value={this.state.postcode}
                   />
                 </div>
                 <div className="form-group col-lg-2" />
