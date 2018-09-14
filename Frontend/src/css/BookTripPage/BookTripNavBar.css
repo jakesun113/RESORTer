@@ -1,4 +1,4 @@
-.circle_navbar_in_bookpage {
+/* .circle_navbar_in_bookpage {
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -14,12 +14,11 @@
 }
 .line_navbar_in_bookpage {
   width: 86px;
-  /* top: 80px; */
-  /* align-items: center; */
+
   border-bottom: 5px solid rgba(232, 89, 12, 1);
   height: 0 !important;
   min-height: 0 !important;
-  /* display: inline-block; */
+
 }
 .active_navbar_in_bookpage {
   background-color: rgba(90, 215, 76, 1);
@@ -32,4 +31,51 @@
 .initial_navbar_in_bookpage {
   background-color: rgba(204, 204, 204, 1);
   border-color: rgba(204, 204, 204, 1);
+} */
+
+li {
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  font-size: 12px;
+  font-family: arial, calibri, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 50%;
+  background: dodgerblue;
+  display: inline-block;
+  color: white;
+  position: relative;
+  margin: 0px 10px;
+  box-shadow: 0 0 3px 3px grey;
+}
+
+li::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  width: 100%;
+  height: 1px;
+  background: 5px rgba(232, 89, 12, 1);
+  z-index: -1;
+}
+
+li:first-child::before {
+  display: none;
+}
+
+li:after {
+}
+
+.active {
+  background: dodgerblue;
+}
+
+.active ~ li {
+  background: lightblue;
+}
+
+.active ~ li::before {
+  background: lightblue;
 }
