@@ -25,7 +25,7 @@
 # How to Run the Application
 <ul><li>Backend:<p>npm install</p><p>adonis serve --dev</p></li><li>Frontend:<p>npm install</p><p>npm start</p></li></ul> 
 
-# Get Resort Information from CSV file
+# Load data to MySQL from CSV file
 - Type the url of backend + "/getResortInfo" 
 - For example, if your backend home url is "http://127.0.0.1:3333",
 - just type "http://127.0.0.1:3333/getResortInfo" on the browser
@@ -33,8 +33,8 @@
 - You will get informed once the loading is finished.
 
 # How to display different languages properly in the database
-- Set the Collation in MySQL as "utf8_unicode_ci", 
-- at The database level, The table level, and the column level
+- Set the Collation in MySQL as __"utf8_unicode_ci"__, 
+- at the database level, the table level, and the column level
 - Reference: 
 https://confluence.atlassian.com/confkb/how-to-fix-the-collation-and-character-set-of-a-mysql-database-670958160.html
 
