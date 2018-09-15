@@ -14,7 +14,8 @@ class SmallEllipseBtn extends Component {
             paddingLeft: this.props.paddingLeft,
             paddingRight: this.props.paddingRight,
             paddingTop: this.props.paddingTop,
-            paddingBottom: this.props.paddingBottom
+            paddingBottom: this.props.paddingBottom,
+            width: this.props.width
           }}
         >
           {this.props.text}

@@ -69,40 +69,51 @@ class ContactPage extends Component {
           style={{
             marginTop: "50px",
             marginBottom: "50px",
-            width: "800px"
+            whiteSpace: "nowrap"
           }}
         >
-          <h1 style={{ textAlign: "center" }}>Contact Us</h1>
+          {/* title */}
+          <div className="row">
+            <div className="col-sm-4 col-lg-4" />
+            <div
+              className="col-12 col-sm-4 col-lg-4"
+              style={{ textAlign: "center" }}
+            >
+              <h1>Contact Us</h1>
+            </div>
+            <div className="col-sm-4 col-lg-4" />
+          </div>
+
           <br />
           <form onSubmit={this.handleSubmit} data-toggle="validator">
-            <div className="row">
-              <div className="col">
-                <div className="form-group">
-                  <label>Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="exampleFormControlInput2"
-                    name="name"
-                    placeholder="Name"
-                    onChange={this.handleChange}
-                    required
-                  />
-                </div>
+            <div className="form-row">
+              {/* name */}
+              <div
+                className="form-group col-12 col-lg-6"
+                style={{ width: "100%" }}
+              >
+                <label>Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="exampleFormControlInput2"
+                  name="name"
+                  placeholder="Name"
+                  onChange={this.handleChange}
+                  required
+                />
               </div>
-              <div className="col">
-                <div className="form-group ">
-                  <label>Telephone</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="exampleFormControlInput3"
-                    required
-                    name="telephone"
-                    placeholder="Telephone number"
-                    onChange={this.handleChange}
-                  />
-                </div>
+              <div className="form-group col-12 col-lg-6">
+                <label>Telephone</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="exampleFormControlInput3"
+                  required
+                  name="telephone"
+                  placeholder="Telephone number"
+                  onChange={this.handleChange}
+                />
               </div>
             </div>
 
@@ -132,15 +143,15 @@ class ContactPage extends Component {
             </div>
             {/* radio button */}
 
-            <div className="form-group">
-              <div
-                className="row"
-                style={{ marginRight: "300px", marginLeft: "50px" }}
-              >
-                <label className="col-sm" style={{ whiteSpace: "nowrap" }}>
+            <div className="form-row">
+              <div className="form-group col-lg-2" />
+              <div className="form-group col-lg-4">
+                <label style={{ whiteSpace: "nowrap" }}>
                   Interested in investing with us?
                 </label>
-                <div className="custom-control custom-radio col-sm">
+              </div>
+              <div className="form-group col-2">
+                <div className="custom-control custom-radio">
                   <input
                     className="custom-control-input"
                     type="radio"
@@ -157,8 +168,9 @@ class ContactPage extends Component {
                     Yes
                   </label>
                 </div>
-
-                <div className="custom-control custom-radio col-sm">
+              </div>
+              <div className="form-group col-lg-2">
+                <div className="custom-control custom-radio">
                   <input
                     className="custom-control-input"
                     type="radio"
@@ -176,18 +188,19 @@ class ContactPage extends Component {
                   </label>
                 </div>
               </div>
+              <div className="form-group col-lg-2" />
             </div>
 
             {/* second choose */}
-            <div className="form-group">
-              <div
-                className="row"
-                style={{ marginRight: "300px", marginLeft: "50px" }}
-              >
-                <label style={{ whiteSpace: "nowrap" }} className="col-sm">
+            <div className="form-row">
+              <div className="form-group col-lg-2" />
+              <div className="form-group col-lg-4">
+                <label style={{ whiteSpace: "nowrap" }}>
                   Interested in working with us?
                 </label>
-                <div className="custom-control custom-radio col-sm">
+              </div>
+              <div className="form-group col-lg-2">
+                <div className="custom-control custom-radio">
                   <input
                     className="custom-control-input"
                     type="radio"
@@ -204,8 +217,9 @@ class ContactPage extends Component {
                     Yes
                   </label>
                 </div>
-
-                <div className="custom-control custom-radio col-sm">
+              </div>
+              <div className="form-group col-lg-2">
+                <div className="custom-control custom-radio">
                   <input
                     className="custom-control-input"
                     type="radio"
@@ -223,16 +237,23 @@ class ContactPage extends Component {
                   </label>
                 </div>
               </div>
+              <div className="form-group col-lg-2" />
             </div>
 
             {/* send button */}
-            <div className="row">
-              <div className="col-sm-2" />
-              <div className="col-sm-8">
+            <div className="form-row">
+              <div className="form-group col-2 col-lg-3" />
+              <div className="form-group col-8 col-lg-6">
                 <button
                   type="submit"
                   className="button"
-                  style={{ width: "100%" }}
+                  style={{
+                    width: "100%",
+                    background: "black",
+                    color: "white",
+                    borderRadius: "20px",
+                    padding: "8px"
+                  }}
                   onClick={() => {
                     window.scrollTo(0, 0);
                   }}
@@ -240,7 +261,7 @@ class ContactPage extends Component {
                   <span>Send</span>
                 </button>
               </div>
-              <div className="col-sm-2" />
+              <div className="form-group col-2 col-lg-3" />
             </div>
           </form>
           <br />

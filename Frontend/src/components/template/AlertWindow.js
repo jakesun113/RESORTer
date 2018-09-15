@@ -53,26 +53,32 @@ class AlertWindow extends Component {
                 <div className="col-12">
                   {/* link mode */}
                   {this.props.mode === "linkMode" ? (
-                    <Link
-                      to={this.props.linkTo}
-                      onClick={this.props.onHandleClose}
-                    >
-                      <SmallEllipseBtn
-                        text={this.props.btnText}
-                        btnColor="rgba(104, 99, 105, 1)"
-                      />
-                    </Link>
+                    <div>
+                      <Link
+                        to={this.props.linkTo}
+                        onClick={this.props.onHandleClose}
+                      >
+                        <SmallEllipseBtn
+                          text={this.props.btnText}
+                          btnColor="rgba(104, 99, 105, 1)"
+                        />
+                      </Link>
+                      <br />
+                    </div>
                   ) : (
                     ""
                   )}
                   {/* customer mode */}
                   {this.props.mode === "customMode" ? (
-                    <span onClick={this.props.onHandClick}>
-                      <SmallEllipseBtn
-                        text={this.props.btnText}
-                        btnColor="rgba(104, 99, 105, 1)"
-                      />
-                    </span>
+                    <div>
+                      <span onClick={this.props.onHandClick}>
+                        <SmallEllipseBtn
+                          text={this.props.btnText}
+                          btnColor="rgba(104, 99, 105, 1)"
+                        />
+                      </span>
+                      <br />
+                    </div>
                   ) : (
                     ""
                   )}
@@ -85,59 +91,73 @@ class AlertWindow extends Component {
             {this.props.btnNum === "2" ? (
               <div className="row">
                 {/* left btn */}
-                <div className="col">
+                <div
+                  className="col-12 col-lg-6"
+                  style={{ paddingBottom: "20px" }}
+                >
                   {this.props.btnOneMode === "linkMode" ? (
-                    <Link
-                      to={this.props.btnOneLinkTo}
-                      onClick={this.props.onHandleClose}
-                    >
-                      <SmallEllipseBtn
-                        text={this.props.btnOneText}
-                        btnColor="rgba(104, 99, 105, 1)"
-                      />
-                    </Link>
+                    <div>
+                      <Link
+                        to={this.props.btnOneLinkTo}
+                        onClick={this.props.onHandleClose}
+                      >
+                        <SmallEllipseBtn
+                          text={this.props.btnOneText}
+                          btnColor="rgba(104, 99, 105, 1)"
+                        />
+                      </Link>
+                      <br />
+                    </div>
                   ) : (
                     ""
                   )}
                   {/* customer mode */}
                   {this.props.btnOneMode === "customMode" ? (
-                    <span onClick={this.props.onHandClickOne}>
-                      <SmallEllipseBtn
-                        text={this.props.btnOneText}
-                        btnColor="rgba(255, 97, 97, 1)"
-                        paddingLeft="90px"
-                        paddingRight="90px"
-                      />
-                    </span>
+                    <div>
+                      <span onClick={this.props.onHandClickOne}>
+                        <SmallEllipseBtn
+                          text={this.props.btnOneText}
+                          btnColor="rgba(255, 97, 97, 1)"
+                          width="100%"
+                        />
+                      </span>
+                      <br />
+                    </div>
                   ) : (
                     ""
                   )}
                 </div>
                 {/* right btn */}
-                <div className="col">
+                <div className="col-12 col-lg-6">
                   {this.props.btnTwoMode === "linkMode" ? (
-                    <Link
-                      to={this.props.btnTwoLinkTo}
-                      onClick={this.props.onHandleClose}
-                    >
-                      <SmallEllipseBtn
-                        text={this.props.btnTwoText}
-                        btnColor="rgba(104, 99, 105, 1)"
-                      />
-                    </Link>
+                    <div>
+                      <Link
+                        to={this.props.btnTwoLinkTo}
+                        onClick={this.props.onHandleClose}
+                      >
+                        <SmallEllipseBtn
+                          text={this.props.btnTwoText}
+                          btnColor="rgba(104, 99, 105, 1)"
+                        />
+                      </Link>
+                      <br />
+                    </div>
                   ) : (
                     ""
                   )}
                   {/* customer mode */}
                   {this.props.btnTwoMode === "customMode" ? (
-                    <span onClick={this.props.onHandClickTwo}>
-                      <SmallEllipseBtn
-                        text={this.props.btnTwoText}
-                        btnColor="rgba(255, 97, 97, 1)"
-                        paddingLeft="90px"
-                        paddingRight="90px"
-                      />
-                    </span>
+                    <div>
+                      <span onClick={this.props.onHandClickTwo}>
+                        <SmallEllipseBtn
+                          text={this.props.btnTwoText}
+                          btnColor="rgba(255, 97, 97, 1)"
+                          paddingLeft="90px"
+                          paddingRight="90px"
+                        />
+                      </span>
+                      <br />
+                    </div>
                   ) : (
                     ""
                   )}

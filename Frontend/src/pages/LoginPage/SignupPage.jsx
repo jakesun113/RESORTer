@@ -160,7 +160,13 @@ class SignUpPage extends Component {
           <div className="row">
             <div className="col" />
             <div className="col">
-              <div style={{ textAlign: "center", marginBottom: "50px" }}>
+              <div
+                style={{
+                  textAlign: "center",
+                  marginBottom: "50px",
+                  whiteSpace: "nowrap"
+                }}
+              >
                 <span style={{ fontSize: "2.5rem" }}>Sign Up</span>
                 <br />
                 Already a member?

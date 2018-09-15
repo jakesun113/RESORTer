@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "../../css/ProfilePage/ProfilePage.css";
 import SliderBar from "../../components/template/SliderBar";
 import DisabilityForm from "../../components/template/DisabilityForm";
 import AbilityLevelTip from "../../components/template/AbilityLevelTip";
@@ -11,6 +10,26 @@ import AlertWindow from "../../components/template/AlertWindow";
 import axios from "axios";
 import moment from "moment";
 import DatePicker from "react-datepicker";
+import styled from "styled-components";
+import Input from "../../components/template/InputComponent";
+const UploadBtn = styled.label`
+  width: 100%;
+  height: auto;
+  border-radius: 20px 20px 20px 20px;
+  background-color: rgba(56, 153, 236, 1);
+  box-shadow: 1px 1px 1px gray;
+  text-align: center;
+  margin: auto auto;
+  padding: 5px 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  white-space: nowrap;
+  &:hover {
+    background-color: rgba(78, 183, 245, 1);
+    font-weight: bold;
+  }
+`;
 
 function Birthday(props) {
   function handleChange(date) {
@@ -93,13 +112,6 @@ class ProfilePage extends Component {
         }
       }
     );
-  };
-
-  //   upload btn animation
-  handleHover = e => {
-    if (e.target.id === "upload_btn") {
-      e.target.style.backgroundColor = "rgba(78, 183, 245, 1)";
-    }
   };
 
   handleLogout = () => {
@@ -443,26 +455,7 @@ class ProfilePage extends Component {
               {/* upload btn */}
               <div className="form-row">
                 <div className="form-group col-3 col-lg-5" />
-                <label
-                  id="upload_btn"
-                  className="form-group col-6 col-lg-2"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    borderRadius: "20px 20px 20px 20px",
-                    backgroundColor: "rgba(56, 153, 236, 1)",
-                    boxShadow: "1px 1px 1px gray",
-                    textAlign: "center",
-                    margin: "auto auto",
-                    padding: "5px 20px",
-                    color: "white",
-                    cursor: "pointer",
-                    fontSize: "20px",
-                    whiteSpace: "nowrap"
-                  }}
-                  onMouseEnter={this.handleHover}
-                  onMouseLeave={this.handleMouseLeave}
-                >
+                <UploadBtn className="form-group col-6 col-lg-2">
                   Upload photo +
                   <input
                     type="file"
@@ -488,7 +481,7 @@ class ProfilePage extends Component {
                       }
                     }}
                   />
-                </label>
+                </UploadBtn>
                 <div className="form-group col-3 col-lg-5" />
               </div>
               {/* max size text */}
@@ -548,7 +541,7 @@ class ProfilePage extends Component {
                 <div className="form-group col-lg-2" />
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="firstName">First Name</label>
-                  <input
+                  <Input
                     type="text"
                     className="form-control"
                     id="firstName"
@@ -560,7 +553,7 @@ class ProfilePage extends Component {
                 &ensp; &ensp;
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="inputPassword">Last Name</label>
-                  <input
+                  <Input
                     type="text"
                     className="form-control"
                     id="lastName"
@@ -591,7 +584,7 @@ class ProfilePage extends Component {
                       </select>
                     </div>
                     <div className="form-group col-8 col-lg-8">
-                      <input
+                      <Input
                         type="text"
                         className="form-control"
                         id="phoneNumber"
@@ -622,7 +615,7 @@ class ProfilePage extends Component {
                     </div>
                     <div className="form-group col-2 col-lg-2">
                       <label htmlFor="inputPassword">Age</label>
-                      <input
+                      <Input
                         type="text"
                         className="form-control"
                         id="age"
