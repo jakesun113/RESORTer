@@ -207,7 +207,9 @@ class ProfilePage extends Component {
             moment(this.state.dob).format("YYYY"),
             "years"
           );
-          document.getElementById("age").value = countAge;
+          this.setState({
+            age: countAge
+          });   
         }
 
         if (response.data.country != null) {
@@ -355,6 +357,8 @@ class ProfilePage extends Component {
     );
   }
 
+  //TODO: dob cannot be input manually
+  //TODO: gender and phonecode cannot be select now
   render() {
     //if token has been expired, redirect to login page
     //console.log(this.props.location.state);
@@ -396,7 +400,7 @@ class ProfilePage extends Component {
       disabled = false;
     }
 
-    if (this.state.phoneNumber) {
+    if (this.state.postcode) {
       return (
         <React.Fragment>
           <div className="container">
@@ -619,7 +623,7 @@ class ProfilePage extends Component {
                 <div className="form-group col-lg-2" />
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="inputEmail">Country</label>
-                  <input
+                  <Input
                     type="text"
                     className="form-control"
                     id="country"
@@ -630,7 +634,7 @@ class ProfilePage extends Component {
                 &ensp; &ensp;
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="inputPassword">Postcode</label>
-                  <input
+                  <Input
                     type="text"
                     className="form-control"
                     id="postcode"
