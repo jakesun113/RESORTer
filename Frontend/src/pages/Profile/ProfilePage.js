@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "../../css/ProfilePage/ProfilePage.css";
 import SliderBar from "../../components/template/SliderBar";
 import DisabilityForm from "../../components/template/DisabilityForm";
 import AbilityLevelTip from "../../components/template/AbilityLevelTip";
@@ -10,6 +9,46 @@ import { instanceOf } from "prop-types";
 import AlertWindow from "../../components/template/AlertWindow";
 import axios from "axios";
 import moment from "moment";
+import DatePicker from "react-datepicker";
+import styled from "styled-components";
+import Input from "../../components/template/InputComponent";
+const UploadBtn = styled.label`
+  width: 100%;
+  height: auto;
+  border-radius: 20px 20px 20px 20px;
+  background-color: rgba(56, 153, 236, 1);
+  box-shadow: 1px 1px 1px gray;
+  text-align: center;
+  margin: auto auto;
+  padding: 5px 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  white-space: nowrap;
+  &:hover {
+    background-color: rgba(78, 183, 245, 1);
+    font-weight: bold;
+  }
+`;
+
+function Birthday(props) {
+  function handleChange(date) {
+    props.onChange(date, "dob");
+  }
+  return (
+    <React.Fragment>
+      <DatePicker
+        selected={moment(props.dob)}
+        onChange={handleChange}
+        dateFormat="YYYY-MM-DD"
+        maxDate={moment().subtract(1, "days")}
+        placeholderText="YYYY-MM-DD"
+        showYearDropdown
+        dropdownMode="select"
+      />
+    </React.Fragment>
+  );
+}
 
 //TODO: add save photo to "public" folder function
 class ProfilePage extends Component {
@@ -29,6 +68,13 @@ class ProfilePage extends Component {
       portrait: null,
       dob: null,
       age: null,
+      gender: null,
+      firstName: null,
+      lastName: null,
+      phoneCode: null,
+      phoneNumber: null,
+      country: null,
+      postcode: null,
       skiAbility: null,
       snowboardAbility: null,
       telemarkAbility: null,
@@ -43,14 +89,29 @@ class ProfilePage extends Component {
       user_pic:
         "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/crop/x_7,y_0,w_1184,h_1184/fill/w_96,h_96,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
     };
+
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  //   upload btn animation
-  handleHover = e => {
-    if (e.target.id === "upload_btn") {
-      e.target.style.backgroundColor = "rgba(78, 183, 245, 1)";
-    }
+  dateChanged = (date, choice) => {
+    console.log("date changed");
+    this.setState(
+      {
+        [choice]: date,
+        dob: date
+      },
+      () => {
+        let countAge = moment().diff(
+          moment(this.state.dob).format("YYYY"),
+          "years"
+        );
+        if (countAge !== this.state.age) {
+          this.setState({
+            age: countAge
+          });
+        }
+      }
+    );
   };
 
   handleLogout = () => {
@@ -126,41 +187,40 @@ class ProfilePage extends Component {
         setState({ email: response.data.email });
 
         if (response.data.gender != null) {
-          document.getElementById("gender").value = response.data.gender;
+          setState({ gender: response.data.gender });
         }
         if (response.data.firstName != null) {
-          document.getElementById("firstName").value = response.data.firstName;
+          setState({ firstName: response.data.firstName });
         }
         if (response.data.lastName != null) {
-          document.getElementById("lastName").value = response.data.lastName;
+          setState({ lastName: response.data.lastName });
         }
         if (response.data.phoneCode != null) {
-          document.getElementById("phone_number_pre").value =
-            response.data.phoneCode;
+          setState({ phoneCode: response.data.phoneCode });
         }
         if (response.data.phoneNumber != null) {
-          document.getElementById("phoneNumber").value =
-            response.data.phoneNumber;
+          setState({ phoneNumber: response.data.phoneNumber });
         }
         if (response.data.dob != null) {
-          //document.getElementById("dob").value = moment(response.data.dob).format("YYYY-MM-DD");
           setState({ dob: response.data.dob });
           let countAge = moment().diff(
             moment(this.state.dob).format("YYYY"),
             "years"
           );
-          document.getElementById("age").value = countAge;
+          this.setState({
+            age: countAge
+          });   
         }
-        document.getElementById("country").value = response.data.country;
-        document.getElementById("postcode").value = response.data.postcode;
 
-        if (this.state.hasDisability) {
-          document.getElementById("is_disability").checked = true;
-        } else {
-          document.getElementById("is_disability").checked = false;
+        if (response.data.country != null) {
+          setState({ country: response.data.country });
         }
+
+        if (response.data.postcode != null) {
+          setState({ postcode: response.data.postcode });
+        }
+
       });
-      //console.log(this.state.skiAbility)
     }
   }
 
@@ -202,6 +262,7 @@ class ProfilePage extends Component {
       disabilityDetailValue = null;
     }
 
+    //TODO: should also send portrait to the backend
     const data = {
       SkiAbility: document.getElementById("ski_ability").value,
       SnowboardAbility: document.getElementById("snowboard_ability").value,
@@ -218,7 +279,7 @@ class ProfilePage extends Component {
       FirstName: document.getElementById("firstName").value,
       LastName: document.getElementById("lastName").value,
       Gender: document.getElementById("gender").value,
-      DOB: moment(document.getElementById("dob").value).format("YYYY-MM-DD"),
+      DOB: moment(this.state.dob).format("YYYY-MM-DD"),
       PhoneAreaCode: document.getElementById("phone_number_pre").value,
       PhoneNumber: document.getElementById("phoneNumber").value,
       Country: document.getElementById("country").value,
@@ -296,6 +357,8 @@ class ProfilePage extends Component {
     );
   }
 
+  //TODO: dob cannot be input manually
+  //TODO: gender and phonecode cannot be select now
   render() {
     //if token has been expired, redirect to login page
     //console.log(this.props.location.state);
@@ -337,7 +400,7 @@ class ProfilePage extends Component {
       disabled = false;
     }
 
-    if (this.state.email) {
+    if (this.state.postcode) {
       return (
         <React.Fragment>
           <div className="container">
@@ -389,26 +452,7 @@ class ProfilePage extends Component {
               {/* upload btn */}
               <div className="form-row">
                 <div className="form-group col-3 col-lg-5" />
-                <label
-                  id="upload_btn"
-                  className="form-group col-6 col-lg-2"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    borderRadius: "20px 20px 20px 20px",
-                    backgroundColor: "rgba(56, 153, 236, 1)",
-                    boxShadow: "1px 1px 1px gray",
-                    textAlign: "center",
-                    margin: "auto auto",
-                    padding: "5px 20px",
-                    color: "white",
-                    cursor: "pointer",
-                    fontSize: "20px",
-                    whiteSpace: "nowrap"
-                  }}
-                  onMouseEnter={this.handleHover}
-                  onMouseLeave={this.handleMouseLeave}
-                >
+                <UploadBtn className="form-group col-6 col-lg-2">
                   Upload photo +
                   <input
                     type="file"
@@ -434,7 +478,7 @@ class ProfilePage extends Component {
                       }
                     }}
                   />
-                </label>
+                </UploadBtn>
                 <div className="form-group col-3 col-lg-5" />
               </div>
               {/* max size text */}
@@ -477,7 +521,11 @@ class ProfilePage extends Component {
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="gender">Gender</label>
 
-                  <select id="gender" className="form-control">
+                  <select
+                    id="gender"
+                    className="form-control"
+                    value={this.state.gender}
+                  >
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
@@ -490,23 +538,25 @@ class ProfilePage extends Component {
                 <div className="form-group col-lg-2" />
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="firstName">First Name</label>
-                  <input
+                  <Input
                     type="text"
                     className="form-control"
                     id="firstName"
                     placeholder="First Name"
                     readOnly={readOnly}
+                    value={this.state.firstName}
                   />
                 </div>
                 &ensp; &ensp;
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="inputPassword">Last Name</label>
-                  <input
+                  <Input
                     type="text"
                     className="form-control"
                     id="lastName"
                     placeholder="Last Name"
                     readOnly={readOnly}
+                    value={this.state.lastName}
                   />
                 </div>
                 <div className="form-group col-lg-2" />
@@ -520,18 +570,23 @@ class ProfilePage extends Component {
                   <label htmlFor="phoneNumber">Phone</label>
                   <div className="form-row">
                     <div className="form-group col-4 col-lg-4">
-                      <select className="custom-select" id="phone_number_pre">
+                      <select
+                        className="custom-select"
+                        id="phone_number_pre"
+                        value={this.state.phoneCode}
+                      >
                         <option value="+61">+61</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
                       </select>
                     </div>
                     <div className="form-group col-8 col-lg-8">
-                      <input
+                      <Input
                         type="text"
                         className="form-control"
                         id="phoneNumber"
                         placeholder="Phone"
+                        value={this.state.phoneNumber}
                       />
                     </div>
                   </div>
@@ -542,13 +597,9 @@ class ProfilePage extends Component {
                   <div className="form-row">
                     <div className="form-group col-10 col-lg-10">
                       <label htmlFor="inputPassword">Date of Birth</label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="dob"
-                        placeholder="YYYY-MM-DD"
-                        value={this.state.dob}
-                        onChange={this.ageCount}
+                      <Birthday
+                        dob={this.state.dob}
+                        onChange={this.dateChanged}
                       />
                     </div>
                     <div className="form-group col-2 col-lg-2">
@@ -572,21 +623,23 @@ class ProfilePage extends Component {
                 <div className="form-group col-lg-2" />
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="inputEmail">Country</label>
-                  <input
-                    type=""
+                  <Input
+                    type="text"
                     className="form-control"
                     id="country"
                     placeholder=""
+                    value={this.state.country}
                   />
                 </div>
                 &ensp; &ensp;
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="inputPassword">Postcode</label>
-                  <input
-                    type=""
+                  <Input
+                    type="text"
                     className="form-control"
                     id="postcode"
                     placeholder=""
+                    value={this.state.postcode}
                   />
                 </div>
                 <div className="form-group col-lg-2" />
@@ -706,7 +759,7 @@ class ProfilePage extends Component {
                       this.setState({ hasDisability: e.target.checked });
                     }}
                     id="is_disability"
-                    value={this.state.isDisabled}
+                    checked={this.state.hasDisability}
                   />
                   <label className="form-check-label" htmlFor="is_disability">
                     Any physical or learning disabilities?

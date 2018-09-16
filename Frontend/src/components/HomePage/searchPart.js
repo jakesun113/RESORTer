@@ -30,7 +30,7 @@ class Search extends Component {
 
         await axios.post(BaseURL + "getResortsByCountry", postData)
             .then(response => {
-              console.log("read resorts successfully");
+              //console.log("read resorts successfully");
               let resorts = response.data.sortedResortArray;
               //Make HTTP request HERE for country based resorts
               this.setState({countryResorts: resorts}); 
@@ -47,7 +47,7 @@ class Search extends Component {
 
         await axios.post(BaseURL + "getResortsByLiftPass", postData)
             .then(response => {
-              console.log("read resorts successfully");
+              //console.log("read resorts successfully");
               let resorts = response.data.sortedResortArray;
               //Make HTTP request HERE for LiftPass based resorts
               this.setState({liftPassResorts: resorts}); 
@@ -70,7 +70,7 @@ class Search extends Component {
         //get the list of countries
         axios.get(BaseURL + "getCountry").then(
             response => {
-                console.log("read countries successfully");
+                //console.log("read countries successfully");
                 let countries = response.data.sortedCountryArray;
                 //console.log(countries);
                 this.setState({countryName: countries}); 
@@ -79,7 +79,7 @@ class Search extends Component {
         //get the list of liftPasses
         axios.get(BaseURL + "getLiftPass").then(
             response => {
-                console.log("read liftPass successfully");
+                //console.log("read liftPass successfully");
                 let liftPass = response.data.sortedLiftPassArray;
                 //console.log(countries);
                 this.setState({liftPasses: liftPass});

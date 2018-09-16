@@ -1,6 +1,32 @@
 import React, { Component } from "react";
 import "../../css/BookTripPage/BookTripNavBar.css";
+import styled from "styled-components";
+const Circle = styled.li`
 
+    /* width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 20px;
+  color: #fff;
+  line-height: 60px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.4s ease 0s;
+  background-color: rgba(
+    ${props => (props.active ? "90, 215, 76, 1" : "204, 204, 204, 1")}
+  );
+  border-color: rgba(204, 204, 204, 1);
+  &:hover {
+    background-color: rgb(255, 0, 0);
+    cursor: pointer;
+  } */
+`;
+const Line = styled.div`
+  border-top: 5px solid rgba(232, 89, 12, 1);
+  position: absolute;
+  width: 100%;
+  top: 50%;
+`;
 class BookTripNavBar extends Component {
   state = {
     currentProcess: "step_1_in_book_page",
@@ -29,10 +55,10 @@ class BookTripNavBar extends Component {
     //   : "";
   };
 
-  componentDidMount() {
-    document.getElementById("step_1_in_book_page").className =
-      "circle_navbar_in_bookpage active_navbar_in_bookpage";
-  }
+  // componentDidMount() {
+  //   document.getElementById("step_1_in_book_page").className =
+  //     "circle_navbar_in_bookpage active_navbar_in_bookpage";
+  // }
 
   render() {
     return (
@@ -56,150 +82,44 @@ class BookTripNavBar extends Component {
           </p>
           <br />
           {/* navbar */}
-          <div className="row" style={{ alignItems: "center" }}>
-            <div className="col-2" />
-
-            <div className="col-10">
-              {/* process 1 */}
-              <div
-                id="step_1_in_book_page"
-                class="circle_navbar_in_bookpage initial_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              >
-                1
-              </div>
-
-              <div
-                className="line_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              />
-              {/* process 2 */}
-              <div
-                class="circle_navbar_in_bookpage initial_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              >
-                2
-              </div>
-              <div
-                className="line_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              />
-              {/* process 3 */}
-              <div
-                class="circle_navbar_in_bookpage initial_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              >
-                3
-              </div>
-              <div
-                className="line_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              />
-              {/* process 4 */}
-              <div
-                class="circle_navbar_in_bookpage initial_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              >
-                4
-              </div>
-              <div
-                className="line_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              />
-              {/* process 5 */}
-              <div
-                class="circle_navbar_in_bookpage initial_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              >
-                5
-              </div>
-              <div
-                className="line_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              />
-              {/* process 6 */}
-              <div
-                class="circle_navbar_in_bookpage initial_navbar_in_bookpage"
-                style={{ display: "inline-block" }}
-              >
-                6
-              </div>
-            </div>
-          </div>
-          <br />
-          {/* second row */}
-          <div className="row">
-            <div className="col-2" />
-
-            <div className="col-10">
-              {/* process 1 */}
-              <div style={{ display: "inline-block", alignContent: "center" }}>
+          <ul className="row">
+            <li className="col-2">
+              1<br />
+              <span style={{ color: "black", whiteSpace: "nowrap" }}>
                 When & Who?
-              </div>
-              <div
-                style={{
-                  display: "inline-block",
-                  width: "50px",
-                  height: "0 !important",
-                  minHeight: "0 !important"
-                }}
-              />
-              {/* process 2 */}
-              <div style={{ display: "inline-block", alignContent: "center" }}>
-                Sleep?
-              </div>
-              <div
-                style={{
-                  display: "inline-block",
-                  width: "100px",
-                  height: "0 !important",
-                  minHeight: "0 !important"
-                }}
-              />
-              {/* process 3 */}
-              <div style={{ display: "inline-block", alignContent: "center" }}>
+              </span>
+            </li>
+            <li className="col-2">
+              2<br />
+              <span style={{ color: "black" }}>Sleep?</span>
+            </li>
+            <li className="col-2">
+              3<br />
+              <span style={{ color: "black", whiteSpace: "nowrap" }}>
                 Doing?
-              </div>
-              <div
-                style={{
-                  display: "inline-block",
-                  width: "80px",
-                  height: "0 !important",
-                  minHeight: "0 !important"
-                }}
-              />
-              {/* process 4 */}
-              <div style={{ display: "inline-block", alignContent: "center" }}>
+              </span>
+            </li>
+            <li className="col-2">
+              4<br />
+              <span style={{ color: "black", whiteSpace: "nowrap" }}>
                 Equipment?
-              </div>
-              <div
-                style={{
-                  display: "inline-block",
-                  width: "76px",
-                  height: "0 !important",
-                  minHeight: "0 !important"
-                }}
-              />
-              {/* process 5 */}
-              <div style={{ display: "inline-block", alignContent: "center" }}>
+              </span>
+            </li>
+            <li className="col-2">
+              5<br />
+              <span style={{ color: "black", whiteSpace: "nowrap" }}>
                 Learn?
-              </div>
-              <div
-                style={{
-                  display: "inline-block",
-                  width: "70px",
-                  height: "0 !important",
-                  minHeight: "0 !important"
-                }}
-              />
-              {/* process 6 */}
-              <div style={{ display: "inline-block", alignContent: "center" }}>
+              </span>
+            </li>
+            <li className="col-2">
+              6<br />
+              <span style={{ color: "black", whiteSpace: "nowrap" }}>
                 Plan Summary
-              </div>
-            </div>
+              </span>
+            </li>
+          </ul>
 
-            {/* end navbar */}
-          </div>
+          <br />
           {/* end container */}
         </div>
       </React.Fragment>

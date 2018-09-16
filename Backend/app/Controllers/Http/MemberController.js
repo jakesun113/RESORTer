@@ -186,6 +186,7 @@ class MemberController {
     }
   }
 
+  //FIXME: get image is wrong
   async showProfile({params}) {
     //token is valid
     try {
@@ -216,7 +217,6 @@ class MemberController {
         snowbikeAbility: member.SnowbikeAbility,
         snowmobileAbility: member.SnowmobileAbility,
         snowshoeAbility: member.SnowshoeAbility,
-        portrait: member.Portrait
       })
 
     } catch (e) {
@@ -248,6 +248,7 @@ class MemberController {
         member.merge({
           FirstName: requestData.FirstName,
           LastName: requestData.LastName,
+          Portrait: requestData.Portrait,
           Gender: requestData.Gender,
           DOB: requestData.DOB,
           PhoneAreaCode: requestData.PhoneAreaCode,

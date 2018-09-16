@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
 
 class FirstPage extends Component {
-  state = {
-    first_name_wrong: false,
-    last_name_wrong: false,
-    userPic:
-      "url(https://static.wixstatic.com/media/25b4a3_29bd27b433da40b28e6f1df4987482b9~mv2_d_2240_2240_s_2.png/v1/fill/w_150,h_150,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_29bd27b433da40b28e6f1df4987482b9~mv2_d_2240_2240_s_2.webp)"
-  };
+    constructor(props) {
+        super(props);
+        this.state = {
+            first_name_wrong: false,
+            last_name_wrong: false,
+            userPic: this.props.userPic
+        };
+    }
 
   validator = () => {
     var inputs, index;
@@ -53,7 +55,7 @@ class FirstPage extends Component {
     const userPic = this.state.userPic;
     const firstName = document.getElementById("first_name").value;
     const lastName = document.getElementById("last_name").value;
-    this.props.onChangeState("userPic", userPic);
+    this.props.onChangeState("user_pic", userPic);
     this.props.onChangeState("firstName", firstName);
     this.props.onChangeState("lastName", lastName);
   }
@@ -82,7 +84,7 @@ class FirstPage extends Component {
                 alignContent: "center"
               }}
             >
-              <div
+              <img
                 id="user_pic"
                 style={{
                   width: "80px",
@@ -95,9 +97,9 @@ class FirstPage extends Component {
                   boxShadow: "2px 2px 2px 2px grey",
                   border: "5px solid white",
                   backgroundSize: "contain",
-                  margin: "auto auto",
-                  backgroundImage: this.state.userPic
+                  margin: "auto auto"
                 }}
+                src = {this.state.userPic}
               />
             </div>
             <div className="form-group col-3" />
@@ -139,7 +141,7 @@ class FirstPage extends Component {
                           reader.addEventListener(
                               "load",
                               () => {
-                                  this.setState({ user_pic: reader.result });
+                                  this.setState({ userPic: reader.result });
                               },
                               false
                           );
