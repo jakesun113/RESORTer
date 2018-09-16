@@ -94,36 +94,32 @@ class GroupMemberPage extends Component {
       token: newToken
     });
   };
+    render() {
+        const {cookies} = this.props;
+        //if token has been expired, redirect to login page
+        //console.log(this.props.location.state);
+        if (this.props.location.state) {
+            const {lastValid} = this.props.location.state;
 
-  render() {
-    //if token has been expired, redirect to login page
-    //console.log(this.props.location.state);
-    if (this.props.location.state) {
-      const { lastValid } = this.props.location.state;
+            if (!lastValid) {
+                return <Redirect
+                    to={{
+                        pathname: "/login",
+                        state: {from: this.props.location.pathname} 
+                    }}
+                />
+            }
+        }
 
-      if (!lastValid) {
-        return (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: this.props.location.pathname }
-            }}
-          />
-        );
-      }
-    }
-
-    //if directly type this page's url, redirect to login page
-    if (!sessionStorage.getItem("userToken")) {
-      return (
-        <Redirect
-          to={{
-            pathname: "/login",
-            state: { from: this.props.location.pathname }
-          }}
-        />
-      );
-    }
+        //if directly type this page's url, redirect to login page
+        if (!sessionStorage.getItem("userToken") && !cookies.get('access-token')) {
+            return <Redirect
+                to={{
+                    pathname: "/login",
+                    state: {from: this.props.location.pathname}
+                }}
+            />
+        }
 
     return (
       <React.Fragment>

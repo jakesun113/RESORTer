@@ -3,12 +3,24 @@ import GoogleMap from "../../components/template/GoogleMapRender";
 import DatePicker from "../../components/template/SelectTripDate";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import GroupMemberInfoCard from "../../components/GroupMemberPage/GroupMemberInfoCard";
+import {Redirect} from "react-router-dom";
 
 class BookTripPage extends Component {
     state = {};
 
     render() {
         const {place} = this.props;
+        
+        console.log(this.props.history.location.pathname)
+         //if directly type this page's url, redirect to login page
+         if (!sessionStorage.getItem("userToken")) {
+            return <Redirect
+                to={{
+                    pathname: "/login",
+                    state: {from: this.props.history.location.pathname}
+                }}
+            />
+        }
         return (
             <React.Fragment>
                 <div className="container">

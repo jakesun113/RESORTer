@@ -115,7 +115,7 @@ class Navbar extends Component {
             let postData;
             postData = {
                 token: this.state.token
-            };
+            }; 
             await axios.post(BaseURL + "check-token", postData).then(response => {
                 //console.log(response.data);
 
