@@ -2,49 +2,37 @@ import React, {Component} from "react";
 import "../../css/template/SliderBar.css";
 
 class SliderBar extends Component {
-    state = {value: 1};
 
-    componentDidMount() {
-        if (this.props.value === "" || this.props.value === undefined) {
-            this.setState({value: 1});
-        } else {
-            this.setState({value: this.props.value});
-        }
-    }
-
-    showValue = e => {
-        this.setState({value: e.target.value});
-
+    handleChange = e => {
+        const {onChange} = this.props;
+        onChange(e.target.id, e.target.value)
     };
 
     render() {
+        const {min, max, id, value, label} = this.props;
         return (
             <React.Fragment>
-                <label style={{fontWeight: "bold"}} htmlFor={this.props.id}>
-                    {this.props.lable}
-                </label>
-                <div className="row">
-                    <div className="col-10">
+                <div className="row" style={{transform: 'translate(0,10px)'}}>
+                    {/*<div className="col-2" style={{padding: '0'}}>*/}
+                    {/*<label style={{fontWeight: '600', fontSize: '0.8em', color: '#607375'}} htmlFor={id}>*/}
+                    {/*{label}*/}
+                    {/*</label>*/}
+                    {/*</div>*/}
+                    <div className="col-8">
                         <input
                             type="range"
                             className="color-slider-bar"
-                            min={this.props.min}
-                            max={this.props.max}
+                            min={min}
+                            max={max}
                             step="1"
-                            defaultValue={this.state.value}
-                            id={this.props.id}
-                            onChange={this.showValue}
-                            value={this.state.value}
+                            id={id}
+                            onChange={this.handleChange}
+                            value={value}
                         />
                     </div>
-
-                    <span
-                        style={{
-                            fontWeight: "bold"
-                        }}
-                    >
-            {this.state.value}
-          </span>
+                    <div className='col-2'>
+                        <span style={{fontWeight: "bold"}}>{value}</span>
+                    </div>
                 </div>
             </React.Fragment>
         );
