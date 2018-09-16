@@ -156,6 +156,7 @@ class ChangePwdPage extends Component {
     };
 
     render() {
+        const {cookies} = this.props;
         if (this.state.redirect) {
             return <Redirect to={"/"}/>;
         }
@@ -177,7 +178,7 @@ class ChangePwdPage extends Component {
         }
 
         //if directly type this page's url, redirect to login page
-        if (!sessionStorage.getItem("userToken")) {
+        if (!sessionStorage.getItem("userToken") && !cookies.get('access-token')) {
             return <Redirect
                 to={{
                     pathname: "/login",
