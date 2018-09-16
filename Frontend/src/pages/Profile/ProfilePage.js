@@ -187,7 +187,6 @@ class ProfilePage extends Component {
         setState({ email: response.data.email });
 
         if (response.data.gender != null) {
-          //document.getElementById("gender").value = response.data.gender;
           setState({ gender: response.data.gender });
         }
         if (response.data.firstName != null) {
@@ -219,13 +218,7 @@ class ProfilePage extends Component {
           setState({ postcode: response.data.postcode });
         }
 
-        // if (this.state.hasDisability) {
-        //     document.getElementById("is_disability").checked = true;
-        // } else {
-        //     document.getElementById("is_disability").checked = false;
-        // }
       });
-      //console.log(this.state.skiAbility)
     }
   }
 
@@ -600,14 +593,6 @@ class ProfilePage extends Component {
                   <div className="form-row">
                     <div className="form-group col-10 col-lg-10">
                       <label htmlFor="inputPassword">Date of Birth</label>
-                      {/* <input
-                        type="text"
-                        className="form-control"
-                        id="dob"
-                        placeholder="YYYY-MM-DD"
-                        value={this.state.dob}
-                        onChange={this.ageCount}
-                      /> */}
                       <Birthday
                         dob={this.state.dob}
                         onChange={this.dateChanged}
@@ -615,7 +600,7 @@ class ProfilePage extends Component {
                     </div>
                     <div className="form-group col-2 col-lg-2">
                       <label htmlFor="inputPassword">Age</label>
-                      <Input
+                      <input
                         type="text"
                         className="form-control"
                         id="age"
@@ -635,7 +620,7 @@ class ProfilePage extends Component {
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="inputEmail">Country</label>
                   <input
-                    type=""
+                    type="text"
                     className="form-control"
                     id="country"
                     placeholder=""
@@ -646,7 +631,7 @@ class ProfilePage extends Component {
                 <div className="form-group col-12 col-lg-4">
                   <label htmlFor="inputPassword">Postcode</label>
                   <input
-                    type=""
+                    type="text"
                     className="form-control"
                     id="postcode"
                     placeholder=""
@@ -770,7 +755,7 @@ class ProfilePage extends Component {
                       this.setState({ hasDisability: e.target.checked });
                     }}
                     id="is_disability"
-                    value={this.state.isDisabled}
+                    checked={this.state.hasDisability}
                   />
                   <label className="form-check-label" htmlFor="is_disability">
                     Any physical or learning disabilities?
