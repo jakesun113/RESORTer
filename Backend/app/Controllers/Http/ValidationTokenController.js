@@ -325,6 +325,7 @@ class ValidationTokenController {
   async check({request, auth}) {
     //token is valid
     try {
+      console.log(request.all())
       const isTokenValid = await auth.check();
       console.log(isTokenValid);
 
