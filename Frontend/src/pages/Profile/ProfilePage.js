@@ -44,6 +44,7 @@ function Birthday(props) {
         maxDate={moment().subtract(1, "days")}
         placeholderText="YYYY-MM-DD"
         showYearDropdown
+        showMonthDropdown
         dropdownMode="select"
       />
     </React.Fragment>
