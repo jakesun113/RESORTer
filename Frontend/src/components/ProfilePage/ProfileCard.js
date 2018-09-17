@@ -41,17 +41,23 @@ class ProfileCard extends Component {
                 <div className="userName">{this.props.userName}</div>
                 <br/>
                 {/* btn */}
-                {this.props.userName === "" ? (
+                {this.props.isProfileComplete === false ? (
                     <Link className="dropdown-item" to={{
                         pathname: "/newProfile",
-                        state: {lastValid: this.props.tokenValid}
+                        state: {
+                            lastValid: this.props.tokenValid,
+                            isProfileComplete: this.props.isProfileComplete
+                        }
                     }}
                           onClick={this.handleInvalid}
                     >
                         My Profile</Link>
                 ) : <Link className="dropdown-item" to={{
                     pathname: "/profile",
-                    state: {lastValid: this.props.tokenValid}
+                    state: {
+                        lastValid: this.props.tokenValid,
+                        isProfileComplete: this.props.isProfileComplete
+                    }
                 }}
                           onClick={this.handleInvalid}
                 >

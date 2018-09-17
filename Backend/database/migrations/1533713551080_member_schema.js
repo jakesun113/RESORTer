@@ -56,7 +56,7 @@ class MemberSchema extends Schema {
       table.tinyint('SnowshoeAbility');
       table.binary('Portrait');
       table.boolean('IsActive').notNullable();
-      table.boolean("IsProfileComplete");
+      table.boolean("IsProfileComplete").defaultTo(false);
     })
   }
 

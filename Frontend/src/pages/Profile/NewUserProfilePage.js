@@ -48,6 +48,7 @@ class NewUserProfilePage extends Component {
             disabilityMembership: null,
             disabilityMemberid: null,
             disabilityDetail: null,
+            IsProfileComplete: false,
             user_pic:
                 "https://static.wixstatic.com/media/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png/v1/fill/w_96,h_96,al_c,usm_0.66_1.00_0.01/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png"
         };
@@ -120,7 +121,8 @@ class NewUserProfilePage extends Component {
             IsDisabled: this.state.hasDisability === "yes",
             DisabilityMembership: this.state.disabilityMembership,
             DisabilityMembershipID: this.state.disabilityMemberid,
-            DisabilityDetail: this.state.disabilityDetail
+            DisabilityDetail: this.state.disabilityDetail,
+            IsProfileComplete: true
         };
 
         await axios.put("http://127.0.0.1:3333/api/user-profile", postData).then(
@@ -151,6 +153,12 @@ class NewUserProfilePage extends Component {
                         token: response.data.token
                     };
                     sessionStorage.setItem("userToken", JSON.stringify(userToken));
+                    //if success, set profile is finished
+                    let userFinishProfile;
+                    userFinishProfile = {
+                        isFinished: true
+                    };
+                    sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
 
                     //save token into cookie
                     const {cookies} = this.props;
@@ -194,7 +202,7 @@ class NewUserProfilePage extends Component {
         //if token has been expired, redirect to login page
         //console.log(this.props.location.state);
         if (this.props.location.state) {
-            const {lastValid} = this.props.location.state;
+            const {lastValid, isProfileComplete} = this.props.location.state;
             //console.log(lastValid);
 
             if (!lastValid) {
@@ -207,10 +215,16 @@ class NewUserProfilePage extends Component {
                     />
                 );
             }
+
+            if (isProfileComplete) {
+                return (
+                    <Redirect to={"/profile"}/>
+                );
+            }
         }
 
         //if directly type this page's url, redirect to login page
-        if (!sessionStorage.getItem("userToken")  && !cookies.get('access-token')) {
+        if (!sessionStorage.getItem("userToken") && !cookies.get('access-token')) {
             return (
                 <Redirect
                     to={{

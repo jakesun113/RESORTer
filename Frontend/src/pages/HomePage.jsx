@@ -30,7 +30,6 @@ class HomePage extends Component {
                 this.setState({currentScrollHeight: window.scrollY});
             }
         };
-
     }
 
     render() {
