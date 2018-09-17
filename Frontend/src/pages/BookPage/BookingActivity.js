@@ -257,7 +257,7 @@ class BookingActivity extends Component {
                         </div>
                         <div className='col-7'>
                             <SliderBar value={members[currentMember]['ability'][0]} min={1} max={7} id={'0'}
-                                       onChange={this.handleAbilityChange} label={'Ski'}/>
+                                       onChange={this.handleAbilityChange}/>
                         </div>
                     </AArow>
 
@@ -271,7 +271,7 @@ class BookingActivity extends Component {
                         </div>
                         <div className='col-7'>
                             <SliderBar value={members[currentMember]['ability'][1]} min={1} max={7} id={'1'}
-                                       onChange={this.handleAbilityChange} label={'Snowboard'}/>
+                                       onChange={this.handleAbilityChange}/>
                         </div>
                     </AArow>
 
@@ -285,7 +285,7 @@ class BookingActivity extends Component {
                         </div>
                         <div className='col-7'>
                             <SliderBar value={members[currentMember]['ability'][2]} min={1} max={7} id={'2'}
-                                       onChange={this.handleAbilityChange} label={'Telemark*'}/>
+                                       onChange={this.handleAbilityChange}/>
                         </div>
                     </AArow>
 
@@ -299,7 +299,7 @@ class BookingActivity extends Component {
                         </div>
                         <div className='col-7'>
                             <SliderBar value={members[currentMember]['ability'][3]} min={1} max={7} id={'3'}
-                                       onChange={this.handleAbilityChange} label={'Snowbiking*'}/>
+                                       onChange={this.handleAbilityChange}/>
                         </div>
                     </AArow>
 
@@ -313,8 +313,9 @@ class BookingActivity extends Component {
                         </div>
                         <div className='col-7'>
                             <SliderBar value={members[currentMember]['ability'][4]} min={1} max={7} id={'4'}
-                                       onChange={this.handleAbilityChange} label={'Snowshoeing*'}/>
+                                       onChange={this.handleAbilityChange}/>
                         </div>
+
                     </AArow>
 
                     <AArow className='row'>
@@ -327,7 +328,7 @@ class BookingActivity extends Component {
                         </div>
                         <div className='col-7'>
                             <SliderBar value={members[currentMember]['ability'][5]} min={1} max={7} id={'5'}
-                                       onChange={this.handleAbilityChange} label={'Snowmobiling*'}/>
+                                       onChange={this.handleAbilityChange}/>
                         </div>
                     </AArow>
 

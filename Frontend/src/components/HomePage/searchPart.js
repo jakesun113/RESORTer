@@ -12,8 +12,8 @@ class Search extends Component {
         this.state = {
             countryResorts: [],
             liftPassResorts: [],
-            selectedCountryResorts: "",
-            selectedLiftPassResorts: "",
+            selectedCountryResorts: null,
+            selectedLiftPassResorts: null,
             liftPasses: [],
             countryName: []
         };
@@ -111,7 +111,9 @@ class Search extends Component {
                             />
                         </div>
                         <div className="col-sm">
-                        <a href={`/booking/${this.state.selectedCountryResorts}/who`}>
+
+                        
+                        {this.state.selectedCountryResorts === null ? (
                             <SmallEllipseBtn
                                 text="Make a Quote"
                                 btnColor="rgba(255, 97, 97, 1)"
@@ -120,8 +122,19 @@ class Search extends Component {
                                 paddingTop="8px"
                                 paddingBottom="8px"
                             />
-                         </a>
-
+                        ) : (
+                            <a href={`/booking/${this.state.selectedCountryResorts}/who`}>
+                            <SmallEllipseBtn
+                                text="Make a Quote"
+                                btnColor="rgba(255, 97, 97, 1)"
+                                paddingLeft="90px"
+                                paddingRight="90px"
+                                paddingTop="8px"
+                                paddingBottom="8px"
+                            />
+                        </a>
+                        
+                        )}        
                         </div>
                     </div>
 
