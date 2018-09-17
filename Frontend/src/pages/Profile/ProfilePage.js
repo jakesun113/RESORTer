@@ -42,9 +42,9 @@ function Birthday(props) {
             <DatePicker
                 selected={moment(props.dob)}
                 onChange={handleChange}
-                dateFormat="YYYY-MM-DD"
+                dateFormat="DD-MM-YYYY"
                 maxDate={moment().subtract(1, "days")}
-                placeholderText="YYYY-MM-DD"
+                placeholderText="DD-MM-YYYY"
                 showYearDropdown
                 showMonthDropdown
                 dropdownMode="select"
