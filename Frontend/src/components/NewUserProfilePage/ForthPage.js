@@ -18,8 +18,6 @@ class ForthPage extends Component {
     };
 
     handleSliderBarChange = (id, abilityValue) => {
-        console.log('in fourth page');
-        console.log(id, abilityValue);
         switch (id) {
             case "ski_ability":
                 this.state.skiAbility = parseInt(abilityValue);
@@ -42,6 +40,7 @@ class ForthPage extends Component {
             default:
                 break;
         }
+        this.forceUpdate();
     };
 
     storeInfo() {
