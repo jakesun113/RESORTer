@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "../../css/template/ImageCard.css";
 import axios from "axios"
 import {withCookies, Cookies} from 'react-cookie';
@@ -14,17 +14,17 @@ class ImageCard extends Component {
         cookies: instanceOf(Cookies).isRequired
     };
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            isValidToken:true
+            isValidToken: true
         }
         this.handleAuth = this.handleAuth.bind(this);
         this.handleBook = this.handleBook.bind(this);
     }
 
     //Hover the button, check whether the token is expired
-    async handleAuth(){
+    async handleAuth() {
         //only handle login with email user
         if (sessionStorage.getItem('userSocialData') && !JSON.parse(sessionStorage.getItem('userSocialData')).provider) {
             let BaseURL = "http://127.0.0.1:3333/api/";
@@ -58,7 +58,7 @@ class ImageCard extends Component {
 
                     let date = new Date();
                     date.setTime(date.getTime() + +2592000);
-                    const { cookies } = this.props;
+                    const {cookies} = this.props;
 
                     //only when user click "remember me", update the token in cookies
                     if (cookies.get("access-token")) {
@@ -80,7 +80,8 @@ class ImageCard extends Component {
             });
         }
     }
-    //TODO: Send HTTP request to backEnd to start a book 
+
+    //TODO: Send HTTP request to backEnd to start a book
     handleBook = () => {
         alert('Ready To Book')
     }
@@ -99,7 +100,7 @@ class ImageCard extends Component {
 
         return (
             <React.Fragment>
-                <div className="card h-100" style={{ width: "20rem" }}>
+                <div className="card h-100" style={{width: "20rem"}}>
                     <img
                         className="card-img-top"
                         src={this.props.imgSrc}
@@ -112,24 +113,24 @@ class ImageCard extends Component {
                         <div className="botton_right">
                             {this.state.isValidToken ? (
                                 <a
-                                href={`/booking/${this.props.title}/who`}
-                                className="btn btn-primary"
-                                onMouseEnter={this.handleAuth}
-                                onClick={this.handleBook}
-                            >
-                                <span>{this.props.btnText}</span>
-                            </a>
-                            ):(
-                            <a
-                                href={`/login`}
-                                className="btn btn-primary"
-                                onMouseEnter={this.handleAuth}
-                                onClick={this.handleLogout}
-                            >
-                                <span>{this.props.btnText}</span>
-                            </a>
+                                    href={`/booking/${this.props.title}/who`}
+                                    className="btn btn-primary"
+                                    onMouseEnter={this.handleAuth}
+                                    onClick={this.handleBook}
+                                >
+                                    <span>{this.props.btnText}</span>
+                                </a>
+                            ) : (
+                                <a
+                                    href={`/login`}
+                                    className="btn btn-primary"
+                                    onMouseEnter={this.handleAuth}
+                                    onClick={this.handleLogout}
+                                >
+                                    <span>{this.props.btnText}</span>
+                                </a>
                             )}
-                            
+
                         </div>
                     </div>
                 </div>
