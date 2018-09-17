@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import AlertWindow from "../../components/template/AlertWindow";
 
+
+// This is the page is to fill and confirm the new password
 export default class ResetPasswordPage extends Component {
   constructor() {
     super();
     this.state = {
       token: null,
       id: null,
+      // if the token has been expired
       isValidToken: true,
+      // if the modal window need to show
       isShow: false
     };
 
@@ -22,6 +26,10 @@ export default class ResetPasswordPage extends Component {
     });
   }
 
+  /* API:/api/reset-password
+     request: {'token': TOKEN, 'id': ID, 'password': NEWPASSWORD}
+     response:{'status': 'success/fail'}
+  */ 
   async handleSubmit(e) {
     e.preventDefault();
     const { token, id } = this.state;
@@ -52,14 +60,17 @@ export default class ResetPasswordPage extends Component {
       );
   }
 
+  // Valid the input password
   validatePassword() {
     var password = document.getElementById("inputNewPassword"),
       confirmPassword = document.getElementById("retypePassword");
+    // handle if the length of input password is less than 6
     if (password.value.length < 6) {
       password.setCustomValidity("The minimum length of password is 6");
     } else {
       password.setCustomValidity("");
     }
+    // handle if the confirm password does not match the new password
     if (password.value !== confirmPassword.value) {
       confirmPassword.setCustomValidity("Passwords do not match. Try again.");
     } else {

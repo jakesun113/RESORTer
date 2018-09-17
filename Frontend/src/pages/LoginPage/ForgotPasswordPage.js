@@ -2,22 +2,29 @@ import React, { Component } from "react";
 import axios from "axios";
 import AlertWindow from "../../components/template/AlertWindow";
 
+
+// This is the page to fill the user email address after clicking "forgot password"
 export default class ForgotPasswordPage extends Component {
   constructor() {
     super();
     this.state = {
-      //redirect: false,
-      emailExisted: true,
-      emailDuplicated: false,
+      // if this email address is existed in the database
+      emailExisted: true, 
+      // if this email address has already been registed as the google or facebook account
+      emailDuplicated: false, 
+      // the provider of this email: google / facebook 
       duplicatedProvider: null,
-      isActive: true,
-      isShow: false
+      // if this email address has been activated
+      isActive: true, 
+      // if the modal window need to show
+      isShow: false 
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  //Initialize the state of email address and border color
   handleChange() {
     this.setState({
       emailExisted: true,
@@ -46,13 +53,18 @@ export default class ForgotPasswordPage extends Component {
       });
   }
 
-  async handleSubmit(e) {
+
+  /* API:/api/forgot-password
+     request: {'email':EMAIL}
+     response:{'emailExisted': 'true/false', 'emailDuplicated': 'true/false', 'isActive': 'true/false'}
+  */  
+ async handleSubmit(e) {
     e.preventDefault();
     const email = document.getElementById("InputEmail").value;
-    //console.log(email);
     await axios
       .post(`http://127.0.0.1:3333/api/forgot-password`, { email })
       .then(res => {
+        //handle if the email is not existed in database
         if (res.data.emailExisted === false) {
           console.log("email not exist");
           console.log(res.data);
@@ -74,11 +86,8 @@ export default class ForgotPasswordPage extends Component {
           console.log("user email is not activated");
           this.setState({
             isActive: false
-            // redirect: false
           });
         } else {
-          //console.log("correct email address");
-          //console.log(res.data);
           this.setState({
             isShow: true
           });
