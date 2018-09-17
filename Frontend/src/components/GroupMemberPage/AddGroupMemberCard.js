@@ -46,12 +46,12 @@ class AddGroupMemberCard extends Component {
             showAlertWindow: false, //whether show the alertWindow
             redirect: false, //redirect to login page
             provider: null,//Login provider
-            skiAbility: null,
-            snowboardAbility: null,
-            telemarkAbility: null,
-            snowbikeAbility: null,
-            snowmobileAbility: null,
-            snowshoeAbility: null,
+            skiAbility: 1,
+            snowboardAbility: 1,
+            telemarkAbility: 1,
+            snowbikeAbility: 1,
+            snowmobileAbility: 1,
+            snowshoeAbility: 1,
         };
     }
 
@@ -425,6 +425,7 @@ class AddGroupMemberCard extends Component {
                                     label="Telemark"
                                     min={1}
                                     max={7}
+                                    id="telemark_ability"
                                     value={this.state.telemarkAbility}
                                     onChange={this.handleSliderBarChange}
                                 />
