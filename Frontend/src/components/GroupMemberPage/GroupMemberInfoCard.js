@@ -118,22 +118,7 @@ class GroupMemberInfoCard extends Component {
     }
     let alertWindow;
     if (this.state.showAlertWindow) {
-      if (this.state.alert === "success") {
-        alertWindow = (
-          <AlertWindow
-            displayText={
-              <div>
-                Congratulation, You have already successfully delete your group
-                member.
-              </div>
-            }
-            btnNum="1"
-            btnText="OK"
-            mode="customMode"
-            onHandClick={() => this.setState({ showAlertWindow: false })}
-          />
-        );
-      } else if (this.state.alert === "tokenExpire") {
+       if (this.state.alert === "tokenExpire") {
         alertWindow = (
           <AlertWindow
             displayText={
