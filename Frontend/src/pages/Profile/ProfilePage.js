@@ -230,7 +230,6 @@ class ProfilePage extends Component {
             });
         }
     }
-
     ageCount = e => {
         this.setState({dob: e.target.value}, () => {
             let countAge = moment().diff(
@@ -532,7 +531,7 @@ class ProfilePage extends Component {
                                     <select
                                         id="gender"
                                         className="form-control"
-                                        value={this.state.gender}
+                                        defaultValue={this.state.gender}
                                     >
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
@@ -581,7 +580,7 @@ class ProfilePage extends Component {
                                             <select
                                                 className="custom-select"
                                                 id="phone_number_pre"
-                                                value={this.state.phoneCode}
+                                                defaultValue={this.state.phoneCode}
                                             >
                                                 <option value="+61">+61</option>
                                                 <option value="2">Two</option>
