@@ -334,15 +334,15 @@ class AddGroupMemberCard extends Component {
             <div className="form-group col-lg-4" />
           </div>
           {/* name row */}
-          <form data-toggle="validator">
+          <form data-toggle="validator" onSubmit={this.handleSubmit.bind(this)}>
             <div className="form-row">
               <div className="form-group col-12 col-lg-6">
-                <lable
+                <label
                   style={{ fontSize: "20px", color: "#686369" }}
                   htmlFor="firstName"
                 >
                   First Name *:
-                </lable>
+                </label>
                 <input
                   type="text"
                   id="firstName"
@@ -351,12 +351,12 @@ class AddGroupMemberCard extends Component {
                 />
               </div>
               <div className="form-group col-12 col-lg-6">
-                <lable
+                <label
                   style={{ fontSize: "20px", color: "#686369" }}
                   htmlFor="lastName"
                 >
                   Last Name *:
-                </lable>
+                </label>
                 <input
                   type="text"
                   id="lastName"
@@ -368,12 +368,12 @@ class AddGroupMemberCard extends Component {
             {/* gender row */}
             <div className="form-row">
               <div className="form-group col-12 col-lg-6">
-                <lable
+                <label
                   style={{ fontSize: "20px", color: "#686369" }}
                   htmlFor="gender"
                 >
                   Gender *:
-                </lable>
+                </label>
                 <select id="gender" className="form-control" required>
                   <option selected value="male">
                     Male
@@ -382,12 +382,12 @@ class AddGroupMemberCard extends Component {
                 </select>
               </div>
               <div className="form-group col-12 col-lg-6">
-                <lable
+                <label
                   style={{ fontSize: "20px", color: "#686369" }}
                   htmlFor="birth"
                 >
                   Date of Birth *:
-                </lable>
+                </label>
 
                 <StartDate
                   checkValidate={() => {
@@ -505,13 +505,11 @@ class AddGroupMemberCard extends Component {
                 ""
               )}
             </div>
-            <span onClick={this.handleSubmit.bind(this)}>
               <SmallEllipseBtn
                 text="Add"
                 btnColor="rgba(255, 97, 97, 1)"
                 btnType="submit"
               />
-            </span>
           </form>
         </div>
       </React.Fragment>
