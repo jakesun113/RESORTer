@@ -69,7 +69,7 @@ class ProfilePage extends Component {
             isShow: false,
             email: null,
             portrait: null,
-            dob: null,
+            dob: "2018-01-01",
             age: null,
             gender: null,
             firstName: null,
@@ -192,6 +192,7 @@ class ProfilePage extends Component {
                 if (response.data.gender != null) {
                     setState({gender: response.data.gender});
                 }
+                console.log(response.data.firstName)
                 if (response.data.firstName != null) {
                     setState({firstName: response.data.firstName});
                 }
@@ -404,7 +405,7 @@ class ProfilePage extends Component {
             disabled = false;
         }
 
-        if (this.state.postcode) {
+        if (this.state.email && this.state.firstName && this.state.lastName) {
             return (
                 <React.Fragment>
                     <div className="container">
