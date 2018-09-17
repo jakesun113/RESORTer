@@ -10,7 +10,6 @@ class SliderBar extends Component {
 
     render() {
         const {min, max, id, value, label} = this.props;
-        console.log("label is");
 
         return (
             <React.Fragment>
