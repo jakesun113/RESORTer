@@ -70,7 +70,7 @@ class ProfilePage extends Component {
             email: null,
             portrait: null,
             dob: moment().subtract(1, "days"),
-            age: null,
+            age: 0,
             gender: null,
             firstName: null,
             lastName: null,
