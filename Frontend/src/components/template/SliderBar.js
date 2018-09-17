@@ -13,11 +13,11 @@ class SliderBar extends Component {
         return (
             <React.Fragment>
                 <div className="row" style={{transform: 'translate(0,10px)'}}>
-                    {/*<div className="col-2" style={{padding: '0'}}>*/}
-                    {/*<label style={{fontWeight: '600', fontSize: '0.8em', color: '#607375'}} htmlFor={id}>*/}
-                    {/*{label}*/}
-                    {/*</label>*/}
-                    {/*</div>*/}
+                    <div className="col-2" style={{padding: '0'}}>
+                        <label style={{fontWeight: '600', fontSize: '0.8em', color: '#607375'}} htmlFor={id}>
+                            {label}
+                        </label>
+                    </div>
                     <div className="col-8">
                         <input
                             type="range"
