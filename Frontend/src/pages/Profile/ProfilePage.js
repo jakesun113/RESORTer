@@ -832,8 +832,8 @@ class ProfilePage extends Component {
         </React.Fragment>
       );
     }
-    return <div>Loading...</div>;
-  }
+   return <div>Loading...</div>;
+ }
 }
 
 export default withCookies(ProfilePage);
