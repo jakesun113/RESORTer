@@ -55,7 +55,7 @@ const CheckBoxInput = styled.input`
   &:checked + label:before, &:not(:checked) + label:before{
     content: '';
     position: absolute;
-    left: -20px;
+    left: -6px;
     top: 2px;
     width: 19px;
     height: 19px;
@@ -74,7 +74,7 @@ const CheckBoxInput = styled.input`
     font-family: "Font Awesome 5 Free",serif; 
     position: absolute;
     top: 1px;
-    left: 1px;
+    left: -3px;
     font-size: 0.9em;
     color:#00A6FF;
     -webkit-transition: all 0.1s ease-in;
@@ -338,7 +338,9 @@ class BookingActivity extends Component {
                             <CheckBoxInput className="form-check-input" type="checkbox"
                                            checked={members[currentMember]['skipEquipmentLesson']} id='skip'
                                            onChange={this.handleCheckboxChange}/>
-                            <label className="form-check-label" htmlFor='skip'>Only</label>
+                            <label style={{marginLeft: '20px', color: "#607375"}} className="form-check-label"
+                                   htmlFor='skip'>Only lift
+                                passes required, lessons and rental not required for this trip</label>
                         </div>
                     </div>
 
