@@ -145,6 +145,7 @@ class LoginPage extends Component {
                     let userSocialData;
                     userSocialData = {
                         name: response.data.name,
+                        provider: "email",
                         provider_pic: obj
                     };
                     sessionStorage.setItem(

@@ -59,11 +59,11 @@ class NewUserProfilePage extends Component {
     componentDidMount() {
         if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-            if (userData.provider) {
-                this.setState({
-                    provider: userData.provider
-                });
-            }
+
+            this.setState({
+                provider: userData.provider
+            });
+
         }
 
         if (this.state.token === null && sessionStorage.getItem("userToken")) {
@@ -141,6 +141,7 @@ class NewUserProfilePage extends Component {
                     let userSocialData;
                     userSocialData = {
                         name: response.data.name,
+                        provider: this.state.provider,
                         //TODO: to be changed
                         provider_pic: this.state.user_pic
                     };
@@ -156,7 +157,7 @@ class NewUserProfilePage extends Component {
                     //if success, set profile is finished
                     let userFinishProfile;
                     userFinishProfile = {
-                        isFinished: true
+                        isFinished: 1
                     };
                     sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
 
@@ -202,7 +203,7 @@ class NewUserProfilePage extends Component {
         //if token has been expired, redirect to login page
         //console.log(this.props.location.state);
         if (this.props.location.state) {
-            const {lastValid, isProfileComplete} = this.props.location.state;
+            const {lastValid} = this.props.location.state;
             //console.log(lastValid);
 
             if (!lastValid) {
@@ -216,11 +217,6 @@ class NewUserProfilePage extends Component {
                 );
             }
 
-            if (isProfileComplete) {
-                return (
-                    <Redirect to={"/profile"}/>
-                );
-            }
         }
 
         //if directly type this page's url, redirect to login page
@@ -233,6 +229,14 @@ class NewUserProfilePage extends Component {
                     }}
                 />
             );
+        }
+
+        //if directly type this page's url, and user has finished the profile
+        if (sessionStorage.getItem("userFinishProfile")) {
+            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            if (userFinishProfile.isFinished === 1) {
+                return <Redirect to={"/profile"}/>;
+            }
         }
 
         return (

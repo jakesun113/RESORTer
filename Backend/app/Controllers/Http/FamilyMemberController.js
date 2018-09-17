@@ -26,7 +26,7 @@ class FamilyMemberController {
 
     try{
 
-      if(request.input('provider') === null){
+      if(request.input('provider') === "email"){
       //1) if token expired
       try{
 
@@ -88,7 +88,7 @@ class FamilyMemberController {
   async addMember({request, response, auth}) {
     try {
 
-      if(request.input('provider') === null){
+      if(request.input('provider') === "email"){
       try {
         await auth.check();
       }

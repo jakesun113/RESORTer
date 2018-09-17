@@ -228,7 +228,7 @@ class MemberController {
 
     const requestData = request.all();
     //if the user login with email, check token
-    if (requestData.provider === null) {
+    if (requestData.provider === "email") {
 
       try {
         const isTokenValid = await auth.check();
@@ -315,7 +315,8 @@ class MemberController {
         IsDisabled: requestData.IsDisabled,
         DisabilityMembership: requestData.DisabilityMembership,
         DisabilityMembershipID: requestData.DisabilityMembershipID,
-        DisabilityDetail: requestData.DisabilityDetail
+        DisabilityDetail: requestData.DisabilityDetail,
+        IsProfileComplete: requestData.IsProfileComplete
       });
 
       await member.save();

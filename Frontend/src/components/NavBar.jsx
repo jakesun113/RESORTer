@@ -98,11 +98,13 @@ class Navbar extends Component {
         this.setState({
             user: "",
             token: null,
-            user_pic: null
+            user_pic: null,
+            isProfileComplete: null
         });
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
@@ -111,7 +113,8 @@ class Navbar extends Component {
     //check authentication when the profile list is shown
     async handleAuth() {
         //only handle login with email user
-        if (this.state.provider === null) {
+        console.log(this.state.provider);
+        if (this.state.provider === "email") {
             let BaseURL = "http://127.0.0.1:3333/api/";
             let postData;
             postData = {
@@ -180,6 +183,7 @@ class Navbar extends Component {
             this.setState({
                 user: userData.name,
                 token: tokenData.token,
+                provider: userData.provider,
                 user_pic: userData.provider_pic
             });
         }
@@ -235,6 +239,7 @@ class Navbar extends Component {
                 //console.log("in user update");
                 this.setState({
                     user: userData.name,
+                    provider: userData.provider,
                     user_pic: userData.provider_pic
                 });
             }
@@ -248,23 +253,15 @@ class Navbar extends Component {
             });
         }
 
-        //if login with google or facebook
-        if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
-            let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-            if (userData.provider) {
-                console.log("inner update");
-                this.setState({
-                    provider: userData.provider
-                });
-            }
-        }
-
         //get isProfileFinished state
         //if can get it from the session
         if (sessionStorage.getItem("userFinishProfile")) {
-            this.setState({
-                isProfileComplete: true
-            });
+            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            if (this.state.isProfileComplete !== userFinishProfile.isFinished) {
+                this.setState({
+                    isProfileComplete: userFinishProfile.isFinished
+                });
+            }
         }
         //if cannot get from session, get it from the database
         else if (this.state.isProfileComplete === null && sessionStorage.getItem("userToken")) {
@@ -273,9 +270,16 @@ class Navbar extends Component {
 
             let BaseURL = "http://127.0.0.1:3333/api/";
 
-            axios.get(BaseURL + "getIsProfileComplete" + tokenData.token).then(response => {
-                //console.log(response.data);
-                console.log(response.data.isProfileComplete);
+            axios.get(BaseURL + "getIsProfileComplete/" + tokenData.token).then(response => {
+
+                //console.log(response.data.isProfileComplete);
+
+                let userFinishProfile;
+                userFinishProfile = {
+                    isFinished: response.data.isProfileComplete
+                };
+                sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
+
                 this.setState({
                     isProfileComplete: response.data.isProfileComplete,
                 });
