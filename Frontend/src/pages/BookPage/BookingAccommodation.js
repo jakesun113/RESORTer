@@ -66,7 +66,7 @@ export const BtmEllipseButton = styled.button`
   }
 `;
 
-const LeaveRow = styled.div`
+export const LeaveRow = styled.div`
   width:90%;
   display: flex;
   flex-direction: row;

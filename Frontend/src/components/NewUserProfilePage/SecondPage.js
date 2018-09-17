@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
-//TODO: change DataPicker UI
 // second page
 function StartDate(props) {
   function handleChange(date) {
@@ -20,8 +19,11 @@ function StartDate(props) {
         placeholderText="YYYY-MM-DD"
         selected={props.startDate}
         onChange={handleChange}
-        maxDate={moment()}
-        dateFormat="YYYY-MM-DD"
+        dateFormat="YYYY-MM-DD" 
+        maxDate={moment().subtract(1, "days")}
+        showYearDropdown
+        showMonthDropdown
+        dropdownMode="select"
       />
     </React.Fragment>
   );
@@ -29,7 +31,7 @@ function StartDate(props) {
 
 class SecondPage extends Component {
   state = {
-    startDate: moment(),
+    startDate: moment().subtract(1, "days"),
     gender: "male",
     birth_format_wrong: false
   };

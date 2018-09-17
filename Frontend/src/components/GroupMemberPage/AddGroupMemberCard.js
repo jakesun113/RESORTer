@@ -25,6 +25,11 @@ function StartDate(props) {
         onChange={handleChange}
         minDate={props.validMinDate}
         dateFormat="YYYY-MM-DD"
+        maxDate={moment().subtract(1, "days")}
+        placeholderText="YYYY-MM-DD"
+        showYearDropdown
+        showMonthDropdown
+        dropdownMode="select"
       />
     </React.Fragment>
   );
@@ -39,7 +44,7 @@ class AddGroupMemberCard extends Component {
     super(props);
     this.state = {
       hasDisability: false,
-      startDate: moment(),
+      startDate: moment().subtract(1, "days"),
       birth_format_wrong: false,
       token: this.props.token,
       alert: null, //what is the status of the alertWindow
@@ -51,8 +56,7 @@ class AddGroupMemberCard extends Component {
       telemarkAbility: 1,
       snowbikeAbility: 1,
       snowmobileAbility: 1,
-      snowshoeAbility: 1,
-      showAddGroupMemberCard:true
+      snowshoeAbility: 1
     };
   }
 
@@ -235,13 +239,18 @@ class AddGroupMemberCard extends Component {
     this.forceUpdate();
   };
 
+  handleClick = () => {
+    const { onHandleClose } = this.props;
+    onHandleClose();
+
+    this.setState({
+      showAlertWindow: false
+    });
+  };
+
   render() {
     if (this.state.redirect) {
       return <Redirect to={"/login"} />;
-    }
-
-    if(!this.state.showAddGroupMemberCard){
-        return <Redirect to={"/group-member"} />;
     }
 
     let alertWindow;
@@ -258,12 +267,7 @@ class AddGroupMemberCard extends Component {
             btnNum="1"
             btnText="OK"
             mode="customMode"
-            onHandClick={() =>
-              this.setState({
-                showAlertWindow: false,
-                showAddGroupMemberCard: false
-              })
-            }
+            onHandClick={this.handleClick}
           />
         );
       } else if (
