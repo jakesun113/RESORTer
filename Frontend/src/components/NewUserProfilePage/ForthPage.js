@@ -134,7 +134,7 @@ class ForthPage extends Component {
                                     min={1}
                                     max={7}
                                     id="ski_ability"
-                                    value={this.props.skiAbility}
+                                    value={this.state.skiAbility}
                                     onChange={this.handleSliderBarChange}
                                 />
                             </div>
@@ -144,7 +144,7 @@ class ForthPage extends Component {
                                     min={1}
                                     max={7}
                                     id="snowboard_ability"
-                                    value={this.props.snowboardAbility}
+                                    value={this.state.snowboardAbility}
                                     onChange={this.handleSliderBarChange}
                                 />
                             </div>
@@ -159,7 +159,7 @@ class ForthPage extends Component {
                                     min={1}
                                     max={7}
                                     id="telemark_ability"
-                                    value={this.props.telemarkAbility}
+                                    value={this.state.telemarkAbility}
                                     onChange={this.handleSliderBarChange}
                                 />
                             </div>
@@ -169,7 +169,7 @@ class ForthPage extends Component {
                                     min={1}
                                     max={7}
                                     id="snowbike_ability"
-                                    value={this.props.snowbikeAbility}
+                                    value={this.state.snowbikeAbility}
                                     onChange={this.handleSliderBarChange}
                                 />
                             </div>
@@ -184,7 +184,7 @@ class ForthPage extends Component {
                                     min={1}
                                     max={7}
                                     id="snowmobile_ability"
-                                    value={this.props.snowmobileAbility}
+                                    value={this.state.snowmobileAbility}
                                     onChange={this.handleSliderBarChange}
                                 />
                             </div>
@@ -194,7 +194,7 @@ class ForthPage extends Component {
                                     min={1}
                                     max={7}
                                     id="snowshoe_ability"
-                                    value={this.props.snowshoeAbility}
+                                    value={this.state.snowshoeAbility}
                                     onChange={this.handleSliderBarChange}
                                 />
                             </div>
