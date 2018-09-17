@@ -89,6 +89,7 @@ class ProfilePage extends Component {
             disabilityMembership: null,
             disabilityMemberId: null,
             disabilityDetail: null,
+            getFinished: false,
             user_pic:
                 "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/crop/x_7,y_0,w_1184,h_1184/fill/w_96,h_96,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
         };
@@ -192,7 +193,6 @@ class ProfilePage extends Component {
                 if (response.data.gender != null) {
                     setState({gender: response.data.gender});
                 }
-                console.log(response.data.firstName)
                 if (response.data.firstName != null) {
                     setState({firstName: response.data.firstName});
                 }
@@ -223,6 +223,9 @@ class ProfilePage extends Component {
                 if (response.data.postcode != null) {
                     setState({postcode: response.data.postcode});
                 }
+
+                //indicate get method is finished
+                setState({getFinished: true});
 
             });
         }
@@ -405,7 +408,7 @@ class ProfilePage extends Component {
             disabled = false;
         }
 
-        if (this.state.email && this.state.firstName && this.state.lastName) {
+        if (this.state.getFinished) {
             return (
                 <React.Fragment>
                     <div className="container">
