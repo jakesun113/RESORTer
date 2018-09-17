@@ -364,6 +364,32 @@ class ProfilePage extends Component {
         );
     }
 
+    handleSliderBarChange = (id, abilityValue) => {
+        switch (id) {
+            case "ski_ability":
+                this.state.skiAbility = parseInt(abilityValue);
+                break;
+            case "snowboard_ability":
+                this.state.snowboardAbility = parseInt(abilityValue);
+                break;
+            case "telemark_ability":
+                this.state.telemarkAbility = parseInt(abilityValue);
+                break;
+            case "snowbike_ability":
+                this.state.snowbikeAbility = parseInt(abilityValue);
+                break;
+            case "snowmobile_ability":
+                this.state.snowmobileAbility = parseInt(abilityValue);
+                break;
+            case "snowshoe_ability":
+                this.state.snowshoeAbility = parseInt(abilityValue);
+                break;
+            default:
+                break;
+        }
+        this.forceUpdate();
+    };
+
     //TODO: dob cannot be input manually
     //TODO: gender and phonecode cannot be select now
     render() {
@@ -685,22 +711,24 @@ class ProfilePage extends Component {
                                 <div className="form-group col-lg-2"/>
                                 <div className="form-group col-12 col-lg-4">
                                     <SliderBar
-                                        lable="Ski"
-                                        min="1"
-                                        max="7"
+                                        label="Ski"
+                                        min={1}
+                                        max={7}
                                         id="ski_ability"
                                         name="skiability"
                                         value={this.state.skiAbility}
+                                        onChange={this.handleSliderBarChange}
                                     />
                                 </div>
                                 &ensp; &ensp;
                                 <div className="form-group col-12 col-lg-4">
                                     <SliderBar
-                                        lable="Snowboard"
-                                        min="1"
-                                        max="7"
+                                        label="Snowboard"
+                                        min={1}
+                                        max={7}
                                         id="snowboard_ability"
                                         value={this.state.snowboardAbility}
+                                        onChange={this.handleSliderBarChange}
                                     />
                                 </div>
                                 <div className="form-group col-lg-2"/>
@@ -711,21 +739,24 @@ class ProfilePage extends Component {
                                 <div className="form-group col-lg-2"/>
                                 <div className="form-group col-12 col-lg-4">
                                     <SliderBar
-                                        lable="Telemark"
-                                        min="1"
-                                        max="7"
+                                        label="Telemark"
+                                        min={1}
+                                        max={7}
                                         id="telemark_ability"
                                         value={this.state.telemarkAbility}
+                                        onChange={this.handleSliderBarChange}
                                     />
                                 </div>
                                 &ensp; &ensp;
                                 <div className="form-group col-12 col-lg-4">
                                     <SliderBar
-                                        lable="Snowbike"
-                                        min="1"
-                                        max="7"
+                                        label="Snowbike"
+                                        min={1}
+                                        max={7}
                                         id="snowbike_ability"
                                         value={this.state.snowbikeAbility}
+                                        onChange={this.handleSliderBarChange}
+
                                     />
                                 </div>
                                 <div className="form-group  col-lg-2"/>
@@ -736,21 +767,23 @@ class ProfilePage extends Component {
                                 <div className="form-group col-lg-2"/>
                                 <div className="form-group col-12 col-lg-4">
                                     <SliderBar
-                                        lable="Snowmobile"
-                                        min="1"
-                                        max="7"
+                                        label="Snowmobile"
+                                        min={1}
+                                        max={7}
                                         id="snowmobile_ability"
                                         value={this.state.snowmobileAbility}
+                                        onChange={this.handleSliderBarChange}
                                     />
                                 </div>
                                 &ensp; &ensp;
                                 <div className="form-group col-12 col-lg-4">
                                     <SliderBar
-                                        lable="Snowshoe"
-                                        min="1"
-                                        max="7"
+                                        label="Snowshoe"
+                                        min={1}
+                                        max={7}
                                         id="snowshoe_ability"
                                         value={this.state.snowshoeAbility}
+                                        onChange={this.handleSliderBarChange}
                                     />
                                 </div>
                                 <div className="form-group col-lg-2"/>
