@@ -21,7 +21,8 @@ class GroupMemberPage extends Component {
             isAddMember: false, //Whether show the interface of Adding groupMember
             numberOfGroupMember: 0, //Count the number of groupMember & Global state for Card Component and addGroupMember Component
             lastNumberOfGroupMember: 0, //Use to limit the infinite cycle of componentDidUpdate()
-            groupMember: [] //groupMember Info
+            groupMember: [], //groupMember Info
+            redirect:false
         };
     }
 
@@ -96,6 +97,10 @@ class GroupMemberPage extends Component {
     };
 
     render() {
+       if (this.state.redirect) {
+         return <Redirect to={"/"} />;
+       }
+
         const {cookies} = this.props;
         //if token has been expired, redirect to login page
         //console.log(this.props.location.state);
@@ -146,10 +151,12 @@ class GroupMemberPage extends Component {
             />
           </span>
                     &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span onClick={ () => this.setState({redirect:true})}>
                     <SmallEllipseBtn
                         text="None? Search your Resort"
                         btnColor="rgba(104, 99, 105, 1)"
                     />
+                    </span>
                     <br/>
                     {/* add member window */}
                     {this.state.isAddMember === true ? (
