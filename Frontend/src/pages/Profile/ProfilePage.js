@@ -69,7 +69,7 @@ class ProfilePage extends Component {
             isShow: false,
             email: null,
             portrait: null,
-            dob: "2018-01-01",
+            dob: moment(),
             age: null,
             gender: null,
             firstName: null,
