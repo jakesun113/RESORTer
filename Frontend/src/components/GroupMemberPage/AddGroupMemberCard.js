@@ -277,12 +277,12 @@ class AddGroupMemberCard extends Component {
             >
               <span
                 style={{
-                  fontSize: "20px",
+                  fontSize: "25px",
                   color: "#686369",
                   fontWeight: "bold"
                 }}
               >
-                Add Group Member:
+                Add Group Member
               </span>
             </div>
             <div className="form-group col-lg-4" />

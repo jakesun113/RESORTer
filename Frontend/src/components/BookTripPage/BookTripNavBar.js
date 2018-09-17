@@ -63,7 +63,7 @@ class BookTripNavBar extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="container">
+        <div className="container" id="booktrip-navbar">
           <br />
           {/* title */}
           <p style={{ textAlign: "center" }}>
@@ -82,36 +82,36 @@ class BookTripNavBar extends Component {
           </p>
           <br />
           {/* navbar */}
-          <ul className="row">
-            <li className="col-2">
+          <ul className="row" style={{ whiteSpace: "nowrap" }}>
+            <li>
               1<br />
               <span style={{ color: "black", whiteSpace: "nowrap" }}>
                 When & Who?
               </span>
             </li>
-            <li className="col-2">
+            <li>
               2<br />
               <span style={{ color: "black" }}>Sleep?</span>
             </li>
-            <li className="col-2">
+            <li>
               3<br />
               <span style={{ color: "black", whiteSpace: "nowrap" }}>
                 Doing?
               </span>
             </li>
-            <li className="col-2">
+            <li>
               4<br />
               <span style={{ color: "black", whiteSpace: "nowrap" }}>
                 Equipment?
               </span>
             </li>
-            <li className="col-2">
+            <li>
               5<br />
               <span style={{ color: "black", whiteSpace: "nowrap" }}>
                 Learn?
               </span>
             </li>
-            <li className="col-2">
+            <li>
               6<br />
               <span style={{ color: "black", whiteSpace: "nowrap" }}>
                 Plan Summary
