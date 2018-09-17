@@ -86,7 +86,8 @@ class Navbar extends Component {
             provider: null,
             isValidToken: true,
             isShowLoginWindow: false,
-            isShowVideo: false
+            isShowVideo: false,
+            isProfileComplete: null
         };
 
         this.handleAuth = this.handleAuth.bind(this);
@@ -115,7 +116,7 @@ class Navbar extends Component {
             let postData;
             postData = {
                 token: this.state.token
-            }; 
+            };
             await axios.post(BaseURL + "check-token", postData).then(response => {
                 //console.log(response.data);
 
@@ -257,6 +258,29 @@ class Navbar extends Component {
                 });
             }
         }
+
+        //get isProfileFinished state
+        //if can get it from the session
+        if (sessionStorage.getItem("userFinishProfile")) {
+            this.setState({
+                isProfileComplete: true
+            });
+        }
+        //if cannot get from session, get it from the database
+        else if (this.state.isProfileComplete === null && sessionStorage.getItem("userToken")) {
+
+            let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+
+            let BaseURL = "http://127.0.0.1:3333/api/";
+
+            axios.get(BaseURL + "getIsProfileComplete" + tokenData.token).then(response => {
+                //console.log(response.data);
+                console.log(response.data.isProfileComplete);
+                this.setState({
+                    isProfileComplete: response.data.isProfileComplete,
+                });
+            });
+        }
     }
 
     render() {
@@ -390,6 +414,7 @@ class Navbar extends Component {
                                             >
                                                 <ProfileCard
                                                     userName={this.state.user}
+                                                    isProfileComplete={this.state.isProfileComplete}
                                                     userPic={this.state.user_pic}
                                                     tokenValid={this.state.isValidToken}
                                                     onLogout={this.handleLogout}

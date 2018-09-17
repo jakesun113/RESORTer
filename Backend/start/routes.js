@@ -30,6 +30,9 @@ Route.post("/api/resendConfirmEmail", "MemberController.resendConfirmEmail");
 Route.get("/api/user-profile/:token", "MemberController.showProfile");
 Route.put("/api/user-profile", "MemberController.editProfile");
 
+//if profile has been completed
+Route.get("/api/getIsProfileComplete/:token", "MemberController.getIsProfileComplete");
+
 //forget password
 Route.post("/api/forgot-password", "MemberController.sendResetLinkEmail");
 

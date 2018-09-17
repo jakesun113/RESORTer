@@ -8,6 +8,9 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
+    font-family: "Proxima N W01 Reg", "Proxima Nova Regular", "Helvetica Neue",
+    Arial, Helvetica, sans-serif !important;
+
 }
 
 /* Base for label styling */
@@ -82,10 +85,6 @@ body {
 /* hover style just for information */
 label:hover:before {
     border: 2px solid #4778d9 !important;
-}
-
-body {
-    font-family: avenir-lt-w01_85-heavy1475544, sans-serif !important;
 }
 
 /* password input */
