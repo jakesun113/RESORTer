@@ -25,6 +25,11 @@ function StartDate(props) {
                 onChange={handleChange}
                 minDate={props.validMinDate}
                 dateFormat="YYYY-MM-DD"
+                maxDate={moment().subtract(1, "days")}
+                placeholderText="YYYY-MM-DD"
+                showYearDropdown
+                showMonthDropdown
+                dropdownMode="select"
             />
         </React.Fragment>
     );
@@ -39,7 +44,7 @@ class AddGroupMemberCard extends Component {
         super(props);
         this.state = {
             hasDisability: false,
-            startDate: moment(),
+            startDate: moment().subtract(1, "days"),
             birth_format_wrong: false,
             token: this.props.token,
             alert: null, //what is the status of the alertWindow

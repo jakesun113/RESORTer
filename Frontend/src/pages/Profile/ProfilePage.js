@@ -69,7 +69,7 @@ class ProfilePage extends Component {
             isShow: false,
             email: null,
             portrait: null,
-            dob: "2018-01-01",
+            dob: moment().subtract(1, "days"),
             age: null,
             gender: null,
             firstName: null,
@@ -390,7 +390,6 @@ class ProfilePage extends Component {
     };
 
     //TODO: dob cannot be input manually
-    //TODO: gender and phonecode cannot be select now
     render() {
         const {cookies} = this.props;
         //if token has been expired, redirect to login page
