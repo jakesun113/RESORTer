@@ -2,53 +2,20 @@ import React, { Component } from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
+import DatePickerComponent from "../template/DatePickerComponent";
 // second page
-function StartDate(props) {
-  function handleChange(date) {
-    props.onChange(date, "startDate");
-    props.checkValidate();
-    document
-      .getElementsByClassName("react-datepicker__input-container")[0]
-      .getElementsByTagName("input")[0].style.boxShadow =
-      "0px 2px 0px 0px rgba(70,130,180,1)";
-  }
-
-  return (
-    <React.Fragment>
-      <DatePicker
-        placeholderText="YYYY-MM-DD"
-        selected={props.startDate}
-        onChange={handleChange}
-        dateFormat="YYYY-MM-DD" 
-        maxDate={moment().subtract(1, "days")}
-        showYearDropdown
-        showMonthDropdown
-        dropdownMode="select"
-      />
-    </React.Fragment>
-  );
-}
 
 class SecondPage extends Component {
   state = {
-    startDate: moment().subtract(1, "days"),
+    dob: moment().subtract(1, "days"),
     gender: "male",
     birth_format_wrong: false
   };
 
   componentDidMount() {
-    document
-      .getElementsByClassName("react-datepicker__input-container")[0]
-      .getElementsByTagName("input")[0].style.cssText =
-      "width: 100%;box-shadow: 0px 2px 0px 0px rgba(70, 130, 180, 1);box-sizing: border-box !important;outline: none !important;color: #525252;padding: 3px;text-align: center;max-width: 80%;min-width: 80%;min-height: 100%;text-overflow: ellipsis;margin: auto auto;background: transparent !important;border: none;outline: none;font-size: 20px;";
-    document
-      .getElementsByClassName("react-datepicker__input-container")[0]
-      .getElementsByTagName("input")[0].disabled = "disabled";
     // dob
     if (this.props.dob !== "") {
       this.setState({ startDate: this.props.dob });
-    } else {
-      this.setState({ startDate: moment() });
     }
     // gender
     if (this.props.gender !== "") {
@@ -58,47 +25,24 @@ class SecondPage extends Component {
     }
   }
 
-  validator = () => {
-    let isValid = true;
-
-    if (
-      moment(this.state.startDate).format("YYYY-MM-DD") ===
-        moment().format("YYYY-MM-DD") ||
-      moment(this.state.startDate).format("YYYY-MM-DD") >
-        moment().format("YYYY-MM-DD")
-    ) {
-      document
-        .getElementsByClassName("react-datepicker__input-container")[0]
-        .getElementsByTagName("input")[0].style.boxShadow =
-        "0px 2px 0px 0px red";
-      this.setState({ birth_format_wrong: true });
-      isValid = false;
-    }
-
-    return isValid;
-  };
-
   handleChange = (date, choice) => {
     this.setState({
       [choice]: date,
-      startDate: date
+      dob: date
     });
   };
 
   storeInfo() {
     const gender = document.getElementById("gender").value;
-    const dob = moment(this.state.startDate);
+    const dob = moment(this.state.dob);
     this.props.onChangeState("gender", gender);
     this.props.onChangeState("dob", dob);
   }
 
   handleClickNext = () => {
-    const isValid = this.validator();
-    if (isValid === true) {
-      this.storeInfo();
-      this.props.onHandleNextPage("page_3");
-      this.props.onHandleProgress("50%");
-    }
+    this.storeInfo();
+    this.props.onHandleNextPage("page_3");
+    this.props.onHandleProgress("50%");
   };
 
   handleClickPre = () => {
@@ -206,12 +150,14 @@ class SecondPage extends Component {
                 textAlign: "center"
               }}
             >
-              <StartDate
+              <DatePickerComponent
                 checkValidate={() => {
                   this.setState({ birth_format_wrong: false });
+                  alert("deed");
                 }}
-                startDate={this.state.startDate}
-                onChange={this.handleChange}
+                selected={this.state.dob}
+                onHandleChange={this.handleChange}
+                noOutline={true}
               />
               {/* if wrong */}
               {this.state.birth_format_wrong ? (

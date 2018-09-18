@@ -4,6 +4,7 @@ const Member = use("App/Models/Member");
 const Token = use("App/Models/ValidationToken");
 const Mail = use("Mail");
 const Encryption = use('Encryption');
+const Helpers = use('Helpers');
 
 /**
  * Deal with Member table
@@ -224,15 +225,33 @@ class MemberController {
     }
   }
 
+  //TODO: save image file to some folder
   async editProfile({request, auth}) {
 
+    // const profilePic = request.file('Portrait', {
+    //   types: ['image'],
+    //   size: '15mb'
+    // });
+
+    // console.log(profilePic);
     const requestData = request.all();
+
+    //console.log(requestData)
     //if the user login with email, check token
-    if (requestData.provider === null) {
+    if (requestData.provider === "email") {
 
       try {
         const isTokenValid = await auth.check();
         console.log(isTokenValid);
+
+
+        await requestData.Portrait.move(Helpers.tmpPath('uploads'), {
+          name: 'custom-name.jpg'
+        });
+
+        if (!requestData.Portrait.moved()) {
+          return requestData.Portrait.error()
+        }
 
         const token = requestData.token;
         const dbToken = await Token.findBy("Token", token);
@@ -315,7 +334,8 @@ class MemberController {
         IsDisabled: requestData.IsDisabled,
         DisabilityMembership: requestData.DisabilityMembership,
         DisabilityMembershipID: requestData.DisabilityMembershipID,
-        DisabilityDetail: requestData.DisabilityDetail
+        DisabilityDetail: requestData.DisabilityDetail,
+        IsProfileComplete: requestData.IsProfileComplete
       });
 
       await member.save();
@@ -333,28 +353,6 @@ class MemberController {
     }
 
   }
-
-  async getIsProfileComplete({params}) {
-
-    try {
-      const token = params.token;
-      //console.log(token);
-      const dbMemberID = await Database.table('validation_tokens')
-        .where("Token", token).select('MemberID');
-
-      const member = await Member.findBy('id', dbMemberID[0].MemberID);
-
-      return JSON.stringify({
-        isProfileComplete: member.IsProfileComplete,
-
-      })
-
-    } catch (e) {
-      //console.log(e);
-    }
-
-  }
-
 
   async sendResetLinkEmail({request, auth}) {
     // validate from inputs
