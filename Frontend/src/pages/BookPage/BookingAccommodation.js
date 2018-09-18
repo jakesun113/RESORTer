@@ -82,7 +82,7 @@ const RadioInput = styled.input`
     content: '';
     position: absolute;
     left: 13px;
-    top: 3px;
+    top: 4px;
     width: 18px;
     height: 18px;
     border: 1px solid rgba(198, 226, 247, 1);
@@ -101,7 +101,7 @@ const RadioInput = styled.input`
     width: 10px;
     height: 10px;
     background: #00A6FF;
-    top: 7px;
+    top: 8px;
     left: 17px;
     border-radius: 100%;
     -webkit-transition: all 0.1s ease-in;

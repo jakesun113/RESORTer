@@ -8,13 +8,14 @@ class ForthPage extends Component {
         super(props);
     }
 
+
     state = {
-        skiAbility: 1,
-        snowboardAbility: 1,
-        telemarkAbility: 1,
-        snowbikeAbility: 1,
-        snowmobileAbility: 1,
-        snowshoeAbility: 1,
+        skiAbility: this.props.skiAbility,
+        snowboardAbility: this.props.snowboardAbility,
+        telemarkAbility: this.props.telemarkAbility,
+        snowbikeAbility: this.props.snowbikeAbility,
+        snowmobileAbility: this.props.snowmobileAbility,
+        snowshoeAbility: this.props.snowshoeAbility,
     };
 
     handleSliderBarChange = (id, abilityValue) => {
