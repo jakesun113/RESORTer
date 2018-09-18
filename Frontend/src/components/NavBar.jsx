@@ -87,7 +87,7 @@ class Navbar extends Component {
             isValidToken: true,
             isShowLoginWindow: false,
             isShowVideo: false,
-            isProfileComplete: null
+            isProfileComplete: cookies.get("user-profileFinished") ||null
         };
 
         this.handleAuth = this.handleAuth.bind(this);
@@ -98,20 +98,25 @@ class Navbar extends Component {
         this.setState({
             user: "",
             token: null,
-            user_pic: null
+            user_pic: null,
+            provider: null,
+            isProfileComplete: null
         });
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-profileFinished");
     };
 
     //check authentication when the profile list is shown
     async handleAuth() {
         //only handle login with email user
-        if (this.state.provider === null) {
+        console.log(this.state.provider);
+        if (this.state.provider === "email") {
             let BaseURL = "http://127.0.0.1:3333/api/";
             let postData;
             postData = {
@@ -169,26 +174,28 @@ class Navbar extends Component {
     componentDidMount() {
         //console.log("in mount");
         //if not click "remember me" before
-        if (
-            this.state.token === null &&
-            sessionStorage.getItem("userSocialData") &&
-            sessionStorage.getItem("userToken")
-        ) {
-            //console.log("inner mount");
-            let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-            let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-            this.setState({
-                user: userData.name,
-                token: tokenData.token,
-                user_pic: userData.provider_pic
-            });
-        }
+        // if (
+        //     this.state.token === null &&
+        //     sessionStorage.getItem("userSocialData") &&
+        //     sessionStorage.getItem("userToken")
+        // ) {
+        //     console.log("inner mount");
+        //     let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
+        //     let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+        //     this.setState({
+        //         user: userData.name,
+        //         token: tokenData.token,
+        //         provider: userData.provider,
+        //         user_pic: userData.provider_pic
+        //     });
+        // }
 
         //if click "remember me" before, also save data into session
         if (this.state.token !== null && !sessionStorage.getItem("userToken")) {
             let userSocialData;
             userSocialData = {
                 name: this.state.user,
+                provider: "email",
                 provider_pic: this.state.user_pic
             };
             sessionStorage.setItem("userSocialData", JSON.stringify(userSocialData));
@@ -197,6 +204,11 @@ class Navbar extends Component {
                 token: this.state.token
             };
             sessionStorage.setItem("userToken", JSON.stringify(userToken));
+            let userFinishProfile;
+            userFinishProfile = {
+                isFinished: this.state.isProfileComplete
+            };
+            sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
         }
     }
 
@@ -235,6 +247,7 @@ class Navbar extends Component {
                 //console.log("in user update");
                 this.setState({
                     user: userData.name,
+                    provider: userData.provider,
                     user_pic: userData.provider_pic
                 });
             }
@@ -244,41 +257,26 @@ class Navbar extends Component {
             //console.log("in user to null");
             this.setState({
                 user: null,
+                provider: null,
                 user_pic: null
             });
-        }
-
-        //if login with google or facebook
-        if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
-            let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-            if (userData.provider) {
-                console.log("inner update");
-                this.setState({
-                    provider: userData.provider
-                });
-            }
         }
 
         //get isProfileFinished state
         //if can get it from the session
         if (sessionStorage.getItem("userFinishProfile")) {
-            this.setState({
-                isProfileComplete: true
-            });
-        }
-        //if cannot get from session, get it from the database
-        else if (this.state.isProfileComplete === null && sessionStorage.getItem("userToken")) {
-
-            let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-
-            let BaseURL = "http://127.0.0.1:3333/api/";
-
-            axios.get(BaseURL + "getIsProfileComplete" + tokenData.token).then(response => {
-                //console.log(response.data);
-                console.log(response.data.isProfileComplete);
+            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            if (this.state.isProfileComplete !== userFinishProfile.isFinished) {
+                //console.log("in profileComplete update");
                 this.setState({
-                    isProfileComplete: response.data.isProfileComplete,
+                    isProfileComplete: userFinishProfile.isFinished
                 });
+            }
+        }
+        //if token has been removed from session (token expired)
+        else if (this.state.isProfileComplete !== null) {
+            this.setState({
+                isProfileComplete: null
             });
         }
     }

@@ -137,6 +137,7 @@ class ValidationTokenController {
                   wrongPwd: false,
                   token: token.Token,
                   name: userName,
+                  isProfileComplete: member.IsProfileComplete,
                   user_pic: dbPortrait[0].Portrait,
                   authenticationFailed: false
                 });
@@ -155,6 +156,7 @@ class ValidationTokenController {
                   wrongPwd: false,
                   token: dbToken.Token,
                   name: userName,
+                  isProfileComplete: member.IsProfileComplete,
                   user_pic: dbPortrait[0].Portrait,
                   authenticationFailed: false
                 });
@@ -208,6 +210,7 @@ class ValidationTokenController {
         return JSON.stringify({
           facebookDuplicated: false,
           duplicatedProvider: "",
+          isProfileComplete: member.IsProfileComplete,
           authenticationFailed: false
         });
       }
@@ -229,6 +232,9 @@ class ValidationTokenController {
           const dbMemberID = await Database.table('members')
             .where("Email", requestData.email).select('id');
 
+          const dbIsProfileComplete = await Database.table('members')
+            .where("Email", requestData.email).select('IsProfileComplete');
+
           const token = await Token.findBy('MemberID', dbMemberID[0].id);
           //only change token
           token.merge({Token: requestData.token});
@@ -236,6 +242,7 @@ class ValidationTokenController {
           return JSON.stringify({
             facebookDuplicated: false,
             duplicatedProvider: "",
+            isProfileComplete: dbIsProfileComplete[0].IsProfileComplete,
             authenticationFailed: false
           });
         }
@@ -283,6 +290,7 @@ class ValidationTokenController {
         return JSON.stringify({
           googleDuplicated: false,
           duplicatedProvider: "",
+          isProfileComplete: member.IsProfileComplete,
           authenticationFailed: false
         });
       }
@@ -303,6 +311,10 @@ class ValidationTokenController {
 
           const dbMemberID = await Database.table('members')
             .where("Email", requestData.email).select('id');
+
+          const dbIsProfileComplete = await Database.table('members')
+            .where("Email", requestData.email).select('IsProfileComplete');
+
           const token = await Token.findBy('MemberID', dbMemberID[0].id);
           //only change token
           token.merge({Token: requestData.token});
@@ -310,6 +322,7 @@ class ValidationTokenController {
           return JSON.stringify({
             googleDuplicated: false,
             duplicatedProvider: "",
+            isProfileComplete: dbIsProfileComplete[0].IsProfileComplete,
             authenticationFailed: false
           });
         }

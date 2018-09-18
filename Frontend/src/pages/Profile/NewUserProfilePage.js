@@ -29,7 +29,7 @@ class NewUserProfilePage extends Component {
             isShow: false,
             currentPage: "page_1",
             progress: "0%",
-            userPic: null,
+            file: null,
             firstName: null,
             lastName: null,
             gender: null,
@@ -48,7 +48,6 @@ class NewUserProfilePage extends Component {
             disabilityMembership: null,
             disabilityMemberid: null,
             disabilityDetail: null,
-            IsProfileComplete: false,
             user_pic:
                 "https://static.wixstatic.com/media/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png/v1/fill/w_96,h_96,al_c,usm_0.66_1.00_0.01/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png"
         };
@@ -59,11 +58,11 @@ class NewUserProfilePage extends Component {
     componentDidMount() {
         if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-            if (userData.provider) {
-                this.setState({
-                    provider: userData.provider
-                });
-            }
+
+            this.setState({
+                provider: userData.provider
+            });
+
         }
 
         if (this.state.token === null && sessionStorage.getItem("userToken")) {
@@ -77,11 +76,19 @@ class NewUserProfilePage extends Component {
     handleLogout = () => {
         const {cookies} = this.props;
 
+        this.setState({
+            token: null,
+            user_pic: null,
+            provider: null
+        });
+
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-profileFinished");
     };
 
     handleNextPage = page => {
@@ -99,12 +106,14 @@ class NewUserProfilePage extends Component {
         e.preventDefault();
 
         console.log(this.state.user_pic);
+        console.log(this.state.file);
         let postData;
         postData = {
             token: this.state.token,
             provider: this.state.provider,
             FirstName: this.state.firstName,
             LastName: this.state.lastName,
+            //TODO: send image file to the backend
             Portrait: this.state.user_pic,
             Gender: this.state.gender,
             DOB: moment(this.state.dob).format("YYYY-MM-DD"),
@@ -141,6 +150,7 @@ class NewUserProfilePage extends Component {
                     let userSocialData;
                     userSocialData = {
                         name: response.data.name,
+                        provider: this.state.provider,
                         //TODO: to be changed
                         provider_pic: this.state.user_pic
                     };
@@ -156,7 +166,7 @@ class NewUserProfilePage extends Component {
                     //if success, set profile is finished
                     let userFinishProfile;
                     userFinishProfile = {
-                        isFinished: true
+                        isFinished: 1
                     };
                     sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
 
@@ -172,6 +182,10 @@ class NewUserProfilePage extends Component {
                             path: "/"
                         });
                         cookies.set("user-name", response.data.name, {
+                            expires: date,
+                            path: "/"
+                        });
+                        cookies.set("user-profileFinished", 1, {
                             expires: date,
                             path: "/"
                         });
@@ -202,7 +216,7 @@ class NewUserProfilePage extends Component {
         //if token has been expired, redirect to login page
         //console.log(this.props.location.state);
         if (this.props.location.state) {
-            const {lastValid, isProfileComplete} = this.props.location.state;
+            const {lastValid} = this.props.location.state;
             //console.log(lastValid);
 
             if (!lastValid) {
@@ -216,11 +230,6 @@ class NewUserProfilePage extends Component {
                 );
             }
 
-            if (isProfileComplete) {
-                return (
-                    <Redirect to={"/profile"}/>
-                );
-            }
         }
 
         //if directly type this page's url, redirect to login page
@@ -233,6 +242,14 @@ class NewUserProfilePage extends Component {
                     }}
                 />
             );
+        }
+
+        //if directly type this page's url, and user has finished the profile
+        if (sessionStorage.getItem("userFinishProfile")) {
+            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            if (userFinishProfile.isFinished === 1) {
+                return <Redirect to={"/profile"}/>;
+            }
         }
 
         return (
@@ -288,6 +305,7 @@ class NewUserProfilePage extends Component {
                             firstName={this.state.firstName}
                             lastName={this.state.lastName}
                             userPic={this.state.user_pic}
+                            file={this.state.file}
                             onHandleProgress={this.handleChangeProgress}
                         />
                     ) : (
@@ -388,7 +406,7 @@ class NewUserProfilePage extends Component {
                     ""
                 )}
                 <form style={{display: "none"}} onSubmit={this.handleSubmit}>
-                    <input value={this.state.userPic}/>
+                    <input value={this.state.user_pic}/>
                     <input value={this.state.firstName}/>
                     <input value={this.state.lastName}/>
                     <input value={this.state.gender}/>

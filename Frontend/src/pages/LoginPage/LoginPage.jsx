@@ -36,7 +36,7 @@ class LoginPage extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.location.state);
+        //console.log(this.props.location.state);
         window.scrollTo(0, 0);
     }
 
@@ -145,6 +145,7 @@ class LoginPage extends Component {
                     let userSocialData;
                     userSocialData = {
                         name: response.data.name,
+                        provider: "email",
                         provider_pic: obj
                     };
                     sessionStorage.setItem(
@@ -156,6 +157,12 @@ class LoginPage extends Component {
                         token: response.data.token
                     };
                     sessionStorage.setItem("userToken", JSON.stringify(userToken));
+
+                    let userFinishProfile;
+                    userFinishProfile = {
+                        isFinished: response.data.isProfileComplete
+                    };
+                    sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
 
                     //save token into cookie
                     if (this.state.rememberMe) {
@@ -169,6 +176,10 @@ class LoginPage extends Component {
                             path: "/"
                         });
                         cookies.set("user-name", response.data.name, {
+                            expires: date,
+                            path: "/"
+                        });
+                        cookies.set("user-profileFinished", response.data.isProfileComplete, {
                             expires: date,
                             path: "/"
                         });
