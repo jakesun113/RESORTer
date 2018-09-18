@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Title, HeaderLine, LeaveRow, BtmEllipseButton} from './BookingAccommodation'
 import styled from "styled-components";
+import '@fortawesome/fontawesome-free';
 import SliderBar from "../../components/template/SliderBar"
 import ActivitySelector from "../../components/template/ActivitySelector"
 import AbilityLevelTip from '../../components/template/AbilityLevelTip'
@@ -10,6 +11,7 @@ import pic_snowboard from '../../materials/ActivityIcons/snowboard.png';
 import pic_snowmobile from '../../materials/ActivityIcons/snowmobile.jpg';
 import pic_snowshoeing from '../../materials/ActivityIcons/snowshoeing.png';
 import pic_telemark from '../../materials/ActivityIcons/telemark.jpeg';
+
 
 const MemberCard = styled.div`
   position: relative;
@@ -70,16 +72,20 @@ const CheckBoxInput = styled.input`
   }
   
   &:checked + label:after, &:not(:checked) + label:after{
-    content: "\\f00c";
-    font-family: "Font Awesome 5 Free",serif; 
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free"; 
     position: absolute;
     top: 1px;
     left: -3px;
     font-size: 0.9em;
     color:#00A6FF;
+    font-weight: 600;
     -webkit-transition: all 0.1s ease-in;
     transition: all 0.1s ease-in;
-    font-weight: 100; 
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
   }
    
   &:not(:checked) + label:after{
