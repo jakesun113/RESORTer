@@ -48,7 +48,6 @@ class NewUserProfilePage extends Component {
             disabilityMembership: null,
             disabilityMemberid: null,
             disabilityDetail: null,
-            IsProfileComplete: false,
             user_pic:
                 "https://static.wixstatic.com/media/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png/v1/fill/w_96,h_96,al_c,usm_0.66_1.00_0.01/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png"
         };
@@ -77,12 +76,19 @@ class NewUserProfilePage extends Component {
     handleLogout = () => {
         const {cookies} = this.props;
 
+        this.setState({
+            token: null,
+            user_pic: null,
+            provider: null
+        });
+
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
         sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-profileFinished");
     };
 
     handleNextPage = page => {
@@ -176,6 +182,10 @@ class NewUserProfilePage extends Component {
                             path: "/"
                         });
                         cookies.set("user-name", response.data.name, {
+                            expires: date,
+                            path: "/"
+                        });
+                        cookies.set("user-profileFinished", 1, {
                             expires: date,
                             path: "/"
                         });

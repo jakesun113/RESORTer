@@ -107,12 +107,17 @@ class GroupMemberInfoCard extends Component {
     handleLogout = () => {
         const {cookies} = this.props;
 
+        this.setState({
+            provider: null
+        });
+
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
         sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-profileFinished");
     };
 
     render() {

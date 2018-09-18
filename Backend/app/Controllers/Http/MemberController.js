@@ -354,28 +354,6 @@ class MemberController {
 
   }
 
-  async getIsProfileComplete({params}) {
-
-    try {
-      const token = params.token;
-      //console.log(token);
-      const dbMemberID = await Database.table('validation_tokens')
-        .where("Token", token).select('MemberID');
-
-      const member = await Member.findBy('id', dbMemberID[0].MemberID);
-
-      return JSON.stringify({
-        isProfileComplete: member.IsProfileComplete,
-
-      })
-
-    } catch (e) {
-      //console.log(e);
-    }
-
-  }
-
-
   async sendResetLinkEmail({request, auth}) {
     // validate from inputs
     try {

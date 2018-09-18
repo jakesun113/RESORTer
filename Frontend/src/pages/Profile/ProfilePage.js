@@ -99,12 +99,19 @@ class ProfilePage extends Component {
     handleLogout = () => {
         const {cookies} = this.props;
 
+        this.setState({
+            token: null,
+            user_pic: null,
+            provider: null
+        });
+
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
         sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-profileFinished");
     };
 
     componentDidMount() {
@@ -303,6 +310,12 @@ class ProfilePage extends Component {
                         token: response.data.token
                     };
                     sessionStorage.setItem("userToken", JSON.stringify(userToken));
+                    //if success, set profile is finished
+                    let userFinishProfile;
+                    userFinishProfile = {
+                        isFinished: 1
+                    };
+                    sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
 
                     //save token into cookie
                     const {cookies} = this.props;
@@ -316,6 +329,10 @@ class ProfilePage extends Component {
                             path: "/"
                         });
                         cookies.set("user-name", response.data.name, {
+                            expires: date,
+                            path: "/"
+                        });
+                        cookies.set("user-profileFinished", 1, {
                             expires: date,
                             path: "/"
                         });

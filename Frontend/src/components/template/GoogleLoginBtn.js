@@ -67,6 +67,12 @@ class GoogleLoginBtn extends Component {
                     };
                     sessionStorage.setItem("userToken", JSON.stringify(userToken));
 
+                    let userFinishProfile;
+                    userFinishProfile = {
+                        isFinished: response.data.isProfileComplete
+                    };
+                    sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
+
                     this.setState({
                         redirect: true,
                     });
