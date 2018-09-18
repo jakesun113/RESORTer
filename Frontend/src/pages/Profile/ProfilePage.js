@@ -32,7 +32,6 @@ const UploadBtn = styled.label`
   }
 `;
 
-//TODO: add save photo to "public" folder function
 class ProfilePage extends Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -102,6 +101,7 @@ class ProfilePage extends Component {
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
@@ -292,7 +292,6 @@ class ProfilePage extends Component {
                         name: response.data.name,
                         provider: this.state.provider,
                         //TODO: to be changed
-                        // FIXME: Unhandled Rejection (QuotaExceededError): Failed to execute 'setItem' on 'Storage': Setting the value of 'userSocialData' exceeded the quota.
                         provider_pic: this.state.user_pic
                     };
                     sessionStorage.setItem(
@@ -321,7 +320,6 @@ class ProfilePage extends Component {
                             path: "/"
                         });
                         //TODO: to be changed
-                        // FIXME: Unhandled Rejection (QuotaExceededError): Failed to execute 'setItem' on 'Storage': Setting the value of 'userSocialData' exceeded the quota.
                         cookies.set("user-pic", this.state.user_pic, {
                             expires: date,
                             path: "/"

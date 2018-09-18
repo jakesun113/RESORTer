@@ -29,7 +29,7 @@ class NewUserProfilePage extends Component {
             isShow: false,
             currentPage: "page_1",
             progress: "0%",
-            userPic: null,
+            file: null,
             firstName: null,
             lastName: null,
             gender: null,
@@ -79,6 +79,7 @@ class NewUserProfilePage extends Component {
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
@@ -99,12 +100,14 @@ class NewUserProfilePage extends Component {
         e.preventDefault();
 
         console.log(this.state.user_pic);
+        console.log(this.state.file);
         let postData;
         postData = {
             token: this.state.token,
             provider: this.state.provider,
             FirstName: this.state.firstName,
             LastName: this.state.lastName,
+            //TODO: send image file to the backend
             Portrait: this.state.user_pic,
             Gender: this.state.gender,
             DOB: moment(this.state.dob).format("YYYY-MM-DD"),
@@ -292,6 +295,7 @@ class NewUserProfilePage extends Component {
                             firstName={this.state.firstName}
                             lastName={this.state.lastName}
                             userPic={this.state.user_pic}
+                            file={this.state.file}
                             onHandleProgress={this.handleChangeProgress}
                         />
                     ) : (
@@ -392,7 +396,7 @@ class NewUserProfilePage extends Component {
                     ""
                 )}
                 <form style={{display: "none"}} onSubmit={this.handleSubmit}>
-                    <input value={this.state.userPic}/>
+                    <input value={this.state.user_pic}/>
                     <input value={this.state.firstName}/>
                     <input value={this.state.lastName}/>
                     <input value={this.state.gender}/>
