@@ -260,7 +260,7 @@ class AddGroupMemberCard extends Component {
           <AlertWindow
             displayText={
               <div>
-                Congratulation, You have already successfully add your group
+                Congratulations, you have successfully added your group
                 member.
               </div>
             }
