@@ -21,18 +21,15 @@ class BookIndex extends Component {
                     <Switch>
                         <Route
                             path={`/booking/${place}/who`}
-                            render={() => <BookTripWhoPage place={place} masterID={masterID} tripID={tripID}
-                                                           history={history}/>}
+                            render={() => <BookTripWhoPage place={place} history={history}/>}
                         />
                         <Route
                             path={`/booking/${place}/sleep`}
-                            render={() => <BookingAccommodation place={place} masterID={masterID} tripID={tripID}
-                                                                history={history}/>}
+                            render={() => <BookingAccommodation place={place} history={history}/>}
                         />
                         <Route
                             path={`/booking/${place}/doing`}
-                            render={() => <BookingActivity place={place} masterID={masterID} tripID={tripID}
-                                                           history={history}/>}
+                            render={() => <BookingActivity place={place} history={history}/>}
                         />
                     </Switch>
                 </div>
