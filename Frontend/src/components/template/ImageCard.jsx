@@ -25,6 +25,10 @@ class ImageCard extends Component {
 
     //Hover the button, check whether the token is expired
     async handleAuth() {
+        //TODO:Google and Facebook login ERROR
+        if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider != 'email') {
+            this.setState({isValidToken:true})
+        }
         //only handle login with email user
         if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider == 'email') {
             let BaseURL = "http://127.0.0.1:3333/api/";
