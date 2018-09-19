@@ -108,6 +108,17 @@ class FirstPage extends Component {
   };
 
   render() {
+
+      let readOnly;
+      let disabled;
+      if (this.props.firstName !== "") {
+          readOnly = true;
+          disabled = true;
+      } else {
+          readOnly = false;
+          disabled = false;
+      }
+
     return (
       <React.Fragment>
         {/* picture */}
@@ -154,7 +165,7 @@ class FirstPage extends Component {
                 type="file"
                 accept="image/*"
                 hidden
-                // disabled={disabled}
+                disabled={disabled}
                 onChange={this.handleUploadFile}
               />
             </UploadBtn>
@@ -228,6 +239,7 @@ class FirstPage extends Component {
                   fontSize: "20px"
                 }}
                 required
+                readOnly={readOnly}
                 onChange={this.handleChange}
                 defaultValue={this.props.firstName}
               />
@@ -287,6 +299,7 @@ class FirstPage extends Component {
                   fontSize: "20px"
                 }}
                 required
+                readOnly={readOnly}
                 onChange={this.handleChange}
                 defaultValue={this.props.lastName}
               />

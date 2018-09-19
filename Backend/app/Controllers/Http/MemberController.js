@@ -188,6 +188,7 @@ class MemberController {
   }
 
   //FIXME: get image is wrong
+  // Show the user information stored in database
   async showProfile({params}) {
     //token is valid
     try {
@@ -226,6 +227,7 @@ class MemberController {
   }
 
   //TODO: save image file to some folder
+  // Update user information and store them into the database
   async editProfile({request, auth}) {
 
     // const profilePic = request.file('Portrait', {
@@ -345,6 +347,7 @@ class MemberController {
 
   }
 
+  // Send the reset password link to user's email address
   async sendResetLinkEmail({request, auth}) {
     // validate from inputs
     try {
@@ -371,6 +374,7 @@ class MemberController {
         });
       }
 
+      // email is validated
       else {
         const dbActive = await Database.table('members')
           .where("Email", user.Email).select('IsActive');
@@ -384,8 +388,7 @@ class MemberController {
             isActive: false
           });
         } else {
-          //console.log(user.Email);
-
+          // generate new token
           const newToken = await auth.generate(user);
 
           const mailData = {
@@ -393,8 +396,7 @@ class MemberController {
             token: newToken.token
           };
 
-          //console.log(newToken.token);
-
+          // send email to user's email address
           await Mail.send('auth.emails.password_reset', mailData, message => {
             message
               .to(user.Email)
@@ -414,7 +416,7 @@ class MemberController {
     }
   }
 
-
+  // reset the password of user when user forget the original password
   async resetPassword({request, response, auth}) {
 
     try {
@@ -444,6 +446,7 @@ class MemberController {
 
   }
 
+  // change the password of user with user's original password
   async changePassword({request, auth}) {
     //token is valid
     try {

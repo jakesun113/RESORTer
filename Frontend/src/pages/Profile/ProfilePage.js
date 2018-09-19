@@ -84,7 +84,7 @@ class ProfilePage extends Component {
             },
             () => {
                 let countAge = moment().diff(
-                    moment(this.state.dob).format("YYYY"),
+                    moment(this.state.dob),
                     "years"
                 );
                 if (countAge !== this.state.age) {
@@ -219,7 +219,7 @@ class ProfilePage extends Component {
                 if (response.data.dob != null) {
                     setState({dob: response.data.dob});
                     let countAge = moment().diff(
-                        moment(this.state.dob).format("YYYY"),
+                        moment(this.state.dob),
                         "years"
                     );
                     this.setState({
@@ -241,20 +241,6 @@ class ProfilePage extends Component {
         }
     }
 
-    ageCount = e => {
-        this.setState({dob: e.target.value}, () => {
-            let countAge = moment().diff(
-                moment(this.state.dob).format("YYYY"),
-                "years"
-            );
-            if (countAge !== this.state.age) {
-                this.setState({
-                    age: countAge
-                });
-            }
-            //console.log(countAge)
-        });
-    };
 
     async handleSubmit(e) {
         e.preventDefault();
@@ -461,7 +447,7 @@ class ProfilePage extends Component {
 
         let readOnly;
         let disabled;
-        if (this.state.provider != "email") {
+        if (this.state.provider !== "email") {
             readOnly = true;
             disabled = true;
         } else {
