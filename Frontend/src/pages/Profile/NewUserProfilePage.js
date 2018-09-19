@@ -58,10 +58,24 @@ class NewUserProfilePage extends Component {
     componentDidMount() {
         if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-
-            this.setState({
-                provider: userData.provider
-            });
+            //if provider is not email, redirect to second page
+            if(userData.provider !== "email")
+            {
+                const name = userData.name.split(" ");
+                this.setState({
+                    firstName: name[0],
+                    lastName: name[1],
+                    provider: userData.provider,
+                    user_pic: userData.provider_pic,
+                    currentPage: "page_2",
+                    progress: "25%"
+                });
+            }
+            else {
+                this.setState({
+                    provider: userData.provider
+                });
+            }
         }
 
         if (this.state.token === null && sessionStorage.getItem("userToken")) {
