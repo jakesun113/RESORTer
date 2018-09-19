@@ -140,7 +140,7 @@ class LoginPage extends Component {
                     console.log(response.data.user_pic);
                     var objurl = window.URL.createObjectURL(new Blob([response.data.user_pic]));
                     console.log(objurl)
-                    let obj = objurl.replace('blob:','');
+                    let obj = objurl.replace('blob:', '');
                     console.log(obj)
                     let userSocialData;
                     userSocialData = {

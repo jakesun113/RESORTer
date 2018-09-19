@@ -1,26 +1,26 @@
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: "PT Sans Narrow", sans-serif !important;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "PT Sans Narrow", sans-serif !important;
 }
 
 /* hover style just for information */
 label:hover:before {
-  border: 2px solid #4778d9 !important;
+    border: 2px solid #4778d9 !important;
 }
 
 /* password input */
 
 [type="password"] + label:before {
-  content: "121";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 1.25em;
-  height: 1.25em;
-  border: 2px solid #ccc;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    content: "121";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.25em;
+    height: 1.25em;
+    border: 2px solid #ccc;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }

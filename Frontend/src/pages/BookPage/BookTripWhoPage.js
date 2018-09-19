@@ -13,6 +13,8 @@ class BookTripPage extends Component {
     render() {
         const {place, masterID, resortID, tripID, history} = this.props;
 
+
+
         //if directly type this page's url, redirect to login page
         if (!sessionStorage.getItem("userToken")) {
             return (
@@ -133,7 +135,6 @@ class BookTripPage extends Component {
                                 <SmallEllipseBtn
                                     text="Save and Continue"
                                     btnColor="orangered"
-
                                 />
                             </Link>
 

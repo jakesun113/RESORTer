@@ -85,7 +85,7 @@ class ImageCard extends Component {
     handleBook = () => {
         this.props.history.push({
             pathname: `/booking/${this.props.title}/who`,
-            state: {masterID: 100, resortID: 200, tripID: 300},
+            state: {masterID: 1, resortID: 1, tripID: 1},
         })
     };
 
