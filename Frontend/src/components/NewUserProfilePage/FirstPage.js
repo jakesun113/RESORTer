@@ -86,45 +86,6 @@ class FirstPage extends Component {
     this.setState(state);
   };
 
-  handleHover = e => {
-    if (e.target.id === "upload_btn") {
-      e.target.style.backgroundColor = "rgba(78, 183, 245, 1)";
-    }
-  };
-
-  handleMouseLeave = e => {
-    if (e.target.id === "upload_btn") {
-      e.target.style.backgroundColor = "rgba(56, 153, 236, 1)";
-    }
-  };
-
-  handleUploadFile = e => {
-    if (window.FileReader) {
-      const reader = new FileReader();
-      const file = e.target.files[0];
-
-      console.log(e.target.result);
-
-      //console.log(file)
-      reader.addEventListener(
-        "load",
-        () => {
-          console.log(reader.result);
-          this.setState({
-            userPic: reader.result,
-            file: file
-          });
-        },
-        false
-      );
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    } else {
-      alert("Not supported by your browser!");
-    }
-  };
-
   //TODO: send image file to the backend
   storeInfo() {
     const userPic = this.state.userPic;

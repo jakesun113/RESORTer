@@ -179,6 +179,10 @@ class LoginPage extends Component {
                             expires: date,
                             path: "/"
                         });
+                        cookies.set("user-provider", "email", {
+                            expires: date,
+                            path: "/"
+                        });
                         cookies.set("user-profileFinished", response.data.isProfileComplete, {
                             expires: date,
                             path: "/"

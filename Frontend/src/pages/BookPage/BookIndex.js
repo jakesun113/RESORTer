@@ -9,8 +9,11 @@ class BookIndex extends Component {
     state = {};
 
     render() {
-        const {match, history} = this.props;
+        const {match, history, location} = this.props;
         const place = match.params.placeName;
+        const masterID = location.state.masterID;
+        const resortID = location.state.resortID;
+        const tripID = location.state.tripID;
 
         return (
             <div>
@@ -21,15 +24,18 @@ class BookIndex extends Component {
                     <Switch>
                         <Route
                             path={`/booking/${place}/who`}
-                            render={() => <BookTripWhoPage place={place} history={history}/>}
+                            render={() => <BookTripWhoPage masterID={masterID} resortID={resortID} tripID={tripID}
+                                                           place={place} history={history}/>}
                         />
                         <Route
                             path={`/booking/${place}/sleep`}
-                            render={() => <BookingAccommodation place={place} history={history}/>}
+                            render={() => <BookingAccommodation masterID={masterID} resortID={resortID} tripID={tripID}
+                                                                place={place} history={history}/>}
                         />
                         <Route
                             path={`/booking/${place}/doing`}
-                            render={() => <BookingActivity place={place} history={history}/>}
+                            render={() => <BookingActivity masterID={masterID} resortID={resortID} tripID={tripID}
+                                                           place={place} history={history}/>}
                         />
                     </Switch>
                 </div>

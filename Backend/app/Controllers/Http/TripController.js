@@ -1,57 +1,45 @@
 'use strict'
-
+const Database = use('Database');
+const Trip = use('App/Models/Trip');
+const ResortInfo = use('App/Models/ResortInfo');
+const ValidationToken = use("App/Models/ValidationToken");
 /**
- * Resourceful controller for interacting with trips
+
  */
 class TripController {
-  /**
-   * Show a list of all trips.
-   * GET trips
-   */
-  async index ({ request, response, view }) {
+
+  /*
+  REQUEST: {"resortName":"","token":""}
+  */
+  async enrollNewTrip({response}){
+
+    try{
+
+      const validationToken = await ValidationToken.findBy('Token','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTUzNzMxNjAyNywiZXhwIjoxNTM3MzE2MDU3fQ.WJi_fO8uWojhLhv98qA5vtWHuStiBUBxsdWzpcsWSCU');
+      const resortInfo = await ResortInfo.findBy('Name', 'Mt. Buller');
+
+      const newTrip = new Trip();
+      newTrip.ResortID = resortInfo.id;
+      newTrip.MasterMemberID = validationToken.MemberID;
+      newTrip.IsTripDone = 0;
+      await newTrip.save()
+
+      let responseData = new Object();
+      responseData.status = 'success'
+      responseData.masterID = validationToken.MemberID;
+      responseData.tripID = newTrip.id;
+      responseData.resortID = resortInfo.id;
+
+      return response.send(JSON.stringify(responseData))
+
+    }catch (err){
+
+      response.send(JSON.stringify({status:'fail'}))
+      console.log(err)
+
+    }
   }
 
-  /**
-   * Render a form to be used for creating a new trip.
-   * GET trips/create
-   */
-  async create ({ request, response, view }) {
-  }
-
-  /**
-   * Create/save a new trip.
-   * POST trips
-   */
-  async store ({ request, response }) {
-  }
-
-  /**
-   * Display a single trip.
-   * GET trips/:id
-   */
-  async show ({ params, request, response, view }) {
-  }
-
-  /**
-   * Render a form to update an existing trip.
-   * GET trips/:id/edit
-   */
-  async edit ({ params, request, response, view }) {
-  }
-
-  /**
-   * Update trip details.
-   * PUT or PATCH trips/:id
-   */
-  async update ({ params, request, response }) {
-  }
-
-  /**
-   * Delete a trip with id.
-   * DELETE trips/:id
-   */
-  async destroy ({ params, request, response }) {
-  }
 }
 
 module.exports = TripController

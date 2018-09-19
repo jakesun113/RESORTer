@@ -17,7 +17,7 @@ class ChangePwdPage extends Component {
         const {cookies} = props;
         this.state = {
             token: cookies.get("access-token") || null,
-            provider: null,
+            provider: cookies.get("user-provider") || null,
             isValidToken: true,
             isShow: false,
             wrongPwd: false
@@ -137,6 +137,7 @@ class ChangePwdPage extends Component {
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-provider");
         cookies.remove("user-profileFinished");
     };
 

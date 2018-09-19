@@ -35,6 +35,7 @@ import ResortProviderTerms from "./components/TermPrivacyPage/ResortProviderTerm
 import Disclaimer from "./components/TermPrivacyPage/Disclaimer";
 import SideNav from "./components/TermPrivacyPage/SideNav";
 
+
 ReactDOM.render(
     <BrowserRouter>
         <div className="container-fluid">
@@ -72,8 +73,14 @@ ReactDOM.render(
                         component={ConfirmationEmailPage}
                     />
 
+
                     {/* book page */}
-                    <Route path="/booking/:placeName/" component={BookIndex}/>
+                    {/*<Route path="/booking/:placeName/"*/}
+                    {/*render={() => <BookIndex masterID={this.props.location.state.masterID}*/}
+                    {/*resortID={this.props.location.state.resortID}*/}
+                    {/*tripID={this.props.location.state.tripID}/>}/>*/}
+                    <Route path="/booking/:placeName/"
+                           component={BookIndex}/>
 
                     {/* term privacy */}
                     <Route path="/term-privacy">
@@ -113,4 +120,5 @@ ReactDOM.render(
         </div>
     </BrowserRouter>,
     document.getElementById("root")
-);
+)
+;

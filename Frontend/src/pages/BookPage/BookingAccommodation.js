@@ -239,19 +239,25 @@ class BookingAccommodation extends Component {
     // };
 
     skipAccommodation = () => {
-        const {place, history} = this.props;
+        const {place, history, masterID, resortID, tripID} = this.props;
         const url = `/booking/${place}/doing`;
-        history.push(url);
+        history.push({
+            pathname: url,
+            state: {masterID: masterID, resortID: resortID, tripID: tripID},
+        });
     };
 
     goPrevious = () => {
-        const {place, history} = this.props;
+        const {place, history, masterID, resortID, tripID} = this.props;
         const url = `/booking/${place}/who`;
-        history.push(url);
+        history.push({
+            pathname: url,
+            state: {masterID: masterID, resortID: resortID, tripID: tripID},
+        });
     };
 
     goNext = () => {
-        const {place, history} = this.props;
+        const {place, history, masterID, resortID, tripID} = this.props;
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom} = this.state;
         if (acco_type === '' || acco_cate === '' || num_adult === '' || num_child === '' || num_toddler === '' || num_bedroom === '' || num_bathroom === '') {
             this.setState({
@@ -261,7 +267,10 @@ class BookingAccommodation extends Component {
         else {
             //todo: connect to backend database (need master memberID)
             const url = `/booking/${place}/doing`;
-            history.push(url);
+            history.push({
+                pathname: url,
+                state: {masterID: masterID, resortID: resortID, tripID: tripID},
+            });
         }
     };
 
