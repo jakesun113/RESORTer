@@ -87,3 +87,24 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+@media screen and (min-width: 990px) {
+  .dropdown-menu {
+    transform: translate3d(-50px, 61px, 0px) !important;
+  }
+}
+@media screen and (max-width: 989px) and (min-width: 830px) {
+  .dropdown-menu {
+    transform: translate3d(35vw, 61px, 0px) !important;
+  }
+}
+@media screen and (max-width: 829px) and (min-width: 400px) {
+  .dropdown-menu {
+    transform: translate3d(30vw, 61px, 0px) !important;
+  }
+}
+@media screen and (max-width: 399px) {
+  .dropdown-menu {
+    transform: translate3d(10vw, 61px, 0px) !important;
+  }
+}
