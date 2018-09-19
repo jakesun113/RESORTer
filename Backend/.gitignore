@@ -12,4 +12,4 @@ database/development.sqlite
 .idea
 
 # environment file
-.env
+

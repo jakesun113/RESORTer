@@ -26,14 +26,14 @@ class ImageCard extends Component {
     //Hover the button, check whether the token is expired
     async handleAuth() {
         //only handle login with email user
-        if (sessionStorage.getItem('userSocialData') && !JSON.parse(sessionStorage.getItem('userSocialData')).provider) {
+        if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider == 'email') {
             let BaseURL = "http://127.0.0.1:3333/api/";
             let postData;
             postData = {
                 token: JSON.parse(sessionStorage.getItem('userToken')).token
             };
             await axios.post(BaseURL + "check-token", postData).then(response => {
-                //console.log(response.data);
+                // console.log(response.data);
 
                 //handle token is not valid
                 if (response.data.tokenValid === false) {
@@ -100,7 +100,6 @@ class ImageCard extends Component {
     };
 
     render() {
-
 
         return (
             <React.Fragment>
