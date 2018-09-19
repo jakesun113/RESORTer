@@ -42,7 +42,7 @@ class ProfilePage extends Component {
         const {cookies} = props;
         this.state = {
             token: cookies.get("access-token") || null,
-            provider: null,
+            provider: cookies.get("user-provider") || null,
             isValidToken: true,
             isShow: false,
             email: null,
@@ -56,12 +56,12 @@ class ProfilePage extends Component {
             phoneNumber: null,
             country: null,
             postcode: null,
-            skiAbility: null,
-            snowboardAbility: null,
-            telemarkAbility: null,
-            snowbikeAbility: null,
-            snowmobileAbility: null,
-            snowshoeAbility: null,
+            skiAbility: 1,
+            snowboardAbility: 1,
+            telemarkAbility: 1,
+            snowbikeAbility: 1,
+            snowmobileAbility: 1,
+            snowshoeAbility: 1,
             hasDisAbility: false,
             isDisabled: false,
             disabilityMembership: null,
@@ -96,6 +96,31 @@ class ProfilePage extends Component {
         );
     };
 
+    handleUploadFile = e => {
+        if (window.FileReader) {
+            const reader = new FileReader();
+            const file = e.target.files[0];
+
+            //console.log(file)
+            reader.addEventListener(
+                "load",
+                () => {
+                    console.log(reader.result);
+                    this.setState({
+                        user_pic: reader.result,
+                        file: file
+                    });
+                },
+                false
+            );
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        } else {
+            alert("Not supported by your browser!");
+        }
+    };
+
     handleLogout = () => {
         const {cookies} = this.props;
 
@@ -111,6 +136,7 @@ class ProfilePage extends Component {
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-provider");
         cookies.remove("user-profileFinished");
     };
 
@@ -315,7 +341,10 @@ class ProfilePage extends Component {
                     userFinishProfile = {
                         isFinished: 1
                     };
-                    sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
+                    sessionStorage.setItem(
+                        "userFinishProfile",
+                        JSON.stringify(userFinishProfile)
+                    );
 
                     //save token into cookie
                     const {cookies} = this.props;
@@ -333,6 +362,10 @@ class ProfilePage extends Component {
                             path: "/"
                         });
                         cookies.set("user-profileFinished", 1, {
+                            expires: date,
+                            path: "/"
+                        });
+                        cookies.set("user-provider", "email", {
                             expires: date,
                             path: "/"
                         });
@@ -384,7 +417,6 @@ class ProfilePage extends Component {
         this.forceUpdate();
     };
 
-    //TODO: dob cannot be input manually
     render() {
         const {cookies} = this.props;
         //if token has been expired, redirect to login page
@@ -419,7 +451,9 @@ class ProfilePage extends Component {
 
         //if directly type this page's url, and user has finished the profile
         if (sessionStorage.getItem("userFinishProfile")) {
-            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            let userFinishProfile = JSON.parse(
+                sessionStorage.getItem("userFinishProfile")
+            );
             if (userFinishProfile.isFinished === 0) {
                 return <Redirect to={"/newProfile"}/>;
             }
@@ -427,7 +461,7 @@ class ProfilePage extends Component {
 
         let readOnly;
         let disabled;
-        if (this.state.provider != null) {
+        if (this.state.provider != "email") {
             readOnly = true;
             disabled = true;
         } else {
@@ -494,24 +528,7 @@ class ProfilePage extends Component {
                                         accept="image/*"
                                         hidden
                                         disabled={disabled}
-                                        onChange={e => {
-                                            if (window.FileReader) {
-                                                const reader = new FileReader();
-                                                const file = e.target.files[0];
-                                                reader.addEventListener(
-                                                    "load",
-                                                    () => {
-                                                        this.setState({user_pic: reader.result});
-                                                    },
-                                                    false
-                                                );
-                                                if (file) {
-                                                    reader.readAsDataURL(file);
-                                                }
-                                            } else {
-                                                alert("Not supported by your browser!");
-                                            }
-                                        }}
+                                        onChange={this.handleUploadFile}
                                     />
                                 </UploadBtn>
                                 <div className="form-group col-3 col-lg-5"/>

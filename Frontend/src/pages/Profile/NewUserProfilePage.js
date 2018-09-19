@@ -24,7 +24,7 @@ class NewUserProfilePage extends Component {
         const {cookies} = props;
         this.state = {
             token: cookies.get("access-token") || null,
-            provider: null,
+            provider: cookies.get("user-provider") || null,
             isValidToken: true,
             isShow: false,
             currentPage: "page_1",
@@ -62,7 +62,6 @@ class NewUserProfilePage extends Component {
             this.setState({
                 provider: userData.provider
             });
-
         }
 
         if (this.state.token === null && sessionStorage.getItem("userToken")) {
@@ -88,6 +87,7 @@ class NewUserProfilePage extends Component {
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-provider");
         cookies.remove("user-profileFinished");
     };
 
@@ -168,7 +168,10 @@ class NewUserProfilePage extends Component {
                     userFinishProfile = {
                         isFinished: 1
                     };
-                    sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
+                    sessionStorage.setItem(
+                        "userFinishProfile",
+                        JSON.stringify(userFinishProfile)
+                    );
 
                     //save token into cookie
                     const {cookies} = this.props;
@@ -186,6 +189,10 @@ class NewUserProfilePage extends Component {
                             path: "/"
                         });
                         cookies.set("user-profileFinished", 1, {
+                            expires: date,
+                            path: "/"
+                        });
+                        cookies.set("user-provider", "email", {
                             expires: date,
                             path: "/"
                         });
@@ -229,11 +236,10 @@ class NewUserProfilePage extends Component {
                     />
                 );
             }
-
         }
 
         //if directly type this page's url, redirect to login page
-        if (!sessionStorage.getItem("userToken") && !cookies.get('access-token')) {
+        if (!sessionStorage.getItem("userToken") && !cookies.get("access-token")) {
             return (
                 <Redirect
                     to={{
@@ -246,7 +252,9 @@ class NewUserProfilePage extends Component {
 
         //if directly type this page's url, and user has finished the profile
         if (sessionStorage.getItem("userFinishProfile")) {
-            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            let userFinishProfile = JSON.parse(
+                sessionStorage.getItem("userFinishProfile")
+            );
             if (userFinishProfile.isFinished === 1) {
                 return <Redirect to={"/profile"}/>;
             }

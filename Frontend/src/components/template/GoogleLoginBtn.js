@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {GoogleLogin} from "react-google-login";
 import axios from "axios/index";
 import {Redirect} from "react-router-dom";
+
 //TODO: verify google token (send request)
 class GoogleLoginBtn extends Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class GoogleLoginBtn extends Component {
             googleDuplicated: false,
             duplicatedProvider: null,
             authencationFailed: false,
+            loginError: false
         };
 
         this.googleResponse = this.googleResponse.bind(this);
@@ -20,7 +22,7 @@ class GoogleLoginBtn extends Component {
         let BaseURL = "http://127.0.0.1:3333/api/login/";
         let postData;
 
-        if (type === "google" && res.w3.U3) {
+        if (type === "google" && res.w3.ig) {
             postData = {
                 name: res.w3.ig,
                 provider: type,
@@ -29,56 +31,62 @@ class GoogleLoginBtn extends Component {
                 token: res.Zi.access_token,
                 provider_pic: res.w3.Paa
             };
+
+
+            await axios.post(BaseURL + type, postData).then(
+                /*Proceed subsequent actions based on value */
+                response => {
+                    //handle authentication failed
+                    if (response.data.authencationFailed === true) {
+                        console.log("authentication failed");
+                        this.setState({
+                            authencationFailed: true,
+                            redirect: false
+                        });
+                    }
+                    //handle login user is not existed
+                    else if (response.data.googleDuplicated === true) {
+                        console.log("user has logged in with another account");
+                        this.setState({
+                            googleDuplicated: true,
+                            duplicatedProvider: response.data.duplicatedProvider,
+                            redirect: false
+                        });
+                    }
+                    //login success
+                    else {
+                        console.log("login success");
+                        let userSocialData;
+                        userSocialData = {
+                            name: postData.name,
+                            provider: postData.provider,
+                            provider_pic: postData.provider_pic
+                        };
+                        sessionStorage.setItem("userSocialData", JSON.stringify(userSocialData));
+                        let userToken;
+                        userToken = {
+                            token: postData.token
+                        };
+                        sessionStorage.setItem("userToken", JSON.stringify(userToken));
+
+                        let userFinishProfile;
+                        userFinishProfile = {
+                            isFinished: response.data.isProfileComplete
+                        };
+                        sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
+
+                        this.setState({
+                            redirect: true,
+                        });
+                    }
+                }
+            );
         }
-
-        await axios.post(BaseURL + type, postData).then(
-            /*Proceed subsequent actions based on value */
-            response => {
-                //handle authentication failed
-                if (response.data.authencationFailed === true) {
-                    console.log("authentication failed");
-                    this.setState({
-                        authencationFailed: true,
-                        redirect: false
-                    });
-                }
-                //handle login user is not existed
-                else if (response.data.googleDuplicated === true) {
-                    console.log("user has logged in with another account");
-                    this.setState({
-                        googleDuplicated: true,
-                        duplicatedProvider: response.data.duplicatedProvider,
-                        redirect: false
-                    });
-                }
-                //login success
-                else {
-                    console.log("login success");
-                    let userSocialData;
-                    userSocialData = {
-                        name: postData.name,
-                        provider: postData.provider,
-                        provider_pic: postData.provider_pic
-                    };
-                    sessionStorage.setItem("userSocialData", JSON.stringify(userSocialData));
-                    let userToken;
-                    userToken = {
-                        token: postData.token
-                    };
-                    sessionStorage.setItem("userToken", JSON.stringify(userToken));
-
-                    let userFinishProfile;
-                    userFinishProfile = {
-                        isFinished: response.data.isProfileComplete
-                    };
-                    sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
-
-                    this.setState({
-                        redirect: true,
-                    });
-                }
-            }
-        );
+        else {
+            this.setState({
+                loginError: true
+            });
+        }
     }
 
     render() {
@@ -105,6 +113,11 @@ class GoogleLoginBtn extends Component {
                 {this.state.authencationFailed ? (
                     <div style={{color: "red", fontWeight: "bolder"}}>
                         Authentication failed - Internal server error
+                    </div>
+                ) : null}
+                {this.state.loginError ? (
+                    <div style={{color: "red", fontWeight: "bolder"}}>
+                        Login error with Google
                     </div>
                 ) : null}
             </React.Fragment>

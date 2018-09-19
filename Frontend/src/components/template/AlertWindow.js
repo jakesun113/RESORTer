@@ -61,6 +61,7 @@ class AlertWindow extends Component {
                         <SmallEllipseBtn
                           text={this.props.btnText}
                           btnColor="rgba(104, 99, 105, 1)"
+                          width="100%"
                         />
                       </Link>
                       <br />
@@ -75,6 +76,7 @@ class AlertWindow extends Component {
                         <SmallEllipseBtn
                           text={this.props.btnText}
                           btnColor="rgba(104, 99, 105, 1)"
+                          width="100%"
                         />
                       </span>
                       <br />
@@ -104,6 +106,7 @@ class AlertWindow extends Component {
                         <SmallEllipseBtn
                           text={this.props.btnOneText}
                           btnColor="rgba(104, 99, 105, 1)"
+                          width="100%"
                         />
                       </Link>
                       <br />
@@ -138,6 +141,7 @@ class AlertWindow extends Component {
                         <SmallEllipseBtn
                           text={this.props.btnTwoText}
                           btnColor="rgba(104, 99, 105, 1)"
+                          width="100%"
                         />
                       </Link>
                       <br />
@@ -152,8 +156,7 @@ class AlertWindow extends Component {
                         <SmallEllipseBtn
                           text={this.props.btnTwoText}
                           btnColor="rgba(255, 97, 97, 1)"
-                          paddingLeft="90px"
-                          paddingRight="90px"
+                          width="100%"
                         />
                       </span>
                       <br />

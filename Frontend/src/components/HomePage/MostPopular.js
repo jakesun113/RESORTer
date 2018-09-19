@@ -86,6 +86,7 @@ class MostPopular extends Component {
                                 subTitle={place.subTitle}
                                 text={place.text}
                                 btnText={place.btnText}
+                                history={this.props.history}
                             />
                         </div>
                     ))}

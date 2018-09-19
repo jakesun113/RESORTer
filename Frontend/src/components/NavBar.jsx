@@ -4,71 +4,11 @@ import SmallEllipseBtn from "./template/SmallEllipseBtn";
 import {Link} from "react-router-dom";
 import {NavLink} from "react-router-dom";
 import ProfileCard from "../components/ProfilePage/ProfileCard";
-import YouTube from "react-youtube";
+import YouTube from "../components/template/Youtube";
 import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import axios from "axios/index";
 import AlertWindow from "../components/template/AlertWindow";
-
-class Youtube extends Component {
-    state = {};
-
-    render() {
-        // youtube video
-        const video = {
-            height: "390",
-            width: "640",
-            playerVars: {
-                // https://developers.google.com/youtube/player_parameters
-                autoplay: 1
-            }
-        };
-        return (
-            <React.Fragment>
-                {/* youtube video */}
-                <div
-                    className="container"
-                    style={{
-                        zIndex: "100",
-                        position: "fixed",
-                        color: "rgb(93, 135, 221)",
-                        top: "30%",
-                        left: "30%",
-                        width: "auto",
-                        height: "auto",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        textAlign: "center",
-                        border: "1px solid rgb(130, 171, 255)",
-                        borderRadius: "10px 10px 10px 10px",
-                        paddingTop: "15px",
-                        paddingBottom: "10px",
-                        paddingLeft: "20px",
-                        paddingRight: "25px"
-                    }}
-                >
-          <span
-              style={{
-                  fontSize: "35px",
-                  position: "absolute",
-                  top: "0px",
-                  right: " 0px",
-                  color: "black"
-              }}
-              onClick={this.props.onHandleClose}
-          >
-            <i className="fas fa-times"/>
-          </span>
-                    <YouTube
-                        videoId="s51aYCGDYD8"
-                        opts={video}
-                        // onReady={this._onReady}
-                    />
-                </div>
-            </React.Fragment>
-        );
-    }
-}
 
 class Navbar extends Component {
     static propTypes = {
@@ -83,11 +23,11 @@ class Navbar extends Component {
             user: cookies.get("user-name") || "",
             token: cookies.get("access-token") || null,
             user_pic: cookies.get("user-pic") || null,
-            provider: null,
+            provider: cookies.get("user-provider") || null,
             isValidToken: true,
             isShowLoginWindow: false,
             isShowVideo: false,
-            isProfileComplete: cookies.get("user-profileFinished") ||null
+            isProfileComplete: cookies.get("user-profileFinished") || null
         };
 
         this.handleAuth = this.handleAuth.bind(this);
@@ -109,6 +49,7 @@ class Navbar extends Component {
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-provider");
         cookies.remove("user-profileFinished");
     };
 
@@ -174,21 +115,24 @@ class Navbar extends Component {
     componentDidMount() {
         //console.log("in mount");
         //if not click "remember me" before
-        // if (
-        //     this.state.token === null &&
-        //     sessionStorage.getItem("userSocialData") &&
-        //     sessionStorage.getItem("userToken")
-        // ) {
-        //     console.log("inner mount");
-        //     let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-        //     let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-        //     this.setState({
-        //         user: userData.name,
-        //         token: tokenData.token,
-        //         provider: userData.provider,
-        //         user_pic: userData.provider_pic
-        //     });
-        // }
+        if (
+            this.state.token === null &&
+            sessionStorage.getItem("userSocialData") &&
+            sessionStorage.getItem("userToken") &&
+            sessionStorage.getItem("userFinishProfile")
+        ) {
+            //console.log("inner mount");
+            let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
+            let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            this.setState({
+                user: userData.name,
+                token: tokenData.token,
+                provider: userData.provider,
+                user_pic: userData.provider_pic,
+                isProfileComplete: userFinishProfile.isFinished
+            });
+        }
 
         //if click "remember me" before, also save data into session
         if (this.state.token !== null && !sessionStorage.getItem("userToken")) {
@@ -208,7 +152,10 @@ class Navbar extends Component {
             userFinishProfile = {
                 isFinished: this.state.isProfileComplete
             };
-            sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
+            sessionStorage.setItem(
+                "userFinishProfile",
+                JSON.stringify(userFinishProfile)
+            );
         }
     }
 
@@ -265,7 +212,9 @@ class Navbar extends Component {
         //get isProfileFinished state
         //if can get it from the session
         if (sessionStorage.getItem("userFinishProfile")) {
-            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            let userFinishProfile = JSON.parse(
+                sessionStorage.getItem("userFinishProfile")
+            );
             if (this.state.isProfileComplete !== userFinishProfile.isFinished) {
                 //console.log("in profileComplete update");
                 this.setState({
@@ -350,8 +299,7 @@ class Navbar extends Component {
                                             to={{
                                                 pathname: "/about-us",
                                                 state: {
-                                                    text:
-                                                        "Thank you for active your account, "
+                                                    text: "Thank you for active your account, "
                                                 }
                                             }}
                                         >
@@ -443,11 +391,27 @@ class Navbar extends Component {
 
                     {/* pop up for video */}
                     {this.state.isShowVideo === true ? (
-                        <Youtube
-                            onHandleClose={() => {
-                                this.setState({isShowVideo: false});
+                        <div
+                            style={{
+                                position: "fixed",
+                                top: "40%",
+                                left: "50%",
+                                zIndex: "100",
+                                width: "100%"
                             }}
-                        />
+                        >
+                            <YouTube
+                                onHandleClose={() => {
+                                    this.setState({isShowVideo: false});
+                                }}
+                                style={{
+                                    position: "relative",
+                                    width: "100%",
+                                    top: "-40%",
+                                    left: "-50%"
+                                }}
+                            />
+                        </div>
                     ) : (
                         ""
                     )}
