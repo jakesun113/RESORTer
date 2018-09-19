@@ -244,15 +244,6 @@ class MemberController {
         const isTokenValid = await auth.check();
         console.log(isTokenValid);
 
-
-        await requestData.Portrait.move(Helpers.tmpPath('uploads'), {
-          name: 'custom-name.jpg'
-        });
-
-        if (!requestData.Portrait.moved()) {
-          return requestData.Portrait.error()
-        }
-
         const token = requestData.token;
         const dbToken = await Token.findBy("Token", token);
 
