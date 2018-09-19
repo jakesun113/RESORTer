@@ -202,7 +202,7 @@ class ChangePwdPage extends Component {
                 <br/>
 
                 {/* main window */}
-                {this.state.provider ? (
+                {this.state.provider !== "email" ? (
                     <PromptPage
                         text={
                             "Sorry, user who logged in with " +
