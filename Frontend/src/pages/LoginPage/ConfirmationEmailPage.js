@@ -68,8 +68,8 @@ class ConfirmationEmailPage extends Component {
             click = <Link to={`/login`} className="badge badge-pill badge-light"
                 style={{ color: 'red', textDecoration: 'underline' }}>Login</Link>
             tip =
-                <div className="font-weight-light" style={{ fontSize: '18px' }}>Congratulation, Your account is activated
-                    successfully, Please login</div>
+                <div className="font-weight-light" style={{ fontSize: '18px' }}>Congratulations, your account is activated
+                    successfully, please login</div>
 
         } else if (this.state.isValidToken === 'fail') {
 
@@ -85,15 +85,15 @@ class ConfirmationEmailPage extends Component {
             click = <Link to={`/login`} className="badge badge-pill badge-light"
                 style={{ color: 'red', textDecoration: 'underline' }}>Login</Link>
             tip =
-                <div className="font-weight-light" style={{ fontSize: '18px' }}>Woops, Your account is already activated,
-                    Please</div>;
+                <div className="font-weight-light" style={{ fontSize: '18px' }}>Woops, your account is already activated,
+                    please</div>;
 
         } else {
             click = <a className="badge badge-pill badge-light" style={{ color: 'red', textDecoration: 'underline' }}
                 onClick={() => {
                     this.handleResendEmail()
                 }}>Click for resend confirmation email :)</a>
-            tip = <div className="font-weight-light">Waiting for confirmation, Please wait</div>
+            tip = <div className="font-weight-light">Waiting for confirmation, please wait</div>
 
         }
         return (
