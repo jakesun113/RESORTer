@@ -25,7 +25,7 @@ class ImageCard extends Component {
 
     //Hover the button, check whether the token is expired
     async handleAuth() {
-        //TODO:Google and Facebook login ERROR
+        //if user login by google/facebook
         if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider != 'email') {
             this.setState({isValidToken:true})
         }
@@ -86,11 +86,20 @@ class ImageCard extends Component {
     }
 
     //TODO: Send HTTP request to backEnd to start a book
-    handleBook = () => {
-        this.props.history.push({
-            pathname: `/booking/${this.props.title}/who`,
-            state: {masterID: 100, resortID: 200, tripID: 300},
+    async handleBook(){
+
+        let postData = new Object();
+        postData.resortName = this.props.title;
+        postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
+
+        await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
+        .then(response => {
+            console.log(response.data);
         })
+        // this.props.history.push({
+        //     pathname: `/booking/${this.props.title}/who`,
+        //     state: {masterID: 100, resortID: 200, tripID: 300},
+        // })
     };
 
     handleLogout = () => {
