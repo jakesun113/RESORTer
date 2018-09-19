@@ -78,6 +78,6 @@ Route.post("/api/contact-form", "Other/ContactController.index");
 /*TripController start*/
 
     //Enroll a new trip
-    Route.get("/api/enrollTrip", "TripController.enrollNewTrip")
+    Route.post("/api/enrollTrip", "TripController.enrollNewTrip")
 
 /*TripController end*/
