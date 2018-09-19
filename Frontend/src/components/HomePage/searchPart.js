@@ -4,9 +4,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import DropDown from "../template/Dropdown";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
 import axios from "axios";
+import {withCookies, Cookies} from 'react-cookie';
+import {instanceOf} from 'prop-types';
 
 
 class Search extends Component {
+
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -15,8 +22,11 @@ class Search extends Component {
             selectedCountryResorts: null,
             selectedLiftPassResorts: null,
             liftPasses: [],
-            countryName: []
+            countryName: [],
+            isValidToken:false
         };
+        this.handleBook = this.handleBook.bind(this);
+        this.handleAuth = this.handleAuth.bind(this);
     }
 
 
@@ -86,7 +96,97 @@ class Search extends Component {
             });
     }
 
+    //TODO: Send HTTP request to backEnd to start a book
+    async handleBook(){
+
+        let postData = new Object();
+        postData.resortName = this.state.selectedCountryResorts;
+        postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
+
+        await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
+        .then(response => {
+            console.log(response.data);
+        })
+        // this.props.history.push({
+        //     pathname: `/booking/${this.props.title}/who`,
+        //     state: {masterID: 100, resortID: 200, tripID: 300},
+        // })
+    };
+
+    //Hover the button, check whether the token is expired
+    async handleAuth() {
+        //if user login by google/facebook
+        if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider != 'email') {
+            this.setState({isValidToken:true})
+        }
+        //only handle login with email user
+        if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider == 'email') {
+            let BaseURL = "http://127.0.0.1:3333/api/";
+            let postData;
+            postData = {
+                token: JSON.parse(sessionStorage.getItem('userToken')).token
+            };
+            await axios.post(BaseURL + "check-token", postData).then(response => {
+                // console.log(response.data);
+
+                //handle token is not valid
+                if (response.data.tokenValid === false) {
+                    console.log("token expired");
+
+                    this.setState({
+                        isValidToken: false
+                    });
+                }
+
+                //token is valid
+                else {
+                    console.log("token valid");
+                    //save token into session
+                    let sessionData;
+                    sessionData = {
+                        token: response.data.token
+                    };
+                    sessionStorage.setItem("userToken", JSON.stringify(sessionData));
+
+                    //save token into cookie
+
+                    let date = new Date();
+                    date.setTime(date.getTime() + +2592000);
+                    const {cookies} = this.props;
+
+                    //only when user click "remember me", update the token in cookies
+                    if (cookies.get("access-token")) {
+                        cookies.set("access-token", response.data.token, {
+                            expires: date,
+                            path: "/"
+                        });
+
+                        console.log(
+                            "token has been extended. Token is: " +
+                            cookies.get("access-token")
+                        );
+                    }
+
+                    this.setState({
+                        isValidToken: true
+                    });
+                }
+            });
+        }
+    }
+
+    handleLogout = () => {
+        const {cookies} = this.props;
+
+        sessionStorage.removeItem("userSocialData");
+        sessionStorage.removeItem("userToken");
+        cookies.remove("user-name");
+        cookies.remove("access-token");
+        cookies.remove("user-pic");
+    };
+
     render() {
+        console.log(this.state.isValidToken)
         return (
             <React.Fragment>
                 <div className="container">
@@ -123,7 +223,12 @@ class Search extends Component {
                                 paddingBottom="8px"
                             />
                         ) : (
-                            <a href={`/booking/${this.state.selectedCountryResorts}/who`}>
+                            this.state.isValidToken ? (
+                            <a
+                            // href={`/booking/${this.state.selectedCountryResorts}/who`}
+                            onClick={this.handleBook}
+                            onMouseEnter={this.handleAuth}
+                            >
                             <SmallEllipseBtn
                                 text="Make a Quote"
                                 btnColor="rgba(255, 97, 97, 1)"
@@ -132,9 +237,24 @@ class Search extends Component {
                                 paddingTop="8px"
                                 paddingBottom="8px"
                             />
-                        </a>
-                        
-                        )}        
+                            </a>
+                            ):(
+                            <a
+                            href={'/login'}
+                            onMouseEnter={this.handleAuth}
+                            onClick={this.handleLogout}
+                            >
+                            <SmallEllipseBtn
+                                text="Make a Quote"
+                                btnColor="rgba(255, 97, 97, 1)"
+                                paddingLeft="90px"
+                                paddingRight="90px"
+                                paddingTop="8px"
+                                paddingBottom="8px"
+                            />
+                            </a>
+                            )
+                        )}
                         </div>
                     </div>
 
@@ -181,7 +301,9 @@ class Search extends Component {
                                 paddingBottom="8px"
                             />
                         ) : (
-                            <a href={`/booking/${this.state.selectedLiftPassResorts}/who`}>
+                            <a //href={`/booking/${this.state.selectedLiftPassResorts}/who`}
+                                onClick={this.handleBook}
+                            >
                             <SmallEllipseBtn
                                 text="Make a Quote"
                                 btnColor="rgba(255, 97, 97, 1)"
@@ -201,4 +323,4 @@ class Search extends Component {
     }
 }
 
-export default Search;
+export default withCookies(Search);
