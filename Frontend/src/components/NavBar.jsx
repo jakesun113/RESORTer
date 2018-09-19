@@ -114,21 +114,24 @@ class Navbar extends Component {
   componentDidMount() {
     //console.log("in mount");
     //if not click "remember me" before
-    // if (
-    //     this.state.token === null &&
-    //     sessionStorage.getItem("userSocialData") &&
-    //     sessionStorage.getItem("userToken")
-    // ) {
-    //     console.log("inner mount");
-    //     let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-    //     let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-    //     this.setState({
-    //         user: userData.name,
-    //         token: tokenData.token,
-    //         provider: userData.provider,
-    //         user_pic: userData.provider_pic
-    //     });
-    // }
+    if (
+        this.state.token === null &&
+        sessionStorage.getItem("userSocialData") &&
+        sessionStorage.getItem("userToken") &&
+        sessionStorage.getItem("userFinishProfile")
+    ) {
+        //console.log("inner mount");
+        let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
+        let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+        let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+        this.setState({
+            user: userData.name,
+            token: tokenData.token,
+            provider: userData.provider,
+            user_pic: userData.provider_pic,
+            isProfileComplete: userFinishProfile.isFinished
+        });
+    }
 
     //if click "remember me" before, also save data into session
     if (this.state.token !== null && !sessionStorage.getItem("userToken")) {
