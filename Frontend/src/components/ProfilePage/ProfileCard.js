@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // css
-import "../../css/ProfilePage/ProfileCard.css";
+
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
