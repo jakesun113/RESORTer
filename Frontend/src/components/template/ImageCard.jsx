@@ -17,7 +17,7 @@ class ImageCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isValidToken: true
+            isValidToken: false
         }
         this.handleAuth = this.handleAuth.bind(this);
         this.handleBook = this.handleBook.bind(this);
