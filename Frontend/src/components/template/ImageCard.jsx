@@ -94,12 +94,18 @@ class ImageCard extends Component {
 
         await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
         .then(response => {
-            console.log(response.data);
+            if(response.data.status === 'success'){
+                
+                this.props.history.push({
+                pathname: `/booking/${this.props.title}/who`,
+                state: {masterID: response.data.masterID, resortID: response.data.resortID, tripID: response.data.tripID}
+
+            })
+
+            }else{
+                alert('SERVER ERROR: Please try again :)')
+            }
         })
-        // this.props.history.push({
-        //     pathname: `/booking/${this.props.title}/who`,
-        //     state: {masterID: 100, resortID: 200, tripID: 300},
-        // })
     };
 
     handleLogout = () => {
