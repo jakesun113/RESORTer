@@ -24,11 +24,12 @@ class GroupMemberInfoCard extends Component {
 
     constructor(props) {
         super(props);
+        const {cookies} = props;
         this.state = {
             tokenExpire: false,
             alert: null,
             showAlertWindow: false, //whether show the alertWindow
-            provider: null
+            provider: cookies.get("user-provider") || null
         };
     }
 
@@ -81,7 +82,10 @@ class GroupMemberInfoCard extends Component {
                             expires: date,
                             path: "/"
                         });
-
+                        cookies.set("user-provider", "email", {
+                            expires: date,
+                            path: "/"
+                        });
                         console.log(
                             "token has been extended. Token is: " +
                             cookies.get("access-token")
@@ -117,6 +121,7 @@ class GroupMemberInfoCard extends Component {
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-provider");
         cookies.remove("user-profileFinished");
     };
 
