@@ -6,6 +6,8 @@ import {instanceOf} from "prop-types";
 import {Redirect} from "react-router-dom";
 import AlertWindow from "../template/AlertWindow";
 import styled from "styled-components";
+import moment from "moment";
+
 
 const MemberInfoCard = styled.div`
   border: 2px solid rgb(218, 227, 242);
@@ -218,7 +220,7 @@ class GroupMemberInfoCard extends Component {
                 </p>
                   {/* Date of Birth: */}
                   <p id="birthday" style={{whiteSpace: "nowrap"}}>
-                  {this.props.dob}
+                  {moment(this.props.dob).format("DD-MM-YYYY")}
                 </p>
               </span>
                         </div>
