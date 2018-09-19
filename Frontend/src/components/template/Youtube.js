@@ -22,7 +22,7 @@ class Youtube extends Component {
               fontSize: "35px",
               position: "absolute",
               top: "0px",
-              right: " 0px",
+              right: " -10px",
               color: "black"
             }}
             onClick={this.props.onHandleClose}
