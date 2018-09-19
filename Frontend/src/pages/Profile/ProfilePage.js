@@ -32,6 +32,7 @@ const UploadBtn = styled.label`
   }
 `;
 
+// Profile page to show and edit user profile
 class ProfilePage extends Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -44,7 +45,7 @@ class ProfilePage extends Component {
             token: cookies.get("access-token") || null,
             provider: cookies.get("user-provider") || null,
             isValidToken: true,
-            isShow: false,
+            isShow: false, //handle if the modal window need to show
             email: null,
             portrait: null,
             dob: moment().subtract(1, "days"),
@@ -62,8 +63,7 @@ class ProfilePage extends Component {
             snowbikeAbility: 1,
             snowmobileAbility: 1,
             snowshoeAbility: 1,
-            hasDisAbility: false,
-            isDisabled: false,
+            hasDisAbility: false, // if user has disability
             disabilityMembership: null,
             disabilityMemberId: null,
             disabilityDetail: null,
@@ -75,6 +75,7 @@ class ProfilePage extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    // handle when date is selected
     dateChanged = (date, choice) => {
         console.log("date changed");
         this.setState(
@@ -83,8 +84,9 @@ class ProfilePage extends Component {
                 dob: date
             },
             () => {
+                // calculate the age by birthday
                 let countAge = moment().diff(
-                    moment(this.state.dob).format("YYYY"),
+                    moment(this.state.dob),
                     "years"
                 );
                 if (countAge !== this.state.age) {
@@ -141,6 +143,7 @@ class ProfilePage extends Component {
     };
 
     componentDidMount() {
+        // get the user social data from session
         if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
 
@@ -149,6 +152,7 @@ class ProfilePage extends Component {
             });
         }
 
+        // when the token can be found from session, get the user data
         if (sessionStorage.getItem("userToken")) {
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
             this.setState({
@@ -159,7 +163,7 @@ class ProfilePage extends Component {
             let url =
                 "http://127.0.0.1:3333/api/user-profile/" +
                 JSON.parse(sessionStorage.getItem("userToken")).token;
-            //console.log(url);
+            //get the user data from database
             axios.get(url).then(response => {
                 console.log("get success");
 
@@ -167,7 +171,6 @@ class ProfilePage extends Component {
                     setState({
                         skiAbility: response.data.skiAbility
                     });
-                    //console.log(this.state.skiAbility)
                 }
                 if (response.data.snowboardAbility != null) {
                     setState({snowboardAbility: response.data.snowboardAbility});
@@ -187,16 +190,12 @@ class ProfilePage extends Component {
 
                 if (response.data.isDisabled) {
                     this.setState({
-                        hasDisability: true
+                        hasDisability: true,
+                        disabilityMembership: response.data.disabilityMembership,
+                        disabilityMemberId: response.data.disabilityMembershipId,
+                        disabilityDetail: response.data.disabilityDetail
                     });
-                    setState({isDisabled: response.data.isDisabled});
-                    setState({
-                        disabilityMembership: response.data.disabilityMembership
-                    });
-                    setState({
-                        disabilityMemberId: response.data.disabilityMembershipId
-                    });
-                    setState({disabilityDetail: response.data.disabilityDetail});
+                    //setState({isDisabled: response.data.isDisabled});
                 }
 
                 setState({email: response.data.email});
@@ -219,7 +218,7 @@ class ProfilePage extends Component {
                 if (response.data.dob != null) {
                     setState({dob: response.data.dob});
                     let countAge = moment().diff(
-                        moment(this.state.dob).format("YYYY"),
+                        moment(this.state.dob),
                         "years"
                     );
                     this.setState({
@@ -241,21 +240,7 @@ class ProfilePage extends Component {
         }
     }
 
-    ageCount = e => {
-        this.setState({dob: e.target.value}, () => {
-            let countAge = moment().diff(
-                moment(this.state.dob).format("YYYY"),
-                "years"
-            );
-            if (countAge !== this.state.age) {
-                this.setState({
-                    age: countAge
-                });
-            }
-            //console.log(countAge)
-        });
-    };
-
+    // handle submitting the profile data to the database
     async handleSubmit(e) {
         e.preventDefault();
 
@@ -264,6 +249,7 @@ class ProfilePage extends Component {
         let disabilityMembershipIDValue = null;
         let disabilityDetailValue = null;
 
+        // if the disability checkbox has been check, set the disability information
         if (isDisabledValue === true) {
             disabilityMembershipValue = document.getElementById(
                 "disability_membership"
@@ -273,7 +259,9 @@ class ProfilePage extends Component {
             ).value;
             disabilityDetailValue = document.getElementById("disability_detail")
                 .value;
-        } else {
+        } 
+        // if user does not disability, set the disability information as null
+        else {
             disabilityMembershipValue = null;
             disabilityMembershipIDValue = null;
             disabilityDetailValue = null;
@@ -304,9 +292,8 @@ class ProfilePage extends Component {
             IsProfileComplete: true
         };
 
-        //console.log(this.state.skiAbility);
-        //console.log(document.getElementById("ski_ability").value);
 
+        // update the user profile data in the database
         await axios.put("http://127.0.0.1:3333/api/user-profile", data).then(
             /*Proceed subsequent actions based on value */
             response => {
@@ -461,7 +448,8 @@ class ProfilePage extends Component {
 
         let readOnly;
         let disabled;
-        if (this.state.provider != "email") {
+        // if the provider is google or facebook, user cannot edit user name and upload portrait
+        if (this.state.provider !== "email") {
             readOnly = true;
             disabled = true;
         } else {

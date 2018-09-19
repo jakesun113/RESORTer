@@ -86,7 +86,7 @@ class HomePage extends Component {
                     )}
 
                     <hr style={ShortLineStyle}/>
-                    <SearchArea/>
+                    <SearchArea history={this.props.history}/>
                     <hr style={ShortLineStyle}/>
                     <MostSearchArea history={this.props.history}/>
 

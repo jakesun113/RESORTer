@@ -16,15 +16,12 @@ class ImageCard extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isValidToken: false
-        }
-        this.handleAuth = this.handleAuth.bind(this);
+        this.state = {}
         this.handleBook = this.handleBook.bind(this);
     }
 
-    //Hover the button, check whether the token is expired
-    async handleAuth() {
+    async handleBook() {
+
         //only handle login with email user
         if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider == 'email') {
             let BaseURL = "http://127.0.0.1:3333/api/";
@@ -33,17 +30,15 @@ class ImageCard extends Component {
                 token: JSON.parse(sessionStorage.getItem('userToken')).token
             };
             await axios.post(BaseURL + "check-token", postData).then(response => {
-                // console.log(response.data);
 
-                //handle token is not valid
+                //handle token is not valid, return to login
                 if (response.data.tokenValid === false) {
                     console.log("token expired");
 
-                    this.setState({
-                        isValidToken: false
-                    });
+                    this.props.history.push({
+                        pathname: '/login'
+                    })
                 }
-
                 //token is valid
                 else {
                     console.log("token valid");
@@ -73,20 +68,62 @@ class ImageCard extends Component {
                         );
                     }
 
-                    this.setState({
-                        isValidToken: true
-                    });
+                    //Jump into book page
+                    let postData = new Object();
+                    postData.resortName = this.props.title;
+                    postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
+
+                    axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
+                        .then(response => {
+                            if (response.data.status === 'success') {
+
+                                this.props.history.push({
+                                    pathname: `/booking/${this.props.title}/who`,
+                                    state: {
+                                        masterID: response.data.masterID,
+                                        resortID: response.data.resortID,
+                                        tripID: response.data.tripID
+                                    }
+                                })
+
+                            } else {
+                                alert('SERVER ERROR: Please try again :)')
+                            }
+                        })
                 }
             });
         }
-    }
+        //facebook&google login
+        else if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider != 'email') {
+            //Jump into book page
+            let postData = new Object();
+            postData.resortName = this.props.title;
+            postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
 
-    //TODO: Send HTTP request to backEnd to start a book
-    handleBook = () => {
-        this.props.history.push({
-            pathname: `/booking/${this.props.title}/who`,
-            state: {masterID: 1, resortID: 1, tripID: 1},
-        })
+            await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
+                .then(response => {
+                    if (response.data.status === 'success') {
+
+                        this.props.history.push({
+                            pathname: `/booking/${this.props.title}/who`,
+                            state: {
+                                masterID: response.data.masterID,
+                                resortID: response.data.resortID,
+                                tripID: response.data.tripID
+                            }
+
+                        })
+
+                    } else {
+                        alert('SERVER ERROR: Please try again :)')
+                    }
+                })
+            //logout status
+        } else if (!sessionStorage.getItem('userSocialData')) {
+            this.props.history.push({
+                pathname: '/login'
+            })
+        }
     };
 
     handleLogout = () => {
@@ -114,26 +151,14 @@ class ImageCard extends Component {
                         <p style={CardSubTitleStyle}>{this.props.subTitle}</p>
                         <p className="card-text card-body-size">{this.props.text}</p>
                         <div className="botton_right">
-                            {this.state.isValidToken ? (
-                                <a
-                                    // href={`/booking/${this.props.title}/who`}
-                                    className="btn btn-primary"
-                                    onMouseEnter={this.handleAuth}
-                                    onClick={this.handleBook}
-                                >
-                                    <span>{this.props.btnText}</span>
-                                </a>
-                            ) : (
-                                <a
-                                    href={`/login`}
-                                    className="btn btn-primary"
-                                    onMouseEnter={this.handleAuth}
-                                    onClick={this.handleLogout}
-                                >
-                                    <span>{this.props.btnText}</span>
-                                </a>
-                            )}
-
+                            <a
+                                // href={`/booking/${this.props.title}/who`}
+                                className="btn btn-primary"
+                                onMouseEnter={this.handleAuth}
+                                onClick={this.handleBook}
+                            >
+                                <span>{this.props.btnText}</span>
+                            </a>
                         </div>
                     </div>
                 </div>

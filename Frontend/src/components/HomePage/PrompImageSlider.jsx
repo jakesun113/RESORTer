@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "../../css/Homepage/PrompImageSlider.css";
 import firstSlide from "../../materials/SliderBackground/ValThorens-France-Getty.jpg";
 import secondSlide from "../../materials/SliderBackground/holly-mandarich-525173.jpg";
 import thirdSlide from "../../materials/SliderBackground/ski-lessons-at-cardrona-alpine-resort.jpg";
@@ -7,23 +6,28 @@ import styled from "styled-components";
 
 const ImgStyle = {
   width: "100%",
-  height: "700px",
+  height: "650px",
   backgroundRepeat: "no-repeat",
   backgroundAttachment: "fixed",
   backgroundRepeat: "no-repeat",
   backgroundSize: "cover",
   backgroundPosition: "center"
 };
-const ImgBlurStyle = {
-  width: "100%",
-  height: "700px",
-  backgroundRepeat: "no-repeat",
-  backgroundAttachment: "fixed",
-  backgroundRepeat: "no-repeat",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  opacity: "0.5"
+
+const ImgTextStyle = {
+  fontSize: "20px"
 };
+
+const StyledBlurImg = styled.img`
+  width: 100%;
+  height: 800px;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background: rgba(0, 0, 0, 0.7);
+`;
 
 const StyledDiv = styled.div`
   position: fixed;
@@ -35,30 +39,33 @@ const StyledBigText = styled.h1`
   position: relative;
   top: -20%;
   left: -50%;
-  color: white;
+  color: white !important;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 88px;
   text-align: center;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
 `;
 
 const StyledMedText = styled.h2`
   position: relative;
   top: -20%;
   left: -50%;
-  color: white;
+  color: white !important;
   font-size: 50px;
   text-align: center;
+  white-space: nowrap;
 `;
 
 const StyledSmallText = styled.h3`
   position: relative;
   top: -20%;
   left: -50%;
-  color: white;
+  color: white !important;
   font-size: 38px;
   text-align: center;
+  white-space: nowrap;
 `;
 
 class PrompImageSlider extends Component {
@@ -70,7 +77,6 @@ class PrompImageSlider extends Component {
           id="carouselExampleIndicators"
           className="carousel slide h-20"
           data-ride="carousel"
-          style={{ fontFamily: "'Archivo Black', sans-serif !important" }}
         >
           <ol className="carousel-indicators">
             <li
@@ -106,10 +112,54 @@ class PrompImageSlider extends Component {
                 <StyledMedText>Fast, Efficient Ski Trip Planner</StyledMedText>
                 <br />
                 <StyledSmallText>
-                  <img
-                    src="http://localhost:3000/static/media/service.ada9988a.png"
-                    alt=""
-                  />
+                  <div className="row">
+                    {/* 1 */}
+                    <div className="col-1" />
+                    <div className="col-2" style={{ width: "auto" }}>
+                      <p>
+                        <i class="fas fa-laptop" />
+                      </p>
+                      <br />
+                      <p style={ImgTextStyle}>Plan your resort</p>
+                      <p style={ImgTextStyle}>experience</p>
+                    </div>
+                    <div className="col-1">
+                      <i class="fas fa-arrow-circle-right" />
+                    </div>
+                    {/* 2 */}
+                    <div className="col-2" style={{ width: "auto" }}>
+                      <p>
+                        <i class="fas fa-globe" />
+                      </p>
+
+                      <br />
+                      <p style={ImgTextStyle}>Resort confirms</p>
+                      <p style={ImgTextStyle}>availability</p>
+                    </div>
+                    <div className="col-1">
+                      <i class="fas fa-arrow-circle-right" />
+                    </div>
+                    {/* 3 */}
+                    <div className="col-2" style={{ width: "auto" }}>
+                      <p>
+                        <i class="fas fa-user-alt" />
+                      </p>
+                      <br />
+                      <p style={ImgTextStyle}>...processes it</p>
+                    </div>
+                    <div className="col-1">
+                      <i class="fas fa-arrow-circle-right" />
+                    </div>
+
+                    {/* 4 */}
+                    <div className="col-2" style={{ width: "auto" }}>
+                      <p>
+                        <i class="far fa-snowflake" />
+                      </p>
+                      <br />
+                      <p style={ImgTextStyle}>...and you rest easy</p>
+                    </div>
+                  </div>
                 </StyledSmallText>
               </StyledDiv>
               <img src={secondSlide} alt="Second slide" style={ImgStyle} />
@@ -121,7 +171,11 @@ class PrompImageSlider extends Component {
                   Plan now. <br /> pay later.
                 </StyledBigText>
               </StyledDiv>
-              <img src={thirdSlide} alt="Third slide" style={ImgBlurStyle} />
+              <StyledBlurImg
+                src={thirdSlide}
+                alt="Third slide"
+                id="blur-image"
+              />
             </div>
           </div>
           <a

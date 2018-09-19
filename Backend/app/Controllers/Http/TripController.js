@@ -13,12 +13,12 @@ class TripController {
   /*
   REQUEST: {"resortName":"","token":""}
   */
-  async enrollNewTrip({response}) {
+  async enrollNewTrip({request, response}) {
 
     try {
-
-      const validationToken = await ValidationToken.findBy('Token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTUzNzMxNjAyNywiZXhwIjoxNTM3MzE2MDU3fQ.WJi_fO8uWojhLhv98qA5vtWHuStiBUBxsdWzpcsWSCU');
-      const resortInfo = await ResortInfo.findBy('Name', 'Mt. Buller');
+      console.log(request.all())
+      const validationToken = await ValidationToken.findBy('Token', request.input('token'));
+      const resortInfo = await ResortInfo.findBy('Name', request.input('resortName'));
 
       const newTrip = new Trip();
       newTrip.ResortID = resortInfo.id;
@@ -41,7 +41,6 @@ class TripController {
 
     }
   }
-
 
   async tripMemberAges({response, params}) {
     const tripID = params.tripID;

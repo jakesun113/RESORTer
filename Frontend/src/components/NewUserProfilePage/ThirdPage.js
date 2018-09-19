@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
 
+//TODO: add validation of phone number
 // third page
 class ThirdPage extends Component {
     state = {

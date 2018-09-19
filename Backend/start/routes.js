@@ -78,7 +78,7 @@ Route.post("/api/getResortsByLiftPass", "ResortInfoController.getResortsByLiftPa
 /*TripController start*/
 
 //Enroll a new trip
-Route.get("/api/enrollTrip", "TripController.enrollNewTrip");
+Route.post("/api/enrollTrip", "TripController.enrollNewTrip");
 
 // Get the age information of trip members (i.e. number of adults/children/toddlers)
 Route.get("/api/tripMemberAges/:tripID/:masterID", 'TripController.tripMemberAges');

@@ -164,13 +164,15 @@ class LoginPage extends Component {
                     };
                     sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
 
+                    //TODO: check when not remember me
+                    console.log(this.state.rememberMe);
                     //save token into cookie
                     if (this.state.rememberMe) {
                         let date = new Date();
                         date.setTime(date.getTime() + +2592000);
                         const {cookies} = this.props;
 
-                        console.log(cookies);
+                        //console.log(cookies);
                         cookies.set("access-token", response.data.token, {
                             expires: date,
                             path: "/"

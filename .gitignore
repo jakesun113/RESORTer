@@ -9,3 +9,4 @@ Frontend/.package-lock 2.json.icloud
 
 # environment file
 .env
+Backend/.env.example

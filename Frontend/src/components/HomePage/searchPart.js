@@ -4,9 +4,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import DropDown from "../template/Dropdown";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
 import axios from "axios";
+import {withCookies, Cookies} from 'react-cookie';
+import {instanceOf} from 'prop-types';
 
 
 class Search extends Component {
+
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -15,8 +22,9 @@ class Search extends Component {
             selectedCountryResorts: null,
             selectedLiftPassResorts: null,
             liftPasses: [],
-            countryName: []
+            countryName: [],
         };
+        this.handleBook = this.handleBook.bind(this);
     }
 
 
@@ -86,6 +94,109 @@ class Search extends Component {
             });
     }
 
+    //TODO: Send HTTP request to backEnd to start a book
+    async handleBook(){
+
+        //only handle login with email user
+        if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider == 'email') {
+            let BaseURL = "http://127.0.0.1:3333/api/";
+            let postData;
+            postData = {
+                token: JSON.parse(sessionStorage.getItem('userToken')).token
+            };
+            await axios.post(BaseURL + "check-token", postData).then(response => {
+
+                //handle token is not valid, return to login
+                if (response.data.tokenValid === false) {
+                    console.log("token expired");
+
+                    this.props.history.push({
+                        pathname: '/login'
+                        })
+                }
+                //token is valid
+                else {
+                    console.log("token valid");
+                    //save token into session
+                    let sessionData;
+                    sessionData = {
+                        token: response.data.token
+                    };
+                    sessionStorage.setItem("userToken", JSON.stringify(sessionData));
+
+                    //save token into cookie
+
+                    let date = new Date();
+                    date.setTime(date.getTime() + +2592000);
+                    const {cookies} = this.props;
+
+                    //only when user click "remember me", update the token in cookies
+                    if (cookies.get("access-token")) {
+                        cookies.set("access-token", response.data.token, {
+                            expires: date,
+                            path: "/"
+                        });
+
+                        console.log(
+                            "token has been extended. Token is: " +
+                            cookies.get("access-token")
+                        );
+                    }
+
+                    //Jump into book page
+                    let postData = new Object();
+                    postData.resortName = this.state.selectedCountryResorts;
+                    postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
+
+                    axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
+                    .then(response => {
+                        if(response.data.status === 'success'){
+                            this.props.history.push({
+                                pathname: `/booking/${this.state.selectedCountryResorts}/who`,
+                                state: {masterID: response.data.masterID, resortID: response.data.resortID, tripID: response.data.tripID}
+                                })
+                        }else{
+                            alert('SERVER ERROR, please try again.')
+                        }
+                    })
+                }
+            });
+        }
+        //facebook&google login
+        else if(sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider != 'email'){
+                //Jump into book page
+                let postData = new Object();
+                postData.resortName = this.state.selectedCountryResorts;
+                postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
+                await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
+                .then(response => {
+                    if(response.data.status === 'success'){
+                        this.props.history.push({
+                            pathname: `/booking/${this.state.selectedCountryResorts}/who`,
+                            state: {masterID: response.data.masterID, resortID: response.data.resortID, tripID: response.data.tripID}
+                            })
+                    }else{
+                        alert('SERVER ERROR, please try again.')
+                    }
+                })
+        //logout status
+        }else if(!sessionStorage.getItem('userSocialData')){
+            this.props.history.push({
+                pathname: '/login'
+                })
+        }
+    };
+
+    handleLogout = () => {
+        const {cookies} = this.props;
+
+        sessionStorage.removeItem("userSocialData");
+        sessionStorage.removeItem("userToken");
+        cookies.remove("user-name");
+        cookies.remove("access-token");
+        cookies.remove("user-pic");
+    };
+
     render() {
         return (
             <React.Fragment>
@@ -111,8 +222,6 @@ class Search extends Component {
                             />
                         </div>
                         <div className="col-sm">
-
-                        
                         {this.state.selectedCountryResorts === null ? (
                             <SmallEllipseBtn
                                 text="Make a Quote"
@@ -123,7 +232,10 @@ class Search extends Component {
                                 paddingBottom="8px"
                             />
                         ) : (
-                            <a href={`/booking/${this.state.selectedCountryResorts}/who`}>
+                            <a
+                            // href={`/booking/${this.state.selectedCountryResorts}/who`}
+                            onClick={this.handleBook}
+                            >
                             <SmallEllipseBtn
                                 text="Make a Quote"
                                 btnColor="rgba(255, 97, 97, 1)"
@@ -132,9 +244,8 @@ class Search extends Component {
                                 paddingTop="8px"
                                 paddingBottom="8px"
                             />
-                        </a>
-                        
-                        )}        
+                            </a>
+                        )}
                         </div>
                     </div>
 
@@ -181,7 +292,9 @@ class Search extends Component {
                                 paddingBottom="8px"
                             />
                         ) : (
-                            <a href={`/booking/${this.state.selectedLiftPassResorts}/who`}>
+                            <a //href={`/booking/${this.state.selectedLiftPassResorts}/who`}
+                                onClick={this.handleBook}
+                            >
                             <SmallEllipseBtn
                                 text="Make a Quote"
                                 btnColor="rgba(255, 97, 97, 1)"
@@ -201,4 +314,4 @@ class Search extends Component {
     }
 }
 
-export default Search;
+export default withCookies(Search);
