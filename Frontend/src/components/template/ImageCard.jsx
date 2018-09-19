@@ -83,8 +83,11 @@ class ImageCard extends Component {
 
     //TODO: Send HTTP request to backEnd to start a book
     handleBook = () => {
-        alert('Ready To Book')
-    }
+        this.props.history.push({
+            pathname: `/booking/${this.props.title}/who`,
+            state: {masterID: 100, resortID: 200, tripID: 300},
+        })
+    };
 
     handleLogout = () => {
         const {cookies} = this.props;
@@ -97,6 +100,7 @@ class ImageCard extends Component {
     };
 
     render() {
+
 
         return (
             <React.Fragment>
@@ -113,7 +117,7 @@ class ImageCard extends Component {
                         <div className="botton_right">
                             {this.state.isValidToken ? (
                                 <a
-                                    href={`/booking/${this.props.title}/who`}
+                                    // href={`/booking/${this.props.title}/who`}
                                     className="btn btn-primary"
                                     onMouseEnter={this.handleAuth}
                                     onClick={this.handleBook}

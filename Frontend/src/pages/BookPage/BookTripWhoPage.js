@@ -3,15 +3,16 @@ import GoogleMap from "../../components/template/GoogleMapRender";
 import DatePicker from "../../components/template/SelectTripDate";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import GroupMemberInfoCard from "../../components/GroupMemberPage/GroupMemberInfoCard";
-import {Redirect} from "react-router-dom";
+import {Redirect, Link} from "react-router-dom";
+
 
 class BookTripPage extends Component {
     state = {};
 
-    render() {
-        const {place} = this.props;
 
-        console.log(this.props.history.location.pathname);
+    render() {
+        const {place, masterID, resortID, tripID, history} = this.props;
+
         //if directly type this page's url, redirect to login page
         if (!sessionStorage.getItem("userToken")) {
             return (
@@ -121,12 +122,21 @@ class BookTripPage extends Component {
                     <div className="row">
                         <div className="col-8"/>
                         <div className="col-4">
-                            <a href={`/booking/${place}/sleep`}>
+
+                            {/*<a href={}>*/}
+                            <Link to={
+                                {
+                                    pathname: `/booking/${place}/sleep`,
+                                    state: {masterID: masterID, resortID: resortID, tripID: tripID},
+                                }
+                            }>
                                 <SmallEllipseBtn
                                     text="Save and Continue"
                                     btnColor="orangered"
+
                                 />
-                            </a>
+                            </Link>
+
                         </div>
                     </div>
                 </div>

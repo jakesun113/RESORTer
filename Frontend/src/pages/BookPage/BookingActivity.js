@@ -143,7 +143,17 @@ class BookingActivity extends Component {
         this.forceUpdate()
     };
 
+    goPrevious = () => {
+        const {place, history, masterID, resortID, tripID} = this.props;
+        const url = `/booking/${place}/sleep`;
+        history.push({
+            pathname: url,
+            state: {masterID: masterID, resortID: resortID, tripID: tripID},
+        });
+    };
+
     render() {
+        console.log(this.props);
         let {currentMember, members} = this.state;
         return (
             <div className='container' style={{marginTop: '20px'}}>
