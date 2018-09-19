@@ -23,10 +23,8 @@ class Search extends Component {
             selectedLiftPassResorts: null,
             liftPasses: [],
             countryName: [],
-            isValidToken:false
         };
         this.handleBook = this.handleBook.bind(this);
-        this.handleAuth = this.handleAuth.bind(this);
     }
 
 
@@ -99,34 +97,6 @@ class Search extends Component {
     //TODO: Send HTTP request to backEnd to start a book
     async handleBook(){
 
-        let postData = new Object();
-        postData.resortName = this.state.selectedCountryResorts;
-        postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
-
-        await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
-        .then(response => {
-            if(response.data.status === 'success'){
-
-                this.props.history.push({
-                    pathname: `/booking/${this.state.selectedCountryResorts}/who`,
-                    state: {masterID: response.data.masterID, resortID: response.data.resortID, tripID: response.data.tripID}
-                    })
-
-            }else{
-
-                alert('SERVER ERROR, please try again.')
-
-            }
-        })
-        
-    };
-
-    //Hover the button, check whether the token is expired
-    async handleAuth() {
-        //if user login by google/facebook
-        if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider != 'email') {
-            this.setState({isValidToken:true})
-        }
         //only handle login with email user
         if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider == 'email') {
             let BaseURL = "http://127.0.0.1:3333/api/";
@@ -135,17 +105,15 @@ class Search extends Component {
                 token: JSON.parse(sessionStorage.getItem('userToken')).token
             };
             await axios.post(BaseURL + "check-token", postData).then(response => {
-                // console.log(response.data);
 
-                //handle token is not valid
+                //handle token is not valid, return to login
                 if (response.data.tokenValid === false) {
                     console.log("token expired");
 
-                    this.setState({
-                        isValidToken: false
-                    });
+                    this.props.history.push({
+                        pathname: '/login'
+                        })
                 }
-
                 //token is valid
                 else {
                     console.log("token valid");
@@ -175,13 +143,49 @@ class Search extends Component {
                         );
                     }
 
-                    this.setState({
-                        isValidToken: true
-                    });
+                    //Jump into book page
+                    let postData = new Object();
+                    postData.resortName = this.state.selectedCountryResorts;
+                    postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
+
+                    axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
+                    .then(response => {
+                        if(response.data.status === 'success'){
+                            this.props.history.push({
+                                pathname: `/booking/${this.state.selectedCountryResorts}/who`,
+                                state: {masterID: response.data.masterID, resortID: response.data.resortID, tripID: response.data.tripID}
+                                })
+                        }else{
+                            alert('SERVER ERROR, please try again.')
+                        }
+                    })
                 }
             });
         }
-    }
+        //facebook&google login
+        else if(sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider != 'email'){
+                //Jump into book page
+                let postData = new Object();
+                postData.resortName = this.state.selectedCountryResorts;
+                postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
+                await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
+                .then(response => {
+                    if(response.data.status === 'success'){
+                        this.props.history.push({
+                            pathname: `/booking/${this.state.selectedCountryResorts}/who`,
+                            state: {masterID: response.data.masterID, resortID: response.data.resortID, tripID: response.data.tripID}
+                            })
+                    }else{
+                        alert('SERVER ERROR, please try again.')
+                    }
+                })
+        //logout status
+        }else if(!sessionStorage.getItem('userSocialData')){
+            this.props.history.push({
+                pathname: '/login'
+                })
+        }
+    };
 
     handleLogout = () => {
         const {cookies} = this.props;
@@ -194,7 +198,6 @@ class Search extends Component {
     };
 
     render() {
-        console.log(this.state.isValidToken)
         return (
             <React.Fragment>
                 <div className="container">
@@ -219,8 +222,6 @@ class Search extends Component {
                             />
                         </div>
                         <div className="col-sm">
-
-                        
                         {this.state.selectedCountryResorts === null ? (
                             <SmallEllipseBtn
                                 text="Make a Quote"
@@ -231,11 +232,9 @@ class Search extends Component {
                                 paddingBottom="8px"
                             />
                         ) : (
-                            this.state.isValidToken ? (
                             <a
                             // href={`/booking/${this.state.selectedCountryResorts}/who`}
                             onClick={this.handleBook}
-                            onMouseEnter={this.handleAuth}
                             >
                             <SmallEllipseBtn
                                 text="Make a Quote"
@@ -246,22 +245,6 @@ class Search extends Component {
                                 paddingBottom="8px"
                             />
                             </a>
-                            ):(
-                            <a
-                            href={'/login'}
-                            onMouseEnter={this.handleAuth}
-                            onClick={this.handleLogout}
-                            >
-                            <SmallEllipseBtn
-                                text="Make a Quote"
-                                btnColor="rgba(255, 97, 97, 1)"
-                                paddingLeft="90px"
-                                paddingRight="90px"
-                                paddingTop="8px"
-                                paddingBottom="8px"
-                            />
-                            </a>
-                            )
                         )}
                         </div>
                     </div>
