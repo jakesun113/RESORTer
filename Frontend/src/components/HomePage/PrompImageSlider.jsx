@@ -3,12 +3,64 @@ import "../../css/Homepage/PrompImageSlider.css";
 import firstSlide from "../../materials/SliderBackground/ValThorens-France-Getty.jpg";
 import secondSlide from "../../materials/SliderBackground/holly-mandarich-525173.jpg";
 import thirdSlide from "../../materials/SliderBackground/ski-lessons-at-cardrona-alpine-resort.jpg";
-const UpperTextStyle = {
-  textTransform: "uppercase",
-  fontWeight: "bold",
-  fontSize: "88px",
-  textAlign: "center"
+import styled from "styled-components";
+
+const ImgStyle = {
+  width: "100%",
+  height: "700px",
+  backgroundRepeat: "no-repeat",
+  backgroundAttachment: "fixed",
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
+  backgroundPosition: "center"
 };
+const ImgBlurStyle = {
+  width: "100%",
+  height: "700px",
+  backgroundRepeat: "no-repeat",
+  backgroundAttachment: "fixed",
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  opacity: "0.5"
+};
+
+const StyledDiv = styled.div`
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  color: white;
+`;
+const StyledBigText = styled.h1`
+  position: relative;
+  top: -20%;
+  left: -50%;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 88px;
+  text-align: center;
+  letter-spacing: 0.3em;
+`;
+
+const StyledMedText = styled.h2`
+  position: relative;
+  top: -20%;
+  left: -50%;
+  color: white;
+  font-size: 50px;
+  text-align: center;
+`;
+
+const StyledSmallText = styled.h3`
+  position: relative;
+  top: -20%;
+  left: -50%;
+  color: white;
+  font-size: 38px;
+  text-align: center;
+`;
+
 class PrompImageSlider extends Component {
   state = {};
   render() {
@@ -18,6 +70,7 @@ class PrompImageSlider extends Component {
           id="carouselExampleIndicators"
           className="carousel slide h-20"
           data-ride="carousel"
+          style={{ fontFamily: "'Archivo Black', sans-serif !important" }}
         >
           <ol className="carousel-indicators">
             <li
@@ -30,72 +83,45 @@ class PrompImageSlider extends Component {
           </ol>
           <div className="carousel-inner">
             {/* first */}
-            <div className="carousel-item active ">
-              <div className="text-block-first">
-                <h1 style={UpperTextStyle}>Experiences</h1>
-                <h2 style={{ fontSize: "50px", textAlign: "center" }}>
-                  Ski Resort Experience Planner
-                </h2>
+            <div className="carousel-item active">
+              <StyledDiv>
+                <StyledBigText>Experiences</StyledBigText>
+                <StyledMedText>Ski Resort Experience Planner</StyledMedText>
                 <br />
-                <h3 style={{ fontSize: "38px" }}>
+                <StyledSmallText>
                   Accommodation | Liftpass | Equipment Rental | Lessons
-                </h3>
-              </div>
+                </StyledSmallText>
+              </StyledDiv>
               <img
-                className="d-block w-100"
+                // className="d-block w-100"
+                style={ImgStyle}
                 src={firstSlide}
                 alt="First slide"
               />
             </div>
             {/* second */}
             <div className="carousel-item">
-              <div className="text-block-second">
-                <h1 style={UpperTextStyle}>plan</h1>
-                <h2 style={{ fontSize: "50px" }}>
-                  Fast, Efficient Ski Trip Planner
-                </h2>
+              <StyledDiv>
+                <StyledBigText>plan</StyledBigText>
+                <StyledMedText>Fast, Efficient Ski Trip Planner</StyledMedText>
                 <br />
-                <h3 style={{ fontSize: "38px" }}>
+                <StyledSmallText>
                   <img
                     src="http://localhost:3000/static/media/service.ada9988a.png"
                     alt=""
                   />
-                </h3>
-              </div>
-              <img
-                className="d-block w-100"
-                src={secondSlide}
-                alt="Second slide"
-                style={{
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center center",
-                  WebkitBackgroundSize: "cover",
-                  MozBackgroundSize: "cover",
-                  OBackgroundSize: "cover",
-                  backgroundSize: "cover"
-                }}
-              />
+                </StyledSmallText>
+              </StyledDiv>
+              <img src={secondSlide} alt="Second slide" style={ImgStyle} />
             </div>
             {/* third */}
             <div className="carousel-item ">
-              <div className="text-block-third">
-                <span style={UpperTextStyle}>
+              <StyledDiv>
+                <StyledBigText>
                   Plan now. <br /> pay later.
-                </span>
-              </div>
-              <img
-                className="d-block w-100"
-                src={thirdSlide}
-                alt="Third slide"
-                style={{
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center center",
-                  WebkitBackgroundSize: "fill",
-                  MozBackgroundSize: "fill",
-                  OBackgroundSize: "fill",
-                  backgroundSize: "fill"
-                }}
-              />
+                </StyledBigText>
+              </StyledDiv>
+              <img src={thirdSlide} alt="Third slide" style={ImgBlurStyle} />
             </div>
           </div>
           <a
