@@ -96,6 +96,33 @@ class ProfilePage extends Component {
         );
     };
 
+    handleUploadFile = e => {
+        if (window.FileReader) {
+            const reader = new FileReader();
+            const file = e.target.files[0];
+
+            console.log(e.target.result)
+
+            //console.log(file)
+            reader.addEventListener(
+                "load",
+                () => {
+                    console.log(reader.result)
+                    this.setState({
+                        userPic: reader.result,
+                        file: file
+                    });
+                },
+                false
+            );
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        } else {
+            alert("Not supported by your browser!");
+        }
+    };
+
     handleLogout = () => {
         const {cookies} = this.props;
 
@@ -384,7 +411,6 @@ class ProfilePage extends Component {
         this.forceUpdate();
     };
 
-    //TODO: dob cannot be input manually
     render() {
         const {cookies} = this.props;
         //if token has been expired, redirect to login page
@@ -494,24 +520,7 @@ class ProfilePage extends Component {
                                         accept="image/*"
                                         hidden
                                         disabled={disabled}
-                                        onChange={e => {
-                                            if (window.FileReader) {
-                                                const reader = new FileReader();
-                                                const file = e.target.files[0];
-                                                reader.addEventListener(
-                                                    "load",
-                                                    () => {
-                                                        this.setState({user_pic: reader.result});
-                                                    },
-                                                    false
-                                                );
-                                                if (file) {
-                                                    reader.readAsDataURL(file);
-                                                }
-                                            } else {
-                                                alert("Not supported by your browser!");
-                                            }
-                                        }}
+                                        onChange={this.handleUploadFile}
                                     />
                                 </UploadBtn>
                                 <div className="form-group col-3 col-lg-5"/>

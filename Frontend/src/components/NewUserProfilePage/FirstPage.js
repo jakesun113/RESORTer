@@ -52,6 +52,33 @@ class FirstPage extends Component {
         }
     };
 
+    handleUploadFile = e => {
+        if (window.FileReader) {
+            const reader = new FileReader();
+            const file = e.target.files[0];
+
+            console.log(e.target.result)
+
+            //console.log(file)
+            reader.addEventListener(
+                "load",
+                () => {
+                    console.log(reader.result)
+                    this.setState({
+                        userPic: reader.result,
+                        file: file
+                    });
+                },
+                false
+            );
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        } else {
+            alert("Not supported by your browser!");
+        }
+    };
+
     //TODO: send image file to the backend
     storeInfo() {
         const userPic = this.state.userPic;
@@ -139,28 +166,7 @@ class FirstPage extends Component {
                                     type="file"
                                     accept="image/*"
                                     hidden
-                                    onChange={e => {
-                                        if (window.FileReader) {
-                                            const reader = new FileReader();
-                                            const file = e.target.files[0];
-                                            //console.log(file)
-                                            reader.addEventListener(
-                                                "load",
-                                                () => {
-                                                    this.setState({
-                                                        userPic: reader.result,
-                                                        file: file
-                                                    });
-                                                },
-                                                false
-                                            );
-                                            if (file) {
-                                                reader.readAsDataURL(file);
-                                            }
-                                        } else {
-                                            alert("Not supported by your browser!");
-                                        }
-                                    }}
+                                    onChange={this.handleUploadFile}
                                 />
                                 {this.state.userPic.name !== undefined
                                     ? alert(new FileReader().readAsDataURL(this.state.userPic))
