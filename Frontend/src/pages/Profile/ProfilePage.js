@@ -458,7 +458,7 @@ class ProfilePage extends Component {
 
     let readOnly;
     let disabled;
-    if (this.state.provider != null) {
+    if (this.state.provider != "email") {
       readOnly = true;
       disabled = true;
     } else {
