@@ -276,13 +276,16 @@ class BookingAccommodation extends Component {
 
     componentDidMount() {
         const {tripID, masterID} = this.props;
-
         const url = `http://127.0.0.1:3333/api/tripMemberAges/${tripID}/${masterID}`;
         fetch(url)
-            .then(response => response.json())
+            .then(response => response.text())
             .then(data => {
-                console.log(data)
-
+                const ageInfo = JSON.parse(data);
+                this.setState({
+                    num_adult: ageInfo['adults'],
+                    num_child: ageInfo['children'],
+                    num_toddler: ageInfo['toddlers'],
+                })
             })
             .catch(err => console.log(err))
     }

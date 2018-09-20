@@ -43,12 +43,18 @@ class TripController {
   }
 
   async tripMemberAges({response, params}) {
-    const tripID = params.tripID;
-    const masterID = params.masterID;
+
+    //TODO: modify here when database is ready
+    // const tripID = params.tripID;
+    // const masterID = params.masterID;
+    const tripID = 1;
+    const masterID = 1;
+
     const result = await  Database.select('IsMasterMemberGoing', 'GroupMemberIDs').from('trip_whodates').where({TripID: tripID});
 
-    //GroupMemberIDs here is a string, parsed into JSON later
+    //todo: GroupMemberIDs here is a Json array {key_name:[1,2,3]}, parsed into JSON later
     const {IsMasterMemberGoing, GroupMemberIDs} = result[0];
+
 
     const GroupMembers = [1, 2, 3];
 
@@ -58,23 +64,46 @@ class TripController {
       children: 0
     };
 
-    const ages = [1, 17, 4, 18, 20];
+    async function getMasterMemberAge(id) {
+      const dob = await Database.select('DOB').from('members').where({id: id});
+      return moment().diff(moment(dob[0]['DOB']), "years");
+    }
 
-
-    GroupMembers.forEach(async (id) => {
+    async function getGroupMemberAge(id) {
       const dob = await Database.select('DOB').from('family_members').where({id: id});
-      const age = moment().diff(moment(dob[0]['DOB']), "years");
-      if (age >= 18) {
+      return moment().diff(moment(dob[0]['DOB']), "years");
+    }
+
+
+    async function updateAgeInfo(list, ageInfo) {
+      for (let i = 0; i < list.length; i++) {
+        let age = await
+          getGroupMemberAge(list[i]);
+        if (age >= 18) {
+          ageInfo["adults"] = ageInfo['adults'] + 1;
+        } else if (age <= 2) {
+          ageInfo["toddlers"] = ageInfo["toddlers"] + 1;
+        } else {
+          ageInfo["children"] = ageInfo["children"] + 1;
+        }
+      }
+      return ageInfo;
+    }
+
+    ageInfo = await updateAgeInfo(GroupMembers, ageInfo);
+
+    if (IsMasterMemberGoing) {
+      const master_age = await getMasterMemberAge(masterID);
+      if (master_age >= 18) {
         ageInfo["adults"] = ageInfo['adults'] + 1;
-      } else if (age <= 2) {
+      } else if (master_age <= 2) {
         ageInfo["toddlers"] = ageInfo["toddlers"] + 1;
       } else {
         ageInfo["children"] = ageInfo["children"] + 1;
       }
-    });
+    }
 
-
-    return {adults: 2, toddler: 1}
+    response.send(JSON.stringify(ageInfo));
   }
 
 }
