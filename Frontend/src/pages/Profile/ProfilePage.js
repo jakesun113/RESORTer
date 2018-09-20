@@ -46,17 +46,17 @@ class ProfilePage extends Component {
             provider: cookies.get("user-provider") || null,
             isValidToken: true,
             isShow: false, //handle if the modal window need to show
-            email: null,
+            email: "",
             file: null,
             dob: moment().subtract(1, "days"),
             age: 0,
-            gender: null,
-            firstName: null,
-            lastName: null,
-            phoneCode: null,
-            phoneNumber: null,
-            country: null,
-            postcode: null,
+            gender: "",
+            firstName: "",
+            lastName: "",
+            phoneCode: "",
+            phoneNumber: "",
+            country: "",
+            postcode: "",
             skiAbility: 1,
             snowboardAbility: 1,
             telemarkAbility: 1,
@@ -64,13 +64,12 @@ class ProfilePage extends Component {
             snowmobileAbility: 1,
             snowshoeAbility: 1,
             hasDisAbility: false, // if user has disability
-            disabilityMembership: null,
-            disabilityMemberId: null,
-            disabilityDetail: null,
+            disabilityMembership: "",
+            disabilityMemberId: "",
+            disabilityDetail: "",
             getFinished: false,
             webServer: "http://127.0.0.1:8889/",
-            user_pic:
-                "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/crop/x_7,y_0,w_1184,h_1184/fill/w_96,h_96,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
+            user_pic: cookies.get("user-pic") || ""
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -129,12 +128,13 @@ class ProfilePage extends Component {
 
         this.setState({
             token: null,
-            user_pic: null,
+            user_pic: "",
             provider: null
         });
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userImage");
         sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
@@ -147,15 +147,18 @@ class ProfilePage extends Component {
         // get the user social data from session
         if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-
             this.setState({
                 provider: userData.provider
             });
         }
 
         // when the token can be found from session, get the user data
-        if (sessionStorage.getItem("userToken")) {
+        if (sessionStorage.getItem("userToken")
+            && sessionStorage.getItem("userSocialData")
+            && sessionStorage.getItem("userImage")) {
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+            let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
+            let userImage = JSON.parse(sessionStorage.getItem("userImage"));
             this.setState({
                 token: tokenData.token
             });
@@ -200,9 +203,19 @@ class ProfilePage extends Component {
                 }
 
                 setState({
-                    email: response.data.email,
-                    user_pic: this.state.webServer + response.data.portrait
+                    email: response.data.email
                 });
+
+                if(userData.provider !== "email"){
+                    setState({
+                        user_pic: userImage.provider_pic
+                    });
+                }
+                else if (response.data.portrait != null) {
+                    setState({
+                        user_pic: this.state.webServer + response.data.portrait
+                    });
+                }
 
                 if (response.data.gender != null) {
                     setState({gender: response.data.gender});
@@ -271,11 +284,10 @@ class ProfilePage extends Component {
             disabilityDetailValue = null;
         }
 
-        //TODO: should also send portrait to the backend
-
+        //send portrait to the backend
         const formData = new FormData();
         //console.log(this.state.file);
-        formData.append('file',this.state.file);
+        formData.append('file', this.state.file);
 
         axios({
             method: 'put',
@@ -287,32 +299,28 @@ class ProfilePage extends Component {
             response => {
                 console.log("change portrait success");
 
-                //TODO: divide picture from userSocialData to gain it independently
-                // save picture into session
-                // let userSocialData;
-                // userSocialData = {
-                //
-                //     provider_pic: response.data.filePath
-                // };
-                // sessionStorage.setItem(
-                //     "userSocialData",
-                //     JSON.stringify(userSocialData)
-                // );
-                //
-                // //save token into cookie
-                // const {cookies} = this.props;
-                //
-                // //only when user click "remember me", update the token in cookies
-                // if (cookies.get("access-token")) {
-                //     let date = new Date();
-                //     date.setTime(date.getTime() + +2592000);
-                //     cookies.set("user-pic", response.data.filePath, {
-                //         expires: date,
-                //         path: "/"
-                //     });
-                // }
+                //save picture into session
+                let userImage;
+                userImage = {
+                    provider_pic: this.state.webServer + response.data.portrait
+                };
+                sessionStorage.setItem(
+                    "userImage",
+                    JSON.stringify(userImage)
+                );
+                //save picture into cookie
+                const {cookies} = this.props;
+
+                //only when user click "remember me", update the token in cookies
+                if (cookies.get("access-token")) {
+                    let date = new Date();
+                    date.setTime(date.getTime() + +2592000);
+                    cookies.set("user-pic", this.state.webServer + response.data.portrait, {
+                        expires: date,
+                        path: "/"
+                    });
+                }
                 console.log(response.data.portrait);
-                //TODO: to be changed
                 this.setState({
                     user_pic: this.state.webServer + response.data.portrait
                 });
@@ -342,7 +350,6 @@ class ProfilePage extends Component {
             Postcode: document.getElementById("postcode").value,
             IsProfileComplete: true
         };
-
 
         // update the user profile data in the database
         await axios.put("http://127.0.0.1:3333/api/user-profile", data).then(
@@ -893,7 +900,7 @@ class ProfilePage extends Component {
                             linkTo="/profile"
                             onHandleClose={() => {
                                 this.setState({isShow: false});
-                                //window.location.reload();
+                                window.location.reload();
                             }}
                         />
                     ) : (

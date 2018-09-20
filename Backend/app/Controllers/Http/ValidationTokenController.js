@@ -346,9 +346,8 @@ class ValidationTokenController {
       //console.log("token valid");
 
       const requestData = request.all();
-
+      //console.log(requestData);
       const token = requestData.token;
-
       const dbMemberID = await Database.table('validation_tokens')
         .where("Token", token).select('MemberID');
 

@@ -36,13 +36,11 @@ class FirstPage extends Component {
       const reader = new FileReader();
       const file = e.target.files[0];
 
-      console.log(e.target.result);
-
       //console.log(file)
       reader.addEventListener(
         "load",
         () => {
-          console.log(reader.result);
+          //console.log(reader.result);
           this.setState({
             userPic: reader.result,
             file: file
@@ -86,7 +84,6 @@ class FirstPage extends Component {
     this.setState(state);
   };
 
-  //TODO: send image file to the backend
   storeInfo() {
     const userPic = this.state.userPic;
     const file = this.state.file;
@@ -112,7 +109,7 @@ class FirstPage extends Component {
       //console.log(this.props.firstName);
       let readOnly;
       let disabled;
-      if (this.props.firstName !== null) {
+      if (this.props.firstName !== "") {
           readOnly = true;
           disabled = true;
       } else {

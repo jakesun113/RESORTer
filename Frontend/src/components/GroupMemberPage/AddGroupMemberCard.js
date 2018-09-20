@@ -78,10 +78,13 @@ class AddGroupMemberCard extends Component {
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userImage");
+        sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-provider");
         cookies.remove("user-pic");
+        cookies.remove("user-profileFinished");
     };
 
     validator = () => {

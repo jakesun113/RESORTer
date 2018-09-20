@@ -243,7 +243,7 @@ class MemberController {
 
         const token = requestData.token;
 
-        console.log(token);
+        //console.log(token);
         const dbToken = await Token.findBy("Token", token);
 
         const member = await Member.findBy('id', dbToken.MemberID);
@@ -349,24 +349,18 @@ class MemberController {
       types: ['image'],
       size: '15mb'
     });
-
     //console.log(profilePic);
 
     const token = request.params.token;
     const dbToken = await Token.findBy("Token", token);
-
     const fileType = profilePic.subtype;
     //console.log(fileType);
-
     let fileName = dbToken.MemberID + "-portrait." + fileType;
     //console.log(fileName);
-
     const uploadPath = Helpers.publicPath(imagePath);
-
     let filePath = uploadPath + "\\"  + fileName;
     //console.log(filePath);
-
-    //console.log(await fs.pathExists(originFile));
+    //console.log(await fs.pathExists(filePath));
 
     //if path already exist, remove original file
     if (await fs.pathExists(filePath)) {
@@ -378,7 +372,6 @@ class MemberController {
     await profilePic.move(uploadPath,{
       name: fileName
     });
-    //
 
     if (!profilePic.moved()) {
       console.log("something is wrong");
@@ -389,7 +382,7 @@ class MemberController {
     member.Portrait = fileName;
     await member.save();
 
-    console.log("success saved");
+    console.log("change image success");
 
     return JSON.stringify({
       portrait: fileName,

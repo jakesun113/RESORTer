@@ -30,34 +30,36 @@ class NewUserProfilePage extends Component {
             currentPage: "page_1",
             progress: "0%",
             file: null,
-            firstName: null,
-            lastName: null,
-            gender: null,
-            dob: null,
-            phoneNumberPre: null,
-            phoneNumber: null,
-            country: null,
-            postcode: null,
+            firstName: "",
+            lastName: "",
+            gender: "",
+            dob: "",
+            phoneNumberPre: "",
+            phoneNumber: "",
+            country: "",
+            postcode: "",
             skiAbility: 1,
             snowboardAbility: 1,
             telemarkAbility: 1,
             snowbikeAbility: 1,
             snowmobileAbility: 1,
             snowshoeAbility: 1,
-            hasDisability: null,
-            disabilityMembership: null,
-            disabilityMemberid: null,
-            disabilityDetail: null,
-            user_pic:
-                "https://static.wixstatic.com/media/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png/v1/fill/w_96,h_96,al_c,usm_0.66_1.00_0.01/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png"
+            hasDisability: "",
+            disabilityMembership: "",
+            disabilityMemberId: "",
+            disabilityDetail: "",
+            webServer: "http://127.0.0.1:8889/",
+            user_pic: cookies.get("user-pic") || ""
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
+        if (this.state.token === null && sessionStorage.getItem("userSocialData")
+            && sessionStorage.getItem("userImage")) {
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
+            let userImage = JSON.parse(sessionStorage.getItem("userImage"));
             //if provider is not email, redirect to second page
             if(userData.provider !== "email")
             {
@@ -66,7 +68,7 @@ class NewUserProfilePage extends Component {
                     firstName: name[0],
                     lastName: name[1],
                     provider: userData.provider,
-                    user_pic: userData.provider_pic,
+                    user_pic: userImage.provider_pic,
                     currentPage: "page_2",
                     progress: "25%"
                 });
@@ -91,12 +93,13 @@ class NewUserProfilePage extends Component {
 
         this.setState({
             token: null,
-            user_pic: null,
+            user_pic: "",
             provider: null
         });
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userImage");
         sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
@@ -118,16 +121,58 @@ class NewUserProfilePage extends Component {
 
     async handleSubmit(e) {
         e.preventDefault();
+        //console.log(this.state.user_pic);
+        //console.log(this.state.file);
 
-        console.log(this.state.user_pic);
-        console.log(this.state.file);
+        //send portrait to the backend
+        const formData = new FormData();
+        //console.log(this.state.file);
+        formData.append('file', this.state.file);
+
+        axios({
+            method: 'put',
+            headers: {'content-type': 'multipart/form-data'},
+            url: "http://127.0.0.1:3333/api/user-image/" + this.state.token,
+            data: formData
+        }).then(
+            /*Proceed subsequent actions based on value */
+            response => {
+                console.log("change portrait success");
+
+                //save picture into session
+                let userImage;
+                userImage = {
+                    provider_pic: this.state.webServer + response.data.portrait
+                };
+                sessionStorage.setItem(
+                    "userImage",
+                    JSON.stringify(userImage)
+                );
+                //save picture into cookie
+                const {cookies} = this.props;
+
+                //only when user click "remember me", update the token in cookies
+                if (cookies.get("access-token")) {
+                    let date = new Date();
+                    date.setTime(date.getTime() + +2592000);
+                    cookies.set("user-pic", this.state.webServer + response.data.portrait, {
+                        expires: date,
+                        path: "/"
+                    });
+                }
+                //console.log(response.data.portrait);
+                this.setState({
+                    user_pic: this.state.webServer + response.data.portrait
+                });
+            }
+        );
+
         let postData;
         postData = {
             token: this.state.token,
             provider: this.state.provider,
             FirstName: this.state.firstName,
             LastName: this.state.lastName,
-            //TODO: send image file to the backend
             Gender: this.state.gender,
             DOB: moment(this.state.dob).format("YYYY-MM-DD"),
             PhoneAreaCode: this.state.phoneNumberPre,
@@ -142,7 +187,7 @@ class NewUserProfilePage extends Component {
             SnowshoeAbility: this.state.snowshoeAbility,
             IsDisabled: this.state.hasDisability === "yes",
             DisabilityMembership: this.state.disabilityMembership,
-            DisabilityMembershipID: this.state.disabilityMemberid,
+            DisabilityMembershipID: this.state.disabilityMemberId,
             DisabilityDetail: this.state.disabilityDetail,
             IsProfileComplete: true
         };
@@ -163,9 +208,7 @@ class NewUserProfilePage extends Component {
                     let userSocialData;
                     userSocialData = {
                         name: response.data.name,
-                        provider: this.state.provider,
-                        //TODO: to be changed
-                        provider_pic: this.state.user_pic
+                        provider: this.state.provider
                     };
                     sessionStorage.setItem(
                         "userSocialData",
@@ -206,11 +249,6 @@ class NewUserProfilePage extends Component {
                             path: "/"
                         });
                         cookies.set("user-provider", "email", {
-                            expires: date,
-                            path: "/"
-                        });
-                        //TODO: to be changed
-                        cookies.set("user-pic", this.state.user_pic, {
                             expires: date,
                             path: "/"
                         });
@@ -382,7 +420,7 @@ class NewUserProfilePage extends Component {
                             onChangeState={this.handleSetState}
                             hasDisability={this.state.hasDisability}
                             disabilityMembership={this.state.disabilityMembership}
-                            disabilityMemberid={this.state.disabilityMemberid}
+                            disabilityMemberid={this.state.disabilityMemberId}
                             disabilityDetail={this.state.disabilityDetail}
                             onHandleTriggerSubmit={() => {
                                 document
@@ -427,29 +465,29 @@ class NewUserProfilePage extends Component {
                     ""
                 )}
                 <form style={{display: "none"}} onSubmit={this.handleSubmit}>
-                    <input value={this.state.user_pic}/>
-                    <input value={this.state.firstName}/>
-                    <input value={this.state.lastName}/>
-                    <input value={this.state.gender}/>
+                    <input value={this.state.user_pic} readOnly/>
+                    <input value={this.state.firstName} readOnly/>
+                    <input value={this.state.lastName} readOnly/>
+                    <input value={this.state.gender} readOnly/>
 
-                    <input value={moment(this.state.dob).format("YYYY-MM-DD")}/>
-                    <input value={this.state.phoneNumberPre}/>
-                    <input value={this.state.phoneNumber}/>
-                    <input value={this.state.country}/>
+                    <input value={moment(this.state.dob).format("YYYY-MM-DD")} readOnly/>
+                    <input value={this.state.phoneNumberPre} readOnly/>
+                    <input value={this.state.phoneNumber} readOnly/>
+                    <input value={this.state.country} readOnly/>
 
-                    <input value={this.state.postcode}/>
-                    <input value={this.state.skiAbility}/>
-                    <input value={this.state.snowboardAbility}/>
-                    <input value={this.state.telemarkAbility}/>
+                    <input value={this.state.postcode} readOnly/>
+                    <input value={this.state.skiAbility} readOnly/>
+                    <input value={this.state.snowboardAbility} readOnly/>
+                    <input value={this.state.telemarkAbility} readOnly/>
 
-                    <input value={this.state.snowbikeAbility}/>
-                    <input value={this.state.snowmobileAbility}/>
-                    <input value={this.state.snowshoeAbility}/>
-                    <input value={this.state.hasDisability}/>
+                    <input value={this.state.snowbikeAbility} readOnly/>
+                    <input value={this.state.snowmobileAbility} readOnly/>
+                    <input value={this.state.snowshoeAbility} readOnly/>
+                    <input value={this.state.hasDisability} readOnly/>
 
-                    <input value={this.state.disabilityMembership}/>
-                    <input value={this.state.disabilityMemberid}/>
-                    <input value={this.state.disabilityDetail}/>
+                    <input value={this.state.disabilityMembership} readOnly/>
+                    <input value={this.state.disabilityMemberId} readOnly/>
+                    <input value={this.state.disabilityDetail} readOnly/>
                     <button type="submit" id="user_profile_signup_form_submit"/>
                 </form>
             </React.Fragment>
