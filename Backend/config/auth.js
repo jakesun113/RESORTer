@@ -4,8 +4,8 @@ const Env = use('Env');
 // length (seconds) that token is valid for
 //86400 seconds = 24 hours
 
-const SECONDS_VALID = 30;
-//const SECONDS_VALID = 86400;
+//const SECONDS_VALID = 30;
+const SECONDS_VALID = 86400;
 
 module.exports = {
   /*

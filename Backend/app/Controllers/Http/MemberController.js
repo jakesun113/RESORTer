@@ -53,10 +53,10 @@ class MemberController {
         return JSON.stringify({
           registerEmail: requestData.registerEmail,
           status: "success",
-          reason:"success register"
+          reason: "success register"
         });
 
-      }else{
+      } else {
 
         return JSON.stringify({
           registerEmail: requestData.registerEmail,
@@ -116,7 +116,7 @@ class MemberController {
   }
 
   //Sending Confirmation Email
-  async sendConfirmationEmail(userEmail, token, id){
+  async sendConfirmationEmail(userEmail, token, id) {
 
     try {
       const mailData = {
@@ -160,11 +160,11 @@ class MemberController {
 
         member = await Member.findBy("Email", request.input("email"));
 
-      }else if('id' in request.all()) {
+      } else if ('id' in request.all()) {
 
         member = await Member.findBy("id", request.input("id"));
 
-      }else{
+      } else {
 
         return JSON.stringify({
           status: "fail",
@@ -230,12 +230,7 @@ class MemberController {
   // Update user information and store them into the database
   async editProfile({request, auth}) {
 
-    // const profilePic = request.file('Portrait', {
-    //   types: ['image'],
-    //   size: '15mb'
-    // });
-
-    // console.log(profilePic);
+    console.log("in edit");
     const requestData = request.all();
 
     //console.log(requestData)
@@ -244,7 +239,7 @@ class MemberController {
 
       try {
         const isTokenValid = await auth.check();
-        console.log(isTokenValid);
+        //console.log(isTokenValid);
 
         const token = requestData.token;
         const dbToken = await Token.findBy("Token", token);
@@ -283,7 +278,7 @@ class MemberController {
         await member.save();
 
         //console.log(member);
-        console.log("success saved");
+        //console.log("success saved");
 
         const userName = requestData.FirstName + " " + requestData.LastName;
         //console.log(userName);
@@ -344,6 +339,42 @@ class MemberController {
         tokenValid: true
       });
     }
+
+  }
+
+   updateImage({request}) {
+
+    console.log("in image");
+    console.log(request.all());
+    // const profilePic = request.file('picture', {
+    //   types: ['image'],
+    //   size: '15mb'
+    // });
+    //
+    // console.log(profilePic);
+    //
+    // const fileName = `${new Date().getTime()}.${profilePic.extension()}`;
+    // yield profilePic.move(Helpers.storagePath(), fileName);
+    //
+    // if (!profilePic.moved()) {
+    //   console.log("something is wrong");
+    //   return
+    // }
+    //
+    // const token = request.param('token');
+    // const dbToken = Token.findBy("Token", token);
+    //
+    // const member = Member.findBy('id', dbToken.MemberID);
+    // member.Portrait = profilePic.uploadPath();
+    // yield member.save();
+    //
+    // //console.log(member);
+    // console.log("success saved");
+    //
+    //
+    // return JSON.stringify({
+    //   isSuccess: true,
+    // })
 
   }
 

@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 // css
 
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import styled from "styled-components";
 
 const StyleCardBackgroundTop = styled.div`
@@ -32,102 +32,101 @@ const StyleUserPic = styled.div`
 `;
 
 class ProfileCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  handleLogout = () => {
-    this.props.onLogout();
-  };
-
-  //if the token is invalid, remove from session and cookie to refresh navBar
-  handleInvalid = () => {
-    if (!this.props.tokenValid) {
-      this.props.onLogout();
+    constructor(props) {
+        super(props);
+        this.state = {};
     }
-  };
 
-  const;
+    handleLogout = () => {
+        this.props.onLogout();
+    };
 
-  render() {
-    return (
-      <React.Fragment>
-        <StyleCardBackgroundTop />
-        <StyleUserPic
-          style={{
-            backgroundImage: "url(" + this.props.userPic + ")"
-          }}
-        />
-        <StyleCardBackgroundBottom />
-        {/* user name */}
-        <div
-          style={{
-            textAlign: "center",
-            color: "black !important"
-          }}
-        >
-          {this.props.userName}
-        </div>
-        <br />
-        {/* btn */}
-        {this.props.isProfileComplete === 0 ? (
-          <Link
-            className="dropdown-item"
-            to={{
-              pathname: "/newProfile",
-              state: {
-                lastValid: this.props.tokenValid
-              }
-            }}
-            onClick={this.handleInvalid}
-          >
-            My Profile
-          </Link>
-        ) : (
-          <Link
-            className="dropdown-item"
-            to={{
-              pathname: "/profile",
-              state: {
-                lastValid: this.props.tokenValid
-              }
-            }}
-            onClick={this.handleInvalid}
-          >
-            My Profile
-          </Link>
-        )}
-        <div className="dropdown-divider" />
-        <Link
-          className="dropdown-item"
-          to={{
-            pathname: "/group-member",
-            state: { lastValid: this.props.tokenValid }
-          }}
-          onClick={this.handleInvalid}
-        >
-          My Group Members
-        </Link>
-        <div className="dropdown-divider" />
-        <Link
-          className="dropdown-item"
-          to={{
-            pathname: "/change-password",
-            state: { lastValid: this.props.tokenValid }
-          }}
-          onClick={this.handleInvalid}
-        >
-          Change Password
-        </Link>
-        <div className="dropdown-divider" />
-        <a className="dropdown-item" href="/" onClick={this.handleLogout}>
-          Log Out
-        </a>
-        {/* </div> */}
-      </React.Fragment>
-    );
-  }
+    //if the token is invalid, remove from session and cookie to refresh navBar
+    handleInvalid = () => {
+        if (!this.props.tokenValid) {
+            this.props.onLogout();
+        }
+    };
+
+
+    render() {
+        return (
+            <React.Fragment>
+                <StyleCardBackgroundTop/>
+                <StyleUserPic
+                    style={{
+                        backgroundImage: "url(" + this.props.userPic + ")"
+                    }}
+                />
+                <StyleCardBackgroundBottom/>
+                {/* user name */}
+                <div
+                    style={{
+                        textAlign: "center",
+                        color: "black !important"
+                    }}
+                >
+                    {this.props.userName}
+                </div>
+                <br/>
+                {/* btn */}
+                {this.props.isProfileComplete === 0 ? (
+                    <Link
+                        className="dropdown-item"
+                        to={{
+                            pathname: "/newProfile",
+                            state: {
+                                lastValid: this.props.tokenValid
+                            }
+                        }}
+                        onClick={this.handleInvalid}
+                    >
+                        My Profile
+                    </Link>
+                ) : (
+                    <Link
+                        className="dropdown-item"
+                        to={{
+                            pathname: "/profile",
+                            state: {
+                                lastValid: this.props.tokenValid
+                            }
+                        }}
+                        onClick={this.handleInvalid}
+                    >
+                        My Profile
+                    </Link>
+                )}
+                <div className="dropdown-divider"/>
+                <Link
+                    className="dropdown-item"
+                    to={{
+                        pathname: "/group-member",
+                        state: {lastValid: this.props.tokenValid}
+                    }}
+                    onClick={this.handleInvalid}
+                >
+                    My Group Members
+                </Link>
+                <div className="dropdown-divider"/>
+                <Link
+                    className="dropdown-item"
+                    to={{
+                        pathname: "/change-password",
+                        state: {lastValid: this.props.tokenValid}
+                    }}
+                    onClick={this.handleInvalid}
+                >
+                    Change Password
+                </Link>
+                <div className="dropdown-divider"/>
+                <a className="dropdown-item" href="/" onClick={this.handleLogout}>
+                    Log Out
+                </a>
+                {/* </div> */}
+            </React.Fragment>
+        );
+    }
 }
 
 export default ProfileCard;

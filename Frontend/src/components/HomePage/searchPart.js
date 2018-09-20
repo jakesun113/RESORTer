@@ -94,11 +94,11 @@ class Search extends Component {
             });
     }
 
-    //TODO: Send HTTP request to backEnd to start a book
     async handleBook(){
 
         //only handle login with email user
-        if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider == 'email') {
+        if (sessionStorage.getItem('userSocialData') &&
+            JSON.parse(sessionStorage.getItem('userSocialData')).provider === 'email') {
             let BaseURL = "http://127.0.0.1:3333/api/";
             let postData;
             postData = {
@@ -163,7 +163,8 @@ class Search extends Component {
             });
         }
         //facebook&google login
-        else if(sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider != 'email'){
+        else if(sessionStorage.getItem('userSocialData') &&
+            JSON.parse(sessionStorage.getItem('userSocialData')).provider !== 'email'){
                 //Jump into book page
                 let postData = new Object();
                 postData.resortName = this.state.selectedCountryResorts;
@@ -185,16 +186,6 @@ class Search extends Component {
                 pathname: '/login'
                 })
         }
-    };
-
-    handleLogout = () => {
-        const {cookies} = this.props;
-
-        sessionStorage.removeItem("userSocialData");
-        sessionStorage.removeItem("userToken");
-        cookies.remove("user-name");
-        cookies.remove("access-token");
-        cookies.remove("user-pic");
     };
 
     render() {

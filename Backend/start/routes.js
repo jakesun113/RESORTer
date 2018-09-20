@@ -29,6 +29,8 @@ Route.post("/api/resendConfirmEmail", "MemberController.resendConfirmEmail");
 Route.get("/api/user-profile/:token", "MemberController.showProfile");
 Route.put("/api/user-profile", "MemberController.editProfile");
 
+//update image
+Route.put("/api/user-image/:token", "MemberController.updateImage");
 //forget password
 Route.post("/api/forgot-password", "MemberController.sendResetLinkEmail");
 
