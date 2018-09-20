@@ -13,7 +13,7 @@
 | React Facebook Login | npm install react-facebook-login -- save | import FacebookLogin from 'react-facebook-login';|
 | react-cookie | npm install react-cookie -- save | import { withCookies, Cookies } from 'react-cookie';|
 | prop-types | npm install prop-types -- save | import { instanceOf } from 'prop-types';|
-
+| fs-extra | npm install fs-extra -- save | const fs = require('fs-extra');|
 # Merge Private Branch to "Dev" Branch
 - Go to private branch: __git checkout "You Branch Name"__ 
 - Commit:               __git commit -m "COMMENTS"__
