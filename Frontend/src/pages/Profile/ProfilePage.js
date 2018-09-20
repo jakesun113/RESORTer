@@ -107,7 +107,51 @@ class ProfilePage extends Component {
             reader.addEventListener(
                 "load",
                 () => {
-                    console.log(reader.result);
+                    //console.log(reader.result);
+                    //TODO: should also send portrait to the backend
+                    const image = {
+                        picture: reader.result,
+                    };
+
+                    console.log(image);
+
+                    axios.put("http://127.0.0.1:3333/api/user-image/" + this.state.token, image).then(
+                        /*Proceed subsequent actions based on value */
+                        response => {
+                            console.log("change success");
+
+                            // //save token into session
+                            // let userSocialData;
+                            // userSocialData = {
+                            //     //TODO: to be changed
+                            //     provider_pic: this.state.user_pic
+                            // };
+                            // sessionStorage.setItem(
+                            //     "userSocialData",
+                            //     JSON.stringify(userSocialData)
+                            // );
+                            //
+                            //
+                            // //save token into cookie
+                            // const {cookies} = this.props;
+                            //
+                            // //only when user click "remember me", update the token in cookies
+                            // if (cookies.get("access-token")) {
+                            //     let date = new Date();
+                            //     date.setTime(date.getTime() + +2592000);
+                            //     //TODO: to be changed
+                            //     cookies.set("user-pic", this.state.user_pic, {
+                            //         expires: date,
+                            //         path: "/"
+                            //     });
+                            // }
+                            //
+                            // //TODO: to be changed
+                            // this.setState({
+                            //     isSuccess: response.data.isSuccess
+                            // });
+                        }
+                    );
                     this.setState({
                         user_pic: reader.result,
                         file: file
@@ -162,7 +206,7 @@ class ProfilePage extends Component {
             const setState = this.setState.bind(this);
             let url =
                 "http://127.0.0.1:3333/api/user-profile/" +
-                JSON.parse(sessionStorage.getItem("userToken")).token;
+                tokenData.token;
             //get the user data from database
             axios.get(url).then(response => {
                 console.log("get success");
@@ -267,7 +311,6 @@ class ProfilePage extends Component {
             disabilityDetailValue = null;
         }
 
-        //TODO: should also send portrait to the backend
         const data = {
             SkiAbility: document.getElementById("ski_ability").value,
             SnowboardAbility: document.getElementById("snowboard_ability").value,
