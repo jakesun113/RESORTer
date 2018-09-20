@@ -32,6 +32,7 @@ class GoogleLoginBtn extends Component {
                 provider_pic: res.w3.Paa
             };
 
+            //console.log(res.w3.Paa);
 
             await axios.post(BaseURL + type, postData).then(
                 /*Proceed subsequent actions based on value */

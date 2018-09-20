@@ -109,9 +109,10 @@ class FirstPage extends Component {
 
   render() {
 
+      //console.log(this.props.firstName);
       let readOnly;
       let disabled;
-      if (this.props.firstName !== "") {
+      if (this.props.firstName !== null) {
           readOnly = true;
           disabled = true;
       } else {

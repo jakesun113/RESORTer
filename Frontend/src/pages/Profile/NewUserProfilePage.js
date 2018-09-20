@@ -128,7 +128,6 @@ class NewUserProfilePage extends Component {
             FirstName: this.state.firstName,
             LastName: this.state.lastName,
             //TODO: send image file to the backend
-            Portrait: this.state.user_pic,
             Gender: this.state.gender,
             DOB: moment(this.state.dob).format("YYYY-MM-DD"),
             PhoneAreaCode: this.state.phoneNumberPre,

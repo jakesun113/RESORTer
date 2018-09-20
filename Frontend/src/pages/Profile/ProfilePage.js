@@ -47,7 +47,7 @@ class ProfilePage extends Component {
             isValidToken: true,
             isShow: false, //handle if the modal window need to show
             email: null,
-            portrait: null,
+            file: null,
             dob: moment().subtract(1, "days"),
             age: 0,
             gender: null,
@@ -68,6 +68,7 @@ class ProfilePage extends Component {
             disabilityMemberId: null,
             disabilityDetail: null,
             getFinished: false,
+            webServer: "http://127.0.0.1:8889/",
             user_pic:
                 "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/crop/x_7,y_0,w_1184,h_1184/fill/w_96,h_96,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
         };
@@ -77,7 +78,7 @@ class ProfilePage extends Component {
 
     // handle when date is selected
     dateChanged = (date, choice) => {
-        console.log("date changed");
+        //console.log("date changed");
         this.setState(
             {
                 [choice]: date,
@@ -108,50 +109,6 @@ class ProfilePage extends Component {
                 "load",
                 () => {
                     //console.log(reader.result);
-                    //TODO: should also send portrait to the backend
-                    const image = {
-                        picture: reader.result,
-                    };
-
-                    console.log(image);
-
-                    axios.put("http://127.0.0.1:3333/api/user-image/" + this.state.token, image).then(
-                        /*Proceed subsequent actions based on value */
-                        response => {
-                            console.log("change success");
-
-                            // //save token into session
-                            // let userSocialData;
-                            // userSocialData = {
-                            //     //TODO: to be changed
-                            //     provider_pic: this.state.user_pic
-                            // };
-                            // sessionStorage.setItem(
-                            //     "userSocialData",
-                            //     JSON.stringify(userSocialData)
-                            // );
-                            //
-                            //
-                            // //save token into cookie
-                            // const {cookies} = this.props;
-                            //
-                            // //only when user click "remember me", update the token in cookies
-                            // if (cookies.get("access-token")) {
-                            //     let date = new Date();
-                            //     date.setTime(date.getTime() + +2592000);
-                            //     //TODO: to be changed
-                            //     cookies.set("user-pic", this.state.user_pic, {
-                            //         expires: date,
-                            //         path: "/"
-                            //     });
-                            // }
-                            //
-                            // //TODO: to be changed
-                            // this.setState({
-                            //     isSuccess: response.data.isSuccess
-                            // });
-                        }
-                    );
                     this.setState({
                         user_pic: reader.result,
                         file: file
@@ -242,7 +199,10 @@ class ProfilePage extends Component {
                     //setState({isDisabled: response.data.isDisabled});
                 }
 
-                setState({email: response.data.email});
+                setState({
+                    email: response.data.email,
+                    user_pic: this.state.webServer + response.data.portrait
+                });
 
                 if (response.data.gender != null) {
                     setState({gender: response.data.gender});
@@ -311,6 +271,54 @@ class ProfilePage extends Component {
             disabilityDetailValue = null;
         }
 
+        //TODO: should also send portrait to the backend
+
+        const formData = new FormData();
+        //console.log(this.state.file);
+        formData.append('file',this.state.file);
+
+        axios({
+            method: 'put',
+            headers: {'content-type': 'multipart/form-data'},
+            url: "http://127.0.0.1:3333/api/user-image/" + this.state.token,
+            data: formData
+        }).then(
+            /*Proceed subsequent actions based on value */
+            response => {
+                console.log("change portrait success");
+
+                //TODO: divide picture from userSocialData to gain it independently
+                // save picture into session
+                // let userSocialData;
+                // userSocialData = {
+                //
+                //     provider_pic: response.data.filePath
+                // };
+                // sessionStorage.setItem(
+                //     "userSocialData",
+                //     JSON.stringify(userSocialData)
+                // );
+                //
+                // //save token into cookie
+                // const {cookies} = this.props;
+                //
+                // //only when user click "remember me", update the token in cookies
+                // if (cookies.get("access-token")) {
+                //     let date = new Date();
+                //     date.setTime(date.getTime() + +2592000);
+                //     cookies.set("user-pic", response.data.filePath, {
+                //         expires: date,
+                //         path: "/"
+                //     });
+                // }
+                console.log(response.data.portrait);
+                //TODO: to be changed
+                this.setState({
+                    user_pic: this.state.webServer + response.data.portrait
+                });
+            }
+        );
+
         const data = {
             SkiAbility: document.getElementById("ski_ability").value,
             SnowboardAbility: document.getElementById("snowboard_ability").value,
@@ -353,9 +361,7 @@ class ProfilePage extends Component {
                     let userSocialData;
                     userSocialData = {
                         name: response.data.name,
-                        provider: this.state.provider,
-                        //TODO: to be changed
-                        provider_pic: this.state.user_pic
+                        provider: this.state.provider
                     };
                     sessionStorage.setItem(
                         "userSocialData",
@@ -396,11 +402,6 @@ class ProfilePage extends Component {
                             path: "/"
                         });
                         cookies.set("user-provider", "email", {
-                            expires: date,
-                            path: "/"
-                        });
-                        //TODO: to be changed
-                        cookies.set("user-pic", this.state.user_pic, {
                             expires: date,
                             path: "/"
                         });
@@ -892,7 +893,7 @@ class ProfilePage extends Component {
                             linkTo="/profile"
                             onHandleClose={() => {
                                 this.setState({isShow: false});
-                                window.location.reload();
+                                //window.location.reload();
                             }}
                         />
                     ) : (

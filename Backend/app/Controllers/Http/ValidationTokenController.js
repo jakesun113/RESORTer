@@ -129,7 +129,6 @@ class ValidationTokenController {
 
                 await token.save();
 
-                //FIXME: get image is wrong
                 return JSON.stringify({
                   emailExisted: true,
                   emailDuplicated: false,

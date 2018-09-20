@@ -5,6 +5,8 @@ const Token = use("App/Models/ValidationToken");
 const Mail = use("Mail");
 const Encryption = use('Encryption');
 const Helpers = use('Helpers');
+const fs = require('fs-extra');
+const imagePath = "UserPortrait";
 
 /**
  * Deal with Member table
@@ -154,7 +156,7 @@ class MemberController {
     try {
 
       let member;
-      console.log(request.all())
+      console.log(request.all());
       //Judge whether request contains Email or Id
       if ("email" in request.all()) {
 
@@ -187,7 +189,6 @@ class MemberController {
     }
   }
 
-  //FIXME: get image is wrong
   // Show the user information stored in database
   async showProfile({params}) {
     //token is valid
@@ -204,6 +205,7 @@ class MemberController {
         gender: member.Gender,
         firstName: member.Firstname,
         lastName: member.Lastname,
+        portrait: member.Portrait,
         phoneCode: member.PhoneAreaCode,
         phoneNumber: member.PhoneNumber,
         dob: member.DOB,
@@ -226,11 +228,9 @@ class MemberController {
     }
   }
 
-  //TODO: save image file to some folder
   // Update user information and store them into the database
   async editProfile({request, auth}) {
 
-    console.log("in edit");
     const requestData = request.all();
 
     //console.log(requestData)
@@ -242,6 +242,8 @@ class MemberController {
         //console.log(isTokenValid);
 
         const token = requestData.token;
+
+        console.log(token);
         const dbToken = await Token.findBy("Token", token);
 
         const member = await Member.findBy('id', dbToken.MemberID);
@@ -255,7 +257,6 @@ class MemberController {
         member.merge({
           FirstName: requestData.FirstName,
           LastName: requestData.LastName,
-          Portrait: requestData.Portrait,
           Gender: requestData.Gender,
           DOB: requestData.DOB,
           PhoneAreaCode: requestData.PhoneAreaCode,
@@ -342,39 +343,57 @@ class MemberController {
 
   }
 
-   updateImage({request}) {
+  async updateImage({request}) {
 
-    console.log("in image");
-    console.log(request.all());
-    // const profilePic = request.file('picture', {
-    //   types: ['image'],
-    //   size: '15mb'
-    // });
+    const profilePic = request.file('file', {
+      types: ['image'],
+      size: '15mb'
+    });
+
+    //console.log(profilePic);
+
+    const token = request.params.token;
+    const dbToken = await Token.findBy("Token", token);
+
+    const fileType = profilePic.subtype;
+    //console.log(fileType);
+
+    let fileName = dbToken.MemberID + "-portrait." + fileType;
+    //console.log(fileName);
+
+    const uploadPath = Helpers.publicPath(imagePath);
+
+    let filePath = uploadPath + "\\"  + fileName;
+    //console.log(filePath);
+
+    //console.log(await fs.pathExists(originFile));
+
+    //if path already exist, remove original file
+    if (await fs.pathExists(filePath)) {
+      console.log("image already exist");
+      await fs.remove(filePath);
+    }
+
+    //move the file to the path
+    await profilePic.move(uploadPath,{
+      name: fileName
+    });
     //
-    // console.log(profilePic);
-    //
-    // const fileName = `${new Date().getTime()}.${profilePic.extension()}`;
-    // yield profilePic.move(Helpers.storagePath(), fileName);
-    //
-    // if (!profilePic.moved()) {
-    //   console.log("something is wrong");
-    //   return
-    // }
-    //
-    // const token = request.param('token');
-    // const dbToken = Token.findBy("Token", token);
-    //
-    // const member = Member.findBy('id', dbToken.MemberID);
-    // member.Portrait = profilePic.uploadPath();
-    // yield member.save();
-    //
-    // //console.log(member);
-    // console.log("success saved");
-    //
-    //
-    // return JSON.stringify({
-    //   isSuccess: true,
-    // })
+
+    if (!profilePic.moved()) {
+      console.log("something is wrong");
+      return
+    }
+
+    const member = await Member.findBy('id', dbToken.MemberID);
+    member.Portrait = fileName;
+    await member.save();
+
+    console.log("success saved");
+
+    return JSON.stringify({
+      portrait: fileName,
+    })
 
   }
 

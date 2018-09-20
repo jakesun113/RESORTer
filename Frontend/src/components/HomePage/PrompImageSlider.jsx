@@ -9,7 +9,6 @@ const ImgStyle = {
   height: "650px",
   backgroundRepeat: "no-repeat",
   backgroundAttachment: "fixed",
-  backgroundRepeat: "no-repeat",
   backgroundSize: "cover",
   backgroundPosition: "center"
 };
@@ -117,19 +116,19 @@ class PrompImageSlider extends Component {
                     <div className="col-1" />
                     <div className="col-2" style={{ width: "auto" }}>
                       <p>
-                        <i class="fas fa-laptop" />
+                        <i className="fas fa-laptop" />
                       </p>
                       <br />
                       <p style={ImgTextStyle}>Plan your resort</p>
                       <p style={ImgTextStyle}>experience</p>
                     </div>
                     <div className="col-1">
-                      <i class="fas fa-arrow-circle-right" />
+                      <i className="fas fa-arrow-circle-right" />
                     </div>
                     {/* 2 */}
                     <div className="col-2" style={{ width: "auto" }}>
                       <p>
-                        <i class="fas fa-globe" />
+                        <i className="fas fa-globe" />
                       </p>
 
                       <br />
@@ -137,24 +136,24 @@ class PrompImageSlider extends Component {
                       <p style={ImgTextStyle}>availability</p>
                     </div>
                     <div className="col-1">
-                      <i class="fas fa-arrow-circle-right" />
+                      <i className="fas fa-arrow-circle-right" />
                     </div>
                     {/* 3 */}
                     <div className="col-2" style={{ width: "auto" }}>
                       <p>
-                        <i class="fas fa-user-alt" />
+                        <i className="fas fa-user-alt" />
                       </p>
                       <br />
                       <p style={ImgTextStyle}>...processes it</p>
                     </div>
                     <div className="col-1">
-                      <i class="fas fa-arrow-circle-right" />
+                      <i className="fas fa-arrow-circle-right" />
                     </div>
 
                     {/* 4 */}
                     <div className="col-2" style={{ width: "auto" }}>
                       <p>
-                        <i class="far fa-snowflake" />
+                        <i className="far fa-snowflake" />
                       </p>
                       <br />
                       <p style={ImgTextStyle}>...and you rest easy</p>
@@ -180,7 +179,7 @@ class PrompImageSlider extends Component {
           </div>
           <a
             className="carousel-control-prev"
-            href="#carouselExampleIndicators"
+            href="#"
             role="button"
             data-slide="prev"
           >
@@ -189,7 +188,7 @@ class PrompImageSlider extends Component {
           </a>
           <a
             className="carousel-control-next"
-            href="#carouselExampleIndicators"
+            href="#"
             role="button"
             data-slide="next"
           >

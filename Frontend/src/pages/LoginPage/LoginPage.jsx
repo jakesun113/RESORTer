@@ -26,6 +26,7 @@ class LoginPage extends Component {
             emailDuplicated: false,
             duplicatedProvider: null,
             authenticationFailed: false,
+            webServer: "http://127.0.0.1:8889/",
             user_pic:
                 "https://static.wixstatic.com/media/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png/v1/fill/w_96,h_96,al_c,usm_0.66_1.00_0.01/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png"
         };
@@ -135,18 +136,13 @@ class LoginPage extends Component {
                 }
                 //login success
                 else {
-                    //FIXME: get image is wrong
                     console.log("login success");
                     console.log(response.data.user_pic);
-                    var objurl = window.URL.createObjectURL(new Blob([response.data.user_pic]));
-                    console.log(objurl)
-                    let obj = objurl.replace('blob:', '');
-                    console.log(obj)
                     let userSocialData;
                     userSocialData = {
                         name: response.data.name,
                         provider: "email",
-                        provider_pic: obj
+                        provider_pic: this.state.webServer + response.data.fileName
                     };
                     sessionStorage.setItem(
                         "userSocialData",
@@ -165,7 +161,7 @@ class LoginPage extends Component {
                     sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
 
                     //TODO: check when not remember me
-                    console.log(this.state.rememberMe);
+                    //console.log(this.state.rememberMe);
                     //save token into cookie
                     if (this.state.rememberMe) {
                         let date = new Date();
