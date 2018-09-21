@@ -34,13 +34,13 @@
 
 # How to display different languages properly in the database
 - Set the Collation in MySQL as __"utf8_unicode_ci"__, 
-- at the database level, the table level, and the column level
+- at the table of __"resort_info"__, and the column of __"Name"__
 - Reference: 
 https://confluence.atlassian.com/confkb/how-to-fix-the-collation-and-character-set-of-a-mysql-database-670958160.html
 
 # How to load local file on Chrome
 - Download __Web Server for Chrome__,
 - url: https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb
-- Set folder as __"public/userPortrait"__
+- Set folder as __"Backend/public/userPortrait"__
 - Set port number as __"8889"__
 - Reference: https://stackoverflow.com/questions/39007243/cannot-open-local-file-chrome-not-allowed-to-load-local-resource
