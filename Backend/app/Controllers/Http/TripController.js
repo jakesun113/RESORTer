@@ -27,7 +27,7 @@ class TripController {
       await newTrip.save()
 
       let responseData = new Object();
-      responseData.status = 'success'
+      responseData.status = 'success';
       responseData.masterID = validationToken.MemberID;
       responseData.tripID = newTrip.id;
       responseData.resortID = resortInfo.id;
@@ -36,7 +36,7 @@ class TripController {
 
     } catch (err) {
 
-      response.send(JSON.stringify({status: 'fail'}))
+      response.send(JSON.stringify({status: 'fail'}));
       console.log(err)
 
     }
@@ -106,6 +106,40 @@ class TripController {
     response.send(JSON.stringify(ageInfo));
   }
 
+  //get most popular resorts ID from trip table
+  async getPopularResortID (){
+
+    //only return the resort ID whose trip is "done"
+    const resortIDs = await Database.table('trips')
+      .where({'IsTripDone': 1}).column('ResortID');
+    //console.log(resortIDs);
+
+    //array contains all the resorts ID
+    let resortArray = [];
+    for (let i = 0; i < resortIDs.length; i++) {
+      resortArray[i] = resortIDs[i].ResortID;
+    }
+    console.log(resortArray);
+
+    //object that each resort ID with its occurrence time
+    let counts = {};
+    for (let i = 0; i < resortArray.length; i++) {
+      let num = resortArray[i];
+      counts[num] = counts[num] ? counts[num] + 1 : 1;
+    }
+    console.log(counts);
+
+    //number that how many different resorts are booked
+    const resortNum = Object.keys(counts).length;
+    console.log(resortNum);
+
+    //array that sorts the resort by its occurring time
+    let popularResortArray = Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});
+    console.log(popularResortArray);
+
+    //TODO: based on the resorts ID, return corresponding resorts information
+  }
+
 }
 
-module.exports = TripController
+module.exports = TripController;

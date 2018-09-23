@@ -85,4 +85,6 @@ Route.post("/api/enrollTrip", "TripController.enrollNewTrip");
 // Get the age information of trip members (i.e. number of adults/children/toddlers)
 Route.get("/api/tripMemberAges/:tripID/:masterID", 'TripController.tripMemberAges');
 
+//get most popular resorts
+Route.get("/api/getPopularResorts", 'TripController.getPopularResortID');
 /*TripController end*/
