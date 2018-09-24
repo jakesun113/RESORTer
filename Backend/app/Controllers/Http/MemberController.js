@@ -239,7 +239,7 @@ class MemberController {
 
       try {
         const isTokenValid = await auth.check();
-        //console.log(isTokenValid);
+        console.log(isTokenValid);
 
         const token = requestData.token;
 
@@ -357,15 +357,17 @@ class MemberController {
     //console.log(fileType);
     let fileName = dbToken.MemberID + "-portrait." + fileType;
     //console.log(fileName);
+    let filePath =  imagePath + "\\"  + fileName;
     const uploadPath = Helpers.publicPath(imagePath);
-    let filePath = uploadPath + "\\"  + fileName;
-    //console.log(filePath);
-    //console.log(await fs.pathExists(filePath));
+    const existedFilePath = Helpers.publicPath(filePath);
+
+    //console.log(existedFilePath);
+    //console.log(await fs.pathExists(existedFilePath));
 
     //if path already exist, remove original file
-    if (await fs.pathExists(filePath)) {
+    if (await fs.pathExists(existedFilePath)) {
       console.log("image already exist");
-      await fs.remove(filePath);
+      await fs.remove(existedFilePath);
     }
 
     //move the file to the path
@@ -378,14 +380,15 @@ class MemberController {
       return
     }
 
+    const webFilePath = imagePath + "/"  + fileName;
     const member = await Member.findBy('id', dbToken.MemberID);
-    member.Portrait = fileName;
+    member.Portrait = webFilePath;
     await member.save();
 
     console.log("change image success");
 
     return JSON.stringify({
-      portrait: fileName,
+      portrait: webFilePath,
     })
 
   }

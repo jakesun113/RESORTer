@@ -86,5 +86,5 @@ Route.post("/api/enrollTrip", "TripController.enrollNewTrip");
 Route.get("/api/tripMemberAges/:tripID/:masterID", 'TripController.tripMemberAges');
 
 //get most popular resorts
-Route.get("/api/getPopularResorts", 'TripController.getPopularResortID');
+Route.get("/api/getPopularResorts", 'TripController.getPopularResorts');
 /*TripController end*/

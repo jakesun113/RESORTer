@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 const Database = use('Database');
 const Trip = use('App/Models/Trip');
 const ResortInfo = use('App/Models/ResortInfo');
@@ -8,6 +8,7 @@ const moment = use('moment');
 /**
 
  */
+//TODO: write fake trip data into database
 class TripController {
 
   /*
@@ -106,9 +107,9 @@ class TripController {
     response.send(JSON.stringify(ageInfo));
   }
 
-  //get most popular resorts ID from trip table
-  async getPopularResortID (){
+  async getPopularResorts() {
 
+    //first, get most popular resorts ID from trip table
     //only return the resort ID whose trip is "done"
     const resortIDs = await Database.table('trips')
       .where({'IsTripDone': 1}).column('ResortID');
@@ -134,10 +135,33 @@ class TripController {
     console.log(resortNum);
 
     //array that sorts the resort by its occurring time
-    let popularResortArray = Object.keys(counts).sort(function(a,b){return counts[b]-counts[a]});
+    let popularResortArray = Object.keys(counts).sort(function (a, b) {
+      return counts[b] - counts[a]
+    });
     console.log(popularResortArray);
 
-    //TODO: based on the resorts ID, return corresponding resorts information
+    //then, based on the resorts ID, return corresponding resorts information
+    let resortInfoArray = [];
+    for (let i = 0; i < popularResortArray.length; i++) {
+      let resortID = popularResortArray[i];
+
+      let resortInfo = {};
+      const resort = await ResortInfo.findBy('id', resortID);
+      resortInfo.id = resort.id;
+      resortInfo.image = resort.Image;
+      resortInfo.name = resort.Name;
+      resortInfo.country = resort.Country;
+      resortInfo.description = resort.Description;
+      //console.log(resortInfo);
+
+      resortInfoArray.push(resortInfo);
+    }
+
+    //console.log(resortInfoArray);
+
+    return JSON.stringify({
+      popularResorts: resortInfoArray,
+    })
   }
 
 }
