@@ -90,4 +90,7 @@ Route.get("/api/tripMemberAges/:tripID/:masterID", 'TripController.tripMemberAge
 
 //get most popular resorts
 Route.get("/api/getPopularResorts", 'TripController.getPopularResorts');
+
+//get user country, and return most popular resorts in that country
+Route.get("/api/getPopularResortsByCountry/:token", "TripController.getPopularResortsByCountry");
 /*TripController end*/

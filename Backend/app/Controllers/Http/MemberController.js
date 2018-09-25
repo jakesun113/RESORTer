@@ -357,7 +357,7 @@ class MemberController {
     //console.log(fileType);
     let fileName = dbToken.MemberID + "-portrait." + fileType;
     //console.log(fileName);
-    let filePath =  imagePath + "\\"  + fileName;
+    let filePath = imagePath + "\\" + fileName;
     const uploadPath = Helpers.publicPath(imagePath);
     const existedFilePath = Helpers.publicPath(filePath);
 
@@ -371,7 +371,7 @@ class MemberController {
     }
 
     //move the file to the path
-    await profilePic.move(uploadPath,{
+    await profilePic.move(uploadPath, {
       name: fileName
     });
 
@@ -380,7 +380,7 @@ class MemberController {
       return
     }
 
-    const webFilePath = imagePath + "/"  + fileName;
+    const webFilePath = imagePath + "/" + fileName;
     const member = await Member.findBy('id', dbToken.MemberID);
     member.Portrait = webFilePath;
     await member.save();

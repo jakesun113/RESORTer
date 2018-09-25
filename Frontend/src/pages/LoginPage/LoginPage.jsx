@@ -198,7 +198,7 @@ class LoginPage extends Component {
                             expires: date,
                             path: "/"
                         });
-                        cookies.set("user-pic", this.state.webServer + response.data.portrait, {
+                        cookies.set("user-pic", this.state.webServer + response.data.user_pic, {
                             expires: date,
                             path: "/"
                         });
