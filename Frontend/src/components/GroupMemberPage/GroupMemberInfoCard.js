@@ -191,6 +191,7 @@ class GroupMemberInfoCard extends Component {
                         <div className="col-4 col-lg-2">
                             <img
                                 id="user_pic"
+                                alt="groupMember"
                                 style={{
                                     display: "table",
                                     margin: "0 auto",

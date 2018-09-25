@@ -133,7 +133,7 @@ class BookingActivity extends Component {
 
     handleAbilityChange = (id, abilityValue) => {
         const {members, currentMember} = this.state;
-        members[currentMember]['ability'][id] = parseInt(abilityValue);
+        members[currentMember]['ability'][id] = parseInt(abilityValue, 10);
         this.forceUpdate();
     };
 

@@ -70,7 +70,7 @@ class ImageCard extends Component {
                     }
 
                     //Jump into book page
-                    let postData = new Object();
+                    let postData = {};
                     postData.resortName = this.props.title;
                     postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
 
@@ -98,7 +98,7 @@ class ImageCard extends Component {
         else if (sessionStorage.getItem('userSocialData') &&
             JSON.parse(sessionStorage.getItem('userSocialData')).provider !== 'email') {
             //Jump into book page
-            let postData = new Object();
+            let postData = {};
             postData.resortName = this.props.title;
             postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
 

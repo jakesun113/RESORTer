@@ -228,22 +228,34 @@ class AddGroupMemberCard extends Component {
     handleSliderBarChange = (id, abilityValue) => {
         switch (id) {
             case "ski_ability":
-                this.state.skiAbility = parseInt(abilityValue);
+                this.setState({
+                    skiAbility: parseInt(abilityValue, 10)
+                });
                 break;
             case "snowboard_ability":
-                this.state.snowboardAbility = parseInt(abilityValue);
+                this.setState({
+                    snowboardAbility: parseInt(abilityValue, 10)
+                });
                 break;
             case "telemark_ability":
-                this.state.telemarkAbility = parseInt(abilityValue);
+                this.setState({
+                    telemarkAbility: parseInt(abilityValue, 10)
+                });
                 break;
             case "snowbike_ability":
-                this.state.snowbikeAbility = parseInt(abilityValue);
+                this.setState({
+                    snowbikeAbility: parseInt(abilityValue, 10)
+                });
                 break;
             case "snowmobile_ability":
-                this.state.snowmobileAbility = parseInt(abilityValue);
+                this.setState({
+                    snowmobileAbility: parseInt(abilityValue, 10)
+                });
                 break;
             case "snowshoe_ability":
-                this.state.snowshoeAbility = parseInt(abilityValue);
+                this.setState({
+                    snowshoeAbility: parseInt(abilityValue, 10)
+                });
                 break;
             default:
                 break;

@@ -141,7 +141,7 @@ class TripController {
       newTrip.IsTripDone = 0;
       await newTrip.save();
 
-      let responseData = new Object();
+      let responseData = {};
       responseData.status = 'success';
       responseData.masterID = validationToken.MemberID;
       responseData.tripID = newTrip.id;

@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import "../../css/Homepage/search.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ImageCard from "../template/ImageCard";
-import axios from "axios/index";
 
 class MostPopularInMyCountry extends Component {
 
@@ -23,9 +22,9 @@ class MostPopularInMyCountry extends Component {
 
                 <div className="row">
                     {this.state.popularResorts.map(resort => (
-                        <div className="col-sm">
+                        <div className="col-sm"
+                             key={resort.id}>
                             <ImageCard
-                                key={resort.id}
                                 imgSrc={this.state.webServer + resort.image}
                                 title={resort.name}
                                 subTitle={resort.country}
