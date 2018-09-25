@@ -4,12 +4,124 @@ const Trip = use('App/Models/Trip');
 const ResortInfo = use('App/Models/ResortInfo');
 const ValidationToken = use("App/Models/ValidationToken");
 const moment = use('moment');
+const topSix = 6;
 
 /**
 
  */
-//TODO: write fake trip data into database
+
 class TripController {
+
+  async addFakeTripData() {
+
+    //in Australia
+    const mtBullerNum = 1;
+    const ThredboNum = 2;
+    const PerisherNum = 3;
+    const MountHothamNum = 4;
+    const FallsCreekNum = 5;
+    //in New Zealand
+    const CoronetPeakNum = 6;
+    const CardronaNum = 7;
+    //in USA
+    const AspenSnowmassNum = 8;
+    const TellurideNum = 9;
+    //in Japan
+    const NisekoNum = 10;
+
+    console.log("Start adding fake trip data.");
+    //fake data for resort Mt.Buller
+    for (let i = 0; i < mtBullerNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 1;
+      trip.MasterMemberID = 2;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Thredbo
+    for (let i = 0; i < ThredboNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 429;
+      trip.MasterMemberID = 2;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Perisher
+    for (let i = 0; i < PerisherNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 1204;
+      trip.MasterMemberID = 2;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Mount Hotham
+    for (let i = 0; i < MountHothamNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 1516;
+      trip.MasterMemberID = 2;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Falls Creek
+    for (let i = 0; i < FallsCreekNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 2670;
+      trip.MasterMemberID = 2;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Coronet Peak
+    for (let i = 0; i < CoronetPeakNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 2886;
+      trip.MasterMemberID = 2;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Cardrona
+    for (let i = 0; i < CardronaNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 2893;
+      trip.MasterMemberID = 2;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Aspen Snowmass
+    for (let i = 0; i < AspenSnowmassNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 2;
+      trip.MasterMemberID = 2;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Telluride
+    for (let i = 0; i < TellurideNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 402;
+      trip.MasterMemberID = 2;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Niseko
+    for (let i = 0; i < NisekoNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 3;
+      trip.MasterMemberID = 2;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    console.log("Finish adding fake trip data.");
+  }
 
   /*
   REQUEST: {"resortName":"","token":""}
@@ -17,7 +129,7 @@ class TripController {
   async enrollNewTrip({request, response}) {
 
     try {
-      console.log(request.all())
+      console.log(request.all());
       const validationToken = await ValidationToken.findBy('Token', request.input('token'));
       const resortInfo = await ResortInfo.findBy('Name', request.input('resortName'));
 
@@ -25,7 +137,7 @@ class TripController {
       newTrip.ResortID = resortInfo.id;
       newTrip.MasterMemberID = validationToken.MemberID;
       newTrip.IsTripDone = 0;
-      await newTrip.save()
+      await newTrip.save();
 
       let responseData = new Object();
       responseData.status = 'success';
@@ -120,7 +232,7 @@ class TripController {
     for (let i = 0; i < resortIDs.length; i++) {
       resortArray[i] = resortIDs[i].ResortID;
     }
-    console.log(resortArray);
+    //console.log(resortArray);
 
     //object that each resort ID with its occurrence time
     let counts = {};
@@ -130,19 +242,16 @@ class TripController {
     }
     console.log(counts);
 
-    //number that how many different resorts are booked
-    const resortNum = Object.keys(counts).length;
-    console.log(resortNum);
-
     //array that sorts the resort by its occurring time
     let popularResortArray = Object.keys(counts).sort(function (a, b) {
       return counts[b] - counts[a]
     });
-    console.log(popularResortArray);
+    //console.log(popularResortArray);
 
+    let minNum = Math.min(topSix, popularResortArray.length);
     //then, based on the resorts ID, return corresponding resorts information
     let resortInfoArray = [];
-    for (let i = 0; i < popularResortArray.length; i++) {
+    for (let i = 0; i < minNum; i++) {
       let resortID = popularResortArray[i];
 
       let resortInfo = {};
@@ -160,7 +269,7 @@ class TripController {
     //console.log(resortInfoArray);
 
     return JSON.stringify({
-      popularResorts: resortInfoArray,
+      popularResorts: resortInfoArray
     })
   }
 

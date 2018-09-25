@@ -3,7 +3,7 @@ import "../../css/Homepage/search.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ImageCard from "../template/ImageCard";
 import axios from "axios/index";
-//TODO: add infinite scroll
+
 class MostPopular extends Component {
 
     constructor(props) {

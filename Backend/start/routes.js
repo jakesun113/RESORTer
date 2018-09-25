@@ -79,6 +79,9 @@ Route.post("/api/getResortsByLiftPass", "ResortInfoController.getResortsByLiftPa
 
 /*TripController start*/
 
+//insert fake trip data into the database
+Route.get("/addFakeTripData", "TripController.addFakeTripData");
+
 //Enroll a new trip
 Route.post("/api/enrollTrip", "TripController.enrollNewTrip");
 
