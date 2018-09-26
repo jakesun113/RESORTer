@@ -283,8 +283,8 @@ class Search extends Component {
                                 paddingBottom="8px"
                             />
                         ) : (
-                            <a //href={`/booking/${this.state.selectedLiftPassResorts}/who`}
-                                onClick={this.handleBook}
+                            <a href={`/booking/${this.state.selectedLiftPassResorts}/who`}
+                                // onClick={this.handleBook}
                             >
                             <SmallEllipseBtn
                                 text="Make a Quote"

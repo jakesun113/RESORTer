@@ -129,7 +129,7 @@ class ImageCard extends Component {
             })
         }
     };
-    
+
     handleLogout = () => {
         const {cookies} = this.props;
 
@@ -161,7 +161,7 @@ class ImageCard extends Component {
                         <div className="botton_right">
                             <a
                                 href={`/booking/${this.props.title}/who`}
-                                // className="btn btn-primary"
+                                className="btn btn-primary"
                                 // onMouseEnter={this.handleAuth}
                                 // onClick={this.handleBook}
                             >
