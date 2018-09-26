@@ -33,11 +33,12 @@ class FifthPage extends Component {
 
     this.props.onChangeState("hasDisability", hasDisability);
     this.props.onChangeState("disabilityMembership", disabilityMembership);
-    this.props.onChangeState("disabilityMemberid", disabilityMemberid);
+    this.props.onChangeState("disabilityMemberId", disabilityMemberid);
     this.props.onChangeState("disabilityDetail", disabilityDetail);
   }
   validator = () => {
     var isValid = true;
+    // has diability
     if (this.state.hasDisability === "yes") {
       var memberId = document.getElementById("disability_memberid");
       var detail = document.getElementById("disability_detail");
