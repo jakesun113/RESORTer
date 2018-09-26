@@ -40,7 +40,7 @@ class ResortInfoController {
         resort.WixID = resortArray[i].ID;
         resort.Owner = resortArray[i].Owner;
         resort.OwnerEmail = resortArray[i].Email;
-        if(imageArray[i].image !== null){
+        if(imageArray[i].image !== "NULL"){
           resort.Image = imageArray[i].image;
         }
         await resort.save();
