@@ -37,6 +37,14 @@ class MyTripPage extends Component {
               status="Submitted"
               price="$50"
             />
+            <BookHistoryCard
+              submitDate="26 July 2018, 2:35 pm"
+              resort="Sb Jiacheng"
+              startDate="30 July 2018"
+              endDate="10 August 2018"
+              status="Submitted"
+              price="$-50"
+            />
           </table>
 
           {/* end container */}
