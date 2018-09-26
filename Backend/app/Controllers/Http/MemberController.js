@@ -5,6 +5,8 @@ const Token = use("App/Models/ValidationToken");
 const Mail = use("Mail");
 const Encryption = use('Encryption');
 const Helpers = use('Helpers');
+const fs = require('fs-extra');
+const imagePath = "UserPortrait";
 
 /**
  * Deal with Member table
@@ -53,10 +55,10 @@ class MemberController {
         return JSON.stringify({
           registerEmail: requestData.registerEmail,
           status: "success",
-          reason:"success register"
+          reason: "success register"
         });
 
-      }else{
+      } else {
 
         return JSON.stringify({
           registerEmail: requestData.registerEmail,
@@ -116,7 +118,7 @@ class MemberController {
   }
 
   //Sending Confirmation Email
-  async sendConfirmationEmail(userEmail, token, id){
+  async sendConfirmationEmail(userEmail, token, id) {
 
     try {
       const mailData = {
@@ -154,17 +156,17 @@ class MemberController {
     try {
 
       let member;
-      console.log(request.all())
+      console.log(request.all());
       //Judge whether request contains Email or Id
       if ("email" in request.all()) {
 
         member = await Member.findBy("Email", request.input("email"));
 
-      }else if('id' in request.all()) {
+      } else if ('id' in request.all()) {
 
         member = await Member.findBy("id", request.input("id"));
 
-      }else{
+      } else {
 
         return JSON.stringify({
           status: "fail",
@@ -187,7 +189,6 @@ class MemberController {
     }
   }
 
-  //FIXME: get image is wrong
   // Show the user information stored in database
   async showProfile({params}) {
     //token is valid
@@ -204,6 +205,7 @@ class MemberController {
         gender: member.Gender,
         firstName: member.Firstname,
         lastName: member.Lastname,
+        portrait: member.Portrait,
         phoneCode: member.PhoneAreaCode,
         phoneNumber: member.PhoneNumber,
         dob: member.DOB,
@@ -226,16 +228,9 @@ class MemberController {
     }
   }
 
-  //TODO: save image file to some folder
   // Update user information and store them into the database
   async editProfile({request, auth}) {
 
-    // const profilePic = request.file('Portrait', {
-    //   types: ['image'],
-    //   size: '15mb'
-    // });
-
-    // console.log(profilePic);
     const requestData = request.all();
 
     //console.log(requestData)
@@ -247,6 +242,8 @@ class MemberController {
         console.log(isTokenValid);
 
         const token = requestData.token;
+
+        //console.log(token);
         const dbToken = await Token.findBy("Token", token);
 
         const member = await Member.findBy('id', dbToken.MemberID);
@@ -260,7 +257,6 @@ class MemberController {
         member.merge({
           FirstName: requestData.FirstName,
           LastName: requestData.LastName,
-          Portrait: requestData.Portrait,
           Gender: requestData.Gender,
           DOB: requestData.DOB,
           PhoneAreaCode: requestData.PhoneAreaCode,
@@ -283,7 +279,7 @@ class MemberController {
         await member.save();
 
         //console.log(member);
-        console.log("success saved");
+        //console.log("success saved");
 
         const userName = requestData.FirstName + " " + requestData.LastName;
         //console.log(userName);
@@ -344,6 +340,56 @@ class MemberController {
         tokenValid: true
       });
     }
+
+  }
+
+  async updateImage({request}) {
+
+    const profilePic = request.file('file', {
+      types: ['image'],
+      size: '15mb'
+    });
+    //console.log(profilePic);
+
+    const token = request.params.token;
+    const dbToken = await Token.findBy("Token", token);
+    const fileType = profilePic.subtype;
+    //console.log(fileType);
+    let fileName = dbToken.MemberID + "-portrait." + fileType;
+    //console.log(fileName);
+    let filePath = imagePath + "\\" + fileName;
+    const uploadPath = Helpers.publicPath(imagePath);
+    const existedFilePath = Helpers.publicPath(filePath);
+
+    //console.log(existedFilePath);
+    //console.log(await fs.pathExists(existedFilePath));
+
+    //if path already exist, remove original file
+    if (await fs.pathExists(existedFilePath)) {
+      console.log("image already exist");
+      await fs.remove(existedFilePath);
+    }
+
+    //move the file to the path
+    await profilePic.move(uploadPath, {
+      name: fileName
+    });
+
+    if (!profilePic.moved()) {
+      console.log("something is wrong");
+      return
+    }
+
+    const webFilePath = imagePath + "/" + fileName;
+    const member = await Member.findBy('id', dbToken.MemberID);
+    member.Portrait = webFilePath;
+    await member.save();
+
+    console.log("change image success");
+
+    return JSON.stringify({
+      portrait: webFilePath,
+    })
 
   }
 

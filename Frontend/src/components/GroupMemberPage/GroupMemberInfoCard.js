@@ -119,6 +119,7 @@ class GroupMemberInfoCard extends Component {
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userImage");
         sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
@@ -190,6 +191,7 @@ class GroupMemberInfoCard extends Component {
                         <div className="col-4 col-lg-2">
                             <img
                                 id="user_pic"
+                                alt="groupMember"
                                 style={{
                                     display: "table",
                                     margin: "0 auto",

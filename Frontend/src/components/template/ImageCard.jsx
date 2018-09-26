@@ -16,14 +16,15 @@ class ImageCard extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.state = {};
         this.handleBook = this.handleBook.bind(this);
     }
-    async handleBook(){
+
+    async handleBook() {
 
         //only handle login with email user
-        if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider == 'email') {
+        if (sessionStorage.getItem('userSocialData') &&
+            JSON.parse(sessionStorage.getItem('userSocialData')).provider === 'email') {
             let BaseURL = "http://127.0.0.1:3333/api/";
             let postData;
             postData = {
@@ -37,7 +38,7 @@ class ImageCard extends Component {
 
                     this.props.history.push({
                         pathname: '/login'
-                        })
+                    })
                 }
                 //token is valid
                 else {
@@ -69,63 +70,77 @@ class ImageCard extends Component {
                     }
 
                     //Jump into book page
-                    let postData = new Object();
+                    let postData = {};
                     postData.resortName = this.props.title;
                     postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
 
                     axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
-                    .then(response => {
-                        if(response.data.status === 'success'){
+                        .then(response => {
+                            if (response.data.status === 'success') {
 
-                            this.props.history.push({
-                            pathname: `/booking/${this.props.title}/who`,
-                            state: {masterID: response.data.masterID, resortID: response.data.resortID, tripID: response.data.tripID}
-                            })
+                                this.props.history.push({
+                                    pathname: `/booking/${this.props.title}/who`,
+                                    state: {
+                                        masterID: response.data.masterID,
+                                        resortID: response.data.resortID,
+                                        tripID: response.data.tripID
+                                    }
+                                })
 
-                        }else{
-                            alert('SERVER ERROR: Please try again :)')
-                        }
-                    })
+                            } else {
+                                alert('SERVER ERROR: Please try again :)')
+                            }
+                        })
                 }
             });
         }
         //facebook&google login
-        else if(sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider != 'email'){
-                //Jump into book page
-                let postData = new Object();
-                postData.resortName = this.props.title;
-                postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
+        else if (sessionStorage.getItem('userSocialData') &&
+            JSON.parse(sessionStorage.getItem('userSocialData')).provider !== 'email') {
+            //Jump into book page
+            let postData = {};
+            postData.resortName = this.props.title;
+            postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
 
-                await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
+            await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
                 .then(response => {
-                    if(response.data.status === 'success'){
+                    if (response.data.status === 'success') {
 
                         this.props.history.push({
-                        pathname: `/booking/${this.props.title}/who`,
-                        state: {masterID: response.data.masterID, resortID: response.data.resortID, tripID: response.data.tripID}
+                            pathname: `/booking/${this.props.title}/who`,
+                            state: {
+                                masterID: response.data.masterID,
+                                resortID: response.data.resortID,
+                                tripID: response.data.tripID
+                            }
 
-                    })
+                        })
 
-                    }else{
+                    } else {
                         alert('SERVER ERROR: Please try again :)')
                     }
                 })
-        //logout status
-        }else if(!sessionStorage.getItem('userSocialData')){
+            //logout status
+        } else if (!sessionStorage.getItem('userSocialData')) {
             this.props.history.push({
                 pathname: '/login'
-                })
+            })
         }
     };
 
+    //FIXME: this method is never used
     handleLogout = () => {
         const {cookies} = this.props;
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userImage");
+        sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-provider");
+        cookies.remove("user-profileFinished");
     };
 
     render() {

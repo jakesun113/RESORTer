@@ -2,44 +2,22 @@ import React, {Component} from "react";
 import "../../css/Homepage/search.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ImageCard from "../template/ImageCard";
-import axios from "axios/index";
 
-class MostPopular extends Component {
+class MostPopularInMyCountry extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             webServer: "http://127.0.0.1:8889/",
-            popularResorts: []
+            popularResorts: this.props.popularResorts
         };
-
-        this.getPopularResorts = this.getPopularResorts.bind(this);
-    }
-
-    async getPopularResorts() {
-        let BaseURL = "http://127.0.0.1:3333/api/";
-        //get the list of countries
-        await axios.get(BaseURL + "getPopularResorts").then(
-            response => {
-                console.log("get popular resorts successfully");
-                //console.log(response.data.popularResorts);
-                this.setState({
-                    popularResorts: response.data.popularResorts
-                });
-            });
-    }
-
-    componentDidMount() {
-
-        this.getPopularResorts();
-
     }
 
     render() {
         return (
             <React.Fragment>
                 <div className="text-justify" style={{whiteSpace: "nowrap"}}>
-                    Most Searched Resorts in the World
+                    Most Searched Resorts in My Country
                 </div>
 
                 <div className="row">
@@ -62,4 +40,4 @@ class MostPopular extends Component {
     }
 }
 
-export default MostPopular;
+export default MostPopularInMyCountry;

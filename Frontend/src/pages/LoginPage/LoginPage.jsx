@@ -26,8 +26,9 @@ class LoginPage extends Component {
             emailDuplicated: false,
             duplicatedProvider: null,
             authenticationFailed: false,
-            user_pic:
-                "https://static.wixstatic.com/media/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png/v1/fill/w_96,h_96,al_c,usm_0.66_1.00_0.01/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png"
+            webServer: "http://127.0.0.1:8889/",
+            // user_pic:
+            //     "https://static.wixstatic.com/media/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png/v1/fill/w_96,h_96,al_c,usm_0.66_1.00_0.01/25b4a3_993d36d976a24a77ba7bb9267d05bd54~mv2.png"
         };
 
         this.toggleRememberMe = this.toggleRememberMe.bind(this);
@@ -135,23 +136,31 @@ class LoginPage extends Component {
                 }
                 //login success
                 else {
-                    //FIXME: get image is wrong
                     console.log("login success");
-                    console.log(response.data.user_pic);
-                    var objurl = window.URL.createObjectURL(new Blob([response.data.user_pic]));
-                    console.log(objurl)
-                    let obj = objurl.replace('blob:','');
-                    console.log(obj)
+                    //console.log(response.data.portrait);
                     let userSocialData;
                     userSocialData = {
                         name: response.data.name,
-                        provider: "email",
-                        provider_pic: obj
+                        provider: "email"
                     };
                     sessionStorage.setItem(
                         "userSocialData",
                         JSON.stringify(userSocialData)
                     );
+                    //save picture into session
+                    let userImage;
+                    //if has portrait
+                    if (response.data.user_pic !== null) {
+                        userImage = {
+                            provider_pic: this.state.webServer + response.data.user_pic
+                        };
+                    }
+                    else{
+                        userImage = {
+                            provider_pic: null
+                        };
+                    }
+                    sessionStorage.setItem("userImage", JSON.stringify(userImage));
                     let userToken;
                     userToken = {
                         token: response.data.token
@@ -165,7 +174,7 @@ class LoginPage extends Component {
                     sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
 
                     //TODO: check when not remember me
-                    console.log(this.state.rememberMe);
+                    //console.log(this.state.rememberMe);
                     //save token into cookie
                     if (this.state.rememberMe) {
                         let date = new Date();
@@ -189,7 +198,7 @@ class LoginPage extends Component {
                             expires: date,
                             path: "/"
                         });
-                        cookies.set("user-pic", response.data.user_pic, {
+                        cookies.set("user-pic", this.state.webServer + response.data.user_pic, {
                             expires: date,
                             path: "/"
                         });

@@ -7,7 +7,7 @@ const IMG = styled.img`
     height:35px; 
 `;
 
-const IMG_Container = styled.div`
+const IMGContainer = styled.div`
     
 `;
 
@@ -85,9 +85,9 @@ class ActivitySelector extends Component {
         const {pic, alt, text, checkStatus, id} = this.props;
         return (
             <div className='row'>
-                <IMG_Container className='col-1'>
+                <IMGContainer className='col-1'>
                     <IMG src={pic} alt={alt}/>
-                </IMG_Container>
+                </IMGContainer>
                 <div className='col-8' style={{transform: 'translate(0,5px)'}}>
                     <TEXT><strong>{text}</strong></TEXT>
                 </div>

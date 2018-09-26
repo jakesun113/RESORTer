@@ -129,7 +129,6 @@ class ValidationTokenController {
 
                 await token.save();
 
-                //FIXME: get image is wrong
                 return JSON.stringify({
                   emailExisted: true,
                   emailDuplicated: false,
@@ -340,16 +339,15 @@ class ValidationTokenController {
   async check({request, auth}) {
     //token is valid
     try {
-      console.log(request.all())
+      //console.log(request.all())
       const isTokenValid = await auth.check();
-      console.log(isTokenValid);
+      //console.log(isTokenValid);
 
-      console.log("token valid");
+      //console.log("token valid");
 
       const requestData = request.all();
-
+      //console.log(requestData);
       const token = requestData.token;
-
       const dbMemberID = await Database.table('validation_tokens')
         .where("Token", token).select('MemberID');
 

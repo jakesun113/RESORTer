@@ -6,6 +6,7 @@ const ResortLiftPass = use("App/Models/ResortLiftpass");
 const csv = require('csvtojson');
 const resortInfo = "Data/Resorts.csv";
 const onBoard = "Data/isOnBoard.csv";
+const image = "Data/Image.csv";
 const liftPass = "Data/LiftPass.csv";
 const resortLiftPass = "Data/ResortLiftPass.csv";
 
@@ -20,25 +21,28 @@ class ResortInfoController {
     //console.log(resortCount);
     //import data only when the ResortInfo table is empty
     if (resortCount === 0) {
-      const jsonArray = await csv().fromFile(resortInfo);
-      const jsonArray2 = await csv().fromFile(onBoard);
+      const resortArray = await csv().fromFile(resortInfo);
+      const onBoardArray = await csv().fromFile(onBoard);
+      const imageArray = await csv().fromFile(image);
       //console.log(jsonArray.length);
       console.log("Start loading resorts data.");
-      for (let i = 0; i < jsonArray.length; i++) {
+      for (let i = 0; i < resortArray.length; i++) {
         const resort = new Resorts();
-        resort.Name = jsonArray[i].Name;
-        resort.Longitude = jsonArray[i].longitude;
-        resort.Latitude = jsonArray[i].latitude;
-        resort.Image = jsonArray[i].image;
-        resort.Description = jsonArray[i].description;
-        resort.IsOnBoard = jsonArray2[i].isOnBoard;
-        resort.Logo = jsonArray[i].logo;
-        resort.Country = jsonArray[i].Country;
-        resort.Continent = jsonArray[i].Continent;
-        resort.Union = jsonArray[i].Union;
-        resort.WixID = jsonArray[i].ID;
-        resort.Owner = jsonArray[i].Owner;
-        resort.OwnerEmail = jsonArray[i].Email;
+        resort.Name = resortArray[i].Name;
+        resort.Longitude = resortArray[i].longitude;
+        resort.Latitude = resortArray[i].latitude;
+        resort.Description = resortArray[i].description;
+        resort.IsOnBoard = onBoardArray[i].isOnBoard;
+        resort.Logo = resortArray[i].logo;
+        resort.Country = resortArray[i].Country;
+        resort.Continent = resortArray[i].Continent;
+        resort.Union = resortArray[i].Union;
+        resort.WixID = resortArray[i].ID;
+        resort.Owner = resortArray[i].Owner;
+        resort.OwnerEmail = resortArray[i].Email;
+        if(imageArray[i].image !== null){
+          resort.Image = imageArray[i].image;
+        }
         await resort.save();
         console.log(i);
       }

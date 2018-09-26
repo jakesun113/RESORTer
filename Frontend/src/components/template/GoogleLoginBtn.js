@@ -11,7 +11,7 @@ class GoogleLoginBtn extends Component {
             redirect: false,
             googleDuplicated: false,
             duplicatedProvider: null,
-            authencationFailed: false,
+            authenticationFailed: false,
             loginError: false
         };
 
@@ -32,15 +32,16 @@ class GoogleLoginBtn extends Component {
                 provider_pic: res.w3.Paa
             };
 
+            //console.log(res.w3.Paa);
 
             await axios.post(BaseURL + type, postData).then(
                 /*Proceed subsequent actions based on value */
                 response => {
                     //handle authentication failed
-                    if (response.data.authencationFailed === true) {
+                    if (response.data.authenticationFailed === true) {
                         console.log("authentication failed");
                         this.setState({
-                            authencationFailed: true,
+                            authenticationFailed: true,
                             redirect: false
                         });
                     }
@@ -59,10 +60,15 @@ class GoogleLoginBtn extends Component {
                         let userSocialData;
                         userSocialData = {
                             name: postData.name,
-                            provider: postData.provider,
-                            provider_pic: postData.provider_pic
+                            provider: postData.provider
                         };
                         sessionStorage.setItem("userSocialData", JSON.stringify(userSocialData));
+                        //save picture into session
+                        let userImage;
+                        userImage = {
+                            provider_pic: postData.provider_pic
+                        };
+                        sessionStorage.setItem("userImage", JSON.stringify(userImage));
                         let userToken;
                         userToken = {
                             token: postData.token
@@ -110,7 +116,7 @@ class GoogleLoginBtn extends Component {
                         user has logged in with {this.state.duplicatedProvider}
                     </div>
                 ) : null}
-                {this.state.authencationFailed ? (
+                {this.state.authenticationFailed ? (
                     <div style={{color: "red", fontWeight: "bolder"}}>
                         Authentication failed - Internal server error
                     </div>

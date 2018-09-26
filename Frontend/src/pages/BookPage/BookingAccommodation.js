@@ -223,20 +223,14 @@ class BookingAccommodation extends Component {
     state = {
         acco_type: '',
         acco_cate: '',
-        num_adult: '',
-        num_child: '',
-        num_toddler: '',
-        num_bedroom: '',
-        num_bathroom: '',
+        num_adult: null,
+        num_child: null,
+        num_toddler: null,
+        num_bedroom: null,
+        num_bathroom: null,
         requirement: '',
         warning_status: false,
     };
-
-    // redirectPage = (url) => {
-    //     const {history} = this.props;
-    //     history.push(url);
-    //     // window.location.replace(url);
-    // };
 
     skipAccommodation = () => {
         const {place, history, masterID, resortID, tripID} = this.props;
@@ -279,6 +273,22 @@ class BookingAccommodation extends Component {
             [name]: value
         })
     };
+
+    componentDidMount() {
+        const {tripID, masterID} = this.props;
+        const url = `http://127.0.0.1:3333/api/tripMemberAges/${tripID}/${masterID}`;
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                const ageInfo = JSON.parse(data);
+                this.setState({
+                    num_adult: ageInfo['adults'],
+                    num_child: ageInfo['children'],
+                    num_toddler: ageInfo['toddlers'],
+                })
+            })
+            .catch(err => console.log(err))
+    }
 
     render() {
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement, warning_status} = this.state;

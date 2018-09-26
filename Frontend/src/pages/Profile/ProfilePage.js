@@ -46,17 +46,17 @@ class ProfilePage extends Component {
             provider: cookies.get("user-provider") || null,
             isValidToken: true,
             isShow: false, //handle if the modal window need to show
-            email: null,
-            portrait: null,
+            email: "",
+            file: null,
             dob: moment().subtract(1, "days"),
             age: 0,
-            gender: null,
-            firstName: null,
-            lastName: null,
-            phoneCode: null,
-            phoneNumber: null,
-            country: null,
-            postcode: null,
+            gender: "",
+            firstName: "",
+            lastName: "",
+            phoneCode: "",
+            phoneNumber: "",
+            country: "",
+            postcode: "",
             skiAbility: 1,
             snowboardAbility: 1,
             telemarkAbility: 1,
@@ -64,12 +64,12 @@ class ProfilePage extends Component {
             snowmobileAbility: 1,
             snowshoeAbility: 1,
             hasDisAbility: false, // if user has disability
-            disabilityMembership: null,
-            disabilityMemberId: null,
-            disabilityDetail: null,
+            disabilityMembership: "",
+            disabilityMemberId: "",
+            disabilityDetail: "",
             getFinished: false,
-            user_pic:
-                "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/crop/x_7,y_0,w_1184,h_1184/fill/w_96,h_96,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
+            webServer: "http://127.0.0.1:8889/",
+            user_pic: cookies.get("user-pic") || ""
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -77,7 +77,7 @@ class ProfilePage extends Component {
 
     // handle when date is selected
     dateChanged = (date, choice) => {
-        console.log("date changed");
+        //console.log("date changed");
         this.setState(
             {
                 [choice]: date,
@@ -107,7 +107,7 @@ class ProfilePage extends Component {
             reader.addEventListener(
                 "load",
                 () => {
-                    console.log(reader.result);
+                    //console.log(reader.result);
                     this.setState({
                         user_pic: reader.result,
                         file: file
@@ -128,12 +128,13 @@ class ProfilePage extends Component {
 
         this.setState({
             token: null,
-            user_pic: null,
+            user_pic: "",
             provider: null
         });
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userImage");
         sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
@@ -146,15 +147,18 @@ class ProfilePage extends Component {
         // get the user social data from session
         if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-
             this.setState({
                 provider: userData.provider
             });
         }
 
         // when the token can be found from session, get the user data
-        if (sessionStorage.getItem("userToken")) {
+        if (sessionStorage.getItem("userToken")
+            && sessionStorage.getItem("userSocialData")
+            && sessionStorage.getItem("userImage")) {
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+            let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
+            let userImage = JSON.parse(sessionStorage.getItem("userImage"));
             this.setState({
                 token: tokenData.token
             });
@@ -162,7 +166,7 @@ class ProfilePage extends Component {
             const setState = this.setState.bind(this);
             let url =
                 "http://127.0.0.1:3333/api/user-profile/" +
-                JSON.parse(sessionStorage.getItem("userToken")).token;
+                tokenData.token;
             //get the user data from database
             axios.get(url).then(response => {
                 console.log("get success");
@@ -198,7 +202,20 @@ class ProfilePage extends Component {
                     //setState({isDisabled: response.data.isDisabled});
                 }
 
-                setState({email: response.data.email});
+                setState({
+                    email: response.data.email
+                });
+
+                if(userData.provider !== "email"){
+                    setState({
+                        user_pic: userImage.provider_pic
+                    });
+                }
+                else if (response.data.portrait != null) {
+                    setState({
+                        user_pic: this.state.webServer + response.data.portrait
+                    });
+                }
 
                 if (response.data.gender != null) {
                     setState({gender: response.data.gender});
@@ -267,7 +284,49 @@ class ProfilePage extends Component {
             disabilityDetailValue = null;
         }
 
-        //TODO: should also send portrait to the backend
+        //send portrait to the backend
+        const formData = new FormData();
+        //console.log(this.state.file);
+        formData.append('file', this.state.file);
+
+        axios({
+            method: 'put',
+            headers: {'content-type': 'multipart/form-data'},
+            url: "http://127.0.0.1:3333/api/user-image/" + this.state.token,
+            data: formData
+        }).then(
+            /*Proceed subsequent actions based on value */
+            response => {
+                console.log("change portrait success");
+
+                //save picture into session
+                let userImage;
+                userImage = {
+                    provider_pic: this.state.webServer + response.data.portrait
+                };
+                sessionStorage.setItem(
+                    "userImage",
+                    JSON.stringify(userImage)
+                );
+                //save picture into cookie
+                const {cookies} = this.props;
+
+                //only when user click "remember me", update the token in cookies
+                if (cookies.get("access-token")) {
+                    let date = new Date();
+                    date.setTime(date.getTime() + +2592000);
+                    cookies.set("user-pic", this.state.webServer + response.data.portrait, {
+                        expires: date,
+                        path: "/"
+                    });
+                }
+                console.log(response.data.portrait);
+                this.setState({
+                    user_pic: this.state.webServer + response.data.portrait
+                });
+            }
+        );
+
         const data = {
             SkiAbility: document.getElementById("ski_ability").value,
             SnowboardAbility: document.getElementById("snowboard_ability").value,
@@ -292,7 +351,6 @@ class ProfilePage extends Component {
             IsProfileComplete: true
         };
 
-
         // update the user profile data in the database
         await axios.put("http://127.0.0.1:3333/api/user-profile", data).then(
             /*Proceed subsequent actions based on value */
@@ -310,9 +368,7 @@ class ProfilePage extends Component {
                     let userSocialData;
                     userSocialData = {
                         name: response.data.name,
-                        provider: this.state.provider,
-                        //TODO: to be changed
-                        provider_pic: this.state.user_pic
+                        provider: this.state.provider
                     };
                     sessionStorage.setItem(
                         "userSocialData",
@@ -356,11 +412,6 @@ class ProfilePage extends Component {
                             expires: date,
                             path: "/"
                         });
-                        //TODO: to be changed
-                        cookies.set("user-pic", this.state.user_pic, {
-                            expires: date,
-                            path: "/"
-                        });
 
                         console.log(
                             "token has been extended. Token is: " +
@@ -381,22 +432,34 @@ class ProfilePage extends Component {
     handleSliderBarChange = (id, abilityValue) => {
         switch (id) {
             case "ski_ability":
-                this.state.skiAbility = parseInt(abilityValue);
+                this.setState({
+                    skiAbility: parseInt(abilityValue, 10)
+                });
                 break;
             case "snowboard_ability":
-                this.state.snowboardAbility = parseInt(abilityValue);
+                this.setState({
+                    snowboardAbility: parseInt(abilityValue, 10)
+                });
                 break;
             case "telemark_ability":
-                this.state.telemarkAbility = parseInt(abilityValue);
+                this.setState({
+                    telemarkAbility: parseInt(abilityValue, 10)
+                });
                 break;
             case "snowbike_ability":
-                this.state.snowbikeAbility = parseInt(abilityValue);
+                this.setState({
+                    snowbikeAbility: parseInt(abilityValue, 10)
+                });
                 break;
             case "snowmobile_ability":
-                this.state.snowmobileAbility = parseInt(abilityValue);
+                this.setState({
+                    snowmobileAbility: parseInt(abilityValue, 10)
+                });
                 break;
             case "snowshoe_ability":
-                this.state.snowshoeAbility = parseInt(abilityValue);
+                this.setState({
+                    snowshoeAbility: parseInt(abilityValue, 10)
+                });
                 break;
             default:
                 break;
@@ -488,6 +551,7 @@ class ProfilePage extends Component {
                                 >
                                     <img
                                         id="user_pic"
+                                        alt="userPortrait"
                                         style={{
                                             width: "80px",
                                             height: "80px",
