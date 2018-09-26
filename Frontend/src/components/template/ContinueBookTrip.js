@@ -50,7 +50,7 @@ class ContinueBookTrip extends Component {
                             </Link>
                         </div>
                         <div className="col">
-                            <Link onClick={this.handleAnotherTime}>
+                            <Link to="" onClick={this.handleAnotherTime}>
                             <SmallEllipseBtn
                                 text="Another Time"
                                 btnColor="rgba(104, 99, 105, 1)"

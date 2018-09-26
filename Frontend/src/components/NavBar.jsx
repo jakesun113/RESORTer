@@ -405,7 +405,7 @@ class Navbar extends Component {
                   <div className="row">
                     <div className="col-xl-2 col-lg-2" />
                     <div className="col-xl-2 col-lg-2 userBtn">
-                      <Link
+                      <Link to=""
                         onClick={() => {
                           this.setState({ isShowLoginWindow: true });
                         }}
