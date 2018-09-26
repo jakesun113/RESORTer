@@ -290,7 +290,7 @@ class ProfilePage extends Component {
         //console.log(this.state.file);
         formData.append('file', this.state.file);
 
-        axios({
+        await axios({
             method: 'put',
             headers: {'content-type': 'multipart/form-data'},
             url: "http://127.0.0.1:3333/api/user-image/" + this.state.token,
