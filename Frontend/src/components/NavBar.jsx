@@ -9,7 +9,7 @@ import { withCookies, Cookies } from "react-cookie";
 import { instanceOf } from "prop-types";
 import axios from "axios/index";
 import AlertWindow from "../components/template/AlertWindow";
-import CountinueBookTrip from "./template/CountinueBookTrip";
+import ContinueBookTrip from "./template/ContinueBookTrip";
 class Navbar extends Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -286,7 +286,7 @@ class Navbar extends Component {
               </div>
               {/* continue book trip area */}
               <div className="col-12 col-sm-3 col-lg-3">
-                <CountinueBookTrip />
+                <ContinueBookTrip />
               </div>
               {/* admin btn */}
               <div className="col-xs-12 col-sm-4 col-sm-1 col-lg-1 button_admin">
@@ -405,13 +405,13 @@ class Navbar extends Component {
                   <div className="row">
                     <div className="col-xl-2 col-lg-2" />
                     <div className="col-xl-2 col-lg-2 userBtn">
-                      <span
+                      <Link
                         onClick={() => {
                           this.setState({ isShowLoginWindow: true });
                         }}
                       >
                         <SmallEllipseBtn text="Log in" btnColor="orangered" />
-                      </span>
+                      </Link>
                     </div>
                     <div className="col-xl-8 col-lg-8" />
                   </div>
