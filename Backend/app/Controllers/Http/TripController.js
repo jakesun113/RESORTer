@@ -15,7 +15,8 @@ class TripController {
 
   async addFakeTripData() {
 
-    const userID = 2;
+    const userID1 = 1;
+    const userID2 = 2;
     //in Australia
     const mtBullerNum = 1;
     const ThredboNum = 2;
@@ -36,8 +37,11 @@ class TripController {
     for (let i = 0; i < mtBullerNum; i++) {
       const trip = new Trip();
       trip.ResortID = 1;
-      trip.MasterMemberID = userID;
+      trip.MasterMemberID = userID1;
       trip.IsTripDone = true;
+      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
       await trip.save();
     }
@@ -45,8 +49,11 @@ class TripController {
     for (let i = 0; i < ThredboNum; i++) {
       const trip = new Trip();
       trip.ResortID = 429;
-      trip.MasterMemberID = userID;
+      trip.MasterMemberID = userID1;
       trip.IsTripDone = true;
+      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
       await trip.save();
     }
@@ -54,8 +61,11 @@ class TripController {
     for (let i = 0; i < PerisherNum; i++) {
       const trip = new Trip();
       trip.ResortID = 1204;
-      trip.MasterMemberID = userID;
+      trip.MasterMemberID = userID1;
       trip.IsTripDone = true;
+      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
       await trip.save();
     }
@@ -63,8 +73,11 @@ class TripController {
     for (let i = 0; i < MountHothamNum; i++) {
       const trip = new Trip();
       trip.ResortID = 1516;
-      trip.MasterMemberID = userID;
+      trip.MasterMemberID = userID1;
       trip.IsTripDone = true;
+      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
       await trip.save();
     }
@@ -72,8 +85,11 @@ class TripController {
     for (let i = 0; i < FallsCreekNum; i++) {
       const trip = new Trip();
       trip.ResortID = 2670;
-      trip.MasterMemberID = userID;
+      trip.MasterMemberID = userID1;
       trip.IsTripDone = true;
+      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
       await trip.save();
     }
@@ -81,8 +97,11 @@ class TripController {
     for (let i = 0; i < CoronetPeakNum; i++) {
       const trip = new Trip();
       trip.ResortID = 2886;
-      trip.MasterMemberID = userID;
+      trip.MasterMemberID = userID2;
       trip.IsTripDone = true;
+      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
       await trip.save();
     }
@@ -90,8 +109,11 @@ class TripController {
     for (let i = 0; i < CardronaNum; i++) {
       const trip = new Trip();
       trip.ResortID = 2893;
-      trip.MasterMemberID = userID;
+      trip.MasterMemberID = userID2;
       trip.IsTripDone = true;
+      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
       await trip.save();
     }
@@ -99,8 +121,11 @@ class TripController {
     for (let i = 0; i < AspenSnowmassNum; i++) {
       const trip = new Trip();
       trip.ResortID = 2;
-      trip.MasterMemberID = userID;
+      trip.MasterMemberID = userID2;
       trip.IsTripDone = true;
+      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
       await trip.save();
     }
@@ -108,8 +133,11 @@ class TripController {
     for (let i = 0; i < TellurideNum; i++) {
       const trip = new Trip();
       trip.ResortID = 402;
-      trip.MasterMemberID = userID;
+      trip.MasterMemberID = userID2;
       trip.IsTripDone = true;
+      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
       await trip.save();
     }
@@ -117,8 +145,11 @@ class TripController {
     for (let i = 0; i < NisekoNum; i++) {
       const trip = new Trip();
       trip.ResortID = 3;
-      trip.MasterMemberID = userID;
+      trip.MasterMemberID = userID2;
       trip.IsTripDone = true;
+      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
       await trip.save();
     }
