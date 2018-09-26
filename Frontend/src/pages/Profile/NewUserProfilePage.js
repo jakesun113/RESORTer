@@ -48,8 +48,9 @@ class NewUserProfilePage extends Component {
             disabilityMembership: "",
             disabilityMemberId: "",
             disabilityDetail: "",
-            webServer: "http://127.0.0.1:8889/",
-            user_pic: cookies.get("user-pic") || ""
+            webServer: "http://127.0.0.1:8887/",
+            user_pic: cookies.get("user-pic") ||
+            "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/fill/w_141,h_141,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);

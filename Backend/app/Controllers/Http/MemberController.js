@@ -345,51 +345,55 @@ class MemberController {
 
   async updateImage({request}) {
 
-    const profilePic = request.file('file', {
-      types: ['image'],
-      size: '15mb'
-    });
-    //console.log(profilePic);
+    try{
+      const profilePic = request.file('file', {
+        types: ['image'],
+        size: '15mb'
+      });
+      //console.log(profilePic);
 
-    const token = request.params.token;
-    const dbToken = await Token.findBy("Token", token);
-    const fileType = profilePic.subtype;
-    //console.log(fileType);
-    let fileName = dbToken.MemberID + "-portrait." + fileType;
-    //console.log(fileName);
-    let filePath = imagePath + "\\" + fileName;
-    const uploadPath = Helpers.publicPath(imagePath);
-    const existedFilePath = Helpers.publicPath(filePath);
+      const token = request.params.token;
+      const dbToken = await Token.findBy("Token", token);
+      const fileType = profilePic.subtype;
+      //console.log(fileType);
+      let fileName = dbToken.MemberID + "-portrait." + fileType;
+      //console.log(fileName);
+      let filePath = imagePath + "/" + fileName;
+      const uploadPath = Helpers.publicPath(imagePath);
+      const existedFilePath = Helpers.publicPath(filePath);
 
-    //console.log(existedFilePath);
-    //console.log(await fs.pathExists(existedFilePath));
+      //console.log(existedFilePath);
+      //console.log(await fs.pathExists(existedFilePath));
 
-    //if path already exist, remove original file
-    if (await fs.pathExists(existedFilePath)) {
-      console.log("image already exist");
-      await fs.remove(existedFilePath);
+      //if path already exist, remove original file
+      if (await fs.pathExists(existedFilePath)) {
+        console.log("image already exist");
+        await fs.remove(existedFilePath);
+      }
+
+      //move the file to the path
+      await profilePic.move(uploadPath, {
+        name: fileName
+      });
+
+      if (!profilePic.moved()) {
+        console.log("something is wrong");
+        return
+      }
+
+      const member = await Member.findBy('id', dbToken.MemberID);
+      member.Portrait = filePath;
+      await member.save();
+
+      console.log("change image success");
+
+      return JSON.stringify({
+        portrait: filePath ,
+      })
     }
-
-    //move the file to the path
-    await profilePic.move(uploadPath, {
-      name: fileName
-    });
-
-    if (!profilePic.moved()) {
-      console.log("something is wrong");
-      return
-    }
-
-    const webFilePath = imagePath + "/" + fileName;
-    const member = await Member.findBy('id', dbToken.MemberID);
-    member.Portrait = webFilePath;
-    await member.save();
-
-    console.log("change image success");
-
-    return JSON.stringify({
-      portrait: webFilePath,
-    })
+ catch (e) {
+   console.log(e);
+ }
 
   }
 

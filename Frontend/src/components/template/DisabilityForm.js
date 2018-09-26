@@ -56,12 +56,12 @@ class DisabilityForm extends Component {
                 <div
                   className="form-group col-6 col-lg-4"
                   style={{
-                    color: "#686369",
+                    color: "red",
                     textAlign: "center",
                     fontSize: " 1rem "
                   }}
                 >
-                  Please fill the correct phone number
+                  Please fill the correct member ID
                 </div>
                 <div className="form-group col-3 col-lg-4" />
               </div>
@@ -95,7 +95,7 @@ class DisabilityForm extends Component {
               <div
                 className="form-group col-6 col-lg-4"
                 style={{
-                  color: "#686369",
+                  color: "red",
                   textAlign: "center",
                   fontSize: " 1rem "
                 }}

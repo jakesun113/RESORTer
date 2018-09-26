@@ -179,7 +179,7 @@ class PrompImageSlider extends Component {
           </div>
           <a
             className="carousel-control-prev"
-            href="#"
+            href="#carouselExampleIndicators"
             role="button"
             data-slide="prev"
           >
@@ -188,7 +188,7 @@ class PrompImageSlider extends Component {
           </a>
           <a
             className="carousel-control-next"
-            href="#"
+            href="#carouselExampleIndicators"
             role="button"
             data-slide="next"
           >

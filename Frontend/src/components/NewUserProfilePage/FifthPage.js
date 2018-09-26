@@ -33,11 +33,12 @@ class FifthPage extends Component {
 
     this.props.onChangeState("hasDisability", hasDisability);
     this.props.onChangeState("disabilityMembership", disabilityMembership);
-    this.props.onChangeState("disabilityMemberid", disabilityMemberid);
+    this.props.onChangeState("disabilityMemberId", disabilityMemberid);
     this.props.onChangeState("disabilityDetail", disabilityDetail);
   }
   validator = () => {
     var isValid = true;
+    // has diability
     if (this.state.hasDisability === "yes") {
       var memberId = document.getElementById("disability_memberid");
       var detail = document.getElementById("disability_detail");
@@ -46,6 +47,22 @@ class FifthPage extends Component {
         isValid = false;
         memberId.style.borderColor = "red";
         this.setState({ disability_memberid_wrong: true });
+      } else {
+        try {
+          let match = memberId.value.match(/[0-9]/g);
+          let input = memberId.value;
+          if (match.length !== input.length) {
+            memberId.style.borderColor = "red";
+            this.setState({ disability_memberid_wrong: true });
+            isValid = false;
+            return isValid;
+          }
+        } catch (e) {
+          memberId.style.borderColor = "red";
+          this.setState({ disability_memberid_wrong: true });
+          isValid = false;
+          return isValid;
+        }
       }
       if (detail.value === "") {
         isValid = false;
