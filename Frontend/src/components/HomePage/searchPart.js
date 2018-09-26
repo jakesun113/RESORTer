@@ -224,8 +224,8 @@ class Search extends Component {
                             />
                         ) : (
                             <a
-                            // href={`/booking/${this.state.selectedCountryResorts}/who`}
-                            onClick={this.handleBook}
+                            href={`/booking/${this.state.selectedCountryResorts}/who`}
+                            // onClick={this.handleBook}
                             >
                             <SmallEllipseBtn
                                 text="Make a Quote"
