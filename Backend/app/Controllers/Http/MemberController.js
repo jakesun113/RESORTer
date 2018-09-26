@@ -243,10 +243,9 @@ class MemberController {
 
         const token = requestData.token;
 
-        console.log(token);
+        //console.log(token);
         const dbToken = await Token.findBy("Token", token);
-        console.log(dbToken);
-       
+        //console.log(dbToken);
         const member = await Member.findBy('id', dbToken.MemberID);
 
         const newToken = await auth.generate(member);
@@ -254,7 +253,7 @@ class MemberController {
         //only change token
         dbToken.merge({Token: newToken.token});
         await dbToken.save();
-      
+
         member.merge({
           FirstName: requestData.FirstName,
           LastName: requestData.LastName,
@@ -346,7 +345,7 @@ class MemberController {
 
   async updateImage({request}) {
 
-    try{
+    try {
       const profilePic = request.file('file', {
         types: ['image'],
         size: '15mb'
@@ -389,12 +388,12 @@ class MemberController {
       console.log("change image success");
 
       return JSON.stringify({
-        portrait: filePath ,
+        portrait: filePath
       })
     }
- catch (e) {
-   console.log(e);
- }
+    catch (e) {
+      console.log(e);
+    }
 
   }
 

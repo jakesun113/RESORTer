@@ -99,8 +99,7 @@ class ValidationTokenController {
               const member = await Member.findBy('Email', email);
 
               let userName = "";
-              if(member.Firstname !== null && member.Lastname !== null)
-              {
+              if (member.Firstname !== null && member.Lastname !== null) {
                 userName = member.Firstname + " " + member.Lastname;
               }
               //console.log(userName);
@@ -350,7 +349,7 @@ class ValidationTokenController {
       const token = requestData.token;
       const dbMemberID = await Database.table('validation_tokens')
         .where("Token", token).select('MemberID');
-      console.log(dbMemberID[0].MemberID)
+
       const member = await Member.findBy('id', dbMemberID[0].MemberID);
 
       const dbToken = await Token.findBy({
