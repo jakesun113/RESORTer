@@ -3,7 +3,7 @@ import SmallEllipseBtn from "./SmallEllipseBtn";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
-
+import axios from "axios"
 function StartDate(props) {
     function handleChange(date) {
         props.onChange(date, "startDate");
@@ -62,13 +62,32 @@ class SelectTripDate extends Component {
     handleClick = () => {
         //TODO: If user is not login, alert either want to 'login' or 'guestUser'
 
-        //1) Whether Login
+        //1) While Login
         try{
-            //if login
+            //if login & Personal Profile was completed
             if (sessionStorage.getItem('userSocialData')){
-                //show the addTrip
-                alert('ready book')
-                this.props.showAddTripMember()
+                //TODO: If user profile is uncompleted, redirect to profile page
+                axios
+                .get(
+                    "http://127.0.0.1:3333/api/checkProfile/" +
+                    JSON.parse(sessionStorage.getItem("userToken")).token
+                )
+                .then(response => {
+                    if(response.data.status == 'success'){
+                        //show the addTrip
+                        this.props.showAddTripMember()
+
+                    }else if(response.data.status == 'fail'){
+                        //redirect to Profile Page
+                        this.props.history.push({
+                            pathname: '/newProfile'
+                          });
+
+                    }
+                });
+
+
+                    
             }
             //no login
             else{
@@ -130,7 +149,7 @@ class SelectTripDate extends Component {
                             validMinDate={moment(currentStartDate)}
                         />
                     </div>
-                    <div className="col-sm" id="planTripBtn">
+                    <div className="col-sm" id="planTripBtn" style={{textAlign:'center'}}>
                         <p style={{opacity:0}}>
                             <strong>Place Holder</strong>
                         </p>
@@ -139,7 +158,7 @@ class SelectTripDate extends Component {
                         <span onClick={this.handleClick}>
                         <SmallEllipseBtn
                             text="Plan Your Trip"
-                            btnColor="rgba(252,98,101,1)"
+                            btnColor="rgba(255, 97, 97, 1)"
                         />
                         </span>
                     </div>
