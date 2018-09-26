@@ -22,7 +22,9 @@ class Navbar extends Component {
             // DO NOT change the initial value of user as empty string
             user: cookies.get("user-name") || "",
             token: cookies.get("access-token") || null,
-            user_pic: cookies.get("user-pic") || "",
+            user_pic: cookies.get("user-pic") ||
+            "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/fill/w_141,h_141,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
+            ,
             provider: cookies.get("user-provider") || null,
             isValidToken: true,
             isShowLoginWindow: false,

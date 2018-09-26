@@ -155,9 +155,10 @@ class LoginPage extends Component {
                             provider_pic: this.state.webServer + response.data.user_pic
                         };
                     }
-                    else{
+                    else {
                         userImage = {
-                            provider_pic: null
+                            provider_pic: "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/fill/w_141,h_141,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
+
                         };
                     }
                     sessionStorage.setItem("userImage", JSON.stringify(userImage));
@@ -198,10 +199,18 @@ class LoginPage extends Component {
                             expires: date,
                             path: "/"
                         });
-                        cookies.set("user-pic", this.state.webServer + response.data.user_pic, {
-                            expires: date,
-                            path: "/"
-                        });
+                        if (response.data.user_pic !== null) {
+                            cookies.set("user-pic", this.state.webServer + response.data.user_pic, {
+                                expires: date,
+                                path: "/"
+                            });
+                        }
+                        else {
+                            cookies.set("user-pic", "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/fill/w_141,h_141,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp", {
+                                expires: date,
+                                path: "/"
+                            });
+                        }
                     }
 
                     //if come to login because token has been expired,
