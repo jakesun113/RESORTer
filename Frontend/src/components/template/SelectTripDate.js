@@ -33,11 +33,54 @@ function EndDate(props) {
 }
 
 class SelectTripDate extends Component {
-    state = {
-        startDate: moment().add(4, "days"), // initially, start date is today + 4 days
-        endDate: moment().add(9, "days")
-    };
 
+ constructor(props){
+    super(props);
+    this.state = {
+        startDate: moment().add(4, "days"), // initially, start date is today + 4 days
+        endDate: moment().add(9, "days"),
+        width:0
+    };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+}
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+      }
+      
+      componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+      }
+      
+      //Responsive
+      updateWindowDimensions() {
+        this.setState({ width: window.innerWidth});
+      }
+
+    //Handle PlanYourTrip button click
+    handleClick = () => {
+        //TODO: If user is not login, alert either want to 'login' or 'guestUser'
+
+        //1) Whether Login
+        try{
+            //if login
+            if (sessionStorage.getItem('userSocialData')){
+                //show the addTrip
+                alert('ready book')
+                this.props.showAddTripMember()
+            }
+            //no login
+            else{
+                alert('guest or login')
+                //alert window
+
+            }
+
+        }catch(err){
+
+        }
+    }
     // choice is either "startDate" or "endDate"
     handleChange = (date, choice) => {
         const {startDate, endDate} = this.state;
@@ -65,39 +108,40 @@ class SelectTripDate extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    <div className="col-4" id="startDate">
+                    <div className="col-sm">
                         <p>
                             <strong>Start Date </strong> (4 days + in advance only)
                         </p>
-                    </div>
-                    <div className={"col-1"}/>
-                    <div className="col-4" id="endDate">
-                        <p>
-                            <strong>End Date</strong>
-                        </p>
-                    </div>
-                    <div className="col-2" id="planTripBtn">
-                        <SmallEllipseBtn
-                            text="Plan Your Trip"
-                            btnColor="rgba(252,98,101,1)"
-                        />
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-4">
                         <StartDate
                             startDate={this.state.startDate}
                             onChange={this.handleChange}
                             validMinDate={moment(currentStartDate)}
                         />
                     </div>
-                    <div className={"col-1"}/>
-                    <div className="col-4">
+                    <div className="col-sm">
+                        <p>
+                            <strong>End Date</strong>
+                        </p>
+                        {/* Responsive */}
+                        {this.state.width < 990 && this.state.width > 575 ? <div style={{opacity:0}}>1</div> : null }
                         <EndDate
                             endDate={this.state.endDate}
                             onChange={this.handleChange}
                             validMinDate={moment(currentStartDate)}
                         />
+                    </div>
+                    <div className="col-sm" id="planTripBtn">
+                        <p style={{opacity:0}}>
+                            <strong>Place Holder</strong>
+                        </p>
+                        {/* Responsive */}
+                        {this.state.width < 990 && this.state.width > 575 ? <div style={{opacity:0}}>1</div> : null }
+                        <span onClick={this.handleClick}>
+                        <SmallEllipseBtn
+                            text="Plan Your Trip"
+                            btnColor="rgba(252,98,101,1)"
+                        />
+                        </span>
                     </div>
                 </div>
             </div>
