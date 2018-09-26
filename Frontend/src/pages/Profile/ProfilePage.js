@@ -42,7 +42,7 @@ class ProfilePage extends Component {
         super(props);
         const {cookies} = props;
         this.state = {
-            token: cookies.get("access-token") || null,
+            token: cookies.get("access-token") ||null,
             provider: cookies.get("user-provider") || null,
             isValidToken: true,
             isShow: false, //handle if the modal window need to show
@@ -146,7 +146,7 @@ class ProfilePage extends Component {
 
     componentDidMount() {
         // get the user social data from session
-        if (this.state.token === null && sessionStorage.getItem("userSocialData")) {
+        if (sessionStorage.getItem("userSocialData")) {
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
             this.setState({
                 provider: userData.provider
@@ -194,7 +194,7 @@ class ProfilePage extends Component {
                 }
 
                 if (response.data.isDisabled) {
-                    this.setState({
+                    setState({
                         hasDisability: true,
                         disabilityMembership: response.data.disabilityMembership,
                         disabilityMemberId: response.data.disabilityMembershipId,
@@ -246,7 +246,7 @@ class ProfilePage extends Component {
                         moment(this.state.dob),
                         "years"
                     );
-                    this.setState({
+                    setState({
                         age: countAge
                     });
                 }
@@ -295,7 +295,7 @@ class ProfilePage extends Component {
         //send portrait to the backend, only when user upload one image
         if (this.state.file !== null) {
             const formData = new FormData();
-            console.log(this.state.file);
+            //console.log(this.state.file);
             formData.append('file', this.state.file);
 
             await axios({

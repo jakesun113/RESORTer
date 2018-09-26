@@ -340,33 +340,13 @@ class ValidationTokenController {
     try {
       //console.log(request.all())
       const isTokenValid = await auth.check();
-      //console.log(isTokenValid);
+      console.log(isTokenValid);
 
-      //console.log("token valid");
-
-      const requestData = request.all();
-      //console.log(requestData);
-      const token = requestData.token;
-      const dbMemberID = await Database.table('validation_tokens')
-        .where("Token", token).select('MemberID');
-
-      const member = await Member.findBy('id', dbMemberID[0].MemberID);
-
-      const dbToken = await Token.findBy({
-        'MemberID': dbMemberID[0].MemberID,
-        'Type': "EmailLogin"
-      });
-      const newToken = await auth.generate(member);
-      //console.log(newToken);
-      //only change token
-      dbToken.merge({Token: newToken.token});
-      await dbToken.save();
+      console.log("token valid");
 
       return JSON.stringify({
-        tokenValid: true,
-        token: dbToken.Token
-      })
-
+        tokenValid: true
+      });
     }
       //token is not valid
     catch (e) {
