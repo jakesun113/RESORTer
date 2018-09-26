@@ -61,7 +61,6 @@ ReactDOM.render(
           <Route path="/about-us" component={PromptPage} />
           {/* login required */}
           <Route path="/profile" component={ProfilePage} />
-          {/*TODO: "My trip" page to be added*/}
           <Route path="/my-trip" component={MyTripPage} />
           <Route path="/group-member" component={GroupMemberPage} />
           <Route path="/change-password" component={ChangePwdPage} />

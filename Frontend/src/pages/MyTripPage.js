@@ -11,14 +11,16 @@ class MyTripPage extends Component {
           <div className="form-row">
             {/* <div className="form-group col-2" /> */}
             <div className="form-group col-4">
-              <span style={{ fontSize: "2rem" }}>My Booking History</span>
+              <span style={{ fontSize: "2rem", color: "#686369" }}>
+                My Booking History
+              </span>
             </div>
             <div className="form-group col-6" />
           </div>
           {/* table title */}
           <table className="table">
             <thead>
-              <tr>
+              <tr style={{ color: "#686369" }}>
                 <th scope="col">Submit Date</th>
                 <th scope="col">Resort</th>
                 <th scope="col">Start Date</th>
