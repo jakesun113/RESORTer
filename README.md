@@ -42,7 +42,7 @@ https://confluence.atlassian.com/confkb/how-to-fix-the-collation-and-character-s
 - Download __Web Server for Chrome__,
 - url: https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb
 - Set folder as __"Backend/public"__
-- Set port number as __"8888"__
+- Set port number as __"8887"__
 - Reference: https://stackoverflow.com/questions/39007243/cannot-open-local-file-chrome-not-allowed-to-load-local-resource
 
 # Load fake trip data to the database
