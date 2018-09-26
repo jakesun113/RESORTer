@@ -144,7 +144,7 @@ class Search extends Component {
                     }
 
                     //Jump into book page
-                    let postData = new Object();
+                    let postData = {};
                     postData.resortName = this.state.selectedCountryResorts;
                     postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
 
@@ -166,7 +166,7 @@ class Search extends Component {
         else if(sessionStorage.getItem('userSocialData') &&
             JSON.parse(sessionStorage.getItem('userSocialData')).provider !== 'email'){
                 //Jump into book page
-                let postData = new Object();
+                let postData = {};
                 postData.resortName = this.state.selectedCountryResorts;
                 postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
                 await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)

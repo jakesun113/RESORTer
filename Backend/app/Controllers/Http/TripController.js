@@ -1,14 +1,129 @@
-'use strict'
+'use strict';
 const Database = use('Database');
 const Trip = use('App/Models/Trip');
 const ResortInfo = use('App/Models/ResortInfo');
+const Member = use("App/Models/Member");
 const ValidationToken = use("App/Models/ValidationToken");
 const moment = use('moment');
+const topSix = 6;
 
 /**
 
  */
+
 class TripController {
+
+  async addFakeTripData() {
+
+    const userID = 2;
+    //in Australia
+    const mtBullerNum = 1;
+    const ThredboNum = 2;
+    const PerisherNum = 3;
+    const MountHothamNum = 4;
+    const FallsCreekNum = 5;
+    //in New Zealand
+    const CoronetPeakNum = 6;
+    const CardronaNum = 7;
+    //in USA
+    const AspenSnowmassNum = 8;
+    const TellurideNum = 9;
+    //in Japan
+    const NisekoNum = 10;
+
+    console.log("Start adding fake trip data.");
+    //fake data for resort Mt.Buller
+    for (let i = 0; i < mtBullerNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 1;
+      trip.MasterMemberID = userID;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Thredbo
+    for (let i = 0; i < ThredboNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 429;
+      trip.MasterMemberID = userID;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Perisher
+    for (let i = 0; i < PerisherNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 1204;
+      trip.MasterMemberID = userID;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Mount Hotham
+    for (let i = 0; i < MountHothamNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 1516;
+      trip.MasterMemberID = userID;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Falls Creek
+    for (let i = 0; i < FallsCreekNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 2670;
+      trip.MasterMemberID = userID;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Coronet Peak
+    for (let i = 0; i < CoronetPeakNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 2886;
+      trip.MasterMemberID = userID;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Cardrona
+    for (let i = 0; i < CardronaNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 2893;
+      trip.MasterMemberID = userID;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Aspen Snowmass
+    for (let i = 0; i < AspenSnowmassNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 2;
+      trip.MasterMemberID = userID;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Telluride
+    for (let i = 0; i < TellurideNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 402;
+      trip.MasterMemberID = userID;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    //fake data for resort Niseko
+    for (let i = 0; i < NisekoNum; i++) {
+      const trip = new Trip();
+      trip.ResortID = 3;
+      trip.MasterMemberID = userID;
+      trip.IsTripDone = true;
+
+      await trip.save();
+    }
+    console.log("Finish adding fake trip data.");
+  }
 
   /*
   REQUEST: {"resortName":"","token":""}
@@ -16,7 +131,7 @@ class TripController {
   async enrollNewTrip({request, response}) {
 
     try {
-      console.log(request.all())
+      console.log(request.all());
       const validationToken = await ValidationToken.findBy('Token', request.input('token'));
       const resortInfo = await ResortInfo.findBy('Name', request.input('resortName'));
 
@@ -24,10 +139,10 @@ class TripController {
       newTrip.ResortID = resortInfo.id;
       newTrip.MasterMemberID = validationToken.MemberID;
       newTrip.IsTripDone = 0;
-      await newTrip.save()
+      await newTrip.save();
 
-      let responseData = new Object();
-      responseData.status = 'success'
+      let responseData = {};
+      responseData.status = 'success';
       responseData.masterID = validationToken.MemberID;
       responseData.tripID = newTrip.id;
       responseData.resortID = resortInfo.id;
@@ -36,7 +151,7 @@ class TripController {
 
     } catch (err) {
 
-      response.send(JSON.stringify({status: 'fail'}))
+      response.send(JSON.stringify({status: 'fail'}));
       console.log(err)
 
     }
@@ -106,6 +221,147 @@ class TripController {
     response.send(JSON.stringify(ageInfo));
   }
 
+  async getPopularResorts() {
+
+    //first, get most popular resorts ID from trip table
+    //only return the resort ID whose trip is "done"
+    const resortIDs = await Database.table('trips')
+      .where({'IsTripDone': 1}).column('ResortID');
+    //console.log(resortIDs);
+
+    //array contains all the resorts ID
+    let resortArray = [];
+    for (let i = 0; i < resortIDs.length; i++) {
+      resortArray[i] = resortIDs[i].ResortID;
+    }
+    //console.log(resortArray);
+
+    //object that each resort ID with its occurrence time
+    let counts = {};
+    for (let i = 0; i < resortArray.length; i++) {
+      let num = resortArray[i];
+      counts[num] = counts[num] ? counts[num] + 1 : 1;
+    }
+    //console.log(counts);
+
+    //array that sorts the resort by its occurring time
+    let popularResortArray = Object.keys(counts).sort(function (a, b) {
+      return counts[b] - counts[a]
+    });
+    //console.log(popularResortArray);
+
+    let minNum = Math.min(topSix, popularResortArray.length);
+    //then, based on the resorts ID, return corresponding resorts information
+    let resortInfoArray = [];
+    for (let i = 0; i < minNum; i++) {
+      let resortID = popularResortArray[i];
+
+      let resortInfo = {};
+      const resort = await ResortInfo.findBy('id', resortID);
+      resortInfo.id = resort.id;
+      resortInfo.image = resort.Image;
+      resortInfo.name = resort.Name;
+      resortInfo.country = resort.Country;
+      resortInfo.description = resort.Description;
+      //console.log(resortInfo);
+
+      resortInfoArray.push(resortInfo);
+    }
+
+    //console.log(resortInfoArray);
+
+    return JSON.stringify({
+      popularResorts: resortInfoArray
+    })
+  }
+
+  async getPopularResortsByCountry({params}) {
+
+    //first, get the country of the user
+    const token = params.token;
+    //console.log(token);
+    const dbMemberID = await Database.table('validation_tokens')
+      .where("Token", token).select('MemberID');
+
+    const member = await Member.findBy('id', dbMemberID[0].MemberID);
+    const country = member.Country;
+    console.log(country);
+
+    //then, get most popular resorts ID from trip table
+    //only return the resort ID whose trip is "done"
+    const resortIDs = await Database.table('trips')
+      .where({'IsTripDone': 1}).column('ResortID');
+    //console.log(resortIDs);
+
+    //array contains all the resorts ID
+    let resortArray = [];
+    for (let i = 0; i < resortIDs.length; i++) {
+      resortArray[i] = resortIDs[i].ResortID;
+    }
+    //console.log(resortArray);
+
+    //object that each resort ID with its occurrence time
+    let counts = {};
+    for (let i = 0; i < resortArray.length; i++) {
+      let num = resortArray[i];
+      counts[num] = counts[num] ? counts[num] + 1 : 1;
+    }
+    let identicalResortIDs = [];
+
+    //check whether resorts in the specific country is in the trip table,
+    //if so, add the resort ID in the array
+    for (let i = 0; i < Object.keys(counts).length; i++) {
+      const resort = await ResortInfo.findBy('id', Object.keys(counts)[i]);
+      if (resort.Country === country) {
+        identicalResortIDs.push(Object.keys(counts)[i]);
+      }
+    }
+    console.log(identicalResortIDs);
+
+    //only when there is at least one searched resort in that country,
+    //do the ranking and return corresponding information
+    if (identicalResortIDs.length > 0) {
+      console.log("this country has resorts");
+      //array that sorts the resort by its occurring time
+      let popularResortArray = identicalResortIDs.sort(function (a, b) {
+        return counts[b] - counts[a]
+      });
+      //console.log(popularResortArray);
+
+      let minNum = Math.min(topSix, popularResortArray.length);
+      //then, based on the resorts ID, return corresponding resorts information
+      let resortInfoArray = [];
+      for (let i = 0; i < minNum; i++) {
+        let resortID = popularResortArray[i];
+
+        let resortInfo = {};
+        const resort = await ResortInfo.findBy('id', resortID);
+        resortInfo.id = resort.id;
+        resortInfo.image = resort.Image;
+        resortInfo.name = resort.Name;
+        resortInfo.country = resort.Country;
+        resortInfo.description = resort.Description;
+        //console.log(resortInfo);
+
+        resortInfoArray.push(resortInfo);
+      }
+
+      //console.log(resortInfoArray);
+
+      return JSON.stringify({
+        hasResorts: true,
+        popularResorts: resortInfoArray
+      });
+    }
+    //otherwise, return no resorts found in that country
+    else {
+      console.log("this country doesn't have resorts");
+      return JSON.stringify({
+        hasResorts: false
+      });
+    }
+  }
+
 }
 
-module.exports = TripController
+module.exports = TripController;

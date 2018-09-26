@@ -79,10 +79,18 @@ Route.post("/api/getResortsByLiftPass", "ResortInfoController.getResortsByLiftPa
 
 /*TripController start*/
 
+//insert fake trip data into the database
+Route.get("/addFakeTripData", "TripController.addFakeTripData");
+
 //Enroll a new trip
 Route.post("/api/enrollTrip", "TripController.enrollNewTrip");
 
 // Get the age information of trip members (i.e. number of adults/children/toddlers)
 Route.get("/api/tripMemberAges/:tripID/:masterID", 'TripController.tripMemberAges');
 
+//get most popular resorts
+Route.get("/api/getPopularResorts", 'TripController.getPopularResorts');
+
+//get user country, and return most popular resorts in that country
+Route.get("/api/getPopularResortsByCountry/:token", "TripController.getPopularResortsByCountry");
 /*TripController end*/

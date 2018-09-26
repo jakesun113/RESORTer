@@ -16,14 +16,15 @@ class ImageCard extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {};
         this.handleBook = this.handleBook.bind(this);
     }
 
     async handleBook() {
 
         //only handle login with email user
-        if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider == 'email') {
+        if (sessionStorage.getItem('userSocialData') &&
+            JSON.parse(sessionStorage.getItem('userSocialData')).provider === 'email') {
             let BaseURL = "http://127.0.0.1:3333/api/";
             let postData;
             postData = {
@@ -69,7 +70,7 @@ class ImageCard extends Component {
                     }
 
                     //Jump into book page
-                    let postData = new Object();
+                    let postData = {};
                     postData.resortName = this.props.title;
                     postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
 
@@ -94,9 +95,10 @@ class ImageCard extends Component {
             });
         }
         //facebook&google login
-        else if (sessionStorage.getItem('userSocialData') && JSON.parse(sessionStorage.getItem('userSocialData')).provider != 'email') {
+        else if (sessionStorage.getItem('userSocialData') &&
+            JSON.parse(sessionStorage.getItem('userSocialData')).provider !== 'email') {
             //Jump into book page
-            let postData = new Object();
+            let postData = {};
             postData.resortName = this.props.title;
             postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
 
@@ -126,14 +128,19 @@ class ImageCard extends Component {
         }
     };
 
+    //FIXME: this method is never used
     handleLogout = () => {
         const {cookies} = this.props;
 
         sessionStorage.removeItem("userSocialData");
         sessionStorage.removeItem("userToken");
+        sessionStorage.removeItem("userImage");
+        sessionStorage.removeItem("userFinishProfile");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
+        cookies.remove("user-provider");
+        cookies.remove("user-profileFinished");
     };
 
     render() {
