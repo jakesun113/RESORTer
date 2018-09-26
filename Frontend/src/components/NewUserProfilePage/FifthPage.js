@@ -47,6 +47,22 @@ class FifthPage extends Component {
         isValid = false;
         memberId.style.borderColor = "red";
         this.setState({ disability_memberid_wrong: true });
+      } else {
+        try {
+          let match = memberId.value.match(/[0-9]/g);
+          let input = memberId.value;
+          if (match.length !== input.length) {
+            memberId.style.borderColor = "red";
+            this.setState({ disability_memberid_wrong: true });
+            isValid = false;
+            return isValid;
+          }
+        } catch (e) {
+          memberId.style.borderColor = "red";
+          this.setState({ disability_memberid_wrong: true });
+          isValid = false;
+          return isValid;
+        }
       }
       if (detail.value === "") {
         isValid = false;
