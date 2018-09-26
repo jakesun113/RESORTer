@@ -31,6 +31,7 @@ class MemberSchema extends Schema {
       table.string('Portrait');
       table.boolean('IsActive').notNullable();
       table.boolean("IsProfileComplete").defaultTo(false);
+      table.string("MemberType");
     })
   }
 
