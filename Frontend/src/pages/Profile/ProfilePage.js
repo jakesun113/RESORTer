@@ -206,15 +206,22 @@ class ProfilePage extends Component {
                 setState({
                     email: response.data.email
                 });
-
+console.log(response.data.portrait);
                 if(userData.provider !== "email"){
                     setState({
                         user_pic: userImage.provider_pic
                     });
                 }
+                
                 else if (response.data.portrait != null) {
+                    
                     setState({
                         user_pic: this.state.webServer + response.data.portrait
+                    });
+                }
+                else {
+                    setState({
+                        user_pic: "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/fill/w_141,h_141,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
                     });
                 }
 
@@ -305,6 +312,7 @@ class ProfilePage extends Component {
                 userImage = {
                     provider_pic: this.state.webServer + response.data.portrait
                 };
+                console.log(response.data.portrait);
                 sessionStorage.setItem(
                     "userImage",
                     JSON.stringify(userImage)
