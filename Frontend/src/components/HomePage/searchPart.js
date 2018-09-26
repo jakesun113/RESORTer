@@ -7,7 +7,7 @@ import axios from "axios";
 import {withCookies, Cookies} from 'react-cookie';
 import {instanceOf} from 'prop-types';
 
-
+//TODO: Do not judge the condition of token in this page.
 class Search extends Component {
 
     static propTypes = {
@@ -224,8 +224,8 @@ class Search extends Component {
                             />
                         ) : (
                             <a
-                            // href={`/booking/${this.state.selectedCountryResorts}/who`}
-                            onClick={this.handleBook}
+                            href={`/booking/${this.state.selectedCountryResorts}/who`}
+                            // onClick={this.handleBook}
                             >
                             <SmallEllipseBtn
                                 text="Make a Quote"

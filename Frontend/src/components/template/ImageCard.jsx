@@ -7,7 +7,7 @@ import {instanceOf} from 'prop-types';
 const CardSubTitleStyle = {
     color: "#2ab4ff"
 };
-
+//TODO: Do not judge the condition of token in this page.
 class ImageCard extends Component {
 
     static propTypes = {
@@ -35,6 +35,8 @@ class ImageCard extends Component {
                 //handle token is not valid, return to login
                 if (response.data.tokenValid === false) {
                     console.log("token expired");
+
+                    this.handleLogout();
 
                     this.props.history.push({
                         pathname: '/login'
@@ -127,8 +129,7 @@ class ImageCard extends Component {
             })
         }
     };
-
-    //FIXME: this method is never used
+    
     handleLogout = () => {
         const {cookies} = this.props;
 
@@ -159,10 +160,10 @@ class ImageCard extends Component {
                         <p className="card-text card-body-size">{this.props.text}</p>
                         <div className="botton_right">
                             <a
-                                // href={`/booking/${this.props.title}/who`}
-                                className="btn btn-primary"
-                                onMouseEnter={this.handleAuth}
-                                onClick={this.handleBook}
+                                href={`/booking/${this.props.title}/who`}
+                                // className="btn btn-primary"
+                                // onMouseEnter={this.handleAuth}
+                                // onClick={this.handleBook}
                             >
                                 <span>{this.props.btnText}</span>
                             </a>

@@ -15,7 +15,7 @@ class BookTripPage extends Component {
 
 
 
-        //if directly type this page's url, redirect to login page
+        // if directly type this page's url, redirect to login page
         if (!sessionStorage.getItem("userToken")) {
             return (
                 <Redirect
@@ -26,6 +26,7 @@ class BookTripPage extends Component {
                 />
             );
         }
+
         return (
             <React.Fragment>
                 <div className="container">
