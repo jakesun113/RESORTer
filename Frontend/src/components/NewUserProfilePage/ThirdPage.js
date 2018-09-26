@@ -1,24 +1,32 @@
 import React, { Component } from "react";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
-
-//TODO: add validation of phone number
+import axios from "axios";
 // third page
 class ThirdPage extends Component {
   state = {
     phoneNumberPre: "+61",
     country: "Australia",
     post_code_wrong: false,
-    phone_number_wrong: false
+    phone_number_wrong: false,
+    countryName: []
   };
 
   componentDidMount() {
-    // phone pre
+    //get the list of countries
+    let BaseURL = "http://127.0.0.1:3333/api/";
+
+    axios.get(BaseURL + "getCountry").then(response => {
+      let countries = response.data.sortedCountryArray;
+      this.setState({ countryName: countries });
+    });
+
+    // previous phone
     if (this.props.phoneNumberPre !== "") {
       this.setState({ phoneNumberPre: this.props.phoneNumberPre });
     } else {
       this.setState({ phoneNumberPre: "+61" });
     }
-    // phone pre
+    // previous country
     if (this.props.country !== "") {
       this.setState({ country: this.props.country });
     } else {
@@ -260,7 +268,7 @@ class ThirdPage extends Component {
                 textAlign: "center"
               }}
             >
-              <label htmlFor="last_name">Your country?</label>
+              <label htmlFor="country">Your country?</label>
             </div>
             <div className="form-group col-3 col-lg-4" />
           </div>
@@ -276,9 +284,10 @@ class ThirdPage extends Component {
               }}
             >
               <select
-                value={this.state.country}
                 id="country"
                 className="form-control"
+                value={this.state.country}
+                onChange={this.handleChange.bind(this)}
                 style={{
                   boxShadow: "0px 2px 0px 0px rgba(70,130,180,1)",
                   boxSizing: "border-box !important",
@@ -302,10 +311,16 @@ class ThirdPage extends Component {
                   this.setState({ country: e.target.value });
                 }}
               >
-                <option selected value="Australia">
-                  Australia
-                </option>
-                <option value="US">US</option>
+                <option id="country">Select your country</option>
+                {this.state.countryName.length === 0
+                  ? null
+                  : this.state.countryName.map(country => {
+                      return (
+                        <option key={country} value={country}>
+                          {country}
+                        </option>
+                      );
+                    })}
               </select>
             </div>
             <div className="form-group col-3 col-lg-4" />
