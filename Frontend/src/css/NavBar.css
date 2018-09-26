@@ -10,17 +10,17 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
-.logo_front span img {
+.logo_front img {
   width: 187px;
   height: auto;
-  float: left;
-  margin-left: 20px;
+  /* float: left; */
+  /* margin-left: 20px; */
 }
-.logo_coming_soon span img {
+.logo_coming_soon img {
   width: 100px;
   height: 100px;
-  float: right;
-  margin-right: 20px;
+  /* float: right; */
+  /* margin-right: 20px; */
 }
 
 .button_admin a img {

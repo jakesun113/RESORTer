@@ -245,7 +245,7 @@ class MemberController {
 
         //console.log(token);
         const dbToken = await Token.findBy("Token", token);
-
+        //console.log(dbToken);
         const member = await Member.findBy('id', dbToken.MemberID);
 
         const newToken = await auth.generate(member);
@@ -345,7 +345,7 @@ class MemberController {
 
   async updateImage({request}) {
 
-    try{
+    try {
       const profilePic = request.file('file', {
         types: ['image'],
         size: '15mb'
@@ -388,12 +388,12 @@ class MemberController {
       console.log("change image success");
 
       return JSON.stringify({
-        portrait: filePath ,
+        portrait: filePath
       })
     }
- catch (e) {
-   console.log(e);
- }
+    catch (e) {
+      console.log(e);
+    }
 
   }
 

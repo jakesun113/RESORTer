@@ -5,6 +5,7 @@ import { withCookies, Cookies } from "react-cookie";
 import { instanceOf } from "prop-types";
 import SmallEllipseBtn from "./SmallEllipseBtn";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 const CardSubTitleStyle = {
   color: "#2ab4ff"
 };
@@ -166,17 +167,15 @@ class ImageCard extends Component {
             <p style={CardSubTitleStyle}>{this.props.subTitle}</p>
             <p className="card-text card-body-size">{this.props.text}</p>
             <div className="botton_right">
-              <a
-                href={`/booking/${this.props.title}/who`}
-                className="btn btn-primary"
-                // onMouseEnter={this.handleAuth}
-                // onClick={this.handleBook}
+              <Link
+                className="nav-link"
+                to={`/booking/${this.props.title}/who`}
               >
                 <SmallEllipseBtn
                   text={this.props.btnText}
-                  btnColor="orangered"
+                  btnColor=" rgba(255, 97, 97, 1)"
                 />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

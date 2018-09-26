@@ -207,14 +207,21 @@ class ProfilePage extends Component {
                     email: response.data.email
                 });
 
-                if(userData.provider !== "email"){
+                if (userData.provider !== "email") {
                     setState({
                         user_pic: userImage.provider_pic
                     });
                 }
+
                 else if (response.data.portrait != null) {
+
                     setState({
                         user_pic: this.state.webServer + response.data.portrait
+                    });
+                }
+                else {
+                    setState({
+                        user_pic: "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/fill/w_141,h_141,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
                     });
                 }
 
@@ -277,7 +284,7 @@ class ProfilePage extends Component {
             ).value;
             disabilityDetailValue = document.getElementById("disability_detail")
                 .value;
-        } 
+        }
         // if user does not disability, set the disability information as null
         else {
             disabilityMembershipValue = null;
@@ -285,48 +292,50 @@ class ProfilePage extends Component {
             disabilityDetailValue = null;
         }
 
-        //send portrait to the backend
-        const formData = new FormData();
-        //console.log(this.state.file);
-        formData.append('file', this.state.file);
+        //send portrait to the backend, only when user upload one image
+        if (this.state.file !== null) {
+            const formData = new FormData();
+            console.log(this.state.file);
+            formData.append('file', this.state.file);
 
-        await axios({
-            method: 'put',
-            headers: {'content-type': 'multipart/form-data'},
-            url: "http://127.0.0.1:3333/api/user-image/" + this.state.token,
-            data: formData
-        }).then(
-            /*Proceed subsequent actions based on value */
-            response => {
-                console.log("change portrait success");
+            await axios({
+                method: 'put',
+                headers: {'content-type': 'multipart/form-data'},
+                url: "http://127.0.0.1:3333/api/user-image/" + this.state.token,
+                data: formData
+            }).then(
+                /*Proceed subsequent actions based on value */
+                response => {
+                    console.log("change portrait success");
 
-                //save picture into session
-                let userImage;
-                userImage = {
-                    provider_pic: this.state.webServer + response.data.portrait
-                };
-                sessionStorage.setItem(
-                    "userImage",
-                    JSON.stringify(userImage)
-                );
-                //save picture into cookie
-                const {cookies} = this.props;
+                    //save picture into session
+                    let userImage;
+                    userImage = {
+                        provider_pic: this.state.webServer + response.data.portrait
+                    };
+                    console.log(response.data.portrait);
+                    sessionStorage.setItem(
+                        "userImage",
+                        JSON.stringify(userImage)
+                    );
+                    //save picture into cookie
+                    const {cookies} = this.props;
 
-                //only when user click "remember me", update the token in cookies
-                if (cookies.get("access-token")) {
-                    let date = new Date();
-                    date.setTime(date.getTime() + +2592000);
-                    cookies.set("user-pic", this.state.webServer + response.data.portrait, {
-                        expires: date,
-                        path: "/"
+                    //only when user click "remember me", update the token in cookies
+                    if (cookies.get("access-token")) {
+                        let date = new Date();
+                        date.setTime(date.getTime() + +2592000);
+                        cookies.set("user-pic", this.state.webServer + response.data.portrait, {
+                            expires: date,
+                            path: "/"
+                        });
+                    }
+                    this.setState({
+                        user_pic: this.state.webServer + response.data.portrait
                     });
                 }
-                console.log(response.data.portrait);
-                this.setState({
-                    user_pic: this.state.webServer + response.data.portrait
-                });
-            }
-        );
+            );
+        }
 
         const data = {
             SkiAbility: document.getElementById("ski_ability").value,

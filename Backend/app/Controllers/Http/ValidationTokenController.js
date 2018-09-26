@@ -99,8 +99,7 @@ class ValidationTokenController {
               const member = await Member.findBy('Email', email);
 
               let userName = "";
-              if(member.Firstname !== null && member.Lastname !== null)
-              {
+              if (member.Firstname !== null && member.Lastname !== null) {
                 userName = member.Firstname + " " + member.Lastname;
               }
               //console.log(userName);
