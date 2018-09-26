@@ -7,7 +7,7 @@ import {instanceOf} from 'prop-types';
 const CardSubTitleStyle = {
     color: "#2ab4ff"
 };
-
+//TODO: Do not judge the condition of token in this page.
 class ImageCard extends Component {
 
     static propTypes = {

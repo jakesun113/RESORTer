@@ -7,7 +7,7 @@ import axios from "axios";
 import {withCookies, Cookies} from 'react-cookie';
 import {instanceOf} from 'prop-types';
 
-
+//TODO: Do not judge the condition of token in this page.
 class Search extends Component {
 
     static propTypes = {
