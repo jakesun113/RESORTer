@@ -1,5 +1,10 @@
 import React, { Component } from "react";
 import BookHistoryCard from "../components/MyTripPage/BookHistoryCard";
+import styled from "styled-components";
+
+const StyledTable = styled.table`
+  border-collapse: collapse !important;
+`;
 class MyTripPage extends Component {
   state = {};
   render() {
@@ -18,7 +23,7 @@ class MyTripPage extends Component {
             <div className="form-group col-6" />
           </div>
           {/* table title */}
-          <table className="table">
+          <table className="table table-borderless">
             <thead>
               <tr style={{ color: "#686369" }}>
                 <th scope="col">Submit Date</th>
@@ -27,6 +32,7 @@ class MyTripPage extends Component {
                 <th scope="col">End Date</th>
                 <th scope="col">Status</th>
                 <th scope="col">Price</th>
+                <th scope="col" />
                 <th scope="col" />
               </tr>
             </thead>
@@ -46,6 +52,14 @@ class MyTripPage extends Component {
               endDate="10 August 2018"
               status="Submitted"
               price="$-50"
+            />
+            <BookHistoryCard
+              submitDate="26 July 2018, 2:35 pm"
+              resort="相当 Sb Jiacheng"
+              startDate="30 July 2018"
+              endDate="10 August 2018"
+              status="Submitted"
+              price="$-1050"
             />
           </table>
 
