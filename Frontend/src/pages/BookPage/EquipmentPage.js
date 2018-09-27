@@ -20,21 +20,21 @@ class Equipmentpage extends Component {
             className="row"
             style={{ color: "#4682B4", fontSize: "26px", fontWeight: "bold" }}
           >
-            <div className="col-1" />
-            <div className="col-2"> 4. EQUIPMENT?</div>
-            <div className="col-1" />
-            <div className="col-2">
+            <div className="col-lg-1" />
+            <div className="col-12 col-lg-2"> 4. EQUIPMENT?</div>
+            <div className="col-lg-1" />
+            <div className="col-12 col-lg-2">
               <SmallEllipseBtn
                 text="Skip Rental"
                 btnColor="rgba(104, 99, 105, 1)"
                 fontSize="20px"
               />
             </div>
-            <div className="col-4" />
+            <div className="col-lg-4" />
           </div>
           <br />
           <div className="row">
-            <div className="col-1" />
+            <div className="col-lg-1" />
             {this.state.members.map(eachMember => (
               <div className="col-xl-2 col-lg-3 col-md-4 col-6">
                 <MemberBtn text={eachMember.name} />
