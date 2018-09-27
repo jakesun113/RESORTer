@@ -101,6 +101,22 @@ class BookTripNavBar extends Component {
       return (
         <React.Fragment>
           <div className="container">
+            {/* title */}
+            <p style={{ textAlign: "center" }}>
+              <span
+                style={{
+                  fontSize: "3ex",
+                  color: "#686369",
+                  marginRight: "30px"
+                }}
+              >
+                Your trip to:
+              </span>
+              <span style={{ color: "#4682B4", fontSize: "4ex" }}>
+                {this.props.placeName}
+              </span>
+            </p>
+            <br />
             {/* 1 */}
             <div className="row">
               <div class="booktrip-navbar">
@@ -190,6 +206,22 @@ class BookTripNavBar extends Component {
       return (
         <React.Fragment>
           <div className="container">
+            {/* title */}
+            <p style={{ textAlign: "center" }}>
+              <span
+                style={{
+                  fontSize: "3ex",
+                  color: "#686369",
+                  marginRight: "30px"
+                }}
+              >
+                Your trip to:
+              </span>
+              <span style={{ color: "#4682B4", fontSize: "4ex" }}>
+                {this.props.placeName}
+              </span>
+            </p>
+            <br />
             <div className="row">
               <div class="booktrip-navbar">
                 {/* 1 */}
@@ -276,10 +308,27 @@ class BookTripNavBar extends Component {
         </React.Fragment>
       );
     }
+    // computer
     if (this.state.device === "computer") {
       return (
         <React.Fragment>
           <div className="container">
+            {/* title */}
+            <p style={{ textAlign: "center" }}>
+              <span
+                style={{
+                  fontSize: "3ex",
+                  color: "#686369",
+                  marginRight: "30px"
+                }}
+              >
+                Your trip to:
+              </span>
+              <span style={{ color: "#4682B4", fontSize: "4ex" }}>
+                {this.props.placeName}
+              </span>
+            </p>
+            <br />
             <div class="booktrip-navbar">
               {/* 1 */}
               <div
@@ -330,15 +379,20 @@ class BookTripNavBar extends Component {
                   "bar" + this.handleNavBarState("step_4_in_book_page")
                 }
               />
-              <div
-                id="step_4_in_book_page"
-                className={
-                  "circle" + this.handleNavBarState("step_4_in_book_page")
-                }
-              >
-                <span class="label">4</span>
-                <span class="title">Equipment?</span>
-              </div>
+              <Link to={`/booking/${this.props.placeName}/equipment`}>
+                <div
+                  id="step_4_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_4_in_book_page")
+                  }
+                  onClick={() => {
+                    this.handleActive("step_4_in_book_page");
+                  }}
+                >
+                  <span class="label">4</span>
+                  <span class="title">Equipment?</span>
+                </div>
+              </Link>
               {/* 5 */}
               <span
                 id="step_5_in_book_page"
@@ -351,9 +405,6 @@ class BookTripNavBar extends Component {
                 className={
                   "circle" + this.handleNavBarState("step_5_in_book_page")
                 }
-                // onClick={() => {
-                //   this.handleDone("step_5_in_book_page");
-                // }}
               >
                 <span class="label">5</span>
                 <span class="title">Learn?</span>
