@@ -423,7 +423,7 @@ class TripController {
   }
 
   async getBookingHistory({params}) {
-     //first, get the country of the user
+     //first, get the user ID
      const token = params.token;
      //console.log(token);
      const dbMemberID = await Database.table('validation_tokens')
@@ -450,27 +450,24 @@ class TripController {
             tripInfo.status = "Submitted"
           } else {
             tripInfo.status = "In Progress"
-          }
-          //console.log(resortInfo);
-  
+          }  
           tripArray.push(tripInfo);
         }      
-      console.log(tripArray);
+      //console.log(tripArray);
 
       return JSON.stringify({
         hasTrips: true,
         bookingHistory: tripArray
       });
 
-    } else {
+    } 
+    //otherwise, return no trips found in that user
+    else {
       console.log("this member doesn't have trips");
       return JSON.stringify({
         hasResorts: false
       });
-
-    }
-    
-
+    }   
   }
 
 }

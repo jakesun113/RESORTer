@@ -21,10 +21,9 @@ class MyTripPage extends Component {
 
   async getBookingHistory(token) {
     let BaseURL = "http://127.0.0.1:3333/api/";
-    //get the list of countries
+    //get the list of trips
     await axios.get(BaseURL + "getBookingHistory/" + token).then(response => {
       console.log("get history trips successfully");
-      //console.log(response.data.popularResorts);
       this.setState({
         hasTrips: response.data.hasTrips,
         bookingHistory: response.data.bookingHistory
@@ -34,7 +33,6 @@ class MyTripPage extends Component {
 
   componentDidMount() {
     if (sessionStorage.getItem("userToken")) {
-      console.log("get token")
       let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
       this.getBookingHistory(tokenData.token);
     }  
@@ -86,17 +84,7 @@ class MyTripPage extends Component {
         ) : (
           null
         )}
-
-            {/* <BookHistoryCard
-              submitDate="26 July 2018, 2:35 pm"
-              resort="Cardrona"
-              startDate="30 July 2018"
-              endDate="10 August 2018"
-              status="Submitted"
-              //price="$50"
-            /> */}
-
-          </table>
+      </table>
 
           {/* end container */}
         </div>
