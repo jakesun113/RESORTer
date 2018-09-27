@@ -14,7 +14,7 @@ function StartDate(props) {
             selected={props.startDate}
             onChange={handleChange}
             minDate={props.validMinDate}
-        />
+        /> 
     );
 }
 
@@ -39,7 +39,8 @@ class SelectTripDate extends Component {
     this.state = {
         startDate: moment().add(4, "days"), // initially, start date is today + 4 days
         endDate: moment().add(9, "days"),
-        width:0
+        width:0,
+        hidePlanButton:false
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 }
@@ -66,7 +67,6 @@ class SelectTripDate extends Component {
         try{
             //if login & Personal Profile was completed
             if (sessionStorage.getItem('userSocialData')){
-                //TODO: If user profile is uncompleted, redirect to profile page
                 axios
                 .get(
                     "http://127.0.0.1:3333/api/checkProfile/" +
@@ -85,9 +85,6 @@ class SelectTripDate extends Component {
 
                     }
                 });
-
-
-                    
             }
             //no login
             else{
@@ -95,6 +92,10 @@ class SelectTripDate extends Component {
                 //alert window
 
             }
+
+            this.setState({
+                hidePlanButton : true
+            })
 
         }catch(err){
 
@@ -124,6 +125,20 @@ class SelectTripDate extends Component {
 
     render() {
         let currentStartDate = this.state.startDate;
+        
+        let planButton =<div>   
+                            <p style={{opacity:0}}>
+                                <strong>Place Holder</strong>
+                            </p>
+                            {/* Responsive */}
+                            {this.state.width < 990 && this.state.width > 575 ? <div style={{opacity:0}}>1</div> : null}
+                            <span onClick={this.handleClick}>
+                                <SmallEllipseBtn
+                                    text="Plan Your Trip"
+                                    btnColor="rgba(255, 97, 97, 1)"
+                                />
+                            </span>
+                        </div>
         return (
             <div className="container">
                 <div className="row">
@@ -150,17 +165,7 @@ class SelectTripDate extends Component {
                         />
                     </div>
                     <div className="col-sm" id="planTripBtn" style={{textAlign:'center'}}>
-                        <p style={{opacity:0}}>
-                            <strong>Place Holder</strong>
-                        </p>
-                        {/* Responsive */}
-                        {this.state.width < 990 && this.state.width > 575 ? <div style={{opacity:0}}>1</div> : null }
-                        <span onClick={this.handleClick}>
-                        <SmallEllipseBtn
-                            text="Plan Your Trip"
-                            btnColor="rgba(255, 97, 97, 1)"
-                        />
-                        </span>
+                        {this.state.hidePlanButton ? null : planButton}
                     </div>
                 </div>
             </div>

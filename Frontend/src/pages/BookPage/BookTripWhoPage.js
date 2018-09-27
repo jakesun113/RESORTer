@@ -22,7 +22,7 @@ class BookTripPage extends Component {
 
   render() {
     // const {place, masterID, resortID, tripID, history} = this.props;
-    const { place } = this.props;
+    const { place,history } = this.props;
 
     // if directly type this page's url, redirect to login page
     // if (!sessionStorage.getItem("userToken")) {
@@ -35,7 +35,6 @@ class BookTripPage extends Component {
     //         />
     //     );
     // }
-
     return (
       <React.Fragment>
         <div className="container">
@@ -63,7 +62,7 @@ class BookTripPage extends Component {
           <div className="row">
             <div className="col-1" />
             <div className="col-10">
-              <DatePicker showAddTripMember={this.showAddTripMember}/>
+              <DatePicker showAddTripMember={this.showAddTripMember} history={history}/>
             </div>
             <div className="col-1" />
           </div>

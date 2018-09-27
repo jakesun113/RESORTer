@@ -21,6 +21,32 @@ const imagePath = "UserPortrait";
  */
 class MemberController {
 
+  //Check whether a use has completed profile
+  async checkCompleteProfile({response,params}){
+
+    try{
+      const userToken = await Token.findBy('Token', params.token);
+      const user = await Member.find(userToken.MemberID)
+
+      if(user.IsProfileComplete === 0){
+
+        return response.send(JSON.stringify({status:'fail'}))
+
+      }else if(user.IsProfileComplete === 1){
+
+        return response.send(JSON.stringify({status:'success'}))
+
+      }
+
+
+    }catch(err){
+      console.log(err)
+      return response.send(JSON.stringify({status:'Server Error'}))
+
+    }
+
+  }
+
   //Sign Up Function
   async register({request, auth}) {
 
