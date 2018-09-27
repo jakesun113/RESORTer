@@ -368,7 +368,7 @@ class TripController {
     }
     let identicalResortIDs = [];
 
-    //check whether resorts in the specific country is in the trip table,
+    // whether resorts in the specific country is in the trip table,
     //if so, add the resort ID in the array
     for (let i = 0; i < Object.keys(counts).length; i++) {
       const resort = await ResortInfo.findBy('id', Object.keys(counts)[i]);
@@ -428,7 +428,7 @@ class TripController {
      //console.log(token);
      const dbMemberID = await Database.table('validation_tokens')
        .where("Token", token).select('MemberID');
-    
+
     //then, get all the trips ID from trip table
     //only return the trip ID of the specific member
     const trips = await Database.table('trips')
@@ -450,9 +450,9 @@ class TripController {
             tripInfo.status = "Submitted"
           } else {
             tripInfo.status = "In Progress"
-          }  
+          }
           tripArray.push(tripInfo);
-        }      
+        }
       //console.log(tripArray);
 
       return JSON.stringify({
@@ -460,14 +460,14 @@ class TripController {
         bookingHistory: tripArray
       });
 
-    } 
+    }
     //otherwise, return no trips found in that user
     else {
       console.log("this member doesn't have trips");
       return JSON.stringify({
         hasResorts: false
       });
-    }   
+    }
   }
 
 }
