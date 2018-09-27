@@ -3,15 +3,6 @@ import SmallEllipseBtn from "./SmallEllipseBtn";
 import {Link} from "react-router-dom";
 
 class ContinueBookTrip extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-        this.handleCompleteTrip = this.handleCompleteTrip.bind(this);
-    }
-
-    //TODO: not finished
-    handleCompleteTrip() {
-    }
 
     render() {
         return (
@@ -41,7 +32,7 @@ class ContinueBookTrip extends Component {
                         style={{whiteSpace: "nowrap", textAlign: "center"}}
                     >
                         <div className="col-md-12 col-lg-8">
-                            <Link className="nav-link" to="" onClick={this.handleCompleteTrip}>
+                            <Link className="nav-link" to="/my-trip">
                                 <SmallEllipseBtn
                                     text="Complete My Snowtrip"
                                     btnColor="rgba(255, 97, 97, 1)"

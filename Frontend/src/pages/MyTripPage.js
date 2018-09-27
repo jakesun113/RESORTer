@@ -64,8 +64,8 @@ class MyTripPage extends Component {
     let totalTrips = 0;
     if (hasTrips) {
       totalTrips = allTrips.length;
+      if (totalTrips === 0) return null;
     }
-    if (totalTrips === 0) return null;
     
     return (
       <React.Fragment>

@@ -3,8 +3,6 @@ import SmallEllipseBtn from "../template/SmallEllipseBtn";
 import axios from "axios";
 import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
-import {Redirect} from "react-router-dom";
-import AlertWindow from "../template/AlertWindow";
 import styled from "styled-components";
 import moment from "moment";
 
@@ -27,150 +25,12 @@ class GroupMemberInfoCard extends Component {
         super(props);
         const {cookies} = props;
         this.state = {
-            tokenExpire: false,
-            alert: null,
-            showAlertWindow: false, //whether show the alertWindow
-            provider: cookies.get("user-provider") || null
         };
     }
 
-    componentDidMount() {
-        //Acquiring provider
-        if (sessionStorage.getItem("userSocialData")) {
-            let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
-            if (userData.provider) {
-                this.setState({
-                    provider: userData.provider
-                });
-            }
-        }
-    }
-
-    //Delete Group Member
-    handleOnClick = () => {
-        axios
-            .delete("http://127.0.0.1:3333/api/delete-member", {
-                data: {
-                    id: this.props.id,
-                    token: JSON.parse(sessionStorage.getItem("userToken")).token,
-                    provider: this.state.provider
-                }
-            })
-            .then(response => {
-                //If Success => alert Success
-                if (response.data.status === "success") {
-                    this.setState({
-                        alert: "success"
-                    });
-
-                    //Update token
-                    console.log("token valid");
-                    let userToken = {
-                        token: response.data.token
-                    };
-
-                    //save token into session
-                    sessionStorage.setItem("userToken", JSON.stringify(userToken));
-
-                    //save token into cookie
-                    let date = new Date();
-                    date.setTime(date.getTime() + +2592000);
-                    const {cookies} = this.props;
-
-                    //only when user click "remember me", update the token in cookies
-                    if (cookies.get("access-token")) {
-                        cookies.set("access-token", response.data.token.token, {
-                            expires: date,
-                            path: "/"
-                        });
-                        cookies.set("user-provider", "email", {
-                            expires: date,
-                            path: "/"
-                        });
-                        console.log(
-                            "token has been extended. Token is: " +
-                            cookies.get("access-token")
-                        );
-                    }
-                    //Update the numberOfGroupMember in GroupMemberPage, also Pass the token
-                    this.props.deleteGroupNumber(response.data.token.token);
-                }
-                //If Fail => either token expire or member does not exist
-                else if (response.data.status === "fail") {
-                    this.setState({
-                        alert: "fail"
-                    });
-                } else if (response.data.status === "ExpiredJWT") {
-                    this.setState({
-                        alert: "tokenExpire"
-                    });
-                }
-            });
-        this.setState({showAlertWindow: true});
-    };
-
-    handleLogout = () => {
-        const {cookies} = this.props;
-
-        this.setState({
-            provider: null
-        });
-
-        sessionStorage.removeItem("userSocialData");
-        sessionStorage.removeItem("userToken");
-        sessionStorage.removeItem("userImage");
-        sessionStorage.removeItem("userFinishProfile");
-        sessionStorage.removeItem("userFinishTrip");
-        sessionStorage.removeItem("userIsClicked");
-        cookies.remove("user-name");
-        cookies.remove("access-token");
-        cookies.remove("user-pic");
-        cookies.remove("user-provider");
-        cookies.remove("user-profileFinished");
-        cookies.remove("user-hasUnfinishedTrip");
-    };
-
     render() {
-        if (this.state.tokenExpire) {
-            return <Redirect to={"/login"}/>;
-        }
-        let alertWindow;
-        if (this.state.showAlertWindow) {
-            if (this.state.alert === "tokenExpire") {
-                alertWindow = (
-                    <AlertWindow
-                        displayText={
-                            <div>Sorry, you token is expired. Please login again.</div>
-                        }
-                        btnNum="1"
-                        btnText="Login"
-                        mode="customMode"
-                        onHandClick={() => {
-                            this.setState({showAlertWindow: false});
-                            this.setState({tokenExpire: true});
-                            this.handleLogout();
-                        }}
-                    />
-                );
-            } else if (this.state.alert === "fail") {
-                alertWindow = (
-                    <AlertWindow
-                        displayText={
-                            <div>Woops, This user has been deleted. Please refresh.</div>
-                        }
-                        mode="customMode"
-                        onHandClick={() => {
-                            this.setState({showAlertWindow: false});
-                            this.handleLogout();
-                        }}
-                    />
-                );
-            }
-        }
-
         return (
             <React.Fragment>
-                {alertWindow}
                 <MemberInfoCard>
                     {/* <div id="info-card-in-member-page"> */}
                     {/* delete btn */}
@@ -182,7 +42,7 @@ class GroupMemberInfoCard extends Component {
                             paddingTop: "10px"
                         }}
                     >
-            <span onClick={this.handleOnClick}>
+            <span onClick={this.props.handleClick}>
               <SmallEllipseBtn text="DELETE" btnColor="grey"/>
             </span>
                     </div>
