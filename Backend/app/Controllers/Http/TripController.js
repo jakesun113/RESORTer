@@ -4,6 +4,7 @@ const Trip = use('App/Models/Trip');
 const ResortInfo = use('App/Models/ResortInfo');
 const Member = use("App/Models/Member");
 const ValidationToken = use("App/Models/ValidationToken");
+const FamilyMember = use("App/Models/FamilyMember")
 const moment = use('moment');
 const topSix = 6;
 
@@ -13,6 +14,34 @@ const topSix = 6;
 
 class TripController {
 
+  async acquireSelfInfoAndFamilyInfo({response,params}){
+
+    try{
+      const validationToken = await ValidationToken.findBy('Token', params.token);
+      const userInfo = await Member
+                    .query()
+                    .where('id','=',validationToken.MemberID)
+                    .fetch()
+      let user = userInfo.rows[0]
+      //FIXME:Better way to exclude EncryptedPW column
+      user.EncryptedPW = null
+      const familyMember = await FamilyMember
+                      .query()
+                      .where('MemberID', '=', validationToken.MemberID)
+                      .fetch()
+
+      let dataResponse = new Object();
+      dataResponse.user = user;
+      dataResponse.familyMember = familyMember;
+
+      return response.send(dataResponse);
+
+    }catch(err){
+      console.log(err)
+      return response.send('SERVER ERROR')
+    }
+
+  }
   async addFakeTripData() {
 
     const userID1 = 1;

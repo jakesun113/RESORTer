@@ -1,32 +1,8 @@
 import React, { Component } from "react";
 import "../../css/BookTripPage/BookTripNavBar.css";
-import styled from "styled-components";
-const Circle = styled.li`
+import { Link } from "react-router-dom";
+// pages
 
-    /* width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  font-size: 20px;
-  color: #fff;
-  line-height: 60px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.4s ease 0s;
-  background-color: rgba(
-    ${props => (props.active ? "90, 215, 76, 1" : "204, 204, 204, 1")}
-  );
-  border-color: rgba(204, 204, 204, 1);
-  &:hover {
-    background-color: rgb(255, 0, 0);
-    cursor: pointer;
-  } */
-`;
-const Line = styled.div`
-  border-top: 5px solid rgba(232, 89, 12, 1);
-  position: absolute;
-  width: 100%;
-  top: 50%;
-`;
 class BookTripNavBar extends Component {
   state = {
     currentProcess: "step_1_in_book_page",
@@ -38,7 +14,8 @@ class BookTripNavBar extends Component {
       "step_4_in_book_page",
       "step_5_in_book_page",
       "step_6_in_book_page"
-    ]
+    ],
+    device: "computer"
   };
 
   handleCurrentProcess = e => {
@@ -54,76 +31,132 @@ class BookTripNavBar extends Component {
     //   ? (e.target.className = "initial")
     //   : "";
   };
+  handleDone = () => {
+    var currentPage = this.this.state.currentProcess;
+    var className = document.getElementById(currentPage).className + " done";
+    document.getElementById(currentPage).className = className;
+  };
 
-  // componentDidMount() {
-  //   document.getElementById("step_1_in_book_page").className =
-  //     "circle_navbar_in_bookpage active_navbar_in_bookpage";
-  // }
+  handleActive = () => {
+    var currentPage = this.this.state.currentProcess;
+    var className = document.getElementById(currentPage).className + " active";
+    document.getElementById(currentPage).className = className;
+  };
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
+  }
+
+  //Responsive
+  updateWindowDimensions = () => {
+    if (window.innerWidth > 990) {
+      this.setState({ device: "computer" });
+    } else {
+      this.setState({ device: "phone" });
+    }
+  };
 
   render() {
-    return (
-      <React.Fragment>
-        <div className="container" id="booktrip-navbar">
-          <br />
-          {/* title */}
-          <p style={{ textAlign: "center" }}>
-            <span
-              style={{
-                fontSize: "3ex",
-                color: "#686369",
-                marginRight: "30px"
-              }}
-            >
-              Your trip to:
-            </span>
-            <span style={{ color: "#4682B4", fontSize: "4ex" }}>
-              {this.props.placeName}
-            </span>
-          </p>
-          <br />
-          {/* navbar */}
-          <ul className="row" style={{ whiteSpace: "nowrap" }}>
-            <li>
-              1<br />
-              <span style={{ color: "black", whiteSpace: "nowrap" }}>
-                When & Who?
-              </span>
-            </li>
-            <li>
-              2<br />
-              <span style={{ color: "black" }}>Sleep?</span>
-            </li>
-            <li>
-              3<br />
-              <span style={{ color: "black", whiteSpace: "nowrap" }}>
-                Doing?
-              </span>
-            </li>
-            <li>
-              4<br />
-              <span style={{ color: "black", whiteSpace: "nowrap" }}>
-                Equipment?
-              </span>
-            </li>
-            <li>
-              5<br />
-              <span style={{ color: "black", whiteSpace: "nowrap" }}>
-                Learn?
-              </span>
-            </li>
-            <li>
-              6<br />
-              <span style={{ color: "black", whiteSpace: "nowrap" }}>
-                Plan Summary
-              </span>
-            </li>
-          </ul>
-
-          <br />
-          {/* end container */}
-        </div>
-      </React.Fragment>
-    );
+    if (this.state.device === "phone") {
+      return (
+        <React.Fragment>
+          <div className="container">
+            <div className="row">
+              <div class="booktrip-navbar">
+                {/* 1 */}
+                <div id="step_1_in_book_page" class="circle done">
+                  <span class="label">1</span>
+                  <span class="title">When & Who?</span>
+                </div>
+                {/* 2 */}
+                <span id="step_2_in_book_page" class="bar done" />
+                <div id="step_2_in_book_page" class="circle done">
+                  <span class="label">2</span>
+                  <span class="title">Sleep?</span>
+                </div>
+                {/* 3 */}
+                <span id="step_3_in_book_page" class="bar active" />
+                <div id="step_3_in_book_page" class="circle active">
+                  <span class="label">3</span>
+                  <span class="title">Doing?</span>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div class="booktrip-navbar">
+                {/* 4 */}
+                <div id="step_4_in_book_page" class="circle">
+                  <span class="label">4</span>
+                  <span class="title">Equipment?</span>
+                </div>
+                {/* 5 */}
+                <span id="step_5_in_book_page" class="bar" />
+                <div id="step_5_in_book_page" class="circle">
+                  <span class="label">5</span>
+                  <span class="title">Learn?</span>
+                </div>
+                {/* 6 */}
+                <span id="step_6_in_book_page" class="bar" />
+                <div id="step_6_in_book_page" class="circle">
+                  <span class="label">6</span>
+                  <span class="title">Plan Summary</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    }
+    if (this.state.device === "computer") {
+      return (
+        <React.Fragment>
+          <div className="container">
+            <div class="booktrip-navbar">
+              {/* 1 */}
+              <div id="step_1_in_book_page" class="circle done">
+                <span class="label">1</span>
+                <span class="title">When & Who?</span>
+              </div>
+              {/* 2 */}
+              <span id="step_2_in_book_page" class="bar done" />
+              <div id="step_2_in_book_page" class="circle done">
+                <span class="label">2</span>
+                <span class="title">Sleep?</span>
+              </div>
+              {/* 3 */}
+              <span id="step_3_in_book_page" class="bar active" />
+              <div class="circle active">
+                <span class="label">3</span>
+                <span class="title">Doing?</span>
+              </div>
+              {/* 4 */}
+              <span id="step_4_in_book_page" class="bar" />
+              <div id="step_4_in_book_page" class="circle">
+                <span class="label">4</span>
+                <span class="title">Equipment?</span>
+              </div>
+              {/* 5 */}
+              <span id="step_5_in_book_page" class="bar" />
+              <div id="step_5_in_book_page" class="circle">
+                <span class="label">5</span>
+                <span class="title">Learn?</span>
+              </div>
+              {/* 6 */}
+              <span id="step_6_in_book_page" class="bar" />
+              <div id="step_6_in_book_page" class="circle">
+                <span class="label">6</span>
+                <span class="title">Plan Summary</span>
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    }
   }
 }
 
