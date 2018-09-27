@@ -328,18 +328,23 @@ class BookTripNavBar extends Component {
                 {this.props.placeName}
               </span>
             </p>
-            <br />
+
             <div class="booktrip-navbar">
               {/* 1 */}
-              <div
-                id="step_1_in_book_page"
-                className={
-                  "circle" + this.handleNavBarState("step_1_in_book_page")
-                }
-              >
-                <span class="label">1</span>
-                <span class="title">When & Who?</span>
-              </div>
+              <Link to={`/booking/${this.props.placeName}/who`}>
+                <div
+                  id="step_1_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_1_in_book_page")
+                  }
+                  onClick={() => {
+                    this.handleActive("step_1_in_book_page");
+                  }}
+                >
+                  <span class="label">1</span>
+                  <span class="title">When & Who?</span>
+                </div>
+              </Link>
               {/* 2 */}
               <span
                 id="step_2_in_book_page"
@@ -347,15 +352,20 @@ class BookTripNavBar extends Component {
                   "bar" + this.handleNavBarState("step_2_in_book_page")
                 }
               />
-              <div
-                id="step_2_in_book_page"
-                className={
-                  "circle" + this.handleNavBarState("step_2_in_book_page")
-                }
-              >
-                <span class="label">2</span>
-                <span class="title">Sleep?</span>
-              </div>
+              <Link to={`/booking/${this.props.placeName}/sleep`}>
+                <div
+                  id="step_2_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_2_in_book_page")
+                  }
+                  onClick={() => {
+                    this.handleActive("step_2_in_book_page");
+                  }}
+                >
+                  <span class="label">2</span>
+                  <span class="title">Sleep?</span>
+                </div>
+              </Link>
               {/* 3 */}
               <span
                 id="step_3_in_book_page"
@@ -363,15 +373,20 @@ class BookTripNavBar extends Component {
                   "bar" + this.handleNavBarState("step_3_in_book_page")
                 }
               />
-              <div
-                id="step_3_in_book_page"
-                className={
-                  "circle" + this.handleNavBarState("step_3_in_book_page")
-                }
-              >
-                <span class="label">3</span>
-                <span class="title">Doing?</span>
-              </div>
+              <Link to={`/booking/${this.props.placeName}/doing`}>
+                <div
+                  id="step_3_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_3_in_book_page")
+                  }
+                  onClick={() => {
+                    this.handleActive("step_3_in_book_page");
+                  }}
+                >
+                  <span class="label">3</span>
+                  <span class="title">Doing?</span>
+                </div>
+              </Link>
               {/* 4 */}
               <span
                 id="step_4_in_book_page"
