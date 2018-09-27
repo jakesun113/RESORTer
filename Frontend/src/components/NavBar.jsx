@@ -123,8 +123,7 @@ class Navbar extends Component {
             });
         }
         //if user is already clicked before
-        if(sessionStorage.getItem("userIsClicked"))
-        {
+        if (sessionStorage.getItem("userIsClicked")) {
             this.setState({
                 isShowReminder: false
             });
@@ -306,14 +305,15 @@ class Navbar extends Component {
                             {/* continue book trip area */}
                             {this.state.unfinishedTrip && this.state.isShowReminder ? (
                                 <div className="col-12 col-sm-12 col-md-12 col-lg-3">
-                                    <ContinueBookTrip hideReminder={() => {
-                                        this.setState({
-                                            isShowReminder: false
-                                        });
-                                        sessionStorage.setItem("userIsClicked", JSON.stringify({
-                                            isClicked: true
-                                        }));
-                                    }}/>
+                                    <ContinueBookTrip
+                                        hideReminder={() => {
+                                            this.setState({
+                                                isShowReminder: false
+                                            });
+                                            sessionStorage.setItem("userIsClicked", JSON.stringify({
+                                                isClicked: true
+                                            }));
+                                        }}/>
                                 </div>
                             ) : (
                                 ""
