@@ -1221,7 +1221,6 @@ class ThirdPage extends Component {
 
     componentDidMount() {
 
-        console.log(this.state.phoneNumPre[2]);
         // previous phone
         if (this.props.phoneNumberPre !== "") {
             this.setState({phoneNumberPre: this.props.phoneNumberPre});
