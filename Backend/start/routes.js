@@ -98,6 +98,9 @@ Route.get("/api/getPopularResorts", 'TripController.getPopularResorts');
 //get user country, and return most popular resorts in that country
 Route.get("/api/getPopularResortsByCountry/:token", "TripController.getPopularResortsByCountry");
 
+//get user booking history, and return all trips of that user
+Route.get("/api/getBookingHistory/:token", "TripController.getBookingHistory");
+
 //Acquire members and their family members information
 Route.get("/api/acquireSelfInfoAndFamilyInfo/:token","TripController.acquireSelfInfoAndFamilyInfo")
 /*TripController end*/

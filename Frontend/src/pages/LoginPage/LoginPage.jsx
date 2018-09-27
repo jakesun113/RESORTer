@@ -174,6 +174,12 @@ class LoginPage extends Component {
                     };
                     sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
 
+                    let userFinishTrip;
+                    userFinishTrip = {
+                        hasUnfinishedTrip: response.data.unfinishedTrip
+                    };
+                    sessionStorage.setItem("userFinishTrip", JSON.stringify(userFinishTrip));
+
                     //TODO: check when not remember me
                     //console.log(this.state.rememberMe);
                     //save token into cookie
@@ -196,6 +202,10 @@ class LoginPage extends Component {
                             path: "/"
                         });
                         cookies.set("user-profileFinished", response.data.isProfileComplete, {
+                            expires: date,
+                            path: "/"
+                        });
+                        cookies.set("user-hasUnfinishedTrip", response.data.unfinishedTrip, {
                             expires: date,
                             path: "/"
                         });

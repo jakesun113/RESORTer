@@ -422,6 +422,54 @@ class TripController {
     }
   }
 
+  async getBookingHistory({params}) {
+     //first, get the user ID
+     const token = params.token;
+     //console.log(token);
+     const dbMemberID = await Database.table('validation_tokens')
+       .where("Token", token).select('MemberID');
+    
+    //then, get all the trips ID from trip table
+    //only return the trip ID of the specific member
+    const trips = await Database.table('trips')
+      .where({'MasterMemberID': dbMemberID[0].MemberID});
+    //console.log(trips);
+
+    if (trips.length > 0) {
+        //array contains all the trips
+        let tripArray = [];
+        for (let i = 0; i < trips.length; i++) {
+          let tripInfo = {};
+          const resort = await ResortInfo.findBy('id', trips[i].ResortID);
+          tripInfo.id = trips[i].id;
+          tripInfo.submitDate = trips[i].SubmitDate;
+          tripInfo.name = resort.Name;
+          tripInfo.startDate = trips[i].StartDate;
+          tripInfo.endDate = trips[i].EndDate;
+          if (trips[i].IsTripDone) {
+            tripInfo.status = "Submitted"
+          } else {
+            tripInfo.status = "In Progress"
+          }  
+          tripArray.push(tripInfo);
+        }      
+      //console.log(tripArray);
+
+      return JSON.stringify({
+        hasTrips: true,
+        bookingHistory: tripArray
+      });
+
+    } 
+    //otherwise, return no trips found in that user
+    else {
+      console.log("this member doesn't have trips");
+      return JSON.stringify({
+        hasResorts: false
+      });
+    }   
+  }
+
 }
 
 module.exports = TripController;

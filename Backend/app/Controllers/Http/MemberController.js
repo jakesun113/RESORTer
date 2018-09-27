@@ -379,6 +379,7 @@ class MemberController {
       //console.log(profilePic);
 
       const token = request.params.token;
+      //console.log(token);
       const dbToken = await Token.findBy("Token", token);
       const fileType = profilePic.subtype;
       //console.log(fileType);

@@ -17,30 +17,60 @@ class BookTripNavBar extends Component {
     ],
     device: "computer"
   };
-
-  handleCurrentProcess = e => {
-    e.target.className = "active";
-  };
-
-  handleInitialClass = e => {
-    if (e.target.id === "1") {
-      alert("no");
+  // judge active or done
+  handleNavBarState = tagName => {
+    var className = "";
+    if (this.state.unFinishedProcess.includes(tagName)) {
+      // untouched area
+      if (this.state.currentProcess !== tagName) {
+        return className;
+      }
+      // current active
+      if (this.state.currentProcess === tagName) {
+        className = " active";
+        return className;
+      }
     }
-
-    // this.state.unFinishedProcess.includes(e.target.id.toString())
-    //   ? (e.target.className = "initial")
-    //   : "";
+    // finished
+    if (this.state.finishedProcess.includes(tagName)) {
+      // current active
+      if (this.state.currentProcess === tagName) {
+        className = " active";
+        return className;
+      }
+      // finished and untouched
+      else {
+        className = " done";
+        return className;
+      }
+    }
   };
-  handleDone = () => {
-    var currentPage = this.this.state.currentProcess;
-    var className = document.getElementById(currentPage).className + " done";
-    document.getElementById(currentPage).className = className;
+
+  handleDone = tagName => {
+    var unFinishedArray = this.state.unFinishedProcess;
+    var FinishedArray = this.state.finishedProcess;
+    var index = unFinishedArray.indexOf(tagName);
+    if (index > -1) {
+      unFinishedArray.splice(index, 1);
+      FinishedArray.push(tagName);
+      this.setState({ unFinishedProcess: unFinishedArray });
+      this.setState({ finishedProcess: FinishedArray });
+    }
   };
 
-  handleActive = () => {
-    var currentPage = this.this.state.currentProcess;
-    var className = document.getElementById(currentPage).className + " active";
-    document.getElementById(currentPage).className = className;
+  handleActive = tagName => {
+    var unFinishedArray = this.state.unFinishedProcess;
+    var FinishedArray = this.state.finishedProcess;
+    var index = FinishedArray.indexOf(tagName);
+    // if already finished
+    if (index > -1) {
+      FinishedArray.splice(index, 1);
+      unFinishedArray.push(tagName);
+      this.setState({ unFinishedProcess: unFinishedArray });
+      this.setState({ finishedProcess: FinishedArray });
+    } else {
+      this.setState({ currentProcess: tagName });
+    }
   };
 
   componentDidMount() {
@@ -57,11 +87,105 @@ class BookTripNavBar extends Component {
     if (window.innerWidth > 990) {
       this.setState({ device: "computer" });
     } else {
-      this.setState({ device: "phone" });
+      if (window.innerWidth < 414) {
+        this.setState({ device: "smallPhone" });
+      } else {
+        this.setState({ device: "phone" });
+      }
     }
   };
 
   render() {
+    // smallPhone
+    if (this.state.device === "smallPhone") {
+      return (
+        <React.Fragment>
+          <div className="container">
+            {/* 1 */}
+            <div className="row">
+              <div class="booktrip-navbar">
+                <div id="step_1_in_book_page" class="circle done">
+                  <span class="label">1</span>
+                  <span class="title">When & Who?</span>
+                </div>
+                {/* 2 */}
+                <span id="step_2_in_book_page" class="bar done" />
+                <div
+                  id="step_2_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_2_in_book_page")
+                  }
+                >
+                  <span class="label">2</span>
+                  <span class="title">Sleep?</span>
+                </div>
+              </div>
+            </div>
+            {/* 2 */}
+            <div className="row">
+              <div class="booktrip-navbar">
+                <div
+                  id="step_3_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_3_in_book_page")
+                  }
+                >
+                  <span class="label">3</span>
+                  <span class="title">Doing?</span>
+                </div>
+
+                <span
+                  id="step_4_in_book_page"
+                  className={
+                    "bar" + this.handleNavBarState("step_4_in_book_page")
+                  }
+                />
+                <div
+                  id="step_4_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_4_in_book_page")
+                  }
+                >
+                  <span class="label">4</span>
+                  <span class="title">Equipment?</span>
+                </div>
+              </div>
+            </div>
+            {/* 3 */}
+            <div className="row">
+              <div class="booktrip-navbar">
+                <div
+                  id="step_5_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_5_in_book_page")
+                  }
+                >
+                  <span class="label">5</span>
+                  <span class="title">Learn?</span>
+                </div>
+                {/* 6 */}
+                <span
+                  id="step_6_in_book_page"
+                  className={
+                    "bar" + this.handleNavBarState("step_6_in_book_page")
+                  }
+                />
+                <div
+                  id="step_6_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_6_in_book_page")
+                  }
+                >
+                  <span class="label">6</span>
+                  <span class="title">Plan Summary</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    }
+    // phone
     if (this.state.device === "phone") {
       return (
         <React.Fragment>
@@ -75,13 +199,28 @@ class BookTripNavBar extends Component {
                 </div>
                 {/* 2 */}
                 <span id="step_2_in_book_page" class="bar done" />
-                <div id="step_2_in_book_page" class="circle done">
+                <div
+                  id="step_2_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_2_in_book_page")
+                  }
+                >
                   <span class="label">2</span>
                   <span class="title">Sleep?</span>
                 </div>
                 {/* 3 */}
-                <span id="step_3_in_book_page" class="bar active" />
-                <div id="step_3_in_book_page" class="circle active">
+                <span
+                  id="step_3_in_book_page"
+                  className={
+                    "bar" + this.handleNavBarState("step_3_in_book_page")
+                  }
+                />
+                <div
+                  id="step_3_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_3_in_book_page")
+                  }
+                >
                   <span class="label">3</span>
                   <span class="title">Doing?</span>
                 </div>
@@ -90,19 +229,44 @@ class BookTripNavBar extends Component {
             <div className="row">
               <div class="booktrip-navbar">
                 {/* 4 */}
-                <div id="step_4_in_book_page" class="circle">
+                <div
+                  id="step_4_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_4_in_book_page")
+                  }
+                >
                   <span class="label">4</span>
                   <span class="title">Equipment?</span>
                 </div>
                 {/* 5 */}
-                <span id="step_5_in_book_page" class="bar" />
-                <div id="step_5_in_book_page" class="circle">
+                <span
+                  id="step_5_in_book_page"
+                  className={
+                    "bar" + this.handleNavBarState("step_5_in_book_page")
+                  }
+                />
+                <div
+                  id="step_5_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_5_in_book_page")
+                  }
+                >
                   <span class="label">5</span>
                   <span class="title">Learn?</span>
                 </div>
                 {/* 6 */}
-                <span id="step_6_in_book_page" class="bar" />
-                <div id="step_6_in_book_page" class="circle">
+                <span
+                  id="step_6_in_book_page"
+                  className={
+                    "bar" + this.handleNavBarState("step_6_in_book_page")
+                  }
+                />
+                <div
+                  id="step_6_in_book_page"
+                  className={
+                    "circle" + this.handleNavBarState("step_6_in_book_page")
+                  }
+                >
                   <span class="label">6</span>
                   <span class="title">Plan Summary</span>
                 </div>
@@ -118,37 +282,95 @@ class BookTripNavBar extends Component {
           <div className="container">
             <div class="booktrip-navbar">
               {/* 1 */}
-              <div id="step_1_in_book_page" class="circle done">
+              <div
+                id="step_1_in_book_page"
+                className={
+                  "circle" + this.handleNavBarState("step_1_in_book_page")
+                }
+              >
                 <span class="label">1</span>
                 <span class="title">When & Who?</span>
               </div>
               {/* 2 */}
-              <span id="step_2_in_book_page" class="bar done" />
-              <div id="step_2_in_book_page" class="circle done">
+              <span
+                id="step_2_in_book_page"
+                className={
+                  "bar" + this.handleNavBarState("step_2_in_book_page")
+                }
+              />
+              <div
+                id="step_2_in_book_page"
+                className={
+                  "circle" + this.handleNavBarState("step_2_in_book_page")
+                }
+              >
                 <span class="label">2</span>
                 <span class="title">Sleep?</span>
               </div>
               {/* 3 */}
-              <span id="step_3_in_book_page" class="bar active" />
-              <div class="circle active">
+              <span
+                id="step_3_in_book_page"
+                className={
+                  "bar" + this.handleNavBarState("step_3_in_book_page")
+                }
+              />
+              <div
+                id="step_3_in_book_page"
+                className={
+                  "circle" + this.handleNavBarState("step_3_in_book_page")
+                }
+              >
                 <span class="label">3</span>
                 <span class="title">Doing?</span>
               </div>
               {/* 4 */}
-              <span id="step_4_in_book_page" class="bar" />
-              <div id="step_4_in_book_page" class="circle">
+              <span
+                id="step_4_in_book_page"
+                className={
+                  "bar" + this.handleNavBarState("step_4_in_book_page")
+                }
+              />
+              <div
+                id="step_4_in_book_page"
+                className={
+                  "circle" + this.handleNavBarState("step_4_in_book_page")
+                }
+              >
                 <span class="label">4</span>
                 <span class="title">Equipment?</span>
               </div>
               {/* 5 */}
-              <span id="step_5_in_book_page" class="bar" />
-              <div id="step_5_in_book_page" class="circle">
+              <span
+                id="step_5_in_book_page"
+                className={
+                  "bar" + this.handleNavBarState("step_5_in_book_page")
+                }
+              />
+              <div
+                id="step_5_in_book_page"
+                className={
+                  "circle" + this.handleNavBarState("step_5_in_book_page")
+                }
+                // onClick={() => {
+                //   this.handleDone("step_5_in_book_page");
+                // }}
+              >
                 <span class="label">5</span>
                 <span class="title">Learn?</span>
               </div>
               {/* 6 */}
-              <span id="step_6_in_book_page" class="bar" />
-              <div id="step_6_in_book_page" class="circle">
+              <span
+                id="step_6_in_book_page"
+                className={
+                  "bar" + this.handleNavBarState("step_6_in_book_page")
+                }
+              />
+              <div
+                id="step_6_in_book_page"
+                className={
+                  "circle" + this.handleNavBarState("step_6_in_book_page")
+                }
+              >
                 <span class="label">6</span>
                 <span class="title">Plan Summary</span>
               </div>

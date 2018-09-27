@@ -6,6 +6,7 @@
   margin: 50px auto;
   text-align: center;
   padding-bottom: 20px;
+  white-space: nowrap;
 }
 
 /* For above ipad screen */
@@ -53,6 +54,7 @@
   display: block;
   width: 100px;
   margin-top: 20px;
+  white-space: nowrap;
 }
 
 /* Done / Active */
