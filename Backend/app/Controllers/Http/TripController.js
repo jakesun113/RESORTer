@@ -457,8 +457,8 @@ class TripController {
             tripInfo.status = "In Progress"
             tripInfo.checkButton = "Continue"
           }  
-        }
           tripArray.push(tripInfo);
+        }
   
       //console.log(tripArray);
       return JSON.stringify({
@@ -474,7 +474,7 @@ class TripController {
       });
     }
   }
-  
+
 }
 
 module.exports = TripController;
