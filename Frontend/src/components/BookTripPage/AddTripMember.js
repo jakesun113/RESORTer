@@ -95,7 +95,8 @@ class AddTripMember extends Component {
         <br />
         {/* already added group member */}
         <div className="row">
-          <div className="col-sm">
+          <div className="col-12 col-lg-6">
+          <br/>
           {this.state.groupMember === null ? null :
           <GroupMemberInfoCard
               id={user.id}
@@ -113,7 +114,8 @@ class AddTripMember extends Component {
           {groupMember === null ? null :
             groupMember.map(info => {
               return (
-                  <div className="col-sm">
+                  <div className="col-12 col-lg-6">
+                  <br/>
                       <GroupMemberInfoCard
                           id={info.id}
                           name={info.LastName + " " + info.FirstName}
@@ -134,8 +136,10 @@ class AddTripMember extends Component {
         <br />
         {/* continue btn */}
         <div className="row">
-          <div className="col-8" />
-          <div className="col-4">
+          {/* <div className="col-8" /> */}
+          <div className="col align-self-start"/>
+          <div className="col align-self-center"/>
+          <div className="col align-self-end">
             {/*<a href={}>*/}
             <Link
               to={{
