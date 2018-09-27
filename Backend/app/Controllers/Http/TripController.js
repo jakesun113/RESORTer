@@ -4,6 +4,7 @@ const Trip = use('App/Models/Trip');
 const ResortInfo = use('App/Models/ResortInfo');
 const Member = use("App/Models/Member");
 const ValidationToken = use("App/Models/ValidationToken");
+const FamilyMember = use("App/Models/FamilyMember")
 const moment = use('moment');
 const topSix = 6;
 
@@ -13,6 +14,34 @@ const topSix = 6;
 
 class TripController {
 
+  async acquireSelfInfoAndFamilyInfo({response,params}){
+
+    try{
+      const validationToken = await ValidationToken.findBy('Token', params.token);
+      const userInfo = await Member
+                    .query()
+                    .where('id','=',validationToken.MemberID)
+                    .fetch()
+      let user = userInfo.rows[0]
+      //FIXME:Better way to exclude EncryptedPW column
+      user.EncryptedPW = null
+      const familyMember = await FamilyMember
+                      .query()
+                      .where('MemberID', '=', validationToken.MemberID)
+                      .fetch()
+
+      let dataResponse = new Object();
+      dataResponse.user = user;
+      dataResponse.familyMember = familyMember;
+
+      return response.send(dataResponse);
+
+    }catch(err){
+      console.log(err)
+      return response.send('SERVER ERROR')
+    }
+
+  }
   async addFakeTripData() {
 
     const userID1 = 1;
@@ -391,6 +420,57 @@ class TripController {
         hasResorts: false
       });
     }
+  }
+
+  async getBookingHistory({params}) {
+     //first, get the country of the user
+     const token = params.token;
+     //console.log(token);
+     const dbMemberID = await Database.table('validation_tokens')
+       .where("Token", token).select('MemberID');
+    
+    //then, get all the trips ID from trip table
+    //only return the trip ID of the specific member
+    const trips = await Database.table('trips')
+      .where({'MasterMemberID': dbMemberID[0].MemberID});
+    //console.log(trips);
+
+    if (trips.length > 0) {
+        //array contains all the trips
+        let tripArray = [];
+        for (let i = 0; i < trips.length; i++) {
+          let tripInfo = {};
+          const resort = await ResortInfo.findBy('id', trips[i].ResortID);
+          tripInfo.id = trips[i].id;
+          tripInfo.submitDate = trips[i].SubmitDate;
+          tripInfo.name = resort.Name;
+          tripInfo.startDate = trips[i].StartDate;
+          tripInfo.endDate = trips[i].EndDate;
+          if (trips[i].IsTripDone) {
+            tripInfo.status = "Submitted"
+          } else {
+            tripInfo.status = "In Progress"
+          }
+          //console.log(resortInfo);
+  
+          tripArray.push(tripInfo);
+        }      
+      console.log(tripArray);
+
+      return JSON.stringify({
+        hasTrips: true,
+        bookingHistory: tripArray
+      });
+
+    } else {
+      console.log("this member doesn't have trips");
+      return JSON.stringify({
+        hasResorts: false
+      });
+
+    }
+    
+
   }
 
 }

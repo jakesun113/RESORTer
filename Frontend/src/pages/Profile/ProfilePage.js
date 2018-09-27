@@ -137,11 +137,13 @@ class ProfilePage extends Component {
         sessionStorage.removeItem("userToken");
         sessionStorage.removeItem("userImage");
         sessionStorage.removeItem("userFinishProfile");
+        sessionStorage.removeItem("userFinishTrip");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
         cookies.remove("user-provider");
         cookies.remove("user-profileFinished");
+        cookies.remove("user-hasUnfinishedTrip");
     };
 
     componentDidMount() {

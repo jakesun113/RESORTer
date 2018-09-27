@@ -136,6 +136,7 @@ class ValidationTokenController {
                   token: token.Token,
                   name: userName,
                   isProfileComplete: member.IsProfileComplete,
+                  unfinishedTrip: false,
                   user_pic: dbPortrait[0].Portrait,
                   authenticationFailed: false
                 });
@@ -147,6 +148,29 @@ class ValidationTokenController {
                 dbToken.merge({Token: newToken.token});
                 await dbToken.save();
 
+                //check whether user has unfinished trip
+                let unfinishedTrip;
+                const isTripDoneColumn = await Database.table('trips')
+                  .where({'MasterMemberID': member.id}).select('IsTripDone');
+                //console.log(isTripDoneColumn);
+
+                if (isTripDoneColumn.length > 0) {
+                  for (let i = 0; i < isTripDoneColumn.length; i++) {
+                    if(isTripDoneColumn[i].IsTripDone === 0){
+                      unfinishedTrip = true;
+                      console.log("user has unfinished trip");
+                      break;
+                    }
+                    else{
+                      unfinishedTrip = false;
+                    }
+                  }
+                }
+                else {
+                  unfinishedTrip = false;
+                }
+                //console.log(unfinishedTrip);
+
                 return JSON.stringify({
                   emailExisted: true,
                   emailDuplicated: false,
@@ -155,6 +179,7 @@ class ValidationTokenController {
                   token: dbToken.Token,
                   name: userName,
                   isProfileComplete: member.IsProfileComplete,
+                  unfinishedTrip: unfinishedTrip,
                   user_pic: dbPortrait[0].Portrait,
                   authenticationFailed: false
                 });
@@ -209,6 +234,7 @@ class ValidationTokenController {
           facebookDuplicated: false,
           duplicatedProvider: "",
           isProfileComplete: member.IsProfileComplete,
+          unfinishedTrip: false,
           authenticationFailed: false
         });
       }
@@ -237,10 +263,34 @@ class ValidationTokenController {
           //only change token
           token.merge({Token: requestData.token});
           await token.save();
+
+          //check whether user has unfinished trip
+          let unfinishedTrip;
+          const isTripDoneColumn = await Database.table('trips')
+            .where({'MasterMemberID': dbMemberID[0].id}).select('IsTripDone');
+          //console.log(isTripDoneColumn);
+
+          if (isTripDoneColumn.length > 0) {
+            for (let i = 0; i < isTripDoneColumn.length; i++) {
+              if(isTripDoneColumn[i].IsTripDone === 0){
+                unfinishedTrip = true;
+                console.log("user has unfinished trip");
+                break;
+              }
+              else{
+                unfinishedTrip = false;
+              }
+            }
+          }
+          else {
+            unfinishedTrip = false;
+          }
+          //console.log(unfinishedTrip);
           return JSON.stringify({
             facebookDuplicated: false,
             duplicatedProvider: "",
             isProfileComplete: dbIsProfileComplete[0].IsProfileComplete,
+            unfinishedTrip: unfinishedTrip,
             authenticationFailed: false
           });
         }
@@ -289,6 +339,7 @@ class ValidationTokenController {
           googleDuplicated: false,
           duplicatedProvider: "",
           isProfileComplete: member.IsProfileComplete,
+          unfinishedTrip: false,
           authenticationFailed: false
         });
       }
@@ -317,10 +368,33 @@ class ValidationTokenController {
           //only change token
           token.merge({Token: requestData.token});
           await token.save();
+          //check whether user has unfinished trip
+          let unfinishedTrip;
+          const isTripDoneColumn = await Database.table('trips')
+            .where({'MasterMemberID': dbMemberID[0].id}).select('IsTripDone');
+          //console.log(isTripDoneColumn);
+
+          if (isTripDoneColumn.length > 0) {
+            for (let i = 0; i < isTripDoneColumn.length; i++) {
+              if(isTripDoneColumn[i].IsTripDone === 0){
+                unfinishedTrip = true;
+                console.log("user has unfinished trip");
+                break;
+              }
+              else{
+                unfinishedTrip = false;
+              }
+            }
+          }
+          else {
+            unfinishedTrip = false;
+          }
+          //console.log(unfinishedTrip);
           return JSON.stringify({
             googleDuplicated: false,
             duplicatedProvider: "",
             isProfileComplete: dbIsProfileComplete[0].IsProfileComplete,
+            unfinishedTrip: unfinishedTrip,
             authenticationFailed: false
           });
         }

@@ -80,6 +80,12 @@ class FacebookLoginBtn extends Component {
                         };
                         sessionStorage.setItem("userFinishProfile", JSON.stringify(userFinishProfile));
 
+                        let userFinishTrip;
+                        userFinishTrip = {
+                            hasUnfinishedTrip: response.data.unfinishedTrip
+                        };
+                        sessionStorage.setItem("userFinishTrip", JSON.stringify(userFinishTrip));
+
                         this.setState({
                             redirect: true,
                         });
