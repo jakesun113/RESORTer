@@ -1496,7 +1496,6 @@ class ThirdPage extends Component {
                                 id="country"
                                 className="form-control"
                                 value={this.state.country}
-                                onChange={this.handleChange.bind(this)}
                                 style={{
                                     boxShadow: "0px 2px 0px 0px rgba(70,130,180,1)",
                                     boxSizing: "border-box !important",

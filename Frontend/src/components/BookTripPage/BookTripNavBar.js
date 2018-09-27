@@ -140,19 +140,19 @@ class BookTripNavBar extends Component {
             <br />
             {/* 1 */}
             <div className="row">
-              <div class="booktrip-navbar">
+              <div className="booktrip-navbar">
                 <Link to={`/booking/${this.props.placeName}/who`}>
                   <div
                     id="step_1_in_book_page"
-                    class="circle done"
+                    className="circle done"
                     onClick={this.onHandleClickOne}
                   >
-                    <span class="label">1</span>
-                    <span class="title">When & Who?</span>
+                    <span className="label">1</span>
+                    <span className="title">When & Who?</span>
                   </div>
                 </Link>
                 {/* 2 */}
-                <span id="step_2_in_book_page" class="bar done" />
+                <span id="step_2_in_book_page" className="bar done" />
                 <Link to={`/booking/${this.props.placeName}/sleep`}>
                   <div
                     id="step_2_in_book_page"
@@ -161,15 +161,15 @@ class BookTripNavBar extends Component {
                     }
                     onClick={this.onHandleClickTwo}
                   >
-                    <span class="label">2</span>
-                    <span class="title">Sleep?</span>
+                    <span className="label">2</span>
+                    <span className="title">Sleep?</span>
                   </div>
                 </Link>
               </div>
             </div>
             {/* 2 */}
             <div className="row">
-              <div class="booktrip-navbar">
+              <div className="booktrip-navbar">
                 <Link to={`/booking/${this.props.placeName}/doing`}>
                   <div
                     id="step_3_in_book_page"
@@ -178,8 +178,8 @@ class BookTripNavBar extends Component {
                     }
                     onClick={this.onHandleClickThree}
                   >
-                    <span class="label">3</span>
-                    <span class="title">Doing?</span>
+                    <span className="label">3</span>
+                    <span className="title">Doing?</span>
                   </div>
                 </Link>
                 <span
@@ -196,15 +196,15 @@ class BookTripNavBar extends Component {
                     }
                     onClick={this.onHandleClickFour}
                   >
-                    <span class="label">4</span>
-                    <span class="title">Equipment?</span>
+                    <span className="label">4</span>
+                    <span className="title">Equipment?</span>
                   </div>
                 </Link>
               </div>
             </div>
             {/* 3 */}
             <div className="row">
-              <div class="booktrip-navbar">
+              <div className="booktrip-navbar">
                 <Link to={`/booking/${this.props.placeName}/learn`}>
                   <div
                     id="step_5_in_book_page"
@@ -213,8 +213,8 @@ class BookTripNavBar extends Component {
                     }
                     onClick={this.onHandleClickFive}
                   >
-                    <span class="label">5</span>
-                    <span class="title">Learn?</span>
+                    <span className="label">5</span>
+                    <span className="title">Learn?</span>
                   </div>
                 </Link>
                 {/* 6 */}
@@ -232,8 +232,8 @@ class BookTripNavBar extends Component {
                     }
                     onClick={this.onHandleClickSix}
                   >
-                    <span class="label">6</span>
-                    <span class="title">Plan Summary</span>
+                    <span className="label">6</span>
+                    <span className="title">Plan Summary</span>
                   </div>
                 </Link>
               </div>
@@ -264,20 +264,20 @@ class BookTripNavBar extends Component {
             </p>
             <br />
             <div className="row">
-              <div class="booktrip-navbar">
+              <div className="booktrip-navbar">
                 {/* 1 */}
                 <Link to={`/booking/${this.props.placeName}/who`}>
                   <div
                     id="step_1_in_book_page"
-                    class="circle done"
+                    className="circle done"
                     onClick={this.onHandleClickOne}
                   >
-                    <span class="label">1</span>
-                    <span class="title">When & Who?</span>
+                    <span className="label">1</span>
+                    <span className="title">When & Who?</span>
                   </div>
                 </Link>
                 {/* 2 */}
-                <span id="step_2_in_book_page" class="bar done" />
+                <span id="step_2_in_book_page" className="bar done" />
                 <Link to={`/booking/${this.props.placeName}/sleep`}>
                   <div
                     id="step_2_in_book_page"
@@ -286,8 +286,8 @@ class BookTripNavBar extends Component {
                     }
                     onClick={this.onHandleClickTwo}
                   >
-                    <span class="label">2</span>
-                    <span class="title">Sleep?</span>
+                    <span className="label">2</span>
+                    <span className="title">Sleep?</span>
                   </div>
                 </Link>
                 {/* 3 */}
@@ -305,14 +305,14 @@ class BookTripNavBar extends Component {
                     }
                     onClick={this.onHandleClickThree}
                   >
-                    <span class="label">3</span>
-                    <span class="title">Doing?</span>
+                    <span className="label">3</span>
+                    <span className="title">Doing?</span>
                   </div>
                 </Link>
               </div>
             </div>
             <div className="row">
-              <div class="booktrip-navbar">
+              <div className="booktrip-navbar">
                 {/* 4 */}
                 <Link to={`/booking/${this.props.placeName}/equipment`}>
                   <div
@@ -322,8 +322,8 @@ class BookTripNavBar extends Component {
                     }
                     onClick={this.onHandleClickFour}
                   >
-                    <span class="label">4</span>
-                    <span class="title">Equipment?</span>
+                    <span className="label">4</span>
+                    <span className="title">Equipment?</span>
                   </div>
                 </Link>
                 {/* 5 */}
@@ -341,8 +341,8 @@ class BookTripNavBar extends Component {
                     }
                     onClick={this.onHandleClickFive}
                   >
-                    <span class="label">5</span>
-                    <span class="title">Learn?</span>
+                    <span className="label">5</span>
+                    <span className="title">Learn?</span>
                   </div>
                 </Link>
                 {/* 6 */}
@@ -360,8 +360,8 @@ class BookTripNavBar extends Component {
                     }
                     onClick={this.onHandleClickSix}
                   >
-                    <span class="label">6</span>
-                    <span class="title">Plan Summary</span>
+                    <span className="label">6</span>
+                    <span className="title">Plan Summary</span>
                   </div>
                 </Link>
               </div>
@@ -390,7 +390,7 @@ class BookTripNavBar extends Component {
                 {this.props.placeName}
               </span>
             </p>
-            <div class="booktrip-navbar">
+            <div className="booktrip-navbar">
               {/* 1 */}
               <Link to={`/booking/${this.props.placeName}/who`}>
                 <div
@@ -400,8 +400,8 @@ class BookTripNavBar extends Component {
                   }
                   onClick={this.onHandleClickOne}
                 >
-                  <span class="label">1</span>
-                  <span class="title">When & Who?</span>
+                  <span className="label">1</span>
+                  <span className="title">When & Who?</span>
                 </div>
               </Link>
               {/* 2 */}
@@ -419,8 +419,8 @@ class BookTripNavBar extends Component {
                   }
                   onClick={this.onHandleClickTwo}
                 >
-                  <span class="label">2</span>
-                  <span class="title">Sleep?</span>
+                  <span className="label">2</span>
+                  <span className="title">Sleep?</span>
                 </div>
               </Link>
               {/* 3 */}
@@ -438,8 +438,8 @@ class BookTripNavBar extends Component {
                   }
                   onClick={this.onHandleClickThree}
                 >
-                  <span class="label">3</span>
-                  <span class="title">Doing?</span>
+                  <span className="label">3</span>
+                  <span className="title">Doing?</span>
                 </div>
               </Link>
               {/* 4 */}
@@ -457,8 +457,8 @@ class BookTripNavBar extends Component {
                   }
                   onClick={this.onHandleClickFour}
                 >
-                  <span class="label">4</span>
-                  <span class="title">Equipment?</span>
+                  <span className="label">4</span>
+                  <span className="title">Equipment?</span>
                 </div>
               </Link>
               {/* 5 */}
@@ -476,8 +476,8 @@ class BookTripNavBar extends Component {
                   }
                   onClick={this.onHandleClickFive}
                 >
-                  <span class="label">5</span>
-                  <span class="title">Learn?</span>
+                  <span className="label">5</span>
+                  <span className="title">Learn?</span>
                 </div>
               </Link>
               {/* 6 */}
@@ -495,8 +495,8 @@ class BookTripNavBar extends Component {
                   }
                   onClick={this.onHandleClickSix}
                 >
-                  <span class="label">6</span>
-                  <span class="title">Plan Summary</span>
+                  <span className="label">6</span>
+                  <span className="title">Plan Summary</span>
                 </div>
               </Link>
             </div>
