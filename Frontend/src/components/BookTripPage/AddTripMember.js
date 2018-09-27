@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
-import GroupMemberInfoCard from "../../components/GroupMemberPage/GroupMemberInfoCard";
+import GroupMemberInfoCard from "./TripMemberInfoCard";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -37,14 +37,20 @@ class AddTripMember extends Component {
     axios.get("http://127.0.0.1:3333/api/acquireSelfInfoAndFamilyInfo/"+
     JSON.parse(sessionStorage.getItem("userToken")).token)
     .then(response => {
-      console.log(response.data)
+      // console.log("new " +response.data)
       this.setState({
         user: response.data.user
       });
     });
   }
+
+  deleteMe = () => {
+    this.setState({
+      user : null
+    })
+  }
   render() {
-    console.log(this.state.groupMember)
+    // console.log(this.state.groupMember)
     let user = null;
     let groupMember = [];
     if(this.state.groupMember != null){
@@ -111,7 +117,7 @@ class AddTripMember extends Component {
         <div className="row">
           <div className="col-12 col-lg-6">
           <br/>
-          {this.state.groupMember === null ? null :
+          {this.state.user === null ? null :
           <GroupMemberInfoCard
               id={user.id}
               name={user.Lastname + " " + user.Firstname}
@@ -122,6 +128,7 @@ class AddTripMember extends Component {
               snowMobilerLevel={user.SnowmobileAbility}
               snowShoerLevel={user.SnowshoeAbility}
               teleMarkerLevel={user.TelemarkAbility}
+              handleClick={this.deleteMe}
             />
             }
           </div>
