@@ -47,7 +47,7 @@ class MyTripPage extends Component {
             />
             <BookHistoryCard
               submitDate="26 July 2018, 2:35 pm"
-              resort="Sb Jiacheng"
+              resort="Mt.Buller"
               startDate="30 July 2018"
               endDate="10 August 2018"
               status="Submitted"
@@ -55,7 +55,7 @@ class MyTripPage extends Component {
             />
             <BookHistoryCard
               submitDate="26 July 2018, 2:35 pm"
-              resort="相当 Sb Jiacheng"
+              resort="Falls Creek"
               startDate="30 July 2018"
               endDate="10 August 2018"
               status="Submitted"

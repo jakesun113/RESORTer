@@ -102,7 +102,9 @@ class ProfileCard extends Component {
                     className="dropdown-item"
                     to={{
                         pathname: "/group-member",
-                        state: {lastValid: this.props.tokenValid}
+                        state: {
+                            lastValid: this.props.tokenValid
+                        }
                     }}
                     onClick={this.handleInvalid}
                 >
@@ -113,7 +115,9 @@ class ProfileCard extends Component {
                     className="dropdown-item"
                     to={{
                         pathname: "/change-password",
-                        state: {lastValid: this.props.tokenValid}
+                        state: {
+                            lastValid: this.props.tokenValid
+                        }
                     }}
                     onClick={this.handleInvalid}
                 >
