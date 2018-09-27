@@ -66,12 +66,10 @@ class SelectTripDate extends Component {
         //1) While Login
         try{
             //if login & Personal Profile was completed
-            if (sessionStorage.getItem('userSocialData')){
+            //FIXME: can not auth token in normal way
+            if (sessionStorage.getItem('userSocialData')){  
                 axios
-                .get(
-                    "http://127.0.0.1:3333/api/checkProfile/" +
-                    JSON.parse(sessionStorage.getItem("userToken")).token
-                )
+                .get("http://127.0.0.1:3333/api/checkProfile/"+JSON.parse(sessionStorage.getItem("userToken")).token)
                 .then(response => {
                     if(response.data.status == 'success'){
                         //show the addTrip

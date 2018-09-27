@@ -8,7 +8,9 @@ class AddTripMember extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupMember: null
+      groupMember: null,
+      user:null,
+      numberOfFamilyMember:0
     };
   }
 
@@ -23,23 +25,31 @@ class AddTripMember extends Component {
             JSON.parse(sessionStorage.getItem("userToken")).token
         )
         .then(response => {
-          //Update number and detail of groupMember
           this.setState({
-            //  numberOfGroupMember: response.data.length,
-            //  lastNumberOfGroupMember: response.data.length,
-            groupMember: response.data
+            user: response.data.user,
+            groupMember:response.data.familyMember
           });
         });
     }
   }
+
+  addMe = () => {
+    axios.get("http://127.0.0.1:3333/api/acquireSelfInfoAndFamilyInfo/"+
+    JSON.parse(sessionStorage.getItem("userToken")).token)
+    .then(response => {
+      console.log(response.data)
+      this.setState({
+        user: response.data.user
+      });
+    });
+  }
   render() {
     console.log(this.state.groupMember)
-    
     let user = null;
-    let groupMember = null;
+    let groupMember = [];
     if(this.state.groupMember != null){
-      user = this.state.groupMember.user
-      groupMember = this.state.groupMember.familyMember
+      user = this.state.user
+      groupMember = this.state.groupMember
     }
     return (
       <React.Fragment>
@@ -61,24 +71,28 @@ class AddTripMember extends Component {
             className="col-12 col-lg-3"
             style={{ marginBottom: "10px", textAlign: "center" }}
           >
-            <SmallEllipseBtn
-              text="+ Add Me"
-              btnColor="rgba(255, 97, 97, 1)"
-              paddingLeft="11ex"
-              paddingRight="11ex"
-            />
+            <span onClick={this.addMe}>
+              <SmallEllipseBtn
+                text="+ Add Me"
+                btnColor="rgba(255, 97, 97, 1)"
+                paddingLeft="11ex"
+                paddingRight="11ex"
+              />
+            </span>
           </div>
-          <div
-            className="col-12 col-lg-3"
-            style={{ marginBottom: "10px", textAlign: "center" }}
-          >
-            <SmallEllipseBtn
-              text="+ Add Saved group Member"
-              btnColor="rgba(255, 97, 97, 1)"
-              paddingLeft="3ex"
-              paddingRight="3ex"
-            />
-          </div>
+          {groupMember.length === 0 ? null :
+            <div
+              className="col-12 col-lg-3"
+              style={{ marginBottom: "10px", textAlign: "center" }}
+            >
+              <SmallEllipseBtn
+                text="+ Add Saved group Member"
+                btnColor="rgba(255, 97, 97, 1)"
+                paddingLeft="3ex"
+                paddingRight="3ex"
+              />
+            </div>
+          }
           <div
             className="col-12 col-lg-3"
             style={{ marginBottom: "10px", textAlign: "center" }}
