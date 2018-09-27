@@ -53,6 +53,7 @@ class Navbar extends Component {
         sessionStorage.removeItem("userImage");
         sessionStorage.removeItem("userFinishProfile");
         sessionStorage.removeItem("userFinishTrip");
+        sessionStorage.removeItem("userIsClicked");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
@@ -119,6 +120,13 @@ class Navbar extends Component {
                 user_pic: userImage.provider_pic,
                 isProfileComplete: userFinishProfile.isFinished,
                 unfinishedTrip: userFinishTrip.hasUnfinishedTrip
+            });
+        }
+        //if user is already clicked before
+        if(sessionStorage.getItem("userIsClicked"))
+        {
+            this.setState({
+                isShowReminder: false
             });
         }
 
@@ -302,6 +310,9 @@ class Navbar extends Component {
                                         this.setState({
                                             isShowReminder: false
                                         });
+                                        sessionStorage.setItem("userIsClicked", JSON.stringify({
+                                            isClicked: true
+                                        }));
                                     }}/>
                                 </div>
                             ) : (

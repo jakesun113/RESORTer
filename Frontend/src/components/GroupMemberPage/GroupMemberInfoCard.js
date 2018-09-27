@@ -122,6 +122,7 @@ class GroupMemberInfoCard extends Component {
         sessionStorage.removeItem("userImage");
         sessionStorage.removeItem("userFinishProfile");
         sessionStorage.removeItem("userFinishTrip");
+        sessionStorage.removeItem("userIsClicked");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
