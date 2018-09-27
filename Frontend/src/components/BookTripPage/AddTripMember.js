@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
-import GroupMemberInfoCard from "../../components/GroupMemberPage/GroupMemberInfoCard";
+import GroupMemberInfoCard from "./TripMemberInfoCard";
 import { Redirect, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -8,7 +8,9 @@ class AddTripMember extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupMember: null
+      groupMember: null,
+      user:null,
+      numberOfFamilyMember:0
     };
   }
 
@@ -23,23 +25,37 @@ class AddTripMember extends Component {
             JSON.parse(sessionStorage.getItem("userToken")).token
         )
         .then(response => {
-          //Update number and detail of groupMember
           this.setState({
-            //  numberOfGroupMember: response.data.length,
-            //  lastNumberOfGroupMember: response.data.length,
-            groupMember: response.data
+            user: response.data.user,
+            groupMember:response.data.familyMember
           });
         });
     }
   }
+
+  addMe = () => {
+    axios.get("http://127.0.0.1:3333/api/acquireSelfInfoAndFamilyInfo/"+
+    JSON.parse(sessionStorage.getItem("userToken")).token)
+    .then(response => {
+      // console.log("new " +response.data)
+      this.setState({
+        user: response.data.user
+      });
+    });
+  }
+
+  deleteMe = () => {
+    this.setState({
+      user : null
+    })
+  }
   render() {
-    console.log(this.state.groupMember)
-    
+    // console.log(this.state.groupMember)
     let user = null;
-    let groupMember = null;
+    let groupMember = [];
     if(this.state.groupMember != null){
-      user = this.state.groupMember.user
-      groupMember = this.state.groupMember.familyMember
+      user = this.state.user
+      groupMember = this.state.groupMember
     }
     return (
       <React.Fragment>
@@ -61,24 +77,28 @@ class AddTripMember extends Component {
             className="col-12 col-lg-3"
             style={{ marginBottom: "10px", textAlign: "center" }}
           >
-            <SmallEllipseBtn
-              text="+ Add Me"
-              btnColor="rgba(255, 97, 97, 1)"
-              paddingLeft="11ex"
-              paddingRight="11ex"
-            />
+            <span onClick={this.addMe}>
+              <SmallEllipseBtn
+                text="+ Add Me"
+                btnColor="rgba(255, 97, 97, 1)"
+                paddingLeft="11ex"
+                paddingRight="11ex"
+              />
+            </span>
           </div>
-          <div
-            className="col-12 col-lg-3"
-            style={{ marginBottom: "10px", textAlign: "center" }}
-          >
-            <SmallEllipseBtn
-              text="+ Add Saved group Member"
-              btnColor="rgba(255, 97, 97, 1)"
-              paddingLeft="3ex"
-              paddingRight="3ex"
-            />
-          </div>
+          {groupMember.length === 0 ? null :
+            <div
+              className="col-12 col-lg-3"
+              style={{ marginBottom: "10px", textAlign: "center" }}
+            >
+              <SmallEllipseBtn
+                text="+ Add Saved group Member"
+                btnColor="rgba(255, 97, 97, 1)"
+                paddingLeft="3ex"
+                paddingRight="3ex"
+              />
+            </div>
+          }
           <div
             className="col-12 col-lg-3"
             style={{ marginBottom: "10px", textAlign: "center" }}
@@ -97,7 +117,7 @@ class AddTripMember extends Component {
         <div className="row">
           <div className="col-12 col-lg-6">
           <br/>
-          {this.state.groupMember === null ? null :
+          {this.state.user === null ? null :
           <GroupMemberInfoCard
               id={user.id}
               name={user.Lastname + " " + user.Firstname}
@@ -108,6 +128,7 @@ class AddTripMember extends Component {
               snowMobilerLevel={user.SnowmobileAbility}
               snowShoerLevel={user.SnowshoeAbility}
               teleMarkerLevel={user.TelemarkAbility}
+              handleClick={this.deleteMe}
             />
             }
           </div>

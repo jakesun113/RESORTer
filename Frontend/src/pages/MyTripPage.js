@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import BookHistoryCard from "../components/MyTripPage/BookHistoryCard";
 import styled from "styled-components";
 import axios from "axios/index";
-import moment from "moment";
+import Pagination from "../components/template/Pagination";
 
 
 const StyledTable = styled.table`
@@ -13,7 +13,10 @@ class MyTripPage extends Component {
     super(props);
     this.state = {
       hasTrips: true,
-      bookingHistory: []
+      allTrips: [],
+      currentTrips: [],
+      currentPage: null,
+      totalPages: null
     };
 
     this.getBookingHistory = this.getBookingHistory.bind(this);
@@ -26,10 +29,21 @@ class MyTripPage extends Component {
       console.log("get history trips successfully");
       this.setState({
         hasTrips: response.data.hasTrips,
-        bookingHistory: response.data.bookingHistory
+        allTrips: response.data.bookingHistory
       });
     });
+    console.log("hasTrips " + this.state.hasTrips)
   }
+
+  onPageChanged = data => {
+    const { allTrips } = this.state;
+    const { currentPage, totalPages, pageLimit } = data;
+
+    const offset = (currentPage - 1) * pageLimit;
+    const currentTrips = allTrips.slice(offset, offset + pageLimit);
+
+    this.setState({ currentPage, currentTrips, totalPages });
+  };
 
   componentDidMount() {
     if (sessionStorage.getItem("userToken")) {
@@ -39,6 +53,20 @@ class MyTripPage extends Component {
   }
 
   render() {
+    const {
+      hasTrips,
+      allTrips,
+      currentTrips,
+      currentPage,
+      totalPages
+    } = this.state;
+
+    let totalTrips = 0;
+    if (hasTrips) {
+      totalTrips = allTrips.length;
+      if (totalTrips === 0) return null;
+    }
+    
     return (
       <React.Fragment>
         <div className="container">
@@ -62,30 +90,45 @@ class MyTripPage extends Component {
                 <th scope="col">Start Date</th>
                 <th scope="col">End Date</th>
                 <th scope="col">Status</th>
-                <th scope="col">Price</th>
+                {/* <th scope="col">Price</th> */}
                 <th scope="col" />
                 <th scope="col" />
               </tr>
             </thead>
-        {this.state.hasTrips ? (  
-          this.state.bookingHistory.map(trip => (
-            <div className="col-12 col-md-6 col-lg-4" key={trip.id}>
+        {hasTrips ? (  
+          currentTrips.map(trip => (
               <BookHistoryCard
               //TODO: change data format to be the same as original website
-                submitDate={moment(trip.submitDate).format('YYYY-MM-DD')}
-                resort={trip.name}
-                startDate={moment(trip.startDate).format('YYYY-MM-DD')}
-                endDate={moment(trip.endDate).format('YYYY-MM-DD')}
+                submitDate = {trip.submitDate}
+                resort = {trip.name}
+                startDate={trip.startDate}
+                endDate={trip.endDate}
                 status={trip.status}
+                buttonText={trip.checkButton}
               />
-              <br />
-            </div>
-          ))           
+          ))     
         ) : (
           null
         )}
       </table>
 
+      {hasTrips ? ( 
+        <div className="d-flex flex-row py-4 align-items-center">
+              <Pagination
+                totalRecords={totalTrips}
+                pageLimit={5}
+                pageNeighbours={1}
+                onPageChanged={this.onPageChanged}
+              />
+              <span className="current-page d-inline-block h-100 pl-4 text-secondary">
+                Page <span className="font-weight-bold">{currentPage}</span> /{" "}
+                <span className="font-weight-bold">{totalPages}</span>
+              </span>        
+        </div>
+      ) : (
+        null
+      )}
+ 
           {/* end container */}
         </div>
       </React.Fragment>
