@@ -33,6 +33,7 @@ class Equipmentpage extends Component {
             <div className="col-lg-4" />
           </div>
           <br />
+          {/* members */}
           <div className="row">
             <div className="col-lg-1" />
             {this.state.members.map(eachMember => (
@@ -42,6 +43,15 @@ class Equipmentpage extends Component {
             ))}
           </div>
           <br />
+          {/* equipment info */}
+          <div className="row">
+            <div className="col-lg-1" />
+            {this.state.members.map(eachMember => (
+              <div className="col-12 col-lg-4">
+                Rental for <span>{eachMember.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </React.Fragment>
     );
