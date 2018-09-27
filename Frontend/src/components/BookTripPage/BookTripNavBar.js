@@ -385,6 +385,9 @@ class BookTripNavBar extends Component {
                   className={
                     "circle" + this.handleNavBarState("step_4_in_book_page")
                   }
+                  onClick={() => {
+                    this.handleActive("step_4_in_book_page");
+                  }}
                 >
                   <span class="label">4</span>
                   <span class="title">Equipment?</span>
@@ -402,9 +405,6 @@ class BookTripNavBar extends Component {
                 className={
                   "circle" + this.handleNavBarState("step_5_in_book_page")
                 }
-                // onClick={() => {
-                //   this.handleDone("step_5_in_book_page");
-                // }}
               >
                 <span class="label">5</span>
                 <span class="title">Learn?</span>
