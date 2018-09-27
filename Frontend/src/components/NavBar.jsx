@@ -30,6 +30,8 @@ class Navbar extends Component {
             isValidToken: true,
             isShowLoginWindow: false,
             isShowVideo: false,
+            isShowReminder: true,
+            unfinishedTrip: cookies.get("user-hasUnfinishedTrip") || null,
             isProfileComplete: cookies.get("user-profileFinished") || null
         };
 
@@ -50,11 +52,13 @@ class Navbar extends Component {
         sessionStorage.removeItem("userToken");
         sessionStorage.removeItem("userImage");
         sessionStorage.removeItem("userFinishProfile");
+        sessionStorage.removeItem("userFinishTrip");
         cookies.remove("user-name");
         cookies.remove("access-token");
         cookies.remove("user-pic");
         cookies.remove("user-provider");
         cookies.remove("user-profileFinished");
+        cookies.remove("user-hasUnfinishedTrip");
     };
 
     //check authentication when the profile list is shown
@@ -99,21 +103,22 @@ class Navbar extends Component {
             sessionStorage.getItem("userSocialData") &&
             sessionStorage.getItem("userToken") &&
             sessionStorage.getItem("userFinishProfile") &&
+            sessionStorage.getItem("userFinishTrip") &&
             sessionStorage.getItem("userImage")
         ) {
             //console.log("inner mount");
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-            let userFinishProfile = JSON.parse(
-                sessionStorage.getItem("userFinishProfile")
-            );
+            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            let userFinishTrip = JSON.parse(sessionStorage.getItem("userFinishTrip"));
             let userImage = JSON.parse(sessionStorage.getItem("userImage"));
             this.setState({
                 user: userData.name,
                 token: tokenData.token,
                 provider: userData.provider,
                 user_pic: userImage.provider_pic,
-                isProfileComplete: userFinishProfile.isFinished
+                isProfileComplete: userFinishProfile.isFinished,
+                unfinishedTrip: userFinishTrip.hasUnfinishedTrip
             });
         }
 
@@ -144,6 +149,12 @@ class Navbar extends Component {
                 "userFinishProfile",
                 JSON.stringify(userFinishProfile)
             );
+            let userFinishTrip;
+            userFinishTrip = {
+                hasUnfinishedTrip: this.state.unfinishedTrip
+            };
+            sessionStorage.setItem("userFinishTrip", JSON.stringify(userFinishTrip));
+
         }
     }
 
@@ -216,6 +227,26 @@ class Navbar extends Component {
             });
         }
 
+        //get unfinishedTrip state
+        //if can get it from the session
+        if (sessionStorage.getItem("userFinishTrip")) {
+            let userFinishTrip = JSON.parse(
+                sessionStorage.getItem("userFinishTrip")
+            );
+            if (this.state.unfinishedTrip !== userFinishTrip.hasUnfinishedTrip) {
+                //console.log("in unfinishedTrip update");
+                this.setState({
+                    unfinishedTrip: userFinishTrip.hasUnfinishedTrip
+                });
+            }
+        }
+        //if token has been removed from session (token expired)
+        else if (this.state.unfinishedTrip !== null) {
+            this.setState({
+                unfinishedTrip: null
+            });
+        }
+
         //get user picture
         //if can get it from the session
         if (sessionStorage.getItem("userImage")) {
@@ -265,9 +296,17 @@ class Navbar extends Component {
                                 />
                             </div>
                             {/* continue book trip area */}
-                            <div className="col-12 col-sm-12 col-md-12 col-lg-3">
-                                <ContinueBookTrip/>
-                            </div>
+                            {this.state.unfinishedTrip && this.state.isShowReminder ? (
+                                <div className="col-12 col-sm-12 col-md-12 col-lg-3">
+                                    <ContinueBookTrip hideReminder={() => {
+                                        this.setState({
+                                            isShowReminder: false
+                                        });
+                                    }}/>
+                                </div>
+                            ) : (
+                                ""
+                            )}
                             {/* admin btn */}
                             <div className="col-12 col-sm-12 col-md-12 col-lg-1 button_admin">
                                 <a className="navbar-brand" href="/">
@@ -343,7 +382,7 @@ class Navbar extends Component {
                                         <div className="col-xl-3  col-lg-5 userBtn">
                                             <Link className="nav-link" to="/my-trip">
                                                 <SmallEllipseBtn
-                                                    text="My trip"
+                                                    text="My trips"
                                                     btnColor="rgba(70, 130, 180, 1)"
                                                 />
                                             </Link>

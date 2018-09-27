@@ -3,7 +3,7 @@ import SmallEllipseBtn from "./SmallEllipseBtn";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
-
+import axios from "axios"
 function StartDate(props) {
     function handleChange(date) {
         props.onChange(date, "startDate");
@@ -14,7 +14,7 @@ function StartDate(props) {
             selected={props.startDate}
             onChange={handleChange}
             minDate={props.validMinDate}
-        />
+        /> 
     );
 }
 
@@ -39,7 +39,8 @@ class SelectTripDate extends Component {
     this.state = {
         startDate: moment().add(4, "days"), // initially, start date is today + 4 days
         endDate: moment().add(9, "days"),
-        width:0
+        width:0,
+        hidePlanButton:false
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
 }
@@ -62,13 +63,28 @@ class SelectTripDate extends Component {
     handleClick = () => {
         //TODO: If user is not login, alert either want to 'login' or 'guestUser'
 
-        //1) Whether Login
+        //1) While Login
         try{
-            //if login
+            //if login & Personal Profile was completed
             if (sessionStorage.getItem('userSocialData')){
-                //show the addTrip
-                alert('ready book')
-                this.props.showAddTripMember()
+                axios
+                .get(
+                    "http://127.0.0.1:3333/api/checkProfile/" +
+                    JSON.parse(sessionStorage.getItem("userToken")).token
+                )
+                .then(response => {
+                    if(response.data.status == 'success'){
+                        //show the addTrip
+                        this.props.showAddTripMember()
+
+                    }else if(response.data.status == 'fail'){
+                        //redirect to Profile Page
+                        this.props.history.push({
+                            pathname: '/newProfile'
+                          });
+
+                    }
+                });
             }
             //no login
             else{
@@ -76,6 +92,10 @@ class SelectTripDate extends Component {
                 //alert window
 
             }
+
+            this.setState({
+                hidePlanButton : true
+            })
 
         }catch(err){
 
@@ -105,6 +125,20 @@ class SelectTripDate extends Component {
 
     render() {
         let currentStartDate = this.state.startDate;
+        
+        let planButton =<div>   
+                            <p style={{opacity:0}}>
+                                <strong>Place Holder</strong>
+                            </p>
+                            {/* Responsive */}
+                            {this.state.width < 990 && this.state.width > 575 ? <div style={{opacity:0}}>1</div> : null}
+                            <span onClick={this.handleClick}>
+                                <SmallEllipseBtn
+                                    text="Plan Your Trip"
+                                    btnColor="rgba(255, 97, 97, 1)"
+                                />
+                            </span>
+                        </div>
         return (
             <div className="container">
                 <div className="row">
@@ -130,18 +164,8 @@ class SelectTripDate extends Component {
                             validMinDate={moment(currentStartDate)}
                         />
                     </div>
-                    <div className="col-sm" id="planTripBtn">
-                        <p style={{opacity:0}}>
-                            <strong>Place Holder</strong>
-                        </p>
-                        {/* Responsive */}
-                        {this.state.width < 990 && this.state.width > 575 ? <div style={{opacity:0}}>1</div> : null }
-                        <span onClick={this.handleClick}>
-                        <SmallEllipseBtn
-                            text="Plan Your Trip"
-                            btnColor="rgba(252,98,101,1)"
-                        />
-                        </span>
+                    <div className="col-sm" id="planTripBtn" style={{textAlign:'center'}}>
+                        {this.state.hidePlanButton ? null : planButton}
                     </div>
                 </div>
             </div>

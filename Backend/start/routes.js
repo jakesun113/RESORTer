@@ -39,6 +39,10 @@ Route.post("/api/reset-password", "MemberController.resetPassword");
 
 //change password
 Route.post("/api/change-password", "MemberController.changePassword");
+
+//check profileStatus
+Route.get("/api/checkProfile/:token","MemberController.checkCompleteProfile")
+
 /*MemberController end*/
 
 /*ValidationTokenController start*/
@@ -96,4 +100,7 @@ Route.get("/api/getPopularResortsByCountry/:token", "TripController.getPopularRe
 
 //get user booking history, and return all trips of that user
 Route.get("/api/getBookingHistory/:token", "TripController.getBookingHistory");
+
+//Acquire members and their family members information
+Route.get("/api/acquireSelfInfoAndFamilyInfo/:token","TripController.acquireSelfInfoAndFamilyInfo")
 /*TripController end*/
