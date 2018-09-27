@@ -20,7 +20,7 @@ class BookHistoryCard extends Component {
             <td>{this.props.startDate}</td>
             <td>{this.props.endDate}</td>
             <td>{this.props.status}</td>
-            <td>{this.props.id}</td>
+            {/* <td>{this.props.id}</td> */}
             <td>
               {/* <SmallEllipseBtn text="View" btnColor="rgba(255, 97, 97, 1)" /> */}
             </td>

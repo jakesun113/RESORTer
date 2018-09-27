@@ -441,7 +441,7 @@ class TripController {
         for (let i = 0; i < trips.length; i++) {
           let tripInfo = {};
           const resort = await ResortInfo.findBy('id', trips[i].ResortID);
-          tripInfo.id = trips[i].id;
+          //tripInfo.id = trips[i].id;
           if (trips[i].SubmitDate) {
             tripInfo.submitDate = moment(trips[i].SubmitDate).format("YYYY-MM-DD");
           } else {

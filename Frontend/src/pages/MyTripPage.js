@@ -104,7 +104,6 @@ class MyTripPage extends Component {
                 startDate={trip.startDate}
                 endDate={trip.endDate}
                 status={trip.status}
-                id={trip.id}
                 buttonText={trip.checkButton}
               />
           ))     
