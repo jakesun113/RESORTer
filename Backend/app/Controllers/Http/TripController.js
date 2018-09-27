@@ -442,14 +442,20 @@ class TripController {
           let tripInfo = {};
           const resort = await ResortInfo.findBy('id', trips[i].ResortID);
           tripInfo.id = trips[i].id;
-          tripInfo.submitDate = trips[i].SubmitDate;
+          if (trips[i].SubmitDate) {
+            tripInfo.submitDate = moment(trips[i].SubmitDate).format("YYYY-MM-DD");
+          } else {
+            tripInfo.submitDate = "-"
+          }
           tripInfo.name = resort.Name;
-          tripInfo.startDate = trips[i].StartDate;
-          tripInfo.endDate = trips[i].EndDate;
+          tripInfo.startDate = moment(trips[i].StartDate).format("YYYY-MM-DD");
+          tripInfo.endDate = moment(trips[i].EndDate).format("YYYY-MM-DD");
           if (trips[i].IsTripDone) {
             tripInfo.status = "Submitted"
+            tripInfo.checkButton = "View"
           } else {
             tripInfo.status = "In Progress"
+            tripInfo.checkButton = "Continue"
           }  
           tripArray.push(tripInfo);
         }      
@@ -461,11 +467,11 @@ class TripController {
       });
 
     } 
-    //otherwise, return no trips found in that user
+    //otherwise, return no trips found for that user
     else {
       console.log("this member doesn't have trips");
       return JSON.stringify({
-        hasResorts: false
+        hasTrips: false
       });
     }   
   }
