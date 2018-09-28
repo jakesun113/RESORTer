@@ -5,9 +5,9 @@ import EquipmentPageTip from "../../components/BookTripPage/EquipmentPageTip";
 class Equipmentpage extends Component {
   state = {
     members: [
-      { name: "sb Jiacheng1", age: 0 },
-      { name: "sb Jiacheng2", age: 0 },
-      { name: "sb Jiacheng3", age: 0 }
+      { name: "user 1", age: 0 },
+      { name: "user 2", age: 0 },
+      { name: "user 3", age: 0 }
     ]
   };
   render() {

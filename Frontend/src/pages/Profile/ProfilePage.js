@@ -138,6 +138,7 @@ class ProfilePage extends Component {
             provider: null
         });
 
+        //remove session and cookies
         handleLogOut(cookies);
     };
 

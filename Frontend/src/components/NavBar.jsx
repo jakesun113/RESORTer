@@ -49,6 +49,7 @@ class Navbar extends Component {
             isProfileComplete: null
         });
 
+        //remove session and cookies
         handleLogOut(cookies);
     };
 

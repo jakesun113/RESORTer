@@ -132,6 +132,7 @@ class ChangePwdPage extends Component {
             provider: null
         });
 
+        //remove session and cookies
         handleLogOut(cookies);
     };
 
