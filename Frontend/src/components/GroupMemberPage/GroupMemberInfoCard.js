@@ -7,6 +7,7 @@ import {Redirect} from "react-router-dom";
 import AlertWindow from "../template/AlertWindow";
 import styled from "styled-components";
 import moment from "moment";
+import handleLogOut from "../template/HandleLogOut";
 
 const MemberInfoCard = styled.div`
   border: 2px solid rgb(218, 227, 242);
@@ -116,18 +117,7 @@ class GroupMemberInfoCard extends Component {
             provider: null
         });
 
-        sessionStorage.removeItem("userSocialData");
-        sessionStorage.removeItem("userToken");
-        sessionStorage.removeItem("userImage");
-        sessionStorage.removeItem("userFinishProfile");
-        sessionStorage.removeItem("userFinishTrip");
-        sessionStorage.removeItem("userIsClicked");
-        cookies.remove("user-name");
-        cookies.remove("access-token");
-        cookies.remove("user-pic");
-        cookies.remove("user-provider");
-        cookies.remove("user-profileFinished");
-        cookies.remove("user-hasUnfinishedTrip");
+        handleLogOut(cookies);
     };
 
     render() {

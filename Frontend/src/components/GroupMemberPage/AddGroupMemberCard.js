@@ -11,6 +11,7 @@ import AlertWindow from "../template/AlertWindow";
 import {Redirect} from "react-router-dom";
 import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
+import handleLogOut from "../template/HandleLogOut";
 
 function StartDate(props) {
     function handleChange(date) {
@@ -76,18 +77,7 @@ class AddGroupMemberCard extends Component {
             provider: null,
         });
 
-        sessionStorage.removeItem("userSocialData");
-        sessionStorage.removeItem("userToken");
-        sessionStorage.removeItem("userImage");
-        sessionStorage.removeItem("userFinishProfile");
-        sessionStorage.removeItem("userFinishTrip");
-        sessionStorage.removeItem("userIsClicked");
-        cookies.remove("user-name");
-        cookies.remove("access-token");
-        cookies.remove("user-pic");
-        cookies.remove("user-provider");
-        cookies.remove("user-profileFinished");
-        cookies.remove("user-hasUnfinishedTrip");
+        handleLogOut(cookies);
     };
 
     validator = () => {
