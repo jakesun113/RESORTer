@@ -113,7 +113,7 @@ class MyTripPage extends Component {
       </table>
 
       {hasTrips ? ( 
-        <div className="d-flex flex-row py-4 align-items-center">
+        <div className="d-flex flex-row py-4 justify-content-center">
               <Pagination
                 totalRecords={totalTrips}
                 pageLimit={5}
