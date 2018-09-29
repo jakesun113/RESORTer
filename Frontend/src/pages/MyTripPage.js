@@ -16,7 +16,7 @@ class MyTripPage extends Component {
       allTrips: [],
       currentTrips: [],
       currentPage: null,
-      totalPages: null
+      totalPages: null,
     };
 
     this.getBookingHistory = this.getBookingHistory.bind(this);
@@ -29,11 +29,24 @@ class MyTripPage extends Component {
       console.log("get history trips successfully");
       this.setState({
         hasTrips: response.data.hasTrips,
-        allTrips: response.data.bookingHistory
+        allTrips: response.data.bookingHistory,
       });
+      console.log("hasTrips " + response.data.hasTrips);
     });
-    console.log("hasTrips " + this.state.hasTrips)
+    
   }
+  
+  // async handleClick (tripID) {
+  //   let BaseURL = "http://127.0.0.1:3333/api/";
+  //   await axios.get(BaseURL + "getBookingStep/" + tripID).then(response => {
+  //     console.log("get booking step successfully");
+  //     this.setState({
+  //       bookingStep: response.data.bookingStep
+  //     });
+  //     console.log("booking step " + response.data.bookingStep);  
+  //   });
+  //   console.log(this.state.bookingStep)
+  // }
 
   onPageChanged = data => {
     const { allTrips } = this.state;
@@ -41,9 +54,9 @@ class MyTripPage extends Component {
 
     const offset = (currentPage - 1) * pageLimit;
     const currentTrips = allTrips.slice(offset, offset + pageLimit);
-
     this.setState({ currentPage, currentTrips, totalPages });
   };
+
 
   componentDidMount() {
     if (sessionStorage.getItem("userToken")) {
@@ -99,12 +112,14 @@ class MyTripPage extends Component {
           currentTrips.map(trip => (
               <BookHistoryCard
               //TODO: change data format to be the same as original website
+                key={trip.id}
                 submitDate = {trip.submitDate}
                 resort = {trip.name}
                 startDate={trip.startDate}
                 endDate={trip.endDate}
                 status={trip.status}
                 buttonText={trip.checkButton}
+                linkTo={trip.bookingStep}
               />
           ))     
         ) : (
@@ -120,7 +135,7 @@ class MyTripPage extends Component {
                 pageNeighbours={1}
                 onPageChanged={this.onPageChanged}
               />
-              <span className="current-page d-inline-block h-100 pl-4 text-secondary">
+              <span className="current-page d-inline-block h-150 pl-4 text-secondary">
                 Page <span className="font-weight-bold">{currentPage}</span> /{" "}
                 <span className="font-weight-bold">{totalPages}</span>
               </span>        

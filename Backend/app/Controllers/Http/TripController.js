@@ -425,7 +425,6 @@ class TripController {
   async getBookingHistory({params}) {
      //first, get the user ID
      const token = params.token;
-     //console.log(token);
      const dbMemberID = await Database.table('validation_tokens')
        .where("Token", token).select('MemberID');
 
@@ -441,7 +440,7 @@ class TripController {
         for (let i = 0; i < trips.length; i++) {
           let tripInfo = {};
           const resort = await ResortInfo.findBy('id', trips[i].ResortID);
-          //tripInfo.id = trips[i].id;
+          tripInfo.id = trips[i].id;
           if (trips[i].SubmitDate) {
             tripInfo.submitDate = moment(trips[i].SubmitDate).format("YYYY-MM-DD");
           } else {
@@ -457,6 +456,8 @@ class TripController {
             tripInfo.status = "In Progress"
             tripInfo.checkButton = "Continue"
           }  
+          tripInfo.bookingStep = await getBookingStep(tripInfo.id, tripInfo.name)
+          console.log(tripInfo.bookingStep)
           tripArray.push(tripInfo);
         }
   
@@ -473,7 +474,63 @@ class TripController {
         hasTrips: false
       });
     }
+
+  async function getBookingStep(tripID, resortName) {
+
+     const trip = await Trip.findBy('id', tripID); 
+     const stepPrefix = "/booking/" + resortName
+     let bookingStep = null;
+
+     //if the trip has been submitted, go to the trip summary page
+     if (trip.IsTripDone) {
+      bookingStep = "/trip/" + resortName
+     } 
+     //otherwise, go to the corresponding booking step
+     else {
+      const tripAccommodation = await Database.table('trip_accommodations')
+      .where("tripID", tripID);
+
+      //if the accommodation step has been completed
+       if (tripAccommodation[0]) {
+        const tripActivity = await Database.table('trip_activities')
+        .where("tripID", tripID);
+        //if the activity step has been completed
+        if (tripActivity[0]) {
+          const tripEquipment = await Database.table('trip_equipments')
+          .where("tripID", tripID);
+
+          //if the equipment step has been completed
+          if (tripEquipment[0]) {
+            const tripLesson = await Database.table('trip_lessons')
+            .where("tripID", tripID);
+            
+            //if the lesson step has been completed, go to the plan summary step
+            if (tripLesson[0]) {
+              bookingStep = stepPrefix + "/plan_summary"
+            } 
+            //otherwise, go to the lesson step
+            else {
+              bookingStep = stepPrefix + "/learn"
+            }
+          } 
+          //otherwise, go to the equipment step
+          else {
+            bookingStep = stepPrefix + "/equipment"
+          }
+        } 
+        //otherwise, go to the activity step
+        else {
+          bookingStep = stepPrefix + "/doing"
+        }
+       } 
+       //otherwise, go to the accommodation step
+       else {        
+        bookingStep = stepPrefix + "/sleep"
+       }
+     }
+     return bookingStep;
   }
+}
 
 }
 
