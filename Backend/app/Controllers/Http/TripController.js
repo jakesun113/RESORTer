@@ -469,6 +469,26 @@ class TripController {
     }
   }
 
+  async getTripSummary({params}) {
+
+    const tripID = params.id;
+    //console.log(tripID);
+    const dbTrip = await Trip.findBy("id", tripID);
+    const resort = await ResortInfo.findBy('id', dbTrip.ResortID);
+    let tripInfo = {};
+    tripInfo.place = resort.Name;
+    tripInfo.startDate = moment(dbTrip.StartDate).format("YYYY-MM-DD");
+    tripInfo.endDate = moment(dbTrip.EndDate).format("YYYY-MM-DD");
+    tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
+
+    //TODO: get member info
+
+    return JSON.stringify({
+      tripInfo: tripInfo
+    });
+
+  }
+
   async getAccoInfo({response, params}) {
 
     const tripID = params.tripID;
