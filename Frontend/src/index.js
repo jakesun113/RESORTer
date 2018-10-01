@@ -28,6 +28,7 @@ import PromptPage from "./components/template/PromptPage";
 // BookTrip
 
 import BookIndex from "./pages/BookPage/BookIndex";
+import BookSuccessPage from "./components/BookTripPage/BookSuccessPage";
 
 // term of use
 import GuestUserTerms from "./components/TermPrivacyPage/GuestUserTerms";
@@ -81,6 +82,7 @@ ReactDOM.render(
                     {/*resortID={this.props.location.state.resortID}*/}
                     {/*tripID={this.props.location.state.tripID}/>}/>*/}
                     <Route path="/booking/:placeName/" component={BookIndex}/>
+                    <Route path="/successPage" component={BookSuccessPage} />
 
                     {/* term privacy */}
                     <Route path="/term-privacy">

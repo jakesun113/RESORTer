@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-class BookingSuccessPage extends Component {
+class BookSuccessPage extends Component {
     render() {
         return (
           <React.Fragment>
@@ -16,5 +16,5 @@ class BookingSuccessPage extends Component {
 
 }
 
-export default PlanSummaryPage;
+export default BookSuccessPage;
 
