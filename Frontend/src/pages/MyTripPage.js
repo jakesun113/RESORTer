@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import BookHistoryCard from "../components/MyTripPage/BookHistoryCard";
 import axios from "axios/index";
 import Pagination from "../components/template/Pagination";
-
+import SmallEllipseBtn from "../components/template/SmallEllipseBtn";
+import { Link } from "react-router-dom";
 class MyTripPage extends Component {
   constructor(props) {
     super(props);
@@ -111,7 +112,9 @@ class MyTripPage extends Component {
                 ))
               : null}
           </table>
-
+          <Link to="/">
+            <SmallEllipseBtn text="Back" btnColor="rgba(104, 99, 105, 1)" />
+          </Link>
           {hasTrips ? (
             <div className="d-flex flex-row py-4 justify-content-center">
               <Pagination
