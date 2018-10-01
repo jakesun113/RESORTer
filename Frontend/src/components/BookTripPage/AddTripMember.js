@@ -49,14 +49,29 @@ class AddTripMember extends Component {
       user : null
     })
   }
+
+  deleteGroupMember = (index) => {
+    let newGroupMember = this.state.groupMember
+    newGroupMember.splice(index,1)
+    this.setState({
+      groupMember : newGroupMember
+    })
+  }
   render() {
-    // console.log(this.state.groupMember)
+    console.log(this.state.groupMember)
     let user = null;
     let groupMember = [];
-    if(this.state.groupMember != null){
+
+    if(this.state.user != null){
       user = this.state.user
+    }
+
+    if(this.state.groupMember != null){
       groupMember = this.state.groupMember
     }
+
+
+
     return (
       <React.Fragment>
         {/* Add member */}
@@ -115,9 +130,9 @@ class AddTripMember extends Component {
         <br />
         {/* already added group member */}
         <div className="row">
+          {this.state.user === null ? null :
           <div className="col-12 col-lg-6">
           <br/>
-          {this.state.user === null ? null :
           <GroupMemberInfoCard
               id={user.id}
               name={user.Lastname + " " + user.Firstname}
@@ -130,14 +145,15 @@ class AddTripMember extends Component {
               teleMarkerLevel={user.TelemarkAbility}
               handleClick={this.deleteMe}
             />
+             </div>
             }
-          </div>
           {groupMember === null ? null :
-            groupMember.map(info => {
+            groupMember.map((info,index) => {
               return (
                   <div className="col-12 col-lg-6">
                   <br/>
                       <GroupMemberInfoCard
+                          key={index}
                           id={info.id}
                           name={info.LastName + " " + info.FirstName}
                           dob={info.DOB}
@@ -147,6 +163,7 @@ class AddTripMember extends Component {
                           snowMobilerLevel={info.SnowmobileAbility}
                           snowShoerLevel={info.SnowshoeAbility}
                           teleMarkerLevel={info.TelemarkAbility}
+                          handleClick={() => this.deleteGroupMember(index) }
                       />
                   </div>
               );
