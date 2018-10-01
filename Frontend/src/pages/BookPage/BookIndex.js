@@ -10,15 +10,14 @@ import PlanSummaryPage from "./PlanSummaryPage";
 class BookIndex extends Component {
 
     render() {
-        const {match, history} = this.props;
+        const {match, history, location} = this.props;
         const place = match.params.placeName;
 
-        if (this.props.location !== null) {
-            const {location} = this.props;
-            const masterID = location.state.masterID;
-            const resortID = location.state.resortID;
-            const tripID = location.state.tripID;
-        }
+
+        // const masterID = location.state.masterID;
+        // const resortID = location.state.resortID;
+        // const tripID = location.state.tripID;
+        //
 
         return (
             <div>
