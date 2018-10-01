@@ -50,7 +50,7 @@ class BookIndex extends Component {
                         {/*/!* euipment page *!/*/}
                         <Route
                             path={`/booking/${place}/equipment`}
-                            render={() => <BookingActivity
+                            render={() => <EquipmentPage
                                 place={place}
                                 history={history}/>}
                         />
