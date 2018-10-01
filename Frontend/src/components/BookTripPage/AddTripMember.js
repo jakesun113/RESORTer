@@ -16,8 +16,8 @@ class AddTripMember extends Component {
 
     //Http Request Acquires GroupMembers
     componentDidMount() {
-        //if the user is not a guest User
-        if (!sessionStorage.getItem("GuestUser")) {
+        //if the user is not a guest User TODO: If guestUser
+        if (!sessionStorage.getItem("guestUser")) {
             //Acquire the groupMember information when loading
             axios
                 .get(
@@ -27,7 +27,8 @@ class AddTripMember extends Component {
                 .then(response => {
                     this.setState({
                         user: response.data.user,
-                        groupMember: response.data.familyMember
+                        groupMember: response.data.familyMember,
+                        numberOfFamilyMember:response.data.familyMember.length
                     });
                 });
         }
@@ -50,20 +51,21 @@ class AddTripMember extends Component {
         })
     };
 
-<<<<<<< HEAD
-  deleteMe = () => {
-    this.setState({
-      user : null
-    })
-  }
+    deleteGroupMember = (index) => {
+      let newGroupMember = this.state.groupMember
+      newGroupMember.splice(index,1)
+      this.setState({
+        groupMember : newGroupMember
+      })
+    }
 
-  deleteGroupMember = (index) => {
-    let newGroupMember = this.state.groupMember
-    newGroupMember.splice(index,1)
-    this.setState({
-      groupMember : newGroupMember
-    })
-  }
+    addSavedGroupMember = () => {
+      axios.get("http://127.0.0.1:3333/api/acquireSelfInfoAndFamilyInfo/" +
+      JSON.parse(sessionStorage.getItem("userToken")).token)
+      .then(response => {
+          //response.data.familyMember
+      });
+    }
   render() {
     console.log(this.state.groupMember)
     let user = null;
@@ -94,31 +96,6 @@ class AddTripMember extends Component {
         {/* add member btn */}
         <div className="row">
           <div className="col-lg-1" />
-=======
-    render() {
-        // console.log(this.state.groupMember)
-        let user = null;
-        let groupMember = [];
-        if (this.state.groupMember != null) {
-            user = this.state.user;
-            groupMember = this.state.groupMember
-        }
-        return (
-            <React.Fragment>
-                {/* Add member */}
-                <div
-                    className="row"
-                    style={{color: "#4682B4", fontSize: "26px", fontWeight: "bold"}}
-                >
-                    <div className="col-1"/>
-                    <div className="col-4">Trip Members:</div>
-                    <div className="col-7"/>
-                </div>
-                <br/>
-                {/* add member btn */}
-                <div className="row">
-                    <div className="col-lg-1"/>
->>>>>>> 5a66b85471b2630e19b24e1659990f7b4ff8a273
 
                     <div
                         className="col-12 col-lg-3"
@@ -132,12 +109,12 @@ class AddTripMember extends Component {
                   paddingRight="11ex"
               />
             </span>
-<<<<<<< HEAD
           </div>
-          {groupMember.length === 0 ? null :
+          {this.state.numberOfFamilyMember === 0 ? null :
             <div
               className="col-12 col-lg-3"
               style={{ marginBottom: "10px", textAlign: "center" }}
+              onclick = {this.addSavedGroupMember}
             >
               <SmallEllipseBtn
                 text="+ Add Saved group Member"
@@ -228,101 +205,6 @@ class AddTripMember extends Component {
       </React.Fragment>
     );
   }
-=======
-                    </div>
-                    {groupMember.length === 0 ? null :
-                        <div
-                            className="col-12 col-lg-3"
-                            style={{marginBottom: "10px", textAlign: "center"}}
-                        >
-                            <SmallEllipseBtn
-                                text="+ Add Saved group Member"
-                                btnColor="rgba(255, 97, 97, 1)"
-                                paddingLeft="3ex"
-                                paddingRight="3ex"
-                            />
-                        </div>
-                    }
-                    <div
-                        className="col-12 col-lg-3"
-                        style={{marginBottom: "10px", textAlign: "center"}}
-                    >
-                        <SmallEllipseBtn
-                            text="+ Add new Group Member"
-                            btnColor="rgba(255, 97, 97, 1)"
-                            paddingLeft="3.9ex"
-                            paddingRight="3.9ex"
-                        />
-                    </div>
-                    <div className="col-lg-2"/>
-                </div>
-                <br/>
-                {/* already added group member */}
-                <div className="row">
-                    <div className="col-12 col-lg-6">
-                        <br/>
-                        {this.state.user === null ? null :
-                            <GroupMemberInfoCard
-                                id={user.id}
-                                name={user.Lastname + " " + user.Firstname}
-                                dob={user.DOB}
-                                skierLevel={user.SkiAbility}
-                                snowBikerLevel={user.SnowbikeAbility}
-                                snowBorderLevel={user.SnowboardAbility}
-                                snowMobilerLevel={user.SnowmobileAbility}
-                                snowShoerLevel={user.SnowshoeAbility}
-                                teleMarkerLevel={user.TelemarkAbility}
-                                handleClick={this.deleteMe}
-                            />
-                        }
-                    </div>
-                    {groupMember === null ? null :
-                        groupMember.map(info => {
-                            return (
-                                <div className="col-12 col-lg-6">
-                                    <br/>
-                                    <GroupMemberInfoCard
-                                        id={info.id}
-                                        name={info.LastName + " " + info.FirstName}
-                                        dob={info.DOB}
-                                        skierLevel={info.SkiAbility}
-                                        snowBikerLevel={info.SnowbikeAbility}
-                                        snowBorderLevel={info.SnowboardAbility}
-                                        snowMobilerLevel={info.SnowmobileAbility}
-                                        snowShoerLevel={info.SnowshoeAbility}
-                                        teleMarkerLevel={info.TelemarkAbility}
-                                    />
-                                </div>
-                            );
-                        })
-                    }
-                </div>
-                {/* <div className="col-1" /> */}
-                <br/>
-                {/* continue btn */}
-                <div className="row">
-                    {/* <div className="col-8" /> */}
-                    <div className="col align-self-start"/>
-                    <div className="col align-self-center"/>
-                    <div className="col align-self-end">
-                        {/*<a href={}>*/}
-                        <Link
-                            to={{
-                                pathname: `/booking/${this.props.place}/sleep`
-                                // state: {masterID: masterID, resortID: resortID, tripID: tripID},
-                            }}
-                        >
-                            <SmallEllipseBtn
-                                text="Save and Continue"
-                                btnColor="rgba(255, 97, 97, 1)"
-                            />
-                        </Link>
-                    </div>
-                </div>
-            </React.Fragment>
-        );
-    }
->>>>>>> 5a66b85471b2630e19b24e1659990f7b4ff8a273
 }
 
 export default AddTripMember;
