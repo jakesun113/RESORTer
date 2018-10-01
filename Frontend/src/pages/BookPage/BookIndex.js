@@ -24,18 +24,26 @@ class BookIndex extends Component {
                     <Switch>
                         <Route
                             path={`/booking/${place}/who`}
-                            render={() => <BookTripWhoPage masterID={masterID} resortID={resortID} tripID={tripID}
-                                                           place={place} history={history}/>}
+                            render={() => <BookTripWhoPage masterID={masterID}
+                                                           resortID={resortID}
+                                                           tripID={tripID}
+                                                           place={place}
+                                                           history={history}/>}
                         />
                         <Route
                             path={`/booking/${place}/sleep`}
-                            render={() => <BookingAccommodation masterID={masterID} resortID={resortID} tripID={tripID}
-                                                                place={place} history={history}/>}
+                            render={() => <BookingAccommodation
+                                masterID={masterID} resortID={resortID}
+                                tripID={tripID}
+                                place={place} history={history}/>}
                         />
                         <Route
                             path={`/booking/${place}/doing`}
-                            render={() => <BookingActivity masterID={masterID} resortID={resortID} tripID={tripID}
-                                                           place={place} history={history}/>}
+                            render={() => <BookingActivity masterID={masterID}
+                                                           resortID={resortID}
+                                                           tripID={tripID}
+                                                           place={place}
+                                                           history={history}/>}
                         />
                     </Switch>
                 </div>

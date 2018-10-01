@@ -29,6 +29,7 @@
     "@adonisjs/shield": "^1.0.6",
     "@adonisjs/validator": "^5.0.3",
     "axios": "^0.18.0",
+    "co-functional": "^0.2.1",
     "csvtojson": "^2.0.8",
     "email-templates": "^4.0.1",
     "fs-extra": "^7.0.0",

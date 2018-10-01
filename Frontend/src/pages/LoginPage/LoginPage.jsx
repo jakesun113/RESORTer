@@ -155,7 +155,7 @@ class LoginPage extends Component {
                             provider_pic: this.state.webServer + response.data.user_pic
                         };
                     }
-                    else{
+                    else {
                         userImage = {
                             provider_pic: null
                         };
@@ -235,7 +235,21 @@ class LoginPage extends Component {
             const {from} = this.props.location.state;
             if (this.state.redirectToReferrer) {
                 console.log(from);
-                return <Redirect to={from}/>;
+
+                if (from.indexOf('/booking/') === -1) {
+                    return <Redirect to={from}/>;
+                } else {
+                    const {masterID, resortID, tripID, history} = this.props.location.state;
+                    history.push({
+                        pathname: from,
+                        state: {
+                            masterID: masterID,
+                            resortID: resortID,
+                            tripID: tripID
+                        }
+                    })
+                }
+
             }
         }
 
@@ -269,7 +283,8 @@ class LoginPage extends Component {
                     {/* facebook login */}
                     <div className="row">
                         <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
-                        <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
+                        <div
+                            className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
                             <FacebookLogin/>
                         </div>
                         <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
@@ -294,7 +309,8 @@ class LoginPage extends Component {
                     {/* or line */}
                     <div className="row">
                         <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
-                        <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
+                        <div
+                            className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
                             <p className="or-style">
                                 <span>or</span>
                             </p>
@@ -310,8 +326,10 @@ class LoginPage extends Component {
                     >
                         {/* email */}
                         <div className="row">
-                            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
-                            <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
+                            <div
+                                className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
+                            <div
+                                className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
                                 <input
                                     id="loginEmail"
                                     className="form-control"
@@ -327,7 +345,10 @@ class LoginPage extends Component {
                                 {this.state.emailExisted ? null : (
                                     <div
                                         id="emailError"
-                                        style={{color: "red", fontWeight: "bolder"}}
+                                        style={{
+                                            color: "red",
+                                            fontWeight: "bolder"
+                                        }}
                                     >
                                         Email does not exist
                                         <span hidden>
@@ -340,8 +361,12 @@ class LoginPage extends Component {
                                     </div>
                                 )}
                                 {this.state.emailDuplicated ? (
-                                    <div style={{color: "red", fontWeight: "bolder"}}>
-                                        user has logged in as {this.state.duplicatedProvider}
+                                    <div style={{
+                                        color: "red",
+                                        fontWeight: "bolder"
+                                    }}>
+                                        user has logged in
+                                        as {this.state.duplicatedProvider}
                                         <span hidden>
                       {
                           (document.getElementById(
@@ -366,13 +391,16 @@ class LoginPage extends Component {
                                     ""
                                 )}
                             </div>
-                            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
+                            <div
+                                className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
                         </div>
                         <br/>
                         {/* password */}
                         <div className="row">
-                            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
-                            <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
+                            <div
+                                className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
+                            <div
+                                className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
                                 <input
                                     id="loginpwd"
                                     className="form-control"
@@ -409,7 +437,10 @@ class LoginPage extends Component {
                                     }}
                                 />
                                 {this.state.wrongPwd ? (
-                                    <div style={{color: "red", fontWeight: "bolder"}}>
+                                    <div style={{
+                                        color: "red",
+                                        fontWeight: "bolder"
+                                    }}>
                                         Password is wrong
                                         <span hidden>
                       {
@@ -420,7 +451,8 @@ class LoginPage extends Component {
                                     </div>
                                 ) : null}
                             </div>
-                            <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
+                            <div
+                                className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
                         </div>
                         <br/>
 
@@ -449,7 +481,8 @@ class LoginPage extends Component {
                             <div className="col-2 col-sm-2 col-md-2 col-lg-1"/>
                             {/* forget pass */}
                             <div className="col-4 col-sm-3 col-md-2 col-lg-2">
-                                <a style={{whiteSpace: "nowrap"}} href="/forgot-password">
+                                <a style={{whiteSpace: "nowrap"}}
+                                   href="/forgot-password">
                                     Forgot password?
                                 </a>
                             </div>
@@ -460,8 +493,10 @@ class LoginPage extends Component {
                         {/* login btn */}
                         <div>
                             <div className="row">
-                                <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
-                                <div className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
+                                <div
+                                    className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
+                                <div
+                                    className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
                                     <button
                                         className="login_btn_in_loginwindow"
                                         style={{width: "100%"}}
@@ -470,12 +505,17 @@ class LoginPage extends Component {
                                         Log In
                                     </button>
                                     {this.state.authenticationFailed ? (
-                                        <div style={{color: "red", fontWeight: "bolder"}}>
-                                            Authentication failed - Internal server error
+                                        <div style={{
+                                            color: "red",
+                                            fontWeight: "bolder"
+                                        }}>
+                                            Authentication failed - Internal
+                                            server error
                                         </div>
                                     ) : null}
                                 </div>
-                                <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
+                                <div
+                                    className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
                             </div>
                         </div>
                         <br/>

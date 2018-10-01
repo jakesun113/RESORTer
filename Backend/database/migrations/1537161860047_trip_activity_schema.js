@@ -8,8 +8,8 @@ class TripActivitySchema extends Schema {
       table.increments()
       table.timestamps()
       table.integer('TripID').unsigned().notNullable().references('id').inTable('trips')
-      table.string('MasterMemberActivity')
-      table.string('GroupMemberActivity')
+      table.text('MasterMemberActivity')
+      table.mediumtext('GroupMemberActivity')
     })
   }
 

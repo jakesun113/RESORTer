@@ -141,20 +141,17 @@ class MemberController {
       });
 
     } catch (error) {
-
       console.log(error);
-
     }
   }
 
-  /* API:/api/resendConfirmEmail
-     request: {'email':EMAIL,'id':id}
-     response:{'email':EMAIL, status: 'success/fail'}
+  /*
+      API:/api/resendConfirmEmail
+      request: {'email':EMAIL,'id':id}
+      response:{'email':EMAIL, status: 'success/fail'}
   */
   async resendConfirmEmail({request, auth, response}) {
-
     try {
-
       let member;
       console.log(request.all());
       //Judge whether request contains Email or Id
@@ -184,7 +181,10 @@ class MemberController {
     } catch (err) {
 
       console.log(err);
-      return response.send(JSON.stringify({status: "fail", reason: "SERVER ERROR: Please Try Again"}));
+      return response.send(JSON.stringify({
+        status: "fail",
+        reason: "SERVER ERROR: Please Try Again"
+      }));
 
     }
   }

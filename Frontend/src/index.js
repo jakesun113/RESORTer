@@ -31,7 +31,8 @@ import BookIndex from "./pages/BookPage/BookIndex";
 // term of use
 import GuestUserTerms from "./components/TermPrivacyPage/GuestUserTerms";
 import PrivacyStatement from "./components/TermPrivacyPage/PrivacyStatement";
-import ResortProviderTerms from "./components/TermPrivacyPage/ResortProviderTerms";
+import ResortProviderTerms
+    from "./components/TermPrivacyPage/ResortProviderTerms";
 import Disclaimer from "./components/TermPrivacyPage/Disclaimer";
 import SideNav from "./components/TermPrivacyPage/SideNav";
 
@@ -47,7 +48,8 @@ ReactDOM.render(
                     <Route path="/login" component={LoginPage}/>
                     <Route path="/sign-up" component={SignupPage}/>
                     <Route path="/contact" component={ContactPage}/>
-                    <Route path="/forgot-password" component={ForgotPasswordPage}/>
+                    <Route path="/forgot-password"
+                           component={ForgotPasswordPage}/>
                     <Route
                         path="/forgotPasswordToken/:id/:token"
                         component={ResetPasswordPage}
@@ -91,7 +93,8 @@ ReactDOM.render(
                                     <SideNav/>
                                 </div>
                                 <div className="col-md-1 col-sm-0 col-12"/>
-                                <div className="col-md-7 col-sm-12 col-0 text-justify">
+                                <div
+                                    className="col-md-7 col-sm-12 col-0 text-justify">
                                     <Switch>
                                         <Route
                                             path="/term-privacy/term-of-use"
