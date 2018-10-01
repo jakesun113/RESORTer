@@ -28,7 +28,7 @@ class MyTripPage extends Component {
                 hasTrips: response.data.hasTrips,
                 allTrips: response.data.bookingHistory
             });
-            console.log("hasTrips " + response.data.hasTrips);
+            //console.log("hasTrips " + response.data.hasTrips);
         });
     }
 
