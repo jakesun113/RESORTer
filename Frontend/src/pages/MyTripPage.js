@@ -11,7 +11,7 @@ class MyTripPage extends Component {
       allTrips: [],
       currentTrips: [],
       currentPage: null,
-      totalPages: null,
+      totalPages: null
     };
 
     this.getBookingHistory = this.getBookingHistory.bind(this);
@@ -24,11 +24,10 @@ class MyTripPage extends Component {
       console.log("get history trips successfully");
       this.setState({
         hasTrips: response.data.hasTrips,
-        allTrips: response.data.bookingHistory,
+        allTrips: response.data.bookingHistory
       });
       console.log("hasTrips " + response.data.hasTrips);
     });
-    
   }
 
   onPageChanged = data => {
@@ -40,12 +39,11 @@ class MyTripPage extends Component {
     this.setState({ currentPage, currentTrips, totalPages });
   };
 
-
   componentDidMount() {
     if (sessionStorage.getItem("userToken")) {
       let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
       this.getBookingHistory(tokenData.token);
-    }  
+    }
   }
 
   render() {
@@ -62,7 +60,7 @@ class MyTripPage extends Component {
       totalTrips = allTrips.length;
       if (totalTrips === 0) return null;
     }
-    
+
     return (
       <React.Fragment>
         <div className="container">
@@ -71,7 +69,13 @@ class MyTripPage extends Component {
           <div className="form-row">
             {/* <div className="form-group col-2" /> */}
             <div className="form-group col-4">
-              <span style={{ fontSize: "2rem", color: "#686369" }}>
+              <span
+                style={{
+                  fontSize: "2rem",
+                  color: "#686369",
+                  whiteSpace: "nowrap"
+                }}
+              >
                 My Booking History
               </span>
             </div>
@@ -91,27 +95,25 @@ class MyTripPage extends Component {
                 <th scope="col" />
               </tr>
             </thead>
-        {hasTrips ? (  
-          currentTrips.map(trip => (
-              <BookHistoryCard
-              //TODO: change data format to be the same as original website
-                key={trip.id}
-                submitDate = {trip.submitDate}
-                resort = {trip.name}
-                startDate={trip.startDate}
-                endDate={trip.endDate}
-                status={trip.status}
-                buttonText={trip.checkButton}
-                linkTo={trip.bookingStep}
-              />
-          ))     
-        ) : (
-          null
-        )}
-      </table>
+            {hasTrips
+              ? currentTrips.map(trip => (
+                  <BookHistoryCard
+                    //TODO: change data format to be the same as original website
+                    key={trip.id}
+                    submitDate={trip.submitDate}
+                    resort={trip.name}
+                    startDate={trip.startDate}
+                    endDate={trip.endDate}
+                    status={trip.status}
+                    buttonText={trip.checkButton}
+                    linkTo={trip.bookingStep}
+                  />
+                ))
+              : null}
+          </table>
 
-      {hasTrips ? ( 
-        <div className="d-flex flex-row py-4 justify-content-center">
+          {hasTrips ? (
+            <div className="d-flex flex-row py-4 justify-content-center">
               <Pagination
                 totalRecords={totalTrips}
                 pageLimit={5}
@@ -121,12 +123,10 @@ class MyTripPage extends Component {
               <span className="current-page d-inline-block h-150 pl-4 text-secondary">
                 Page <span className="font-weight-bold">{currentPage}</span> /{" "}
                 <span className="font-weight-bold">{totalPages}</span>
-              </span>        
-        </div>
-      ) : (
-        null
-      )}
- 
+              </span>
+            </div>
+          ) : null}
+
           {/* end container */}
         </div>
       </React.Fragment>
