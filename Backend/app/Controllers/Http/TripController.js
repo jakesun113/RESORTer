@@ -455,18 +455,18 @@ class TripController {
           } else {
             tripInfo.status = "In Progress"
             tripInfo.checkButton = "Continue"
-          }  
+          }
           tripInfo.bookingStep = await getBookingStep(tripInfo.id, tripInfo.name)
           console.log(tripInfo.bookingStep)
           tripArray.push(tripInfo);
         }
-  
+
       //console.log(tripArray);
       return JSON.stringify({
         hasTrips: true,
         bookingHistory: tripArray
       });
-    } 
+    }
     //otherwise, return no trips found in that user
     else {
       console.log("this member doesn't have trips");
@@ -477,14 +477,14 @@ class TripController {
 
   async function getBookingStep(tripID, resortName) {
 
-     const trip = await Trip.findBy('id', tripID); 
-     const stepPrefix = "/booking/" + resortName
+     const trip = await Trip.findBy('id', tripID);
+     const stepPrefix = "/booking/" + resortName;
      let bookingStep = null;
 
      //if the trip has been submitted, go to the trip summary page
      if (trip.IsTripDone) {
       bookingStep = "/trip/" + resortName
-     } 
+     }
      //otherwise, go to the corresponding booking step
      else {
       const tripAccommodation = await Database.table('trip_accommodations')
@@ -503,28 +503,28 @@ class TripController {
           if (tripEquipment[0]) {
             const tripLesson = await Database.table('trip_lessons')
             .where("tripID", tripID);
-            
+
             //if the lesson step has been completed, go to the plan summary step
             if (tripLesson[0]) {
               bookingStep = stepPrefix + "/summary"
-            } 
+            }
             //otherwise, go to the lesson step
             else {
               bookingStep = stepPrefix + "/learn"
             }
-          } 
+          }
           //otherwise, go to the equipment step
           else {
             bookingStep = stepPrefix + "/equipment"
           }
-        } 
+        }
         //otherwise, go to the activity step
         else {
           bookingStep = stepPrefix + "/doing"
         }
-       } 
+       }
        //otherwise, go to the accommodation step
-       else {        
+       else {
         bookingStep = stepPrefix + "/sleep"
        }
      }
