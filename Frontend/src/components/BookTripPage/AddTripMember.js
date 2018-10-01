@@ -22,6 +22,12 @@ class AddTripMember extends Component {
     this.addSavedGroupMember = this.addSavedGroupMember.bind(this);
   }
 
+  //Submit information of Trip Member
+  componentDidUpdate() {
+    //FIXME: maximum stack
+    // this.props.setTripMember(this.state.user,this.state.groupMember)
+  }
+
   //Http Request Acquires GroupMembers
   componentDidMount() {
     //if the user is not a guest User TODO: If guestUser
@@ -112,12 +118,12 @@ class AddTripMember extends Component {
     });
   };
 
-  handleAddNewGroupMember = (data) => {
+  handleAddNewGroupMember = data => {
     let newGroupMember = this.state.groupMember;
-    newGroupMember.push(data)
+    newGroupMember.push(data);
     this.setState({
-      groupMember : newGroupMember
-    })
+      groupMember: newGroupMember
+    });
   };
 
   showAddNewGroupMember = () => {
@@ -127,14 +133,18 @@ class AddTripMember extends Component {
   };
 
   //This function just used to overwrite the existed function inside of AddGroupMemberCard.js component
-  handleAddGroupNumber(params){
-    console.log(params)
+  handleAddGroupNumber(params) {
+    console.log(params);
   }
 
   handleAfterAddNewGroupMemberClose = () => {
     this.setState({
       showAddNewGroupMemberCard: false
-    })
+    });
+  };
+
+  handleSaveAndContinue = () => {
+    this.props.submitTripMember(this.state.user, this.state.groupMember)
   }
 
   render() {
@@ -227,8 +237,8 @@ class AddTripMember extends Component {
             <div className="container">
               <AddGroupMemberCard
                 addNewGroupMember={this.handleAddNewGroupMember}
-                addGroupNumber = {this.handleAddGroupNumber}
-                onHandleClose = {this.handleAfterAddNewGroupMemberClose}
+                addGroupNumber={this.handleAddGroupNumber}
+                onHandleClose={this.handleAfterAddNewGroupMemberClose}
               />
             </div>
           ) : null}
@@ -282,24 +292,26 @@ class AddTripMember extends Component {
         </div>
         {/* <div className="col-1" /> */}
         <br />
-        {/* continue btn */}
         <div className="row">
+          {/* continue btn */}
           {/* <div className="col-8" /> */}
-          <div className="col align-self-start" />
-          <div className="col align-self-center" />
-          <div className="col align-self-end">
+          <div className="col-4" />
+          <div className="col-4" />
+          <div className="col-4">
             {/*<a href={}>*/}
-            <Link
+            {/* <Link
               to={{
                 pathname: `/booking/${this.props.place}/sleep`
                 // state: {masterID: masterID, resortID: resortID, tripID: tripID},
               }}
             >
+            </Link> */}
+            <span onClick={this.handleSaveAndContinue}>
               <SmallEllipseBtn
                 text="Save and Continue"
                 btnColor="rgba(255, 97, 97, 1)"
               />
-            </Link>
+            </span>
           </div>
         </div>
       </React.Fragment>
