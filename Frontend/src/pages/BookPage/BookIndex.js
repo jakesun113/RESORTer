@@ -48,14 +48,12 @@ class BookIndex extends Component {
                         {/*/>*/}
 
                         {/*/!* euipment page *!/*/}
-                        {/*<Route*/}
-                        {/*path={`/booking/${place}/equipment`}*/}
-                        {/*render={() => <BookingActivity masterID={masterID}*/}
-                        {/*resortID={resortID}*/}
-                        {/*tripID={tripID}*/}
-                        {/*place={place}*/}
-                        {/*history={history}/>}*/}
-                        {/*/>*/}
+                        <Route
+                            path={`/booking/${place}/equipment`}
+                            render={() => <EquipmentPage
+                                place={place}
+                                history={history}/>}
+                        />
 
                         {/* plan summary page */}
                         <Route

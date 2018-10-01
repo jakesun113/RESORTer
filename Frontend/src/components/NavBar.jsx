@@ -101,7 +101,9 @@ class Navbar extends Component {
             //console.log("inner mount");
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            let userFinishProfile = JSON.parse(
+                sessionStorage.getItem("userFinishProfile")
+            );
             let userFinishTrip = JSON.parse(sessionStorage.getItem("userFinishTrip"));
             let userImage = JSON.parse(sessionStorage.getItem("userImage"));
             this.setState({
@@ -152,7 +154,6 @@ class Navbar extends Component {
                 hasUnfinishedTrip: this.state.unfinishedTrip
             };
             sessionStorage.setItem("userFinishTrip", JSON.stringify(userFinishTrip));
-
         }
     }
 
@@ -228,9 +229,7 @@ class Navbar extends Component {
         //get unfinishedTrip state
         //if can get it from the session
         if (sessionStorage.getItem("userFinishTrip")) {
-            let userFinishTrip = JSON.parse(
-                sessionStorage.getItem("userFinishTrip")
-            );
+            let userFinishTrip = JSON.parse(sessionStorage.getItem("userFinishTrip"));
             if (this.state.unfinishedTrip !== userFinishTrip.hasUnfinishedTrip) {
                 //console.log("in unfinishedTrip update");
                 this.setState({
@@ -271,29 +270,44 @@ class Navbar extends Component {
                 <div className="container-fluid">
                     <nav>
                         {/* up */}
-                        <div className="row">
-                            <div className="col-xs-0 col-sm-0 col-lg-2"/>
+                        <div className="row" style={{textAlign: "center"}}>
+                            <div className="col-lg-3"/>
+                            {/* coming soon logo */}
                             <div
-                                className="col-xs-12 col-sm-4 col-lg-3 logo_coming_soon">
-                <span>
-                  <img
-                      src="https://static.wixstatic.com/media/25b4a3_0a86277c361e458298291ef1d9ed0ba8~mv2.png/v1/fill/w_200,h_200,al_c,usm_0.66_1.00_0.01/25b4a3_0a86277c361e458298291ef1d9ed0ba8~mv2.png"
-                      alt=""
-                  />
-                </span>
+                                className="col-12 col-sm-12 col-md-12 col-lg-2 logo_coming_soon"
+                                style={{textAlign: "center"}}
+                            >
+                                <img
+                                    src="https://static.wixstatic.com/media/25b4a3_0a86277c361e458298291ef1d9ed0ba8~mv2.png/v1/fill/w_200,h_200,al_c,usm_0.66_1.00_0.01/25b4a3_0a86277c361e458298291ef1d9ed0ba8~mv2.png"
+                                    alt=""
+                                />
                             </div>
+                            {/* company logo */}
                             <div
-                                className="col-xs-12 col-sm-4 col-lg-3 logo_front">
-                <span>
-                  <img
-                      src="https://static.wixstatic.com/media/25b4a3_476f364fc74b4d3fb6c657519d3c90d2~mv2.png/v1/fill/w_366,h_156,al_c,usm_0.66_1.00_0.01/25b4a3_476f364fc74b4d3fb6c657519d3c90d2~mv2.png"
-                      alt=""
-                  />
-                </span>
+                                className="col-12 col-sm-12 col-md-12 col-lg-2 logo_front"
+                                style={{textAlign: "center"}}
+                            >
+                                <img
+                                    src="https://static.wixstatic.com/media/25b4a3_476f364fc74b4d3fb6c657519d3c90d2~mv2.png/v1/fill/w_366,h_156,al_c,usm_0.66_1.00_0.01/25b4a3_476f364fc74b4d3fb6c657519d3c90d2~mv2.png"
+                                    alt=""
+                                />
                             </div>
-                            <div
-                                className="col-xs-12 col-sm-4 col-sm-4 col-lg-3 button_admin">
-
+                            {/* continue book trip area */}
+                            {this.state.unfinishedTrip && this.state.isShowReminder ? (
+                                <div className="col-12 col-sm-12 col-md-12 col-lg-3">
+                                    <ContinueBookTrip
+                                        hideReminder={() => {
+                                            this.setState({
+                                                isShowReminder: false
+                                            });
+                                            sessionStorage.setItem("userIsClicked", JSON.stringify({
+                                                isClicked: true
+                                            }));
+                                        }}/>
+                                </div>) : (
+                                "")}
+                            {/* admin btn */}
+                            <div className="col-12 col-sm-12 col-md-12 col-lg-1 button_admin">
                                 <a className="navbar-brand" href="/">
                                     <img
                                         src="https://static.wixstatic.com/media/25b4a3_fae0b5a09c5c4a4cbd36b211a9075836~mv2.png/v1/fill/w_66,h_66,al_c,lg_1/25b4a3_fae0b5a09c5c4a4cbd36b211a9075836~mv2.png"
@@ -305,15 +319,13 @@ class Navbar extends Component {
 
                         {/* down */}
 
-                        <div className="row"
-                             style={{borderBottom: "2px solid grey"}}>
+                        <div className="row" style={{borderBottom: "2px solid grey"}}>
                             {/* left */}
                             <div className="col-xs-12 col-lg-8 col-md-12">
                                 <div className="row">
                                     <div className="col-xl-2 col-lg-1"/>
 
-                                    <div
-                                        className="col-xl-2 col-lg-2 col-sm-12 col-12 left_border">
+                                    <div className="col-xl-2 col-lg-2 col-sm-12 col-12 left_border">
                                         <NavLink
                                             exact
                                             activeClassName="initial_active"
@@ -323,8 +335,7 @@ class Navbar extends Component {
                                             HOME
                                         </NavLink>
                                     </div>
-                                    <div
-                                        className="col-xl-2 col-lg-3 col-sm-12 col-12 left_border">
+                                    <div className="col-xl-2 col-lg-3 col-sm-12 col-12 left_border">
                                         <NavLink
                                             activeClassName="initial_active"
                                             className="nav-link button_style"
@@ -333,8 +344,7 @@ class Navbar extends Component {
                                             How it Works
                                         </NavLink>
                                     </div>
-                                    <div
-                                        className="col-xl-2 col-lg-3 col-sm-12 col-12 left_border">
+                                    <div className="col-xl-2 col-lg-3 col-sm-12 col-12 left_border">
                                         <NavLink
                                             activeClassName="initial_active"
                                             className="nav-link button_style"
@@ -348,8 +358,7 @@ class Navbar extends Component {
                                             About Us
                                         </NavLink>
                                     </div>
-                                    <div
-                                        className="col-xl-2 col-lg-3 col-sm-12 col-12 left_border">
+                                    <div className="col-xl-2 col-lg-3 col-sm-12 col-12 left_border">
                                         <NavLink
                                             activeClassName="initial_active"
                                             className="nav-link button_style"
@@ -369,10 +378,8 @@ class Navbar extends Component {
                                     <div className="row">
                                         <div className="col-xl-1 col-lg-1"/>
                                         {/* my trip btn */}
-                                        <div
-                                            className="col-xl-3  col-lg-5 userBtn">
-                                            <Link className="nav-link"
-                                                  to="/my-trip">
+                                        <div className="col-xl-3  col-lg-5 userBtn">
+                                            <Link className="nav-link" to="/my-trip">
                                                 <SmallEllipseBtn
                                                     text="My trips"
                                                     btnColor="rgba(70, 130, 180, 1)"
@@ -381,8 +388,7 @@ class Navbar extends Component {
                                         </div>
                                         <div className="col-lg-1"/>
                                         {/* profile btn */}
-                                        <div
-                                            className="col-xl-3  col-lg-4 userBtn dropdown">
+                                        <div className="col-xl-3  col-lg-4 userBtn dropdown">
                                             <div
                                                 className="nav-link "
                                                 data-toggle="dropdown"
@@ -400,8 +406,7 @@ class Navbar extends Component {
                                                     onMouseEnter={this.handleAuth}
                                                 />
                                             </div>
-                                            <div className="dropdown-menu"
-                                                 style={{width: "250px"}}>
+                                            <div className="dropdown-menu" style={{width: "250px"}}>
                                                 <ProfileCard
                                                     userName={this.state.user}
                                                     isProfileComplete={this.state.isProfileComplete}
@@ -418,8 +423,7 @@ class Navbar extends Component {
                                     <div className="row">
                                         <div className="col-xl-2 col-lg-2"/>
 
-                                        <div
-                                            className="col-xl-2 col-lg-2 userBtn">
+                                        <div className="col-xl-2 col-lg-2 userBtn">
                       <span
                           onClick={() => {
                               this.setState({isShowLoginWindow: true});
@@ -427,7 +431,6 @@ class Navbar extends Component {
                       >
                         <SmallEllipseBtn text="Log in" btnColor="orangered"/>
                       </span>
-
                                         </div>
                                         <div className="col-xl-8 col-lg-8"/>
                                     </div>
