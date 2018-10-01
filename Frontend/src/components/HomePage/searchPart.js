@@ -7,7 +7,6 @@ import axios from "axios";
 import {withCookies, Cookies} from 'react-cookie';
 import {instanceOf} from 'prop-types';
 
-
 class Search extends Component {
 
     static propTypes = {
@@ -24,7 +23,6 @@ class Search extends Component {
             liftPasses: [],
             countryName: [],
         };
-        this.handleBook = this.handleBook.bind(this);
     }
 
 
@@ -93,101 +91,6 @@ class Search extends Component {
                 this.setState({liftPasses: liftPass});
             });
     }
-
-    async handleBook(){
-
-        //only handle login with email user
-        if (sessionStorage.getItem('userSocialData') &&
-            JSON.parse(sessionStorage.getItem('userSocialData')).provider === 'email') {
-            let BaseURL = "http://127.0.0.1:3333/api/";
-            let postData;
-            postData = {
-                token: JSON.parse(sessionStorage.getItem('userToken')).token
-            };
-            await axios.post(BaseURL + "check-token", postData).then(response => {
-
-                //handle token is not valid, return to login
-                if (response.data.tokenValid === false) {
-                    console.log("token expired");
-
-                    this.props.history.push({
-                        pathname: '/login'
-                        })
-                }
-                //token is valid
-                else {
-                    console.log("token valid");
-                    //save token into session
-                    let sessionData;
-                    sessionData = {
-                        token: response.data.token
-                    };
-                    sessionStorage.setItem("userToken", JSON.stringify(sessionData));
-
-                    //save token into cookie
-
-                    let date = new Date();
-                    date.setTime(date.getTime() + +2592000);
-                    const {cookies} = this.props;
-
-                    //only when user click "remember me", update the token in cookies
-                    if (cookies.get("access-token")) {
-                        cookies.set("access-token", response.data.token, {
-                            expires: date,
-                            path: "/"
-                        });
-
-                        console.log(
-                            "token has been extended. Token is: " +
-                            cookies.get("access-token")
-                        );
-                    }
-
-                    //Jump into book page
-                    let postData = {};
-                    postData.resortName = this.state.selectedCountryResorts;
-                    postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
-
-                    axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
-                    .then(response => {
-                        if(response.data.status === 'success'){
-                            this.props.history.push({
-                                pathname: `/booking/${this.state.selectedCountryResorts}/who`,
-                                state: {masterID: response.data.masterID, resortID: response.data.resortID, tripID: response.data.tripID}
-                                })
-                        }else{
-                            alert('SERVER ERROR, please try again.')
-                        }
-                    })
-                }
-            });
-        }
-        //facebook&google login
-        else if(sessionStorage.getItem('userSocialData') &&
-            JSON.parse(sessionStorage.getItem('userSocialData')).provider !== 'email'){
-                //Jump into book page
-                let postData = {};
-                postData.resortName = this.state.selectedCountryResorts;
-                postData.token = JSON.parse(sessionStorage.getItem('userToken')).token;
-                await axios.post("http://127.0.0.1:3333/api/enrollTrip", postData)
-                .then(response => {
-                    if(response.data.status === 'success'){
-                        this.props.history.push({
-                            pathname: `/booking/${this.state.selectedCountryResorts}/who`,
-                            state: {masterID: response.data.masterID, resortID: response.data.resortID, tripID: response.data.tripID}
-                            })
-                    }else{
-                        alert('SERVER ERROR, please try again.')
-                    }
-                })
-        //logout status
-        }else if(!sessionStorage.getItem('userSocialData')){
-            this.props.history.push({
-                pathname: '/login'
-                })
-        }
-    };
-
     render() {
         return (
             <React.Fragment>
@@ -224,8 +127,7 @@ class Search extends Component {
                             />
                         ) : (
                             <a
-                            // href={`/booking/${this.state.selectedCountryResorts}/who`}
-                            onClick={this.handleBook}
+                            href={`/booking/${this.state.selectedCountryResorts}/who`}
                             >
                             <SmallEllipseBtn
                                 text="Make a Quote"
@@ -283,8 +185,7 @@ class Search extends Component {
                                 paddingBottom="8px"
                             />
                         ) : (
-                            <a //href={`/booking/${this.state.selectedLiftPassResorts}/who`}
-                                onClick={this.handleBook}
+                            <a href={`/booking/${this.state.selectedLiftPassResorts}/who`}
                             >
                             <SmallEllipseBtn
                                 text="Make a Quote"

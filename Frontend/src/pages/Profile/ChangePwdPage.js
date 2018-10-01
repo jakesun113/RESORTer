@@ -6,6 +6,7 @@ import {instanceOf} from "prop-types";
 import AlertWindow from "../../components/template/AlertWindow";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import PromptPage from "../../components/template/PromptPage";
+import handleLogOut from "../../components/template/HandleLogOut";
 
 class ChangePwdPage extends Component {
     static propTypes = {
@@ -131,15 +132,8 @@ class ChangePwdPage extends Component {
             provider: null
         });
 
-        sessionStorage.removeItem("userSocialData");
-        sessionStorage.removeItem("userToken");
-        sessionStorage.removeItem("userImage");
-        sessionStorage.removeItem("userFinishProfile");
-        cookies.remove("user-name");
-        cookies.remove("access-token");
-        cookies.remove("user-pic");
-        cookies.remove("user-provider");
-        cookies.remove("user-profileFinished");
+        //remove session and cookies
+        handleLogOut(cookies);
     };
 
     validate = () => {

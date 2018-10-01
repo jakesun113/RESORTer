@@ -20,7 +20,8 @@ import ProfilePage from "./pages/Profile/ProfilePage";
 import GroupMemberPage from "./pages/Profile/GroupMemberPage";
 import ConfirmationEmailPage from "./pages/LoginPage/ConfirmationEmailPage";
 import ChangePwdPage from "./pages/Profile/ChangePwdPage";
-
+import MyTripPage from "./pages/MyTripPage";
+import TripSummaryPage from "./components/MyTripPage/TripSummaryPage";
 // test
 import NewUserProfilePage from "./pages/Profile/NewUserProfilePage";
 import PromptPage from "./components/template/PromptPage";
@@ -35,7 +36,6 @@ import ResortProviderTerms
     from "./components/TermPrivacyPage/ResortProviderTerms";
 import Disclaimer from "./components/TermPrivacyPage/Disclaimer";
 import SideNav from "./components/TermPrivacyPage/SideNav";
-
 
 ReactDOM.render(
     <BrowserRouter>
@@ -64,8 +64,8 @@ ReactDOM.render(
                     <Route path="/about-us" component={PromptPage}/>
                     {/* login required */}
                     <Route path="/profile" component={ProfilePage}/>
-                    {/*TODO: "My trip" page to be added*/}
-                    <Route path="/my-trip"/>
+                    <Route path="/my-trip" component={MyTripPage}/>
+                    <Route path="/trip/:placeName/" component={TripSummaryPage}/>
                     <Route path="/group-member" component={GroupMemberPage}/>
                     <Route path="/change-password" component={ChangePwdPage}/>
 
@@ -75,14 +75,12 @@ ReactDOM.render(
                         component={ConfirmationEmailPage}
                     />
 
-
                     {/* book page */}
                     {/*<Route path="/booking/:placeName/"*/}
                     {/*render={() => <BookIndex masterID={this.props.location.state.masterID}*/}
                     {/*resortID={this.props.location.state.resortID}*/}
                     {/*tripID={this.props.location.state.tripID}/>}/>*/}
-                    <Route path="/booking/:placeName/"
-                           component={BookIndex}/>
+                    <Route path="/booking/:placeName/" component={BookIndex}/>
 
                     {/* term privacy */}
                     <Route path="/term-privacy">
@@ -123,5 +121,4 @@ ReactDOM.render(
         </div>
     </BrowserRouter>,
     document.getElementById("root")
-)
-;
+);

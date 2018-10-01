@@ -12,6 +12,7 @@ import ThirdPage from "../../components/NewUserProfilePage/ThirdPage";
 import ForthPage from "../../components/NewUserProfilePage/ForthPage";
 import FifthPage from "../../components/NewUserProfilePage/FifthPage";
 import axios from "axios/index";
+import handleLogOut from "../../components/template/HandleLogOut";
 
 // main component
 class NewUserProfilePage extends Component {
@@ -48,8 +49,9 @@ class NewUserProfilePage extends Component {
             disabilityMembership: "",
             disabilityMemberId: "",
             disabilityDetail: "",
-            webServer: "http://127.0.0.1:8889/",
-            user_pic: cookies.get("user-pic") || ""
+            webServer: "http://127.0.0.1:8887/",
+            user_pic: cookies.get("user-pic") ||
+            "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/fill/w_141,h_141,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -97,15 +99,8 @@ class NewUserProfilePage extends Component {
             provider: null
         });
 
-        sessionStorage.removeItem("userSocialData");
-        sessionStorage.removeItem("userToken");
-        sessionStorage.removeItem("userImage");
-        sessionStorage.removeItem("userFinishProfile");
-        cookies.remove("user-name");
-        cookies.remove("access-token");
-        cookies.remove("user-pic");
-        cookies.remove("user-provider");
-        cookies.remove("user-profileFinished");
+        //remove session and cookies
+        handleLogOut(cookies);
     };
 
     handleNextPage = page => {
@@ -129,6 +124,7 @@ class NewUserProfilePage extends Component {
         //console.log(this.state.file);
         formData.append('file', this.state.file);
 
+        //console.log(this.state.token);
         axios({
             method: 'put',
             headers: {'content-type': 'multipart/form-data'},

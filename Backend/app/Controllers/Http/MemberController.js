@@ -21,6 +21,34 @@ const imagePath = "UserPortrait";
  */
 class MemberController {
 
+  //Check whether a use has completed profile
+  async checkCompleteProfile({request,response,params,auth}){
+
+    try{
+      //FIXME: can not do auth.check()
+      // await auth.check();
+      const userToken = await Token.findBy('Token', params.token);
+      const user = await Member.find(userToken.MemberID)
+
+      if(user.IsProfileComplete === 0){
+
+        return response.send(JSON.stringify({status:'fail'}))
+
+      }else if(user.IsProfileComplete === 1){
+
+        return response.send(JSON.stringify({status:'success'}))
+
+      }
+
+
+    }catch(err){
+      console.log(err)
+      return response.send(JSON.stringify({status:'Server Error'}))
+
+    }
+
+  }
+
   //Sign Up Function
   async register({request, auth}) {
 
@@ -245,7 +273,7 @@ class MemberController {
 
         //console.log(token);
         const dbToken = await Token.findBy("Token", token);
-
+        //console.log(dbToken);
         const member = await Member.findBy('id', dbToken.MemberID);
 
         const newToken = await auth.generate(member);
@@ -345,51 +373,56 @@ class MemberController {
 
   async updateImage({request}) {
 
-    const profilePic = request.file('file', {
-      types: ['image'],
-      size: '15mb'
-    });
-    //console.log(profilePic);
+    try {
+      const profilePic = request.file('file', {
+        types: ['image'],
+        size: '15mb'
+      });
+      //console.log(profilePic);
 
-    const token = request.params.token;
-    const dbToken = await Token.findBy("Token", token);
-    const fileType = profilePic.subtype;
-    //console.log(fileType);
-    let fileName = dbToken.MemberID + "-portrait." + fileType;
-    //console.log(fileName);
-    let filePath = imagePath + "\\" + fileName;
-    const uploadPath = Helpers.publicPath(imagePath);
-    const existedFilePath = Helpers.publicPath(filePath);
+      const token = request.params.token;
+      //console.log(token);
+      const dbToken = await Token.findBy("Token", token);
+      const fileType = profilePic.subtype;
+      //console.log(fileType);
+      let fileName = dbToken.MemberID + "-portrait." + fileType;
+      //console.log(fileName);
+      let filePath = imagePath + "/" + fileName;
+      const uploadPath = Helpers.publicPath(imagePath);
+      const existedFilePath = Helpers.publicPath(filePath);
 
-    //console.log(existedFilePath);
-    //console.log(await fs.pathExists(existedFilePath));
+      //console.log(existedFilePath);
+      //console.log(await fs.pathExists(existedFilePath));
 
-    //if path already exist, remove original file
-    if (await fs.pathExists(existedFilePath)) {
-      console.log("image already exist");
-      await fs.remove(existedFilePath);
+      //if path already exist, remove original file
+      if (await fs.pathExists(existedFilePath)) {
+        console.log("image already exist");
+        await fs.remove(existedFilePath);
+      }
+
+      //move the file to the path
+      await profilePic.move(uploadPath, {
+        name: fileName
+      });
+
+      if (!profilePic.moved()) {
+        console.log("something is wrong");
+        return
+      }
+
+      const member = await Member.findBy('id', dbToken.MemberID);
+      member.Portrait = filePath;
+      await member.save();
+
+      console.log("change image success");
+
+      return JSON.stringify({
+        portrait: filePath
+      })
     }
-
-    //move the file to the path
-    await profilePic.move(uploadPath, {
-      name: fileName
-    });
-
-    if (!profilePic.moved()) {
-      console.log("something is wrong");
-      return
+    catch (e) {
+      console.log(e);
     }
-
-    const webFilePath = imagePath + "/" + fileName;
-    const member = await Member.findBy('id', dbToken.MemberID);
-    member.Portrait = webFilePath;
-    await member.save();
-
-    console.log("change image success");
-
-    return JSON.stringify({
-      portrait: webFilePath,
-    })
 
   }
 

@@ -9,6 +9,8 @@ import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import axios from "axios/index";
 import AlertWindow from "../components/template/AlertWindow";
+import ContinueBookTrip from "./template/ContinueBookTrip";
+import handleLogOut from "./template/HandleLogOut";
 
 class Navbar extends Component {
     static propTypes = {
@@ -22,11 +24,15 @@ class Navbar extends Component {
             // DO NOT change the initial value of user as empty string
             user: cookies.get("user-name") || "",
             token: cookies.get("access-token") || null,
-            user_pic: cookies.get("user-pic") || "",
+            user_pic:
+            cookies.get("user-pic") ||
+            "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/fill/w_141,h_141,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp",
             provider: cookies.get("user-provider") || null,
             isValidToken: true,
             isShowLoginWindow: false,
             isShowVideo: false,
+            isShowReminder: true,
+            unfinishedTrip: cookies.get("user-hasUnfinishedTrip") || null,
             isProfileComplete: cookies.get("user-profileFinished") || null
         };
 
@@ -43,15 +49,8 @@ class Navbar extends Component {
             isProfileComplete: null
         });
 
-        sessionStorage.removeItem("userSocialData");
-        sessionStorage.removeItem("userToken");
-        sessionStorage.removeItem("userImage");
-        sessionStorage.removeItem("userFinishProfile");
-        cookies.remove("user-name");
-        cookies.remove("access-token");
-        cookies.remove("user-pic");
-        cookies.remove("user-provider");
-        cookies.remove("user-profileFinished");
+        //remove session and cookies
+        handleLogOut(cookies);
     };
 
     //check authentication when the profile list is shown
@@ -79,31 +78,6 @@ class Navbar extends Component {
                 //token is valid
                 else {
                     console.log("token valid");
-                    //save token into session
-                    let sessionData;
-                    sessionData = {
-                        token: response.data.token
-                    };
-                    sessionStorage.setItem("userToken", JSON.stringify(sessionData));
-
-                    //save token into cookie
-
-                    let date = new Date();
-                    date.setTime(date.getTime() + +2592000);
-                    const {cookies} = this.props;
-
-                    //only when user click "remember me", update the token in cookies
-                    if (cookies.get("access-token")) {
-                        cookies.set("access-token", response.data.token, {
-                            expires: date,
-                            path: "/"
-                        });
-
-                        console.log(
-                            "token has been extended. Token is: " +
-                            cookies.get("access-token")
-                        );
-                    }
 
                     this.setState({
                         isValidToken: true
@@ -121,21 +95,28 @@ class Navbar extends Component {
             sessionStorage.getItem("userSocialData") &&
             sessionStorage.getItem("userToken") &&
             sessionStorage.getItem("userFinishProfile") &&
+            sessionStorage.getItem("userFinishTrip") &&
             sessionStorage.getItem("userImage")
         ) {
             //console.log("inner mount");
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-            let userFinishProfile = JSON.parse(
-                sessionStorage.getItem("userFinishProfile")
-            );
+            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            let userFinishTrip = JSON.parse(sessionStorage.getItem("userFinishTrip"));
             let userImage = JSON.parse(sessionStorage.getItem("userImage"));
             this.setState({
                 user: userData.name,
                 token: tokenData.token,
                 provider: userData.provider,
                 user_pic: userImage.provider_pic,
-                isProfileComplete: userFinishProfile.isFinished
+                isProfileComplete: userFinishProfile.isFinished,
+                unfinishedTrip: userFinishTrip.hasUnfinishedTrip
+            });
+        }
+        //if user is already clicked before
+        if (sessionStorage.getItem("userIsClicked")) {
+            this.setState({
+                isShowReminder: false
             });
         }
 
@@ -166,6 +147,12 @@ class Navbar extends Component {
                 "userFinishProfile",
                 JSON.stringify(userFinishProfile)
             );
+            let userFinishTrip;
+            userFinishTrip = {
+                hasUnfinishedTrip: this.state.unfinishedTrip
+            };
+            sessionStorage.setItem("userFinishTrip", JSON.stringify(userFinishTrip));
+
         }
     }
 
@@ -181,6 +168,7 @@ class Navbar extends Component {
         //console.log(this.state.token);
         //if token is updated
         if (sessionStorage.getItem("userToken")) {
+            //console.log("in token update");
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
             if (this.state.token !== tokenData.token) {
                 //console.log("in token update");
@@ -237,12 +225,30 @@ class Navbar extends Component {
             });
         }
 
+        //get unfinishedTrip state
+        //if can get it from the session
+        if (sessionStorage.getItem("userFinishTrip")) {
+            let userFinishTrip = JSON.parse(
+                sessionStorage.getItem("userFinishTrip")
+            );
+            if (this.state.unfinishedTrip !== userFinishTrip.hasUnfinishedTrip) {
+                //console.log("in unfinishedTrip update");
+                this.setState({
+                    unfinishedTrip: userFinishTrip.hasUnfinishedTrip
+                });
+            }
+        }
+        //if token has been removed from session (token expired)
+        else if (this.state.unfinishedTrip !== null) {
+            this.setState({
+                unfinishedTrip: null
+            });
+        }
+
         //get user picture
         //if can get it from the session
         if (sessionStorage.getItem("userImage")) {
-            let userImage = JSON.parse(
-                sessionStorage.getItem("userImage")
-            );
+            let userImage = JSON.parse(sessionStorage.getItem("userImage"));
             if (this.state.user_pic !== userImage.provider_pic) {
                 //console.log("in image update");
                 this.setState({
@@ -287,6 +293,7 @@ class Navbar extends Component {
                             </div>
                             <div
                                 className="col-xs-12 col-sm-4 col-sm-4 col-lg-3 button_admin">
+
                                 <a className="navbar-brand" href="/">
                                     <img
                                         src="https://static.wixstatic.com/media/25b4a3_fae0b5a09c5c4a4cbd36b211a9075836~mv2.png/v1/fill/w_66,h_66,al_c,lg_1/25b4a3_fae0b5a09c5c4a4cbd36b211a9075836~mv2.png"
@@ -367,7 +374,7 @@ class Navbar extends Component {
                                             <Link className="nav-link"
                                                   to="/my-trip">
                                                 <SmallEllipseBtn
-                                                    text="My trip"
+                                                    text="My trips"
                                                     btnColor="rgba(70, 130, 180, 1)"
                                                 />
                                             </Link>
@@ -410,6 +417,7 @@ class Navbar extends Component {
                                     // not login state
                                     <div className="row">
                                         <div className="col-xl-2 col-lg-2"/>
+
                                         <div
                                             className="col-xl-2 col-lg-2 userBtn">
                       <span
@@ -419,6 +427,7 @@ class Navbar extends Component {
                       >
                         <SmallEllipseBtn text="Log in" btnColor="orangered"/>
                       </span>
+
                                         </div>
                                         <div className="col-xl-8 col-lg-8"/>
                                     </div>

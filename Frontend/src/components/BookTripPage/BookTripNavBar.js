@@ -1,130 +1,512 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "../../css/BookTripPage/BookTripNavBar.css";
-import styled from "styled-components";
-const Circle = styled.li`
+import {Link} from "react-router-dom";
 
-    /* width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  font-size: 20px;
-  color: #fff;
-  line-height: 60px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.4s ease 0s;
-  background-color: rgba(
-    ${props => (props.active ? "90, 215, 76, 1" : "204, 204, 204, 1")}
-  );
-  border-color: rgba(204, 204, 204, 1);
-  &:hover {
-    background-color: rgb(255, 0, 0);
-    cursor: pointer;
-  } */
-`;
-const Line = styled.div`
-  border-top: 5px solid rgba(232, 89, 12, 1);
-  position: absolute;
-  width: 100%;
-  top: 50%;
-`;
+// pages
+
 class BookTripNavBar extends Component {
-  state = {
-    currentProcess: "step_1_in_book_page",
-    finishedProcess: [],
-    unFinishedProcess: [
-      "step_1_in_book_page",
-      "step_2_in_book_page",
-      "step_3_in_book_page",
-      "step_4_in_book_page",
-      "step_5_in_book_page",
-      "step_6_in_book_page"
-    ]
-  };
+    state = {
+        currentProcess: "step_1_in_book_page",
+        finishedProcess: [],
+        unFinishedProcess: [
+            "step_1_in_book_page",
+            "step_2_in_book_page",
+            "step_3_in_book_page",
+            "step_4_in_book_page",
+            "step_5_in_book_page",
+            "step_6_in_book_page"
+        ],
+        device: "computer"
+    };
+    // judge active or done
+    handleNavBarState = tagName => {
+        var className = "";
+        if (this.state.unFinishedProcess.includes(tagName)) {
+            // untouched area
+            if (this.state.currentProcess !== tagName) {
+                return className;
+            }
+            // current active
+            if (this.state.currentProcess === tagName) {
+                className = " active";
+                return className;
+            }
+        }
+        // finished
+        if (this.state.finishedProcess.includes(tagName)) {
+            // current active
+            if (this.state.currentProcess === tagName) {
+                className = " active";
+                return className;
+            }
+            // finished and untouched
+            else {
+                className = " done";
+                return className;
+            }
+        }
+    };
 
-  handleCurrentProcess = e => {
-    e.target.className = "active";
-  };
+    handleDone = tagName => {
+        var unFinishedArray = this.state.unFinishedProcess;
+        var FinishedArray = this.state.finishedProcess;
+        var index = unFinishedArray.indexOf(tagName);
+        if (index > -1) {
+            unFinishedArray.splice(index, 1);
+            FinishedArray.push(tagName);
+            this.setState({unFinishedProcess: unFinishedArray});
+            this.setState({finishedProcess: FinishedArray});
+        }
+    };
 
-  handleInitialClass = e => {
-    if (e.target.id === "1") {
-      alert("no");
+    handleActive = tagName => {
+        var unFinishedArray = this.state.unFinishedProcess;
+        var FinishedArray = this.state.finishedProcess;
+        var index = FinishedArray.indexOf(tagName);
+        // if already finished
+        if (index > -1) {
+            FinishedArray.splice(index, 1);
+            unFinishedArray.push(tagName);
+            this.setState({unFinishedProcess: unFinishedArray});
+            this.setState({finishedProcess: FinishedArray});
+        } else {
+            this.setState({currentProcess: tagName});
+        }
+    };
+
+    // click first btn
+    onHandleClickOne = () => {
+        this.handleActive("step_1_in_book_page");
+    };
+    onHandleClickTwo = () => {
+        this.handleActive("step_2_in_book_page");
+    };
+    onHandleClickThree = () => {
+        this.handleActive("step_3_in_book_page");
+    };
+    onHandleClickFour = () => {
+        this.handleActive("step_4_in_book_page");
+    };
+    onHandleClickFive = () => {
+        this.handleActive("step_5_in_book_page");
+    };
+    onHandleClickSix = () => {
+        this.handleActive("step_6_in_book_page");
+    };
+
+    // end handle onClick
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener("resize", this.updateWindowDimensions);
     }
 
-    // this.state.unFinishedProcess.includes(e.target.id.toString())
-    //   ? (e.target.className = "initial")
-    //   : "";
-  };
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateWindowDimensions);
+    }
 
-  // componentDidMount() {
-  //   document.getElementById("step_1_in_book_page").className =
-  //     "circle_navbar_in_bookpage active_navbar_in_bookpage";
-  // }
+    //Responsive
+    updateWindowDimensions = () => {
+        if (window.innerWidth > 990) {
+            this.setState({device: "computer"});
+        } else {
+            if (window.innerWidth < 414) {
+                this.setState({device: "smallPhone"});
+            } else {
+                this.setState({device: "phone"});
+            }
+        }
+    };
 
-  render() {
-    return (
-      <React.Fragment>
-        <div className="container" id="booktrip-navbar">
-          <br />
-          {/* title */}
-          <p style={{ textAlign: "center" }}>
-            <span
-              style={{
-                fontSize: "3ex",
-                color: "#686369",
-                marginRight: "30px"
-              }}
-            >
-              Your trip to:
-            </span>
-            <span style={{ color: "#4682B4", fontSize: "4ex" }}>
-              {this.props.placeName}
-            </span>
-          </p>
-          <br />
-          {/* navbar */}
-          <ul className="row" style={{ whiteSpace: "nowrap" }}>
-            <li>
-              1<br />
-              <span style={{ color: "black", whiteSpace: "nowrap" }}>
-                When & Who?
+    render() {
+        // smallPhone
+        if (this.state.device === "smallPhone") {
+            return (
+                <React.Fragment>
+                    <div className="container">
+                        {/* title */}
+                        <p style={{textAlign: "center"}}>
+              <span
+                  style={{
+                      fontSize: "3ex",
+                      color: "#686369",
+                      marginRight: "30px"
+                  }}
+              >
+                Your trip to:
               </span>
-            </li>
-            <li>
-              2<br />
-              <span style={{ color: "black" }}>Sleep?</span>
-            </li>
-            <li>
-              3<br />
-              <span style={{ color: "black", whiteSpace: "nowrap" }}>
-                Doing?
+                            <span style={{color: "#4682B4", fontSize: "4ex"}}>
+                {this.props.placeName}
               </span>
-            </li>
-            <li>
-              4<br />
-              <span style={{ color: "black", whiteSpace: "nowrap" }}>
-                Equipment?
+                        </p>
+                        <br/>
+                        {/* 1 */}
+                        <div className="row">
+                            <div className="booktrip-navbar">
+                                <Link to={`/booking/${this.props.placeName}/who`}>
+                                    <div
+                                        id="step_1_in_book_page"
+                                        className="circle done"
+                                        onClick={this.onHandleClickOne}
+                                    >
+                                        <span className="label">1</span>
+                                        <span className="title">When & Who?</span>
+                                    </div>
+                                </Link>
+                                {/* 2 */}
+                                <span id="step_2_in_book_page" className="bar done"/>
+                                <Link to={`/booking/${this.props.placeName}/sleep`}>
+                                    <div
+                                        id="step_2_in_book_page"
+                                        className={
+                                            "circle" + this.handleNavBarState("step_2_in_book_page")
+                                        }
+                                        onClick={this.onHandleClickTwo}
+                                    >
+                                        <span className="label">2</span>
+                                        <span className="title">Sleep?</span>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                        {/* 2 */}
+                        <div className="row">
+                            <div className="booktrip-navbar">
+                                <Link to={`/booking/${this.props.placeName}/doing`}>
+                                    <div
+                                        id="step_3_in_book_page"
+                                        className={
+                                            "circle" + this.handleNavBarState("step_3_in_book_page")
+                                        }
+                                        onClick={this.onHandleClickThree}
+                                    >
+                                        <span className="label">3</span>
+                                        <span className="title">Doing?</span>
+                                    </div>
+                                </Link>
+                                <span
+                                    id="step_4_in_book_page"
+                                    className={
+                                        "bar" + this.handleNavBarState("step_4_in_book_page")
+                                    }
+                                />
+                                <Link to={`/booking/${this.props.placeName}/equipment`}>
+                                    <div
+                                        id="step_4_in_book_page"
+                                        className={
+                                            "circle" + this.handleNavBarState("step_4_in_book_page")
+                                        }
+                                        onClick={this.onHandleClickFour}
+                                    >
+                                        <span className="label">4</span>
+                                        <span className="title">Equipment?</span>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                        {/* 3 */}
+                        <div className="row">
+                            <div className="booktrip-navbar">
+                                <Link to={`/booking/${this.props.placeName}/learn`}>
+                                    <div
+                                        id="step_5_in_book_page"
+                                        className={
+                                            "circle" + this.handleNavBarState("step_5_in_book_page")
+                                        }
+                                        onClick={this.onHandleClickFive}
+                                    >
+                                        <span className="label">5</span>
+                                        <span className="title">Learn?</span>
+                                    </div>
+                                </Link>
+                                {/* 6 */}
+                                <span
+                                    id="step_6_in_book_page"
+                                    className={
+                                        "bar" + this.handleNavBarState("step_6_in_book_page")
+                                    }
+                                />
+                                <Link to={`/booking/${this.props.placeName}/summary`}>
+                                    <div
+                                        id="step_6_in_book_page"
+                                        className={
+                                            "circle" + this.handleNavBarState("step_6_in_book_page")
+                                        }
+                                        onClick={this.onHandleClickSix}
+                                    >
+                                        <span className="label">6</span>
+                                        <span className="title">Plan Summary</span>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </React.Fragment>
+            );
+        }
+        // phone
+        if (this.state.device === "phone") {
+            return (
+                <React.Fragment>
+                    <div className="container">
+                        {/* title */}
+                        <p style={{textAlign: "center"}}>
+              <span
+                  style={{
+                      fontSize: "3ex",
+                      color: "#686369",
+                      marginRight: "30px"
+                  }}
+              >
+                Your trip to:
               </span>
-            </li>
-            <li>
-              5<br />
-              <span style={{ color: "black", whiteSpace: "nowrap" }}>
-                Learn?
+                            <span style={{color: "#4682B4", fontSize: "4ex"}}>
+                {this.props.placeName}
               </span>
-            </li>
-            <li>
-              6<br />
-              <span style={{ color: "black", whiteSpace: "nowrap" }}>
-                Plan Summary
+                        </p>
+                        <br/>
+                        <div className="row">
+                            <div className="booktrip-navbar">
+                                {/* 1 */}
+                                <Link to={`/booking/${this.props.placeName}/who`}>
+                                    <div
+                                        id="step_1_in_book_page"
+                                        className="circle done"
+                                        onClick={this.onHandleClickOne}
+                                    >
+                                        <span className="label">1</span>
+                                        <span className="title">When & Who?</span>
+                                    </div>
+                                </Link>
+                                {/* 2 */}
+                                <span id="step_2_in_book_page" className="bar done"/>
+                                <Link to={`/booking/${this.props.placeName}/sleep`}>
+                                    <div
+                                        id="step_2_in_book_page"
+                                        className={
+                                            "circle" + this.handleNavBarState("step_2_in_book_page")
+                                        }
+                                        onClick={this.onHandleClickTwo}
+                                    >
+                                        <span className="label">2</span>
+                                        <span className="title">Sleep?</span>
+                                    </div>
+                                </Link>
+                                {/* 3 */}
+                                <span
+                                    id="step_3_in_book_page"
+                                    className={
+                                        "bar" + this.handleNavBarState("step_3_in_book_page")
+                                    }
+                                />
+                                <Link to={`/booking/${this.props.placeName}/doing`}>
+                                    <div
+                                        id="step_3_in_book_page"
+                                        className={
+                                            "circle" + this.handleNavBarState("step_3_in_book_page")
+                                        }
+                                        onClick={this.onHandleClickThree}
+                                    >
+                                        <span className="label">3</span>
+                                        <span className="title">Doing?</span>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="booktrip-navbar">
+                                {/* 4 */}
+                                <Link to={`/booking/${this.props.placeName}/equipment`}>
+                                    <div
+                                        id="step_4_in_book_page"
+                                        className={
+                                            "circle" + this.handleNavBarState("step_4_in_book_page")
+                                        }
+                                        onClick={this.onHandleClickFour}
+                                    >
+                                        <span className="label">4</span>
+                                        <span className="title">Equipment?</span>
+                                    </div>
+                                </Link>
+                                {/* 5 */}
+                                <span
+                                    id="step_5_in_book_page"
+                                    className={
+                                        "bar" + this.handleNavBarState("step_5_in_book_page")
+                                    }
+                                />
+                                <Link to={`/booking/${this.props.placeName}/learn`}>
+                                    <div
+                                        id="step_5_in_book_page"
+                                        className={
+                                            "circle" + this.handleNavBarState("step_5_in_book_page")
+                                        }
+                                        onClick={this.onHandleClickFive}
+                                    >
+                                        <span className="label">5</span>
+                                        <span className="title">Learn?</span>
+                                    </div>
+                                </Link>
+                                {/* 6 */}
+                                <span
+                                    id="step_6_in_book_page"
+                                    className={
+                                        "bar" + this.handleNavBarState("step_6_in_book_page")
+                                    }
+                                />
+                                <Link to={`/booking/${this.props.placeName}/summary`}>
+                                    <div
+                                        id="step_6_in_book_page"
+                                        className={
+                                            "circle" + this.handleNavBarState("step_6_in_book_page")
+                                        }
+                                        onClick={this.onHandleClickSix}
+                                    >
+                                        <span className="label">6</span>
+                                        <span className="title">Plan Summary</span>
+                                    </div>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </React.Fragment>
+            );
+        }
+        // computer
+        if (this.state.device === "computer") {
+            return (
+                <React.Fragment>
+                    <div className="container">
+                        {/* title */}
+                        <p style={{textAlign: "center"}}>
+              <span
+                  style={{
+                      fontSize: "3ex",
+                      color: "#686369",
+                      marginRight: "30px"
+                  }}
+              >
+                Your trip to:
               </span>
-            </li>
-          </ul>
-
-          <br />
-          {/* end container */}
-        </div>
-      </React.Fragment>
-    );
-  }
+                            <span style={{color: "#4682B4", fontSize: "4ex"}}>
+                {this.props.placeName}
+              </span>
+                        </p>
+                        <div className="booktrip-navbar">
+                            {/* 1 */}
+                            <Link to={`/booking/${this.props.placeName}/who`}>
+                                <div
+                                    id="step_1_in_book_page"
+                                    className={
+                                        "circle" + this.handleNavBarState("step_1_in_book_page")
+                                    }
+                                    onClick={this.onHandleClickOne}
+                                >
+                                    <span className="label">1</span>
+                                    <span className="title">When & Who?</span>
+                                </div>
+                            </Link>
+                            {/* 2 */}
+                            <span
+                                id="step_2_in_book_page"
+                                className={
+                                    "bar" + this.handleNavBarState("step_2_in_book_page")
+                                }
+                            />
+                            <Link to={`/booking/${this.props.placeName}/sleep`}>
+                                <div
+                                    id="step_2_in_book_page"
+                                    className={
+                                        "circle" + this.handleNavBarState("step_2_in_book_page")
+                                    }
+                                    onClick={this.onHandleClickTwo}
+                                >
+                                    <span className="label">2</span>
+                                    <span className="title">Sleep?</span>
+                                </div>
+                            </Link>
+                            {/* 3 */}
+                            <span
+                                id="step_3_in_book_page"
+                                className={
+                                    "bar" + this.handleNavBarState("step_3_in_book_page")
+                                }
+                            />
+                            <Link to={`/booking/${this.props.placeName}/doing`}>
+                                <div
+                                    id="step_3_in_book_page"
+                                    className={
+                                        "circle" + this.handleNavBarState("step_3_in_book_page")
+                                    }
+                                    onClick={this.onHandleClickThree}
+                                >
+                                    <span className="label">3</span>
+                                    <span className="title">Doing?</span>
+                                </div>
+                            </Link>
+                            {/* 4 */}
+                            <span
+                                id="step_4_in_book_page"
+                                className={
+                                    "bar" + this.handleNavBarState("step_4_in_book_page")
+                                }
+                            />
+                            <Link to={`/booking/${this.props.placeName}/equipment`}>
+                                <div
+                                    id="step_4_in_book_page"
+                                    className={
+                                        "circle" + this.handleNavBarState("step_4_in_book_page")
+                                    }
+                                    onClick={this.onHandleClickFour}
+                                >
+                                    <span className="label">4</span>
+                                    <span className="title">Equipment?</span>
+                                </div>
+                            </Link>
+                            {/* 5 */}
+                            <span
+                                id="step_5_in_book_page"
+                                className={
+                                    "bar" + this.handleNavBarState("step_5_in_book_page")
+                                }
+                            />
+                            <Link to={`/booking/${this.props.placeName}/learn`}>
+                                <div
+                                    id="step_5_in_book_page"
+                                    className={
+                                        "circle" + this.handleNavBarState("step_5_in_book_page")
+                                    }
+                                    onClick={this.onHandleClickFive}
+                                >
+                                    <span className="label">5</span>
+                                    <span className="title">Learn?</span>
+                                </div>
+                            </Link>
+                            {/* 6 */}
+                            <span
+                                id="step_6_in_book_page"
+                                className={
+                                    "bar" + this.handleNavBarState("step_6_in_book_page")
+                                }
+                            />
+                            <Link to={`/booking/${this.props.placeName}/summary`}>
+                                <div
+                                    id="step_6_in_book_page"
+                                    className={
+                                        "circle" + this.handleNavBarState("step_6_in_book_page")
+                                    }
+                                    onClick={this.onHandleClickSix}
+                                >
+                                    <span className="label">6</span>
+                                    <span className="title">Plan Summary</span>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+                </React.Fragment>
+            );
+        }
+    }
 }
 
 export default BookTripNavBar;

@@ -14,6 +14,8 @@
 | react-cookie | npm install react-cookie -- save | import { withCookies, Cookies } from 'react-cookie';|
 | prop-types | npm install prop-types -- save | import { instanceOf } from 'prop-types';|
 | fs-extra | npm install fs-extra -- save | const fs = require('fs-extra');|
+| react-select-country-list | npm install react-select-country-list --save | import countryList from 'react-select-country-list';|
+
 # Merge Private Branch to "Dev" Branch
 - Go to private branch: __git checkout "You Branch Name"__ 
 - Commit:               __git commit -m "COMMENTS"__
@@ -42,7 +44,7 @@ https://confluence.atlassian.com/confkb/how-to-fix-the-collation-and-character-s
 - Download __Web Server for Chrome__,
 - url: https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb
 - Set folder as __"Backend/public"__
-- Set port number as __"8889"__
+- Set port number as __"8887"__
 - Reference: https://stackoverflow.com/questions/39007243/cannot-open-local-file-chrome-not-allowed-to-load-local-resource
 
 # Load fake trip data to the database

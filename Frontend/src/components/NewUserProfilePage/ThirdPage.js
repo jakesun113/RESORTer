@@ -1,84 +1,106 @@
 import React, {Component} from "react";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
+import countryList from 'react-select-country-list';
+import phoneCode from "../template/PhoneCode";
 
-//TODO: add validation of phone number
 // third page
 class ThirdPage extends Component {
     state = {
-        phoneNumberPre: "+61",
-        country: "Australia",
+        phoneNumPre: phoneCode,
+        phoneNumberPre: "",
+        country: "",
         post_code_wrong: false,
-        phone_number_wrong: false
+        phone_number_wrong: false,
+        countryName: countryList().getData()
     };
 
     componentDidMount() {
-        // phone pre
+
+        // previous phone
         if (this.props.phoneNumberPre !== "") {
             this.setState({phoneNumberPre: this.props.phoneNumberPre});
         } else {
-            this.setState({phoneNumberPre: "+61"});
+            this.setState({phoneNumberPre: ""});
         }
-        // phone pre
+        // previous country
         if (this.props.country !== "") {
             this.setState({country: this.props.country});
         } else {
-            this.setState({country: "Australia"});
+            this.setState({country: ""});
         }
     }
 
     validator = () => {
-        // phone
         let phoneNumber = document.getElementById("phone_number");
         let isValid = true;
-        if (phoneNumber.value === "" && phoneNumber.required) {
-            phoneNumber.style.boxShadow = "0px 2px 0px 0px red";
-            this.setState({phone_number_wrong: true});
+        // if already get error for previous operation
+        if (
+            this.state.phone_number_wrong === true ||
+            this.state.post_code_wrong === true
+        ) {
             isValid = false;
+            return isValid;
         }
-        if (phoneNumber.value !== "") {
-            try {
-                let match = phoneNumber.value.match(/[0-9]/g);
-                let input = phoneNumber.value;
-                if (match.length !== input.length) {
-                    phoneNumber.style.boxShadow = "0px 2px 0px 0px red";
-                    this.setState({phone_number_wrong: true});
-                    isValid = false;
-                }
-            } catch (e) {
+        // first time try to submit form
+        else {
+            // phone number validate
+            if (phoneNumber.value === "" && phoneNumber.required) {
                 phoneNumber.style.boxShadow = "0px 2px 0px 0px red";
                 this.setState({phone_number_wrong: true});
                 isValid = false;
+                return isValid;
             }
-        }
-        // post code
-        let postCode = document.getElementById("post_code");
-        isValid = true;
-        if (postCode.value === "" && postCode.required) {
-            postCode.style.boxShadow = "0px 2px 0px 0px red";
-            this.setState({post_code_wrong: true});
-            isValid = false;
-        }
-        if (postCode.value !== "") {
-            try {
-                let match = postCode.value.match(/[0-9]/g);
-                let input = postCode.value;
-                if (match.length !== input.length) {
-                    postCode.style.boxShadow = "0px 2px 0px 0px red";
-                    this.setState({post_code_wrong: true});
+            if (phoneNumber.value !== "") {
+                try {
+                    let match = phoneNumber.value.match(/[0-9]/g);
+                    let input = phoneNumber.value;
+                    if (match.length !== input.length) {
+                        phoneNumber.style.boxShadow = "0px 2px 0px 0px red";
+                        this.setState({phone_number_wrong: true});
+                        isValid = false;
+                        return isValid;
+                    }
+                } catch (e) {
+                    phoneNumber.style.boxShadow = "0px 2px 0px 0px red";
+                    this.setState({phone_number_wrong: true});
                     isValid = false;
+                    return isValid;
                 }
-            } catch (e) {
+            }
+            // post code validate
+            let postCode = document.getElementById("post_code");
+            isValid = true;
+            if (postCode.value === "" && postCode.required) {
                 postCode.style.boxShadow = "0px 2px 0px 0px red";
                 this.setState({post_code_wrong: true});
                 isValid = false;
+                return isValid;
             }
+            if (postCode.value !== "") {
+                try {
+                    let match = postCode.value.match(/[0-9]/g);
+                    let input = postCode.value;
+                    if (match.length !== input.length) {
+                        postCode.style.boxShadow = "0px 2px 0px 0px red";
+                        this.setState({post_code_wrong: true});
+                        isValid = false;
+                        return isValid;
+                    }
+                } catch (e) {
+                    postCode.style.boxShadow = "0px 2px 0px 0px red";
+                    this.setState({post_code_wrong: true});
+                    isValid = false;
+                    return isValid;
+                }
+            }
+            return isValid;
         }
-
-
-        return isValid;
-
     };
 
+    //  when change the input of
+    //   phone number field
+    //   post code field
+    //   will call this function
     handleChange = e => {
         let state = {};
         let stateName = e.target.id + "_wrong";
@@ -87,6 +109,7 @@ class ThirdPage extends Component {
         this.setState(state);
     };
 
+    // store the info of this page to the pages/NewUserProfilePage
     storeInfo() {
         const phoneNumberPre = document.getElementById("phone_pre").value;
         const phoneNumber = document.getElementById("phone_number").value;
@@ -175,8 +198,15 @@ class ThirdPage extends Component {
                                             this.setState({phoneNumberPre: e.target.value});
                                         }}
                                     >
-                                        <option value="+61">+61</option>
-                                        <option value="+1">+1</option>
+                                        {this.state.phoneNumPre.length === 0
+                                            ? null
+                                            : this.state.phoneNumPre.map(phoneNum => {
+                                                return (
+                                                    <option key={phoneNum.code} value={phoneNum.dial_code}>
+                                                        {phoneNum.dial_code}
+                                                    </option>
+                                                );
+                                            })}
                                     </select>
                                 </div>
 
@@ -218,7 +248,7 @@ class ThirdPage extends Component {
                             <div
                                 className="form-group col-6 col-lg-4"
                                 style={{
-                                    color: "#686369",
+                                    color: "red",
                                     textAlign: "center",
                                     fontSize: " 1rem "
                                 }}
@@ -242,7 +272,7 @@ class ThirdPage extends Component {
                                 textAlign: "center"
                             }}
                         >
-                            <label htmlFor="last_name">Your country?</label>
+                            <label htmlFor="country">Your country?</label>
                         </div>
                         <div className="form-group col-3 col-lg-4"/>
                     </div>
@@ -258,9 +288,9 @@ class ThirdPage extends Component {
                             }}
                         >
                             <select
-                                value={this.state.country}
                                 id="country"
                                 className="form-control"
+                                value={this.state.country}
                                 style={{
                                     boxShadow: "0px 2px 0px 0px rgba(70,130,180,1)",
                                     boxSizing: "border-box !important",
@@ -283,11 +313,17 @@ class ThirdPage extends Component {
                                 onChange={e => {
                                     this.setState({country: e.target.value});
                                 }}
+                                placeholder="Select your country"
                             >
-                                <option selected value="Australia">
-                                    Australia
-                                </option>
-                                <option value="US">US</option>
+                                {this.state.countryName.length === 0
+                                    ? null
+                                    : this.state.countryName.map(country => {
+                                        return (
+                                            <option key={country.value} value={country.label}>
+                                                {country.label}
+                                            </option>
+                                        );
+                                    })}
                             </select>
                         </div>
                         <div className="form-group col-3 col-lg-4"/>
