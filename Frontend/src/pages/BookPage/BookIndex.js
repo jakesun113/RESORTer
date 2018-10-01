@@ -13,11 +13,9 @@ class BookIndex extends Component {
         const {match, history, location} = this.props;
         const place = match.params.placeName;
 
-
         // const masterID = location.state.masterID;
         // const resortID = location.state.resortID;
         // const tripID = location.state.tripID;
-        //
 
         return (
             <div>
@@ -59,14 +57,13 @@ class BookIndex extends Component {
                         {/*history={history}/>}*/}
                         {/*/>*/}
 
-                        {/*/!* plan summary page *!/*/}
-                        {/*<Route*/}
-                        {/*path={`/booking/${place}/summary`}*/}
-                        {/*render={() => <PlanSummaryPage*/}
-                        {/*masterID={masterID} resortID={resortID}*/}
-                        {/*tripID={tripID} place={place}*/}
-                        {/*history={history}/>}*/}
-                        {/*/>*/}
+                        {/* plan summary page */}
+                        <Route
+                            path={`/booking/${place}/summary`}
+                            render={() => <PlanSummaryPage
+                                place={place}
+                                history={history}/>}
+                        />
                     </Switch>
                 </div>
             </div>
