@@ -114,7 +114,7 @@ class MyTripPage extends Component {
                             : null}
                     </table>
                     <Link to="/">
-                        <SmallEllipseBtn text="Back" btnColor="rgba(104, 99, 105, 1)"/>
+                        <SmallEllipseBtn text="Back to Home" btnColor="rgba(104, 99, 105, 1)"/>
                     </Link>
                     {hasTrips ? (
                         <div className="d-flex flex-row py-4 justify-content-center">

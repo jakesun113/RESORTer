@@ -366,7 +366,9 @@ class ValidationTokenController {
 
           const token = await Token.findBy('MemberID', dbMemberID[0].id);
           //only change token
+          console.log(requestData.token)
           token.merge({Token: requestData.token});
+          
           await token.save();
           //check whether user has unfinished trip
           let unfinishedTrip;
