@@ -36,7 +36,7 @@ class PlanSummaryPage extends Component {
                         }}>Back
                         </div>
                     </BtmEllipseButton>
-                 <Link to={"/"}>
+                 <Link to={"/booking/successPage"}>
                     <BtmEllipseButton  onClick={this.getQuote}>
                         <div style={{
                             fontSize: '12px',
