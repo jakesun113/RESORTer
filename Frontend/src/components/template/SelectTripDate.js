@@ -75,6 +75,10 @@ class SelectTripDate extends Component {
                         //show the addTrip
                         this.props.showAddTripMember()
 
+                        this.setState({
+                            hidePlanButton : true
+                        })
+
                     }else if(response.data.status === 'fail'){
                         //redirect to Profile Page
                         this.props.history.push({
@@ -90,10 +94,6 @@ class SelectTripDate extends Component {
                 //alert window
 
             }
-
-            this.setState({
-                hidePlanButton : true
-            })
 
         }catch(err){
 

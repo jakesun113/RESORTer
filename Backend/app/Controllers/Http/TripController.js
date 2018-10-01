@@ -506,7 +506,7 @@ class TripController {
             
             //if the lesson step has been completed, go to the plan summary step
             if (tripLesson[0]) {
-              bookingStep = stepPrefix + "/plan_summary"
+              bookingStep = stepPrefix + "/summary"
             } 
             //otherwise, go to the lesson step
             else {
