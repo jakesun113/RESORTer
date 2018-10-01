@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 // compomemts
 import DatePickerComponent from "../../components/template/DatePickerComponent";
 import GroupMemberCard from "../../components/template/GroupMemberCard";
+import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
+
 
 class PlanSummaryPage extends Component {
   state = {
@@ -185,27 +187,23 @@ class PlanSummaryPage extends Component {
           </div>
           {/* btn */}
 
-          <p onClick={this.goPrevious}>
-            <div
-              style={{
-                fontSize: "12px",
-                color: "white"
-              }}
-            >
-              Back
-            </div>
-          </p>
-          <Link to={"/successPage"}>
-            <p onClick={this.getQuote}>
-              <div
-                style={{
-                  fontSize: "12px",
-                  color: "white"
-                }}
-              >
-                Get a Quote
-              </div>
-            </p>
+          <SmallEllipseBtn  
+             text="Back"
+             onClick={this.goPrevious}
+             btnColor="rgba(255, 97, 97, 1)" 
+             width="100px"
+             paddingLeft="10px"
+             paddingRight= "10px" 
+          />
+          <Link to={`/successPage/${this.props.place}`}>
+          <SmallEllipseBtn  
+             text="Get a quote"
+             onClick={this.getQuate}
+             btnColor="rgba(255, 97, 97, 1)" 
+             width="100px"
+             paddingLeft="10px"
+             paddingRight= "10px" 
+          />
           </Link>
 
           {/* end */}
