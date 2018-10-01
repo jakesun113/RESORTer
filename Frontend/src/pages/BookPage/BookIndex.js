@@ -34,40 +34,40 @@ class BookIndex extends Component {
                                                            history={history}/>}
 
                         />
-                        <Route
-                            path={`/booking/${place}/sleep`}
-                            render={() => <BookingAccommodation
-                                masterID={masterID} resortID={resortID}
-                                tripID={tripID}
-                                place={place} history={history}/>}
-                        />
-                        <Route
-                            path={`/booking/${place}/doing`}
-                            render={() => <BookingActivity masterID={masterID}
-                                                           resortID={resortID}
-                                                           tripID={tripID}
-                                                           place={place}
-                                                           history={history}/>}
-                        />
+                        {/*<Route*/}
+                        {/*path={`/booking/${place}/sleep`}*/}
+                        {/*render={() => <BookingAccommodation*/}
+                        {/*masterID={masterID} resortID={resortID}*/}
+                        {/*tripID={tripID}*/}
+                        {/*place={place} history={history}/>}*/}
+                        {/*/>*/}
+                        {/*<Route*/}
+                        {/*path={`/booking/${place}/doing`}*/}
+                        {/*render={() => <BookingActivity masterID={masterID}*/}
+                        {/*resortID={resortID}*/}
+                        {/*tripID={tripID}*/}
+                        {/*place={place}*/}
+                        {/*history={history}/>}*/}
+                        {/*/>*/}
 
-                        {/* euipment page */}
-                        <Route
-                            path={`/booking/${place}/equipment`}
-                            render={() => <BookingActivity masterID={masterID}
-                                                           resortID={resortID}
-                                                           tripID={tripID}
-                                                           place={place}
-                                                           history={history}/>}
-                        />
+                        {/*/!* euipment page *!/*/}
+                        {/*<Route*/}
+                        {/*path={`/booking/${place}/equipment`}*/}
+                        {/*render={() => <BookingActivity masterID={masterID}*/}
+                        {/*resortID={resortID}*/}
+                        {/*tripID={tripID}*/}
+                        {/*place={place}*/}
+                        {/*history={history}/>}*/}
+                        {/*/>*/}
 
-                        {/* plan summary page */}
-                        <Route
-                            path={`/booking/${place}/summary`}
-                            render={() => <PlanSummaryPage
-                                masterID={masterID} resortID={resortID}
-                                tripID={tripID} place={place}
-                                history={history}/>}
-                        />
+                        {/*/!* plan summary page *!/*/}
+                        {/*<Route*/}
+                        {/*path={`/booking/${place}/summary`}*/}
+                        {/*render={() => <PlanSummaryPage*/}
+                        {/*masterID={masterID} resortID={resortID}*/}
+                        {/*tripID={tripID} place={place}*/}
+                        {/*history={history}/>}*/}
+                        {/*/>*/}
                     </Switch>
                 </div>
             </div>
