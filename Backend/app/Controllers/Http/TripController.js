@@ -395,7 +395,6 @@ class TripController {
           tripInfo.checkButton = "Continue"
         }
         tripInfo.bookingStep = await getBookingStep(tripInfo.id, tripInfo.name)
-        console.log(tripInfo.bookingStep)
         tripArray.push(tripInfo);
       }
 
