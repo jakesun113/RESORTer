@@ -10,6 +10,7 @@ import {instanceOf} from "prop-types";
 import axios from "axios/index";
 import AlertWindow from "../components/template/AlertWindow";
 import ContinueBookTrip from "./template/ContinueBookTrip";
+import handleLogOut from "./template/HandleLogOut";
 
 class Navbar extends Component {
     static propTypes = {
@@ -48,18 +49,8 @@ class Navbar extends Component {
             isProfileComplete: null
         });
 
-        sessionStorage.removeItem("userSocialData");
-        sessionStorage.removeItem("userToken");
-        sessionStorage.removeItem("userImage");
-        sessionStorage.removeItem("userFinishProfile");
-        sessionStorage.removeItem("userFinishTrip");
-        sessionStorage.removeItem("userIsClicked");
-        cookies.remove("user-name");
-        cookies.remove("access-token");
-        cookies.remove("user-pic");
-        cookies.remove("user-provider");
-        cookies.remove("user-profileFinished");
-        cookies.remove("user-hasUnfinishedTrip");
+        //remove session and cookies
+        handleLogOut(cookies);
     };
 
     //check authentication when the profile list is shown

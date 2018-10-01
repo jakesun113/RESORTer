@@ -12,6 +12,7 @@ import ThirdPage from "../../components/NewUserProfilePage/ThirdPage";
 import ForthPage from "../../components/NewUserProfilePage/ForthPage";
 import FifthPage from "../../components/NewUserProfilePage/FifthPage";
 import axios from "axios/index";
+import handleLogOut from "../../components/template/HandleLogOut";
 
 // main component
 class NewUserProfilePage extends Component {
@@ -98,18 +99,8 @@ class NewUserProfilePage extends Component {
             provider: null
         });
 
-        sessionStorage.removeItem("userSocialData");
-        sessionStorage.removeItem("userToken");
-        sessionStorage.removeItem("userImage");
-        sessionStorage.removeItem("userFinishProfile");
-        sessionStorage.removeItem("userFinishTrip");
-        sessionStorage.removeItem("userIsClicked");
-        cookies.remove("user-name");
-        cookies.remove("access-token");
-        cookies.remove("user-pic");
-        cookies.remove("user-provider");
-        cookies.remove("user-profileFinished");
-        cookies.remove("user-hasUnfinishedTrip");
+        //remove session and cookies
+        handleLogOut(cookies);
     };
 
     handleNextPage = page => {

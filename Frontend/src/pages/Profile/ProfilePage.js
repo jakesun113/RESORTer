@@ -3,6 +3,7 @@ import SliderBar from "../../components/template/SliderBar";
 import DisabilityForm from "../../components/template/DisabilityForm";
 import AbilityLevelTip from "../../components/template/AbilityLevelTip";
 import DisabilityTip from "../../components/template/DisabilityTip";
+import phoneCode from "../../components/template/PhoneCode";
 import {withCookies, Cookies} from "react-cookie";
 import {Redirect} from "react-router-dom";
 import {instanceOf} from "prop-types";
@@ -12,6 +13,8 @@ import moment from "moment";
 import styled from "styled-components";
 import Input from "../../components/template/InputComponent";
 import DatePickerComponent from "../../components/template/DatePickerComponent";
+import countryList from "react-select-country-list";
+import handleLogOut from "../../components/template/HandleLogOut";
 
 const UploadBtn = styled.label`
   width: 100%;
@@ -56,6 +59,7 @@ class ProfilePage extends Component {
             phoneCode: "",
             phoneNumber: "",
             country: "",
+            countryName: countryList().getData(),
             postcode: "",
             skiAbility: 1,
             snowboardAbility: 1,
@@ -70,7 +74,8 @@ class ProfilePage extends Component {
             getFinished: false,
             webServer: "http://127.0.0.1:8887/",
             user_pic: cookies.get("user-pic") ||
-            "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/fill/w_141,h_141,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp"
+            "https://static.wixstatic.com/media/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.jpg/v1/fill/w_141,h_141,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_3c026a3adb9a44e1a02bcc33e8a2f282~mv2.webp",
+            phoneNumPre: phoneCode
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -133,18 +138,8 @@ class ProfilePage extends Component {
             provider: null
         });
 
-        sessionStorage.removeItem("userSocialData");
-        sessionStorage.removeItem("userToken");
-        sessionStorage.removeItem("userImage");
-        sessionStorage.removeItem("userFinishProfile");
-        sessionStorage.removeItem("userFinishTrip");
-        sessionStorage.removeItem("userIsClicked");
-        cookies.remove("user-name");
-        cookies.remove("access-token");
-        cookies.remove("user-pic");
-        cookies.remove("user-provider");
-        cookies.remove("user-profileFinished");
-        cookies.remove("user-hasUnfinishedTrip");
+        //remove session and cookies
+        handleLogOut(cookies);
     };
 
     componentDidMount() {
@@ -688,13 +683,23 @@ class ProfilePage extends Component {
                                     <div className="form-row">
                                         <div className="form-group col-4 col-lg-4">
                                             <select
-                                                className="custom-select"
-                                                id="phone_number_pre"
                                                 defaultValue={this.state.phoneCode}
+                                                id="phone_number_pre"
+                                                className="custom-select"
+                                                required
+                                                onChange={e => {
+                                                    this.setState({phoneCode: e.target.value});
+                                                }}
                                             >
-                                                <option value="+61">+61</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
+                                                {this.state.phoneNumPre.length === 0
+                                                    ? null
+                                                    : this.state.phoneNumPre.map(phoneNum => {
+                                                        return (
+                                                            <option key={phoneNum.code} value={phoneNum.dial_code}>
+                                                                {phoneNum.dial_code}
+                                                            </option>
+                                                        );
+                                                    })}
                                             </select>
                                         </div>
                                         <div className="form-group col-8 col-lg-8">
@@ -740,13 +745,25 @@ class ProfilePage extends Component {
                                 <div className="form-group col-lg-2"/>
                                 <div className="form-group col-12 col-lg-4">
                                     <label htmlFor="inputEmail">Country</label>
-                                    <Input
-                                        type="text"
-                                        className="form-control"
+                                    <select
                                         id="country"
-                                        placeholder=""
+                                        className="form-control"
                                         value={this.state.country}
-                                    />
+                                        required
+                                        onChange={e => {
+                                            this.setState({country: e.target.value});
+                                        }}
+                                    >
+                                        {this.state.countryName.length === 0
+                                            ? null
+                                            : this.state.countryName.map(country => {
+                                                return (
+                                                    <option key={country.value} value={country.label}>
+                                                        {country.label}
+                                                    </option>
+                                                );
+                                            })}
+                                    </select>
                                 </div>
                                 &ensp; &ensp;
                                 <div className="form-group col-12 col-lg-4">

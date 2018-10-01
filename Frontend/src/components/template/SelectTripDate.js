@@ -71,11 +71,11 @@ class SelectTripDate extends Component {
                 axios
                 .get("http://127.0.0.1:3333/api/checkProfile/"+JSON.parse(sessionStorage.getItem("userToken")).token)
                 .then(response => {
-                    if(response.data.status == 'success'){
+                    if(response.data.status === 'success'){
                         //show the addTrip
                         this.props.showAddTripMember()
 
-                    }else if(response.data.status == 'fail'){
+                    }else if(response.data.status === 'fail'){
                         //redirect to Profile Page
                         this.props.history.push({
                             pathname: '/newProfile'
@@ -98,7 +98,7 @@ class SelectTripDate extends Component {
         }catch(err){
 
         }
-    }
+    };
     // choice is either "startDate" or "endDate"
     handleChange = (date, choice) => {
         const {startDate, endDate} = this.state;
