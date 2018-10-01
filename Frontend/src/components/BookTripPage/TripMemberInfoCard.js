@@ -35,7 +35,7 @@ class GroupMemberInfoCard extends Component {
                         }}
                     >
             <span onClick={this.props.handleClick}>
-              <SmallEllipseBtn text="DELETE" btnColor="grey"/>
+              <SmallEllipseBtn text={this.props.buttonName} btnColor="grey"/>
             </span>
                     </div>
                     <br/>
