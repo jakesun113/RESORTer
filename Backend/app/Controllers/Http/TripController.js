@@ -421,7 +421,7 @@ class TripController {
 
       //if the trip has been submitted, go to the trip summary page
       if (trip.IsTripDone) {
-        bookingStep = "/trip/" + resortName
+        bookingStep = "/trip/" + tripID + "/summary"
       }
       //otherwise, go to the corresponding booking step
       else {

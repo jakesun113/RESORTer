@@ -66,7 +66,7 @@ ReactDOM.render(
                     {/* login required */}
                     <Route path="/profile" component={ProfilePage}/>
                     <Route path="/my-trip" component={MyTripPage}/>
-                    <Route path="/trip/:placeName/" component={TripSummaryPage}/>
+                    <Route path="/trip/:id/summary" component={TripSummaryPage}/>
                     <Route path="/group-member" component={GroupMemberPage}/>
                     <Route path="/change-password" component={ChangePwdPage}/>
 
