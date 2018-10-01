@@ -8,11 +8,6 @@ const Paragraph = styled.p`
 
 `;
 class BookSuccessPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
 
     render() {
         const place = this.props.match.params.placeName;
