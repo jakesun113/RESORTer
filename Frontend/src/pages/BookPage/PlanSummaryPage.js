@@ -14,6 +14,7 @@ class PlanSummaryPage extends Component {
     
     getQuate = () => {
 
+
     }
 
     render() {
@@ -34,7 +35,7 @@ class PlanSummaryPage extends Component {
                         }}>Back
                         </div>
                     </BtmEllipseButton>
-                 <Link to={"/successPage"}>
+                  <Link to={`/successPage/${this.props.place}`}>
                     <BtmEllipseButton  onClick={this.getQuote}>
                         <div style={{
                             fontSize: '12px',
@@ -42,7 +43,8 @@ class PlanSummaryPage extends Component {
                         }}>Get a Quote
                         </div>
                     </BtmEllipseButton>
-                 </Link>
+                  </Link>
+                    
                </LeaveRow>
             </div>
        
