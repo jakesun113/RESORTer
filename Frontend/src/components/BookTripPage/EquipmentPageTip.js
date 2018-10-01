@@ -1,40 +1,40 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 
 const StyledDiv = styled.div`
   border: 1px solid grey;
-  width: 100%;
+  width: 90%;
   border-radius: 10px 10px 10px 10px;
   vertical-align: baseline;
-  font-size: 20px;
+  font-size: 15px;
   text-align: justify;
   word-wrap: break-word;
 `;
 
 class EquipmentPageTip extends Component {
-    state = {};
+  state = {};
 
-    render() {
-        return (
-            <React.Fragment>
-                <StyledDiv>
-                    <p style={{height: "auto", width: "90%"}}>
-                        Don't want a ski pass, rental or a lesson every day? You'll have the
-                        chance to vary this at the end.
-                    </p>
-                    <div style={{textAlign: "center"}}>
-                        <SmallEllipseBtn
-                            text="Got it!"
-                            btnColor="white"
-                            color="#3D9BE9"
-                            border="1px solid #3D9BE9"
-                        />
-                    </div>
-                </StyledDiv>
-            </React.Fragment>
-        );
-    }
+  render() {
+    return (
+      <React.Fragment>
+        <StyledDiv>
+          <p style={{ height: "auto", width: "80%", margin: "auto auto" }}>
+            Don't want a ski pass, rental or a lesson every day? You'll have the
+            chance to vary this at the end.
+          </p>
+          <p style={{ textAlign: "center" }} onClick={this.props.onHandleClose}>
+            <SmallEllipseBtn
+              text="Got it!"
+              btnColor="white"
+              color="#3D9BE9"
+              border="1px solid #3D9BE9"
+            />
+          </p>
+        </StyledDiv>
+      </React.Fragment>
+    );
+  }
 }
 
 export default EquipmentPageTip;

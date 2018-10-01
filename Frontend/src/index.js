@@ -80,7 +80,7 @@ ReactDOM.render(
                     {/*resortID={this.props.location.state.resortID}*/}
                     {/*tripID={this.props.location.state.tripID}/>}/>*/}
                     <Route path="/booking/:placeName/" component={BookIndex}/>
-                    <Route path="/trip/successPage" component={BookSuccessPage} />
+                    <Route path="/successPage" component={BookSuccessPage} />
 
                     {/* term privacy */}
                     <Route path="/term-privacy">
