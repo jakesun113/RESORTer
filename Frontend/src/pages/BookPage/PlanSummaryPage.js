@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import {Title, HeaderLine, LeaveRow, BtmEllipseButton} from './BookingAccommodation'
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-
 
 class PlanSummaryPage extends Component {
     goPrevious = () => {

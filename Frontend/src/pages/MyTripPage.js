@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import BookHistoryCard from "../components/MyTripPage/BookHistoryCard";
-import styled from "styled-components";
 import axios from "axios/index";
 import Pagination from "../components/template/Pagination";
 
-
-const StyledTable = styled.table`
-  border-collapse: collapse !important;
-`;
 class MyTripPage extends Component {
   constructor(props) {
     super(props);
@@ -35,18 +30,6 @@ class MyTripPage extends Component {
     });
     
   }
-  
-  // async handleClick (tripID) {
-  //   let BaseURL = "http://127.0.0.1:3333/api/";
-  //   await axios.get(BaseURL + "getBookingStep/" + tripID).then(response => {
-  //     console.log("get booking step successfully");
-  //     this.setState({
-  //       bookingStep: response.data.bookingStep
-  //     });
-  //     console.log("booking step " + response.data.bookingStep);  
-  //   });
-  //   console.log(this.state.bookingStep)
-  // }
 
   onPageChanged = data => {
     const { allTrips } = this.state;

@@ -254,7 +254,21 @@ class LoginPage extends Component {
             const {from} = this.props.location.state;
             if (this.state.redirectToReferrer) {
                 console.log(from);
-                return <Redirect to={from}/>;
+
+                if (from.indexOf('/booking/') === -1) {
+                    return <Redirect to={from}/>;
+                } else {
+                    const {masterID, resortID, tripID, history} = this.props.location.state;
+                    history.push({
+                        pathname: from,
+                        state: {
+                            masterID: masterID,
+                            resortID: resortID,
+                            tripID: tripID
+                        }
+                    })
+                }
+
             }
         }
 
