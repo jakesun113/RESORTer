@@ -1,8 +1,8 @@
 .left_part {
-  border-right: 2px solid grey;
+  border-right: 1px solid rgb(220, 226, 237);
 }
 .facebookBtn {
-  width: 334px;
+  width: 100%;
   height: 48px;
   border-radius: 4px;
   background: #3b5998;
@@ -15,7 +15,7 @@
 }
 
 .googleBtn {
-  width: 334px;
+  width: 100%;
   height: 48px;
   border-radius: 4px;
   background: #db3236;
@@ -30,6 +30,44 @@
 .login_btn_in_loginwindow {
   background: rgba(127, 204, 247, 1);
   color: white;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* or */
+.or-style {
+  line-height: 0.5;
+  text-align: center;
+}
+.or-style span {
+  display: inline-block;
+  position: relative;
+}
+.or-style span:before,
+.or-style span:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  border-bottom: 1px solid black;
+
+  top: 0;
+  width: 150px;
+}
+.or-style span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+.or-style span:after {
+  left: 100%;
+  margin-left: 15px;
+}
+
+/* email btn */
+.email-login-btn {
+  border: 1px solid grey;
+  padding: 15px 110px;
+}
+
+.email-login-btn:hover {
+  border: 1px solid black;
 }

@@ -1,6 +1,11 @@
-'use strict'
+'use strict';
 
-const Env = use('Env')
+const Env = use('Env');
+// length (seconds) that token is valid for
+//86400 seconds = 24 hours
+
+//const SECONDS_VALID = 30;
+const SECONDS_VALID = 86400;
 
 module.exports = {
   /*
@@ -15,7 +20,7 @@ module.exports = {
   | Available Serializers - lucid, database
   |
   */
-  authenticator: 'session',
+  authenticator: 'jwt',
 
   /*
   |--------------------------------------------------------------------------
@@ -66,12 +71,14 @@ module.exports = {
   */
   jwt: {
     serializer: 'lucid',
-    model: 'App/Models/User',
+    model: 'App/Models/Member',
     scheme: 'jwt',
-    uid: 'email',
-    password: 'password',
+    uid: 'Email',
+    password: 'EncryptedPW',
     options: {
-      secret: Env.get('APP_KEY')
+      secret: Env.get('APP_KEY'),
+      // Options to be used while generating token
+      expiresIn: SECONDS_VALID
     }
   }
 }

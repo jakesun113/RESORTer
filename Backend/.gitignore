@@ -1,5 +1,5 @@
 # Node modules
-node_modules
+node_modules/
 
 # Adonis directory for storing tmp files
 tmp
@@ -8,3 +8,11 @@ tmp
 
 # The development sqlite file
 database/development.sqlite
+
+.idea
+
+# environment file
+.env
+
+#userPortrait folder
+public/userPortrait

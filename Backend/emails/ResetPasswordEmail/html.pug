@@ -1,0 +1,125 @@
+doctype html
+html(lang='en')  
+  head
+    style(type='text/css').
+       html,
+       body {
+        margin: 0 auto !important;
+        padding: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
+        font-family:Tahoma,Sans-serif;
+        line-height:1.4em;
+       }
+       
+       * {
+          -ms-text-size-adjust: 100%;
+          -webkit-text-size-adjust: 100%;
+       }
+       div[style*="margin: 16px 0"] {
+          margin: 0 !important;
+       }
+       
+       h1 {
+        margin-bottom:60px;
+        font-size:30px;
+        font-weight:700;
+       }
+       
+       table,
+       td {
+           mso-table-lspace: 0pt !important;
+           mso-table-rspace: 0pt !important;
+       }
+       img {
+        -ms-interpolation-mode:bicubic;
+       }
+       
+       *[x-apple-data-detectors],  /* iOS */
+        .x-gmail-data-detectors,    /* Gmail */
+        .x-gmail-data-detectors *,
+        .aBn {
+            border-bottom: 0 !important;
+            cursor: default !important;
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+
+        /* What it does: Prevents Gmail from displaying an download button on large, non-linked images. */
+        .a6S {
+            display: none !important;
+            opacity: 0.01 !important;
+        }
+        /* If the above doesn't work, add a .g-img class to any image in question. */
+        img.g-img + div {
+            display: none !important;
+        }
+
+        /* What it does: Prevents underlining the button text in Windows 10 */
+        .button-link {
+            text-decoration: none !important;
+        }
+
+        /* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
+        /* Create one of these media queries for each additional viewport size you'd like to fix */
+        /* Thanks to Eric Lepetit (@ericlepetitsf) for help troubleshooting */
+        @media only screen and (min-device-width: 375px) and (max-device-width: 413px) { /* iPhone 6 and 6+ */
+            .email-container {
+                min-width: 375px !important;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+        /* What it does: Forces Gmail app to display email full width */
+          u ~ div .email-container {
+            min-width: 100vw;
+          }
+        }  
+         /* What it does: Hover styles for buttons */
+         .button-td,
+         .button-a {
+              transition: all 100ms ease-in;
+          }
+          .button-td:hover,
+          .button-a:hover {
+              background: #555555 !important;
+              border-color: #555555 !important;
+          }
+
+          /* Media Queries */
+          @media screen and (max-width: 600px) {
+
+
+          }
+        
+body(style='width:100%;margin:0;font-family:Helvetiva,sans-serif;font-size: 1em;background-color:#f8f8f8;mso-line-height-rule:exactly;')
+  div(style="max-width:600px;margin:auto;background-color:white;").email-container
+    table(style="width:100%;max-width:600px;margin-top:50px")
+      tr
+        td
+          div.header(style='padding: 1em;background-color: white;margin-bottom: 1em;text-align: center;border-bottom:1px solid #e9e9e9;border-top:3px solid #d54933;')
+            .logo(style='max-width:150px;text-align:center;margin:auto;')
+              img(style="width:100%",src="https://static.wixstatic.com/media/25b4a3_476f364fc74b4d3fb6c657519d3c90d2~mv2.png/v1/fill/w_366,h_156,al_c,usm_0.66_1.00_0.01/25b4a3_476f364fc74b4d3fb6c657519d3c90d2~mv2.png",alt="Acheter-louer.fr")
+          div.content(style='padding: 1em;margin-right: auto;margin-left: auto;max-width: 600px;color: #2C3E50;')
+            h1(style="text-align:center") Dear RESORter Customer
+            p Hi, #{ email },
+            p According to your request, you have asked to reset your password. 
+
+            table(role='presentation' cellspacing='0' cellpadding='0' border='0' align='center' style='margin:0 auto 25px auto;')
+              tr
+                td.button-td(style='border-radius: 3px; background: #222222; text-align: center;')
+                
+                  a.new_password_link(href='http://127.0.0.1:3000/reset-password') Please click this link to enter a new password
+                      
+    
+            p If you didn't request a password change, please ignore this email.
+            br
+            p Thank you!
+            p(style="margin-top:50px;") Send from RESORTer sercurity Team
+            
+    div.footer(style="font-size:12px;margin-top:80px; background-color:#f1f1f1;")
+      p(style="padding:20px;line-height:16px;") RESORTer#[br] The 123 abs : 123 Street

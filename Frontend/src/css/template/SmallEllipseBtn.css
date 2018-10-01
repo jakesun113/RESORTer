@@ -2,32 +2,34 @@
   float: left;
 } */
 
-.small_button p {
-  color: white;
-  border-radius: 20px;
-  background: orangered;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  /* padding-left: 35px;
-  padding-right: 35px; */
-  width: 100px;
-  clear: both;
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-align: center;
-}
-.small_button p:hover {
-  animation-duration: 1s;
-  animation-name: changeLoginColor;
-  background: black;
+.small_button {
+    outline: none;
+    border: 0px solid rgba(86, 88, 88, 1);
+    /* background: orangered; */
+    color: white;
+    border-radius: 20px;
+    width: auto;
+    height: auto;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    clear: both;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+    -webkit-transition: background-color 1s; /* Safari */
+    transition: background-color 1s;
+    cursor: pointer !important;
 }
 
-@keyframes changeLoginColor {
-  from {
-    background-color: orangered;
-  }
-  to {
-    background-color: black;
-  }
+.small_button:hover {
+    background-color: black !important;
+}
+
+.small_button:active,
+.small_button:focus {
+    -moz-outline-style: none;
+    outline: none;
 }

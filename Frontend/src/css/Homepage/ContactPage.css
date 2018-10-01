@@ -1,0 +1,7 @@
+#contact_window {
+  border: 5px solid black;
+  color: black;
+}
+.modal_header h5 {
+  margin-left: auto;
+}

@@ -8,33 +8,33 @@
   left: 0px;
   /* width: 80px;
   height: 100px; */
-  cursor:pointer;
+  cursor: pointer;
   background-color: Transparent;
   border: none;
-
 }
 
-.backTop:hover .icon i{
+.backTop:hover .icon i {
   /* color: rgb(13, 95, 133); */
   opacity: 1;
 }
-.backTop:hover .icon p{
+.backTop:hover .icon p {
   /* color: rgb(13, 95, 133); */
   opacity: 1;
 }
 
 .icon i {
-  opacity: 0.3;
-  color: rgb(0, 174, 255);
-  display: block;
-  margin-left: 5px;
-  margin-top: 20px;
-  font-size: 30px;
+  opacity: 0.3 !important;
+  color: rgb(0, 174, 255) !important;
+  display: block !important;
+  margin-left: 5px !important;
+  margin-top: 20px !important;
+  font-size: 30px !important;
 }
 
 .icon p {
-  opacity: 0.3;
-  color: rgb(0, 174, 255);
-  text-align: center;
-  margin: 5px;
+  font-size: 1rem !important;
+  opacity: 0.3 !important;
+  color: rgb(0, 174, 255) !important;
+  text-align: center !important;
+  margin: 5px !important;
 }
