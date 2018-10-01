@@ -9,10 +9,21 @@ class DatePickerComponent extends Component {
         .getElementsByTagName("input")[0].style.cssText =
         "width: 100%;box-shadow: 0px 2px 0px 0px rgba(70, 130, 180, 1);box-sizing: border-box !important;outline: none !important;color: #525252;padding: 3px;text-align: center;max-width: 80%;min-width: 80%;min-height: 100%;text-overflow: ellipsis;margin: auto auto;background: transparent !important;border: none;outline: none;font-size: 20px;";
     }
+    if (this.props.readOnly === true) {
+      document
+        .getElementsByClassName("react-datepicker__input-container")[0]
+        .getElementsByTagName("input")[0].style.cssText +=
+        "pointer-events: none";
+      document
+        .getElementsByClassName("react-datepicker__input-container")[1]
+        .getElementsByTagName("input")[0].style.cssText +=
+        "pointer-events: none";
+    }
     document
       .getElementsByClassName("react-datepicker__input-container")[0]
       .getElementsByTagName("input")[0].disabled = "disabled";
   }
+
   handleChange = date => {
     this.props.checkValidate;
 
