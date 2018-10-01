@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 // compomemts
 import DatePickerComponent from "../../components/template/DatePickerComponent";
-import GroupMemberCard from "../../components/BookTripPage/PlanSummaryPage/GroupMemberCard";
+import GroupMemberCard from "../../components/template/GroupMemberCard";
 
 class PlanSummaryPage extends Component {
   goPrevious = () => {
@@ -152,7 +151,18 @@ class PlanSummaryPage extends Component {
                   </tr>
                 </thead>
               </table>
-              {groupMembers.map(eachMember=><GroupMemberCard resorter={eachMember} dob={} age={} shoeSize={} height={} weight={} disabilities={} foodAllergies={} activity={1}/>)}
+                {groupMembers.map(member => (
+                    <GroupMemberCard
+                        name={member.name}
+                        dob={member.dob}
+                        shoeSize={member.shoeSize}
+                        weight={member.weight}
+                        height={member.height}
+                        disability={member.disability}
+                        foodAllergy={member.foodAllergy}
+                        activity={member.activity}
+                    />
+                ))}
             </div>
           </div>
 

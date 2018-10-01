@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import axios from "axios/index";
-import GroupMemberCard from "./GroupMemberCard";
+import GroupMemberCard from "../template/GroupMemberCard";
 
 const ShortLineStyle = {
     marginTop: "20px",
