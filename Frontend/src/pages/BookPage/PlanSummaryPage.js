@@ -4,6 +4,21 @@ import DatePickerComponent from "../../components/template/DatePickerComponent";
 import GroupMemberCard from "../../components/template/GroupMemberCard";
 
 class PlanSummaryPage extends Component {
+  state = {
+    groupMembers: [
+      {
+        name: "sb jiacheng",
+        dob: "1992 - 10 - 10",
+        age: 2,
+        shoeSize: 1,
+        weight: 2,
+        height: 99,
+        disability: "ß",
+        foodAllergy: "12",
+        activity: "3434"
+      }
+    ]
+  };
   goPrevious = () => {
     const { place, history, masterID, resortID, tripID } = this.props;
     const url = `/booking/${place}/learn`;
@@ -12,8 +27,7 @@ class PlanSummaryPage extends Component {
       state: {
         masterID: masterID,
         resortID: resortID,
-        tripID: tripID,
-        groupMembers: [{}]
+        tripID: tripID
       }
     });
   };
@@ -22,7 +36,7 @@ class PlanSummaryPage extends Component {
 
   render() {
     const { place, days, history } = this.props;
-    const { groupMembers} = this.state;
+    const { groupMembers } = this.state;
     return (
       <React.Fragment>
         <div
@@ -135,7 +149,8 @@ class PlanSummaryPage extends Component {
           </div>
           {/* members */}
           <div className="row">
-            <div>
+            <div className="col-lg-1" />
+            <div className="col-12 col-lg-10">
               <table className="table table-borderless">
                 <thead>
                   <tr style={{ color: "#686369" }}>
@@ -150,20 +165,22 @@ class PlanSummaryPage extends Component {
                     <th scope="col">Activity</th>
                   </tr>
                 </thead>
-              </table>
                 {groupMembers.map(member => (
-                    <GroupMemberCard
-                        name={member.name}
-                        dob={member.dob}
-                        shoeSize={member.shoeSize}
-                        weight={member.weight}
-                        height={member.height}
-                        disability={member.disability}
-                        foodAllergy={member.foodAllergy}
-                        activity={member.activity}
-                    />
+                  <GroupMemberCard
+                    name={member.name}
+                    dob={member.dob}
+                    age={member.age}
+                    shoeSize={member.shoeSize}
+                    weight={member.weight}
+                    height={member.height}
+                    disability={member.disability}
+                    foodAllergy={member.foodAllergy}
+                    activity={member.activity}
+                  />
                 ))}
+              </table>
             </div>
+            <div className="col-lg-1" />
           </div>
 
           {/* end */}
