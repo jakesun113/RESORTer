@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import BookHistoryCard from "../components/MyTripPage/BookHistoryCard";
-import styled from "styled-components";
 import axios from "axios/index";
 import Pagination from "../components/template/Pagination";
 
