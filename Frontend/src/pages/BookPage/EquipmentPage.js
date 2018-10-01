@@ -3,6 +3,8 @@ import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import MemberBtn from "../../components/BookTripPage/MemberBtn";
 import MemberCard from "../../components/BookTripPage/EquipmentMemberCard";
 import styled from "styled-components";
+import { withCookies, Cookies } from "react-cookie";
+import { instanceOf } from "prop-types";
 
 const UpperEllipseButton = styled.button`
   border: 0 solid black;

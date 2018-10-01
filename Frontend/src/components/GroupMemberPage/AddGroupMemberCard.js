@@ -183,6 +183,9 @@ class AddGroupMemberCard extends Component {
                     let userToken = {
                         token: response.data.token
                     };
+                    if(this.props.addNewGroupMember){
+                        this.props.addNewGroupMember(response.data.addMember)
+                    }
 
                     //save token into session
                     sessionStorage.setItem("userToken", JSON.stringify(userToken));

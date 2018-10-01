@@ -48,6 +48,7 @@ class SelectTripDate extends Component {
     componentDidMount() {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+        this.props.setDate(this.state.startDate,this.state.endDate);
       }
       
       componentWillUnmount() {
@@ -119,6 +120,8 @@ class SelectTripDate extends Component {
                 });
             }
         }
+        //TODO:
+        this.props.setDate(startDate,endDate)
     };
 
     render() {

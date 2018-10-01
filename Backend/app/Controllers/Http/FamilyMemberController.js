@@ -124,11 +124,11 @@ class FamilyMemberController {
         newMember.DisabilityMembershipID = JSON.parse(requestData.Disability).DisabilityMembershipID,
         newMember.DisabilityDetail = JSON.parse(requestData.Disability).DisabilityDetail
       await newMember.save();
-
       return response.send(JSON.stringify({
         status: 'success',
         Name: requestData.FirstName + requestData.LastName,
-        token: userToken.token
+        token: userToken.token,
+        addMember:newMember
       }));
     }
     //Login with facebook and google, no need to check the token
@@ -158,7 +158,8 @@ class FamilyMemberController {
       return response.send(JSON.stringify({
         status: 'success',
         Name: requestData.FirstName + requestData.LastName,
-        token: request.input('token')
+        token: request.input('token'),
+        addMember:newMember
       }));
 
     }
