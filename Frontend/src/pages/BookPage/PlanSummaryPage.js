@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 // compomemts
 import DatePickerComponent from "../../components/template/DatePickerComponent";
 import GroupMemberCard from "../../components/template/GroupMemberCard";
@@ -182,6 +183,30 @@ class PlanSummaryPage extends Component {
             </div>
             <div className="col-lg-1" />
           </div>
+          {/* btn */}
+
+          <p onClick={this.goPrevious}>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "white"
+              }}
+            >
+              Back
+            </div>
+          </p>
+          <Link to={"/successPage"}>
+            <p onClick={this.getQuote}>
+              <div
+                style={{
+                  fontSize: "12px",
+                  color: "white"
+                }}
+              >
+                Get a Quote
+              </div>
+            </p>
+          </Link>
 
           {/* end */}
         </div>
