@@ -5,6 +5,7 @@ import BookTripWhoPage from "./BookTripWhoPage";
 import BookingAccommodation from "./BookingAccommodation";
 import BookingActivity from "./BookingActivity";
 import EquipmentPage from "./EquipmentPage";
+import PlanSummaryPage from "./PlanSummaryPage";
 
 class BookIndex extends Component {
   state = {};
@@ -52,6 +53,13 @@ class BookIndex extends Component {
               render={() => <EquipmentPage place={place} history={history} />}
               // render={() => <BookingActivity masterID={masterID} resortID={resortID} tripID={tripID}
               //                                place={place} history={history}/>}
+            />
+
+            {/* plan summary page */}
+            <Route
+              path={`/booking/${place}/plan_summary`}
+              render={() => <PlanSummaryPage place={place} history={history} />}
+
             />
           </Switch>
         </div>
