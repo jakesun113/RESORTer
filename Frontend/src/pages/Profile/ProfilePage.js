@@ -545,7 +545,8 @@ class ProfilePage extends Component {
                         </div>
 
                         <br/>
-                        <form data-toggle="validator" onSubmit={this.handleSubmit}>
+                        <form data-toggle="validator"
+                              onSubmit={this.handleSubmit}>
                             {/* photo */}
                             <div className="form-row">
                                 <div className="form-group col-3"/>
@@ -581,7 +582,8 @@ class ProfilePage extends Component {
                             {/* upload btn */}
                             <div className="form-row">
                                 <div className="form-group col-3 col-lg-5"/>
-                                <UploadBtn className="form-group col-6 col-lg-2">
+                                <UploadBtn
+                                    className="form-group col-6 col-lg-2">
                                     Upload photo +
                                     <input
                                         type="file"
@@ -649,7 +651,8 @@ class ProfilePage extends Component {
                             <div className="form-row">
                                 <div className="form-group col-lg-2"/>
                                 <div className="form-group col-12 col-lg-4">
-                                    <label htmlFor="firstName">First Name</label>
+                                    <label htmlFor="firstName">First
+                                        Name</label>
                                     <Input
                                         type="text"
                                         className="form-control"
@@ -661,7 +664,8 @@ class ProfilePage extends Component {
                                 </div>
                                 &ensp; &ensp;
                                 <div className="form-group col-12 col-lg-4">
-                                    <label htmlFor="inputPassword">Last Name</label>
+                                    <label htmlFor="inputPassword">Last
+                                        Name</label>
                                     <Input
                                         type="text"
                                         className="form-control"
@@ -681,7 +685,8 @@ class ProfilePage extends Component {
                                 <div className="form-group col-12 col-lg-4">
                                     <label htmlFor="phoneNumber">Phone</label>
                                     <div className="form-row">
-                                        <div className="form-group col-4 col-lg-4">
+                                        <div
+                                            className="form-group col-4 col-lg-4">
                                             <select
                                                 defaultValue={this.state.phoneCode}
                                                 id="phone_number_pre"
@@ -702,7 +707,8 @@ class ProfilePage extends Component {
                                                     })}
                                             </select>
                                         </div>
-                                        <div className="form-group col-8 col-lg-8">
+                                        <div
+                                            className="form-group col-8 col-lg-8">
                                             <Input
                                                 type="text"
                                                 className="form-control"
@@ -717,15 +723,19 @@ class ProfilePage extends Component {
                                 {/* DOB */}
                                 <div className="form-group col-12 col-lg-4">
                                     <div className="form-row">
-                                        <div className="form-group col-10 col-lg-10">
-                                            <label htmlFor="inputPassword">Date of Birth</label>
+                                        <div
+                                            className="form-group col-10 col-lg-10">
+                                            <label htmlFor="inputPassword">Date
+                                                of Birth</label>
                                             <DatePickerComponent
                                                 selected={this.state.dob}
                                                 onHandleChange={this.dateChanged}
                                             />
                                         </div>
-                                        <div className="form-group col-2 col-lg-2">
-                                            <label htmlFor="inputPassword">Age</label>
+                                        <div
+                                            className="form-group col-2 col-lg-2">
+                                            <label
+                                                htmlFor="inputPassword">Age</label>
                                             <input
                                                 type="text"
                                                 className="form-control"
@@ -767,7 +777,8 @@ class ProfilePage extends Component {
                                 </div>
                                 &ensp; &ensp;
                                 <div className="form-group col-12 col-lg-4">
-                                    <label htmlFor="inputPassword">Postcode</label>
+                                    <label
+                                        htmlFor="inputPassword">Postcode</label>
                                     <Input
                                         type="text"
                                         className="form-control"
@@ -901,7 +912,8 @@ class ProfilePage extends Component {
                                         id="is_disability"
                                         checked={this.state.hasDisability}
                                     />
-                                    <label className="form-check-label" htmlFor="is_disability">
+                                    <label className="form-check-label"
+                                           htmlFor="is_disability">
                                         Any physical or learning disabilities?
                                     </label>
                                     &ensp;
@@ -925,7 +937,8 @@ class ProfilePage extends Component {
                             <div className="form-row">
                                 <div className="form-group col-4 col-lg-2"/>
                                 <div className="form-group col-4 col-lg-4">
-                                    <button type="submit" className="btn btn-primary">
+                                    <button type="submit"
+                                            className="btn btn-primary">
                                         Save
                                     </button>
                                 </div>

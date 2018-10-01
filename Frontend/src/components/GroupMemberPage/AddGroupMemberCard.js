@@ -166,6 +166,7 @@ class AddGroupMemberCard extends Component {
                 DisabilityDetail: disabilityDetailValue
             })
         });
+
         axios.post("http://127.0.0.1:3333/api/add-member", JSON.parse(data)).then(
             /*Proceed subsequent actions based on value */
             response => {
@@ -281,7 +282,8 @@ class AddGroupMemberCard extends Component {
                     <AlertWindow
                         displayText={
                             <div>
-                                Congratulations, you have successfully added your group
+                                Congratulations, you have successfully added
+                                your group
                                 member.
                             </div>
                         }
@@ -298,7 +300,8 @@ class AddGroupMemberCard extends Component {
                 alertWindow = (
                     <AlertWindow
                         displayText={
-                            <div>Sorry, you token is expired. Please login again.</div>
+                            <div>Sorry, you token is expired. Please login
+                                again.</div>
                         }
                         btnNum="1"
                         btnText="Login"
@@ -355,7 +358,8 @@ class AddGroupMemberCard extends Component {
                         <div className="form-group col-lg-4"/>
                     </div>
                     {/* name row */}
-                    <form data-toggle="validator" onSubmit={this.handleSubmit.bind(this)}>
+                    <form data-toggle="validator"
+                          onSubmit={this.handleSubmit.bind(this)}>
                         <div className="form-row">
                             <div className="form-group col-12 col-lg-6">
                                 <label
@@ -395,7 +399,8 @@ class AddGroupMemberCard extends Component {
                                 >
                                     Gender *:
                                 </label>
-                                <select id="gender" className="form-control" required>
+                                <select id="gender" className="form-control"
+                                        required>
                                     <option selected value="male">
                                         Male
                                     </option>
@@ -508,7 +513,8 @@ class AddGroupMemberCard extends Component {
                                 type="checkbox"
                                 id="is_disability"
                             />
-                            <label className="form-check-label" htmlFor="is_disability">
+                            <label className="form-check-label"
+                                   htmlFor="is_disability">
                                 Any physical or learning disabilities?
                             </label>
                             &ensp;

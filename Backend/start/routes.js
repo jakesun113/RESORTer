@@ -41,7 +41,7 @@ Route.post("/api/reset-password", "MemberController.resetPassword");
 Route.post("/api/change-password", "MemberController.changePassword");
 
 //check profileStatus
-Route.get("/api/checkProfile/:token","MemberController.checkCompleteProfile")
+Route.get("/api/checkProfile/:token", "MemberController.checkCompleteProfile")
 
 /*MemberController end*/
 
@@ -90,7 +90,14 @@ Route.get("/addFakeTripData", "TripController.addFakeTripData");
 Route.post("/api/enrollTrip", "TripController.enrollNewTrip");
 
 // Get the age information of trip members (i.e. number of adults/children/toddlers)
-Route.get("/api/tripMemberAges/:tripID/:masterID", 'TripController.tripMemberAges');
+Route.get("/api/getAccoInfo/:tripID/:masterID", 'TripController.getAccoInfo');
+// upload user's accommodation info into database
+Route.post("/api/uploadAccoInfo", "TripController.uploadAccoInfo");
+
+// Get the activity information
+Route.get("/api/getActivityInfo/:tripID/:masterID", "TripController.getActivityInfo");
+// upload activity information
+Route.post("/api/uploadActivityInfo", "TripController.uploadActivityInfo");
 
 //get most popular resorts
 Route.get("/api/getPopularResorts", 'TripController.getPopularResorts');
@@ -102,5 +109,5 @@ Route.get("/api/getPopularResortsByCountry/:token", "TripController.getPopularRe
 Route.get("/api/getBookingHistory/:token", "TripController.getBookingHistory");
 
 //Acquire members and their family members information
-Route.get("/api/acquireSelfInfoAndFamilyInfo/:token","TripController.acquireSelfInfoAndFamilyInfo")
+Route.get("/api/acquireSelfInfoAndFamilyInfo/:token", "TripController.acquireSelfInfoAndFamilyInfo")
 /*TripController end*/

@@ -1,15 +1,43 @@
 import React, { Component } from "react";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import MemberBtn from "../../components/BookTripPage/MemberBtn";
-import EquipmentPageTip from "../../components/BookTripPage/EquipmentPageTip";
+import MemberCard from "../../components/BookTripPage/EquipmentMemberCard";
+import styled from "styled-components";
+import { withCookies, Cookies } from "react-cookie";
+import { instanceOf } from "prop-types";
+
+const UpperEllipseButton = styled.button`
+  border: 0 solid black;
+  padding: 4px 20px;
+  background-color: rgba(104, 99, 105, 1);
+  border-radius: 20px;
+  transition: background-color 1s;
+  transform: translate(0, -5px);
+
+  &:hover {
+    background-color: black;
+    cursor: pointer;
+  }
+`;
+
 class Equipmentpage extends Component {
   state = {
+    currentMember: "",
     members: [
-      { name: "user 1", age: 0 },
-      { name: "user 2", age: 0 },
-      { name: "user 3", age: 0 }
+      { id: 1, name: "user 1", age: 0 },
+      { id: 2, name: "user 2", age: 0 }
     ]
   };
+
+  skipAccommodation = () => {
+    const { place, history, masterID, resortID, tripID } = this.props;
+    const url = `/booking/${place}/learn`;
+    history.push({
+      pathname: url,
+      state: { masterID: masterID, resortID: resortID, tripID: tripID }
+    });
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -24,11 +52,16 @@ class Equipmentpage extends Component {
             <div className="col-12 col-lg-2"> 4. EQUIPMENT?</div>
             <div className="col-lg-1" />
             <div className="col-12 col-lg-2">
-              <SmallEllipseBtn
-                text="Skip Rental"
-                btnColor="rgba(104, 99, 105, 1)"
-                fontSize="20px"
-              />
+              <UpperEllipseButton onClick={this.skipAccommodation}>
+                <div
+                  style={{
+                    fontSize: "12px",
+                    color: "white"
+                  }}
+                >
+                  Skip Accommodation
+                </div>
+              </UpperEllipseButton>
             </div>
             <div className="col-lg-4" />
           </div>
@@ -46,78 +79,11 @@ class Equipmentpage extends Component {
           {/* equipment info */}
 
           {this.state.members.map(eachMember => (
-            <div>
-              {/* 1 */}
-              <div
-                className="row"
-                style={{ marginBottom: "40px", marginTop: "20px" }}
-              >
-                <div className="col-lg-1" />
-                <div
-                  className="col-12 col-lg-4"
-                  style={{ whiteSpace: "nowrap" }}
-                >
-                  Rental for &nbsp;
-                  <span style={{ color: "#FF4040" }}>{eachMember.name}</span>
-                </div>
-                <div
-                  className="col-12 col-lg-2"
-                  style={{ whiteSpace: "nowrap" }}
-                >
-                  Age &nbsp;
-                  <span style={{ color: "#3D9BE9" }}>{eachMember.age}</span>
-                </div>
-                <div className="col-12 col-lg-4">
-                  <EquipmentPageTip />
-                </div>
-                <div className="col-12 col-lg-1" />
-              </div>
-              {/* 2 */}
-              <div
-                className="row"
-                style={{
-                  fontWeight: "bold",
-                  marginBottom: "40px",
-                  marginTop: "20px"
-                }}
-              >
-                <div className="col-lg-1" />
-                <div
-                  className="col-12 col-lg-4"
-                  style={{ whiteSpace: "nowrap" }}
-                >
-                  Activity
-                </div>
-                <div
-                  className="col-12 col-lg-2"
-                  style={{ whiteSpace: "nowrap" }}
-                >
-                  Equipment
-                </div>
-                <div className="col-12 col-lg-4">Grade</div>
-                <div className="col-12 col-lg-1" />
-              </div>
-              {/* 3 */}
-              <div
-                className="row"
-                style={{
-                  fontWeight: "bold",
-                  whiteSpace: "nowrap",
-                  marginBottom: "40px",
-                  marginTop: "20px"
-                }}
-              >
-                <div className="col-lg-1" />
-                <div className="col-3">Outfit (jacket, pants):*</div>
-                <div className="col-2">
-                  <select style={{ width: "70%" }} />
-                </div>
-                <div className="col-3">Helmet:</div>
-                <div className="col-3">
-                  <select style={{ width: "50%" }} />
-                </div>
-              </div>
-            </div>
+            <MemberCard
+              isShowTip={eachMember.id === 1 ? true : false}
+              memberName={eachMember.name}
+              memberAge={eachMember.age}
+            />
           ))}
         </div>
       </React.Fragment>

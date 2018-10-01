@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import 'react-router-dom';
+import {withCookies, Cookies} from "react-cookie";
+import {instanceOf} from "prop-types";
+import axios from "axios/index";
 
 
 export const HeaderLine = styled.div`
@@ -132,6 +135,7 @@ const Warning = styled.p`
 
 
 class RadioSelector extends Component {
+
     handleChange = (e) => {
         const {onChange, referName} = this.props;
         onChange(referName, e.target.value)
@@ -140,33 +144,42 @@ class RadioSelector extends Component {
     render() {
         const {header, v1, v2, v3, v4, curValue} = this.props;
         return (
-            <div className='row' style={{marginBottom: '20px', color: '#607375'}}>
+            <div className='row'
+                 style={{marginBottom: '20px', color: '#607375'}}>
                 <div className='col-12 col-md-2'
                      style={{display: 'inline-block'}}>{header}</div>
 
                 <div className='col-12 col-md-10'>
                     <form className='row'>
                         <div className='col-5 col-md-3'>
-                            <RadioInput id={v1} type="radio" name={header} value={v1} checked={curValue === v1}
+                            <RadioInput id={v1} type="radio" name={header}
+                                        value={v1} checked={curValue === v1}
                                         onChange={this.handleChange}/>
-                            <RadioLabel htmlFor={v1} className="radio-inline">{v1}</RadioLabel>
+                            <RadioLabel htmlFor={v1}
+                                        className="radio-inline">{v1}</RadioLabel>
                         </div>
                         <div className='col-5 col-md-3'>
 
-                            <RadioInput id={v2} type="radio" name={header} value={v2} checked={curValue === v2}
+                            <RadioInput id={v2} type="radio" name={header}
+                                        value={v2} checked={curValue === v2}
                                         onChange={this.handleChange}/>
-                            <RadioLabel htmlFor={v2} className="radio-inline">{v2}</RadioLabel>
+                            <RadioLabel htmlFor={v2}
+                                        className="radio-inline">{v2}</RadioLabel>
                         </div>
                         <div className='col-5 col-md-3'>
 
-                            <RadioInput id={v3} type="radio" name={header} value={v3} checked={curValue === v3}
+                            <RadioInput id={v3} type="radio" name={header}
+                                        value={v3} checked={curValue === v3}
                                         onChange={this.handleChange}/>
-                            <RadioLabel htmlFor={v3} className="radio-inline">{v3}</RadioLabel>
+                            <RadioLabel htmlFor={v3}
+                                        className="radio-inline">{v3}</RadioLabel>
                         </div>
                         <div className='col-5 col-md-3'>
-                            <RadioInput id={v4} type="radio" name={header} value={v4} checked={curValue === v4}
+                            <RadioInput id={v4} type="radio" name={header}
+                                        value={v4} checked={curValue === v4}
                                         onChange={this.handleChange}/>
-                            <RadioLabel htmlFor={v4} className="radio-inline">{v4}</RadioLabel>
+                            <RadioLabel htmlFor={v4}
+                                        className="radio-inline">{v4}</RadioLabel>
                         </div>
                     </form>
                 </div>
@@ -189,8 +202,13 @@ class NumberSelector extends Component {
             <div style={{margin: '5px 0'}}>
                 <form>
                     <label>
-                        <div style={{display: 'inline-block', color: '#607375', marginRight: '10px'}}>{labelName}</div>
-                        <NumInput name={referName} type='number' min="0" value={cur_value}
+                        <div style={{
+                            display: 'inline-block',
+                            color: '#607375',
+                            marginRight: '10px'
+                        }}>{labelName}</div>
+                        <NumInput name={referName} type='number' min="0"
+                                  value={cur_value}
                                   onChange={this.handleChange}/>
                     </label>
                 </form>
@@ -211,28 +229,130 @@ class Requirement extends Component {
         return (
             <div style={{color: '#607375'}}>
                 <div style={{marginBottom: '15px'}}>Specific Requirements:</div>
-                <TextInput value={curValue} onChange={this.handleChange} placeholder={placeHolderText}/>
+                <TextInput value={curValue} onChange={this.handleChange}
+                           placeholder={placeHolderText}/>
             </div>
-
         )
     }
 }
 
 class BookingAccommodation extends Component {
 
-    state = {
-        acco_type: '',
-        acco_cate: '',
-        num_adult: null,
-        num_child: null,
-        num_toddler: null,
-        num_bedroom: null,
-        num_bathroom: null,
-        requirement: '',
-        warning_status: false,
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
+    constructor(props) {
+        super(props);
+        const {cookies} = props;
+        this.state = {
+            acco_type: '',
+            acco_cate: '',
+            num_adult: null,
+            num_child: null,
+            num_toddler: null,
+            num_bedroom: null,
+            num_bathroom: null,
+            requirement: '',
+            warning_status: false,
+            token: cookies.get("access-token") || null,
+            provider: cookies.get("user-provider") || null,
+        }
+    }
+
+    handleAuth = async (eventType) => {
+
+        const {provider, token} = this.state;
+        const {cookies, history, masterID, resortID, tripID} = this.props;
+
+        if (sessionStorage.getItem('guestUser') === null) {
+            // not a guest user
+            if (provider === 'email') {
+                const BaseURL = "http://127.0.0.1:3333/api/";
+                const postData = {
+                    token: token
+                };
+
+                await axios.post(BaseURL + "check-token", postData).then(response => {
+                    //handle token is not valid
+                    if (response.data.tokenValid === false) {
+                        console.log("token expired");
+                        history.push({
+                            pathname: "/login",
+                            state: {
+                                from: history.location.pathname,
+                                masterID: masterID,
+                                resortID: resortID,
+                                tripID: tripID,
+                                history: history
+                            }
+                        });
+                    }
+
+                    //token is valid
+                    else {
+                        console.log("token valid");
+                        //save token into session
+                        const sessionData = {
+                            token: response.data.token
+                        };
+                        sessionStorage.setItem("userToken", JSON.stringify(sessionData));
+
+                        //save token into cookie
+                        const date = new Date();
+                        date.setTime(date.getTime() + +2592000);
+
+                        //only when user click "remember me", update the token in cookies
+                        if (cookies.get("access-token")) {
+                            cookies.set("access-token", response.data.token, {
+                                expires: date,
+                                path: "/"
+                            });
+
+                            console.log(
+                                "token has been extended. Token is: " +
+                                cookies.get("access-token")
+                            );
+                        }
+
+                        switch (eventType) {
+                            case "skipAccommodation":
+                                this.skipAccommodation();
+                                break;
+                            case "goPrevious":
+                                this.goPrevious();
+                                break;
+                            case"goNext":
+                                this.goNext();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                })
+            }
+        } else {
+            // is a guest user, then no need to handle auth
+            switch (eventType) {
+                case "skipAccommodation":
+                    this.skipAccommodation();
+                    break;
+                case "goPrevious":
+                    this.goPrevious();
+                    break;
+                case"goNext":
+                    this.goNext();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
     };
 
     skipAccommodation = () => {
+        console.log(sessionStorage.getItem('guestUser')); // null
         const {place, history, masterID, resortID, tripID} = this.props;
         const url = `/booking/${place}/doing`;
         history.push({
@@ -242,28 +362,78 @@ class BookingAccommodation extends Component {
     };
 
     goPrevious = () => {
-        const {place, history, masterID, resortID, tripID} = this.props;
-        const url = `/booking/${place}/who`;
-        history.push({
-            pathname: url,
-            state: {masterID: masterID, resortID: resortID, tripID: tripID},
+        const {place, history, resortID, tripID, masterID} = this.props;
+
+
+        const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement} = this.state;
+
+        const api_url = `http://127.0.0.1:3333/api/uploadAccoInfo`;
+        const upload_data = {
+            acco_type: acco_type,
+            acco_cate: acco_cate,
+            num_adult: num_adult,
+            num_child: num_child,
+            num_toddler: num_toddler,
+            num_bedroom: num_bedroom,
+            num_bathroom: num_bathroom,
+            requirement: requirement,
+            tripID: tripID,
+        };
+
+        fetch(api_url, {method: 'POST', body: JSON.stringify(upload_data)})
+            .then(() => {
+                const previous_page_url = `/booking/${place}/who`;
+                history.push({
+                    pathname: previous_page_url,
+                    state: {
+                        masterID: masterID,
+                        resortID: resortID,
+                        tripID: tripID
+                    },
+                });
+            }).catch(err => {
+            console.log(err);
         });
     };
 
     goNext = () => {
-        const {place, history, masterID, resortID, tripID} = this.props;
-        const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom} = this.state;
-        if (acco_type === '' || acco_cate === '' || num_adult === '' || num_child === '' || num_toddler === '' || num_bedroom === '' || num_bathroom === '') {
+        const {place, history, resortID, tripID, masterID} = this.props;
+
+
+        const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement} = this.state;
+        if (acco_type === '' || acco_cate === '' || num_adult === null || num_child === null || num_toddler === null || num_bedroom === null || num_bathroom === null) {
             this.setState({
                 warning_status: true,
             })
         }
+
         else {
-            //todo: connect to backend database (need master memberID)
-            const url = `/booking/${place}/doing`;
-            history.push({
-                pathname: url,
-                state: {masterID: masterID, resortID: resortID, tripID: tripID},
+            const api_url = `http://127.0.0.1:3333/api/uploadAccoInfo`;
+            const upload_data = {
+                acco_type: acco_type,
+                acco_cate: acco_cate,
+                num_adult: num_adult,
+                num_child: num_child,
+                num_toddler: num_toddler,
+                num_bedroom: num_bedroom,
+                num_bathroom: num_bathroom,
+                requirement: requirement,
+                tripID: tripID,
+            };
+
+            fetch(api_url, {method: 'POST', body: JSON.stringify(upload_data)})
+                .then(() => {
+                    const next_page_url = `/booking/${place}/doing`;
+                    history.push({
+                        pathname: next_page_url,
+                        state: {
+                            masterID: masterID,
+                            resortID: resortID,
+                            tripID: tripID
+                        },
+                    });
+                }).catch(err => {
+                console.log(err);
             });
         }
     };
@@ -276,21 +446,41 @@ class BookingAccommodation extends Component {
 
     componentDidMount() {
         const {tripID, masterID} = this.props;
-        const url = `http://127.0.0.1:3333/api/tripMemberAges/${tripID}/${masterID}`;
+
+
+        const url = `http://127.0.0.1:3333/api/getAccoInfo/${tripID}/${masterID}`;
         fetch(url)
             .then(response => response.text())
             .then(data => {
-                const ageInfo = JSON.parse(data);
-                this.setState({
-                    num_adult: ageInfo['adults'],
-                    num_child: ageInfo['children'],
-                    num_toddler: ageInfo['toddlers'],
-                })
+                const res_data = JSON.parse(data);
+                if (res_data.status === "trip is new") {
+                    const ageInfo = res_data.ageInfo;
+                    this.setState({
+                        num_adult: ageInfo['adults'],
+                        num_child: ageInfo['children'],
+                        num_toddler: ageInfo['toddlers'],
+                    })
+                }
+                if (res_data.status === "trip already exists") {
+                    const accoInfo = res_data.accoInfo;
+                    this.setState({
+                        acco_type: accoInfo.acco_type,
+                        acco_cate: accoInfo.acco_cate,
+                        num_adult: accoInfo.num_adult,
+                        num_child: accoInfo.num_child,
+                        num_toddler: accoInfo.num_toddler,
+                        num_bedroom: accoInfo.num_bedroom,
+                        num_bathroom: accoInfo.num_bathroom,
+                        requirement: accoInfo.requirement
+                    })
+                }
             })
             .catch(err => console.log(err))
     }
 
     render() {
+        console.log('all props:');
+        console.log(this.props);
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement, warning_status} = this.state;
         return (
             <div className='container' style={{marginTop: '20px'}}>
@@ -298,7 +488,8 @@ class BookingAccommodation extends Component {
                     <Title>
                         <strong>2. ACCOMMODATION NEEDS</strong>
                     </Title>
-                    <UpperEllipseButton onClick={this.skipAccommodation}>
+                    <UpperEllipseButton
+                        onClick={() => this.handleAuth('skipAccommodation')}>
                         <div style={{
                             fontSize: '12px',
                             color: 'white',
@@ -306,48 +497,61 @@ class BookingAccommodation extends Component {
                         </div>
                     </UpperEllipseButton>
                 </HeaderLine>
-                <p style={{marginBottom: '10px'}}>Get a recommendation from the local folk at the resort</p>
+                <p style={{marginBottom: '10px'}}>Get a recommendation from the
+                    local folk at the resort</p>
 
                 {warning_status ?
-                    <Warning>Please fill all the fields (except "Specific Requirements") before
+                    <Warning>Please fill all the fields (except "Specific
+                        Requirements") before
                         proceeding</Warning> : null}
 
-                <RadioSelector header={'Type:'} v1={'Apartment'} v2={'Hotel'} v3={'Studio'} v4={'Lodge'}
-                               onChange={this.handleChange} referName='acco_type' curValue={acco_type}/>
-                <RadioSelector header={'Category:'} v1={'Economy'} v2={'Moderate'} v3={'Deluxe'} v4={'First Class'}
-                               onChange={this.handleChange} referName={'acco_cate'} curValue={acco_cate}/>
+                <RadioSelector header={'Type:'} v1={'Apartment'} v2={'Hotel'}
+                               v3={'Studio'} v4={'Lodge'}
+                               onChange={this.handleChange}
+                               referName='acco_type' curValue={acco_type}/>
+                <RadioSelector header={'Category:'} v1={'Economy'}
+                               v2={'Moderate'} v3={'Deluxe'} v4={'First Class'}
+                               onChange={this.handleChange}
+                               referName={'acco_cate'} curValue={acco_cate}/>
 
                 <div style={{height: '20px'}}/>
 
-                <NumberSelector labelName="No. of Adults (18 yrs +):" referName='num_adult' cur_value={num_adult}
+                <NumberSelector labelName="No. of Adults (18 yrs +):"
+                                referName='num_adult' cur_value={num_adult}
                                 onChange={this.handleChange}/>
-                <NumberSelector labelName="No. of Children (3-17 yrs):" referName='num_child' cur_value={num_child}
+                <NumberSelector labelName="No. of Children (3-17 yrs):"
+                                referName='num_child' cur_value={num_child}
                                 onChange={this.handleChange}/>
-                <NumberSelector labelName="No. of Toddlers (0-2 yrs):" referName='num_toddler' cur_value={num_toddler}
-                                onChange={this.handleChange}/>
-
-                <div style={{height: '20px'}}/>
-
-                <NumberSelector labelName="Bedroom:" referName='num_bedroom' cur_value={num_bedroom}
-                                onChange={this.handleChange}/>
-                <NumberSelector labelName="Bathroom:" referName='num_bathroom' cur_value={num_bathroom}
+                <NumberSelector labelName="No. of Toddlers (0-2 yrs):"
+                                referName='num_toddler' cur_value={num_toddler}
                                 onChange={this.handleChange}/>
 
                 <div style={{height: '20px'}}/>
 
-                <Requirement curValue={requirement} onChange={this.handleChange}/>
+                <NumberSelector labelName="Bedroom:" referName='num_bedroom'
+                                cur_value={num_bedroom}
+                                onChange={this.handleChange}/>
+                <NumberSelector labelName="Bathroom:" referName='num_bathroom'
+                                cur_value={num_bathroom}
+                                onChange={this.handleChange}/>
+
+                <div style={{height: '20px'}}/>
+
+                <Requirement curValue={requirement}
+                             onChange={this.handleChange}/>
 
                 <div style={{height: '20px'}}/>
 
                 <LeaveRow>
-                    <BtmEllipseButton onClick={this.goPrevious}>
+                    <BtmEllipseButton
+                        onClick={() => this.handleAuth('goPrevious')}>
                         <div style={{
                             fontSize: '12px',
                             color: 'white',
                         }}>Back
                         </div>
                     </BtmEllipseButton>
-                    <BtmEllipseButton onClick={this.goNext}>
+                    <BtmEllipseButton onClick={() => this.handleAuth('goNext')}>
                         <div style={{
                             fontSize: '12px',
                             color: 'white',
@@ -361,4 +565,4 @@ class BookingAccommodation extends Component {
 
 }
 
-export default BookingAccommodation;
+export default withCookies(BookingAccommodation);

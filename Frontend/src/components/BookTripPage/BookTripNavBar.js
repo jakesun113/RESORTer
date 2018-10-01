@@ -226,7 +226,7 @@ class BookTripNavBar extends Component {
                                         "bar" + this.handleNavBarState("step_6_in_book_page")
                                     }
                                 />
-                                <Link to={`/booking/${this.props.placeName}/plan_summary`}>
+                                <Link to={`/booking/${this.props.placeName}/summary`}>
                                     <div
                                         id="step_6_in_book_page"
                                         className={
@@ -354,7 +354,7 @@ class BookTripNavBar extends Component {
                                         "bar" + this.handleNavBarState("step_6_in_book_page")
                                     }
                                 />
-                                <Link to={`/booking/${this.props.placeName}/plan_summary`}>
+                                <Link to={`/booking/${this.props.placeName}/summary`}>
                                     <div
                                         id="step_6_in_book_page"
                                         className={
@@ -489,7 +489,7 @@ class BookTripNavBar extends Component {
                                     "bar" + this.handleNavBarState("step_6_in_book_page")
                                 }
                             />
-                            <Link to={`/booking/${this.props.placeName}/plan_summary`}>
+                            <Link to={`/booking/${this.props.placeName}/summary`}>
                                 <div
                                     id="step_6_in_book_page"
                                     className={

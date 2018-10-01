@@ -101,7 +101,9 @@ class Navbar extends Component {
             //console.log("inner mount");
             let userData = JSON.parse(sessionStorage.getItem("userSocialData"));
             let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-            let userFinishProfile = JSON.parse(sessionStorage.getItem("userFinishProfile"));
+            let userFinishProfile = JSON.parse(
+                sessionStorage.getItem("userFinishProfile")
+            );
             let userFinishTrip = JSON.parse(sessionStorage.getItem("userFinishTrip"));
             let userImage = JSON.parse(sessionStorage.getItem("userImage"));
             this.setState({
@@ -152,7 +154,6 @@ class Navbar extends Component {
                 hasUnfinishedTrip: this.state.unfinishedTrip
             };
             sessionStorage.setItem("userFinishTrip", JSON.stringify(userFinishTrip));
-
         }
     }
 
@@ -228,9 +229,7 @@ class Navbar extends Component {
         //get unfinishedTrip state
         //if can get it from the session
         if (sessionStorage.getItem("userFinishTrip")) {
-            let userFinishTrip = JSON.parse(
-                sessionStorage.getItem("userFinishTrip")
-            );
+            let userFinishTrip = JSON.parse(sessionStorage.getItem("userFinishTrip"));
             if (this.state.unfinishedTrip !== userFinishTrip.hasUnfinishedTrip) {
                 //console.log("in unfinishedTrip update");
                 this.setState({
@@ -305,10 +304,8 @@ class Navbar extends Component {
                                                 isClicked: true
                                             }));
                                         }}/>
-                                </div>
-                            ) : (
-                                ""
-                            )}
+                                </div>) : (
+                                "")}
                             {/* admin btn */}
                             <div className="col-12 col-sm-12 col-md-12 col-lg-1 button_admin">
                                 <a className="navbar-brand" href="/">
@@ -425,15 +422,15 @@ class Navbar extends Component {
                                     // not login state
                                     <div className="row">
                                         <div className="col-xl-2 col-lg-2"/>
+
                                         <div className="col-xl-2 col-lg-2 userBtn">
-                                            <Link
-                                                to=""
-                                                onClick={() => {
-                                                    this.setState({isShowLoginWindow: true});
-                                                }}
-                                            >
-                                                <SmallEllipseBtn text="Log in" btnColor="orangered"/>
-                                            </Link>
+                      <span
+                          onClick={() => {
+                              this.setState({isShowLoginWindow: true});
+                          }}
+                      >
+                        <SmallEllipseBtn text="Log in" btnColor="orangered"/>
+                      </span>
                                         </div>
                                         <div className="col-xl-8 col-lg-8"/>
                                     </div>
@@ -477,7 +474,10 @@ class Navbar extends Component {
                             displayText="Want a sneak peek of the booking journey before you log in?"
                             btnOneMode="customMode"
                             onHandClickOne={() => {
-                                this.setState({isShowVideo: true, isShowLoginWindow: false});
+                                this.setState({
+                                    isShowVideo: true,
+                                    isShowLoginWindow: false
+                                });
                             }}
                             btnOneText="Yes"
                             btnTwoMode="linkMode"
