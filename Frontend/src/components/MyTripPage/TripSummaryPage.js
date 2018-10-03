@@ -7,6 +7,7 @@ const ShortLineStyle = {
     marginTop: "20px",
     width: "90%"
 };
+
 //TODO: get member info
 class MyTripPage extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class MyTripPage extends Component {
             endDate: null,
             submitDate: null,
             memberInfo: [],
-            accommodationInfo: []
+            accommodationInfo: {}
         };
         this.getTripSummary = this.getTripSummary.bind(this);
     }
@@ -32,7 +33,8 @@ class MyTripPage extends Component {
                 place: response.data.tripInfo.place,
                 startDate: response.data.tripInfo.startDate,
                 endDate: response.data.tripInfo.endDate,
-                submitDate: response.data.tripInfo.submitDate
+                submitDate: response.data.tripInfo.submitDate,
+                accommodationInfo: response.data.accommodationInfo
             });
         });
     }
@@ -60,7 +62,7 @@ class MyTripPage extends Component {
                         </div>
                         <div className="ml-3 mt-3">
                             <h6>
-                            <span style={{fontSize: "2rem", color:"#4682B4"}}>
+                            <span style={{fontSize: "2rem", color: "#4682B4"}}>
                                 {this.state.place}
                             </span>
                             </h6>
@@ -70,28 +72,28 @@ class MyTripPage extends Component {
                     <div className="row">
                         <div className="mt-3">
                             <h6>
-                            <span style={{fontSize: "2rem",  whiteSpace: "nowrap"}}>
+                            <span style={{fontSize: "2rem", whiteSpace: "nowrap"}}>
                                 From:
                             </span>
                             </h6>
                         </div>
                         <div className="ml-3 mt-3">
                             <h6>
-                            <span style={{fontSize: "2rem", whiteSpace: "nowrap", color:"#4682B4"}}>
+                            <span style={{fontSize: "2rem", whiteSpace: "nowrap", color: "#4682B4"}}>
                                 {this.state.startDate}
                             </span>
                             </h6>
                         </div>
                         <div className="ml-3 mt-3">
                             <h6>
-                            <span style={{fontSize: "2rem",  whiteSpace: "nowrap"}}>
+                            <span style={{fontSize: "2rem", whiteSpace: "nowrap"}}>
                                 To:
                             </span>
                             </h6>
                         </div>
                         <div className="ml-3 mt-3">
                             <h6>
-                            <span style={{fontSize: "2rem", whiteSpace: "nowrap", color:"#4682B4"}}>
+                            <span style={{fontSize: "2rem", whiteSpace: "nowrap", color: "#4682B4"}}>
                                 {this.state.endDate}
                             </span>
                             </h6>
@@ -108,7 +110,7 @@ class MyTripPage extends Component {
                         </div>
                         <div className="ml-3 mt-3">
                             <h6>
-                            <span style={{fontSize: "2rem", whiteSpace: "nowrap", color:"#4682B4"}}>
+                            <span style={{fontSize: "2rem", whiteSpace: "nowrap", color: "#4682B4"}}>
                                 {this.state.submitDate}
                             </span>
                             </h6>
@@ -149,40 +151,13 @@ class MyTripPage extends Component {
                             ))}
                         </table>
                     </div>
+                    <hr style={ShortLineStyle}/>
                     {/* Accommodation information*/}
-                    <div className="row">
-                        <div className="mt-3">
-                            <h6>
-                            <span style={{fontSize: "2rem", color: "#686369"}}>
-                                Accommodation Needs
-                            </span>
-                            </h6>
-                        </div>
-                        <table className="table table-borderless">
-                            <thead>
-                            <tr style={{color: "#686369"}}>
-                                <th scope="col">Type</th>
-                                <th scope="col">Category</th>
-                                <th scope="col"># of adults</th>
-                                <th scope="col"># of children</th>
-                                <th scope="col"># of toddlers</th>
-                                <th scope="col"># of bedroom</th>
-                                <th scope="col"># of bathroom</th>
-                            </tr>
-                            </thead>
-                            {this.state.accommodationInfo.map(accommodation => (
-                                <AccommodationCard
-                                    type={accommodation.type}
-                                    category={accommodation.category}
-                                    adultNum={accommodation.adultNum}
-                                    childNum={accommodation.childNum}
-                                    todNum={accommodation.todNum}
-                                    bedNum={accommodation.bedNum}
-                                    bathNum={accommodation.bathNum}
-                                />
-                            ))}
-                        </table>
-                    </div>
+                    <AccommodationCard
+                        accommodation={this.state.accommodationInfo}
+                        style={{width: '100%', border: '1px solid black'}}
+                        readOnly
+                    />
                 </div>
             </React.Fragment>
         );

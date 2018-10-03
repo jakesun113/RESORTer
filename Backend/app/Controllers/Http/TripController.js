@@ -473,10 +473,10 @@ class TripController {
   async getTripSummary({params}) {
 
     const tripID = params.id;
-    //console.log(tripID);
+    console.log(tripID);
     const dbTrip = await Trip.findBy("id", tripID);
     const resort = await ResortInfo.findBy('id', dbTrip.ResortID);
-    const tripAccommodation = await TripAccommodation.findBy('id', dbTrip.ResortID);
+    const tripAccommodation = await TripAccommodation.findBy('TripID', tripID);
     let tripInfo = {};
     tripInfo.place = resort.Name;
     tripInfo.startDate = moment(dbTrip.StartDate).format("YYYY-MM-DD");
@@ -484,14 +484,21 @@ class TripController {
     tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
 
     let accommodationInfo = {};
-    accommodationInfo.type = tripAccommodation.AccoType;
-    accommodationInfo.category = tripAccommodation.AccoCate;
-    accommodationInfo.adultNum = tripAccommodation.NumOfAdults;
-    accommodationInfo.childNum = tripAccommodation.NumOfChildren;
-    accommodationInfo.todNum = tripAccommodation.NumOfToddlers;
-    accommodationInfo.bedNum = tripAccommodation.NumOfBedroom;
-    accommodationInfo.bathNum = tripAccommodation.NumOfBathroom;
-    accommodationInfo.requirment = tripAccommodation.Requirement;
+    //user skipped accommodation
+    if(tripAccommodation === null){
+      accommodationInfo = null;
+    }
+    else{
+      accommodationInfo.type = tripAccommodation.AccoType;
+      accommodationInfo.category = tripAccommodation.AccoCate;
+      accommodationInfo.adultNum = tripAccommodation.NumOfAdults;
+      accommodationInfo.childNum = tripAccommodation.NumOfChildren;
+      accommodationInfo.todNum = tripAccommodation.NumOfToddlers;
+      accommodationInfo.bedNum = tripAccommodation.NumOfBedroom;
+      accommodationInfo.bathNum = tripAccommodation.NumOfBathroom;
+      accommodationInfo.requirement = tripAccommodation.Requirement;
+    }
+
 
     //TODO: get member info
 
