@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import DatePickerComponent from "../../components/template/DatePickerComponent";
 import GroupMemberCard from "../../components/template/GroupMemberCard";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
+import axios from "axios/index";
 
 
 class PlanSummaryPage extends Component {
-  state = {
+  constructor(props) {
+    super(props);
+    this.state = {
     groupMembers: [
       {
         name: "sb jiacheng",
@@ -22,6 +25,9 @@ class PlanSummaryPage extends Component {
       }
     ]
   };
+  this.handleSendQuote = this.handleSendQuote.bind(this);
+  }
+  
   goPrevious = () => {
     const { place, history, masterID, resortID, tripID } = this.props;
     const url = `/booking/${place}/learn`;
@@ -35,7 +41,20 @@ class PlanSummaryPage extends Component {
     });
   };
 
-  getQuate = () => {};
+  async handleSendQuote(e) {
+    e.preventDefault();
+    if (sessionStorage.getItem("userToken")) {
+      let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+      await axios
+      .post(`http://127.0.0.1:3333/api/send-quote`, tokenData.token)
+      .then(response => {
+        console.log("sent quote successfully");
+        console.log(response.data);
+      }).catch(error => {
+        console.log(error)
+      });
+     }
+  };
 
   render() {
     const { place, days, history } = this.props;
@@ -194,7 +213,7 @@ class PlanSummaryPage extends Component {
           <Link to={`/successPage/${this.props.place}`}>
           <SmallEllipseBtn  
              text="Get a quote"
-             onClick={this.getQuate}
+             onClick={this.handleSendQuote}
              btnColor="rgba(255, 97, 97, 1)" 
              width="100px"
              paddingLeft="10px"
