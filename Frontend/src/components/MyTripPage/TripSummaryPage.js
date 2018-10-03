@@ -34,6 +34,7 @@ class MyTripPage extends Component {
                 startDate: response.data.tripInfo.startDate,
                 endDate: response.data.tripInfo.endDate,
                 submitDate: response.data.tripInfo.submitDate,
+                memberInfo: response.data.memberInfo,
                 accommodationInfo: response.data.accommodationInfo
             });
         });
@@ -142,11 +143,13 @@ class MyTripPage extends Component {
                                 <GroupMemberCard
                                     name={member.name}
                                     dob={member.dob}
-                                    shoeSize={member.shoeSize}
-                                    weight={member.weight}
-                                    height={member.height}
+                                    shoeSize={member.shoeSize === null ? "" : member.shoeSize}
+                                    weight={member.weight === null ? "" : member.weight}
+                                    height={member.height === null ? "" : member.height}
                                     disability={member.disability}
-                                    activity={member.activity}
+                                    activity={member.activity.length ? member.activity.map(activity => (
+                                        <React.Fragment>{activity}<br/></React.Fragment>
+                                    )) : ""}
                                 />
                             ))}
                         </table>
@@ -158,6 +161,7 @@ class MyTripPage extends Component {
                         style={{width: '100%', border: '1px solid black'}}
                         readOnly
                     />
+                    <hr style={ShortLineStyle}/>
                 </div>
             </React.Fragment>
         );
