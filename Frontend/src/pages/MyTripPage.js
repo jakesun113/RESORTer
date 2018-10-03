@@ -3,9 +3,15 @@ import BookHistoryCard from "../components/MyTripPage/BookHistoryCard";
 import axios from "axios/index";
 import Pagination from "../components/template/Pagination";
 import SmallEllipseBtn from "../components/template/SmallEllipseBtn";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
+import {withCookies, Cookies} from "react-cookie";
+import {instanceOf} from "prop-types";
+
 
 class MyTripPage extends Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +21,6 @@ class MyTripPage extends Component {
             currentPage: null,
             totalPages: null
         };
-
         this.getBookingHistory = this.getBookingHistory.bind(this);
     }
 
@@ -49,6 +54,37 @@ class MyTripPage extends Component {
     }
 
     render() {
+        const {cookies} = this.props;
+        //if token has been expired, redirect to login page
+        //console.log(this.props.location.state);
+        if (this.props.location.state) {
+            const {lastValid} = this.props.location.state;
+            //console.log(lastValid);
+
+            if (!lastValid) {
+                return (
+                    <Redirect
+                        to={{
+                            pathname: "/login",
+                            state: {from: this.props.location.pathname}
+                        }}
+                    />
+                );
+            }
+        }
+
+        //if directly type this page's url, redirect to login page
+        if (!sessionStorage.getItem("userToken") && !cookies.get("access-token")) {
+            return (
+                <Redirect
+                    to={{
+                        pathname: "/login",
+                        state: {from: this.props.location.pathname}
+                    }}
+                />
+            );
+        }
+
         const {
             hasTrips,
             allTrips,
@@ -138,4 +174,4 @@ class MyTripPage extends Component {
     }
 }
 
-export default MyTripPage;
+export default withCookies(MyTripPage);

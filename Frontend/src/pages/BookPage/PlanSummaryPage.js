@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 // compomemts
 import DatePickerComponent from "../../components/template/DatePickerComponent";
 import GroupMemberCard from "../../components/template/GroupMemberCard";
@@ -49,6 +50,15 @@ class PlanSummaryPage extends Component {
           bedNum: "1",
           bathNum: "2"
         }
+      ],
+      liftPassList: [
+        {
+          date: "7 October 2018",
+          adultsNum: "2",
+          adultsTimeSpan: "Full Day",
+          childrenNum: "3",
+          childrenTimeSpan: "AM"
+        }
       ]
     };
     this.handleSendQuote = this.handleSendQuote.bind(this);
@@ -77,7 +87,8 @@ class PlanSummaryPage extends Component {
     if (sessionStorage.getItem("userToken")) {
       let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
       const postData = {
-        token: tokenData.token
+        token: tokenData.token,
+        place: place
       }; 
     console.log(tokenData.token);     
     await axios
@@ -93,7 +104,7 @@ class PlanSummaryPage extends Component {
 
   render() {
     const { place, days, history } = this.props;
-    const { groupMembers, accommodation } = this.state;
+    const { groupMembers, accommodation, liftPassList } = this.state;
     return (
       <React.Fragment>
         <div
@@ -238,6 +249,7 @@ class PlanSummaryPage extends Component {
           {/* Accommodation Needs */}
           <AccommodationCard
             accommodation={accommodation}
+            text="12"
             style={{
               border: "1px solid rgba(0, 166, 255, 1)",
               width: "100%",
@@ -247,7 +259,7 @@ class PlanSummaryPage extends Component {
           />
           <BreakLine />
           {/* LiftPassCard */}
-          <LiftPassCard />
+          <LiftPassCard liftPassList={liftPassList} />
 
           {/* btn */}
 
@@ -259,14 +271,17 @@ class PlanSummaryPage extends Component {
             paddingLeft="10px"
             paddingRight="10px"
           />
-          <SmallEllipseBtn
-            text="Get a quote"
-            onClick={this.handleSendQuote}
-            btnColor="rgba(255, 97, 97, 1)"
-            width="100px"
-            paddingLeft="10px"
-            paddingRight="10px"
-          />
+          <Link to={`/successPage/${this.props.place}`}>
+            <SmallEllipseBtn
+              text="Get a quote"
+              onClick={this.handleSendQuote}
+              btnColor="rgba(255, 97, 97, 1)"
+              width="100px"
+              paddingLeft="10px"
+              paddingRight="10px"
+            />
+          </Link>
+
           {/* end */}
         </div>
       </React.Fragment>
