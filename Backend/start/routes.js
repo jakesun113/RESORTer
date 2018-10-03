@@ -99,6 +99,9 @@ Route.get("/api/getActivityInfo/:tripID/:masterID", "TripController.getActivityI
 // upload activity information
 Route.post("/api/uploadActivityInfo", "TripController.uploadActivityInfo");
 
+// check if token valid, return new if valid
+Route.post('api/checkTokenAuth', 'TripController.checkTokenAuth');
+
 //get most popular resorts
 Route.get("/api/getPopularResorts", 'TripController.getPopularResorts');
 
@@ -118,3 +121,4 @@ Route.post("/api/send-quote", "Other/SendQuoteController.sendQuoteEmail");
 
 
 /*TripController end*/
+

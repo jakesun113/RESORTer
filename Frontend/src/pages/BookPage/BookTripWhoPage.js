@@ -264,6 +264,7 @@ class BookTripPage extends Component {
                   tripID: response.data.tripID,
                 }
               });
+
           //save token into session
           sessionStorage.setItem(
             "userToken",
