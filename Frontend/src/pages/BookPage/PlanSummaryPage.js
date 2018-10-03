@@ -58,6 +58,13 @@ class PlanSummaryPage extends Component {
           adultsTimeSpan: "Full Day",
           childrenNum: "3",
           childrenTimeSpan: "AM"
+        },
+        {
+          date: "8 October 2018",
+          adultsNum: "2",
+          adultsTimeSpan: "Full Day",
+          childrenNum: "3",
+          childrenTimeSpan: "AM"
         }
       ]
     };
@@ -89,18 +96,19 @@ class PlanSummaryPage extends Component {
       const postData = {
         token: tokenData.token,
         place: place
-      }; 
-    console.log(tokenData.token);     
-    await axios
-      .post(`http://127.0.0.1:3333/api/send-quote`, postData)
-      .then(response => {
-        console.log("sent quote successfully");
-        console.log(response);
-      }).catch(error => {
-        console.log(error)
-      });
-     }
-  };
+      };
+      console.log(tokenData.token);
+      await axios
+        .post(`http://127.0.0.1:3333/api/send-quote`, postData)
+        .then(response => {
+          console.log("sent quote successfully");
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
 
   render() {
     const { place, days, history } = this.props;

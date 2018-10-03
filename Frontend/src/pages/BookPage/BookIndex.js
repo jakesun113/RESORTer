@@ -16,7 +16,8 @@ class BookIndex extends Component {
     let masterID;
     let resortID;
     let tripID;
-    let re = new RegExp(/\/booking\/[^\n]*\/who/, "g");
+    //FIXME:no need "equipment,learn and summary"
+    let re = new RegExp(/\/booking\/[^\n]*\/who|equipment|learn|summary/, "g");
     if (!re.test(this.props.location.pathname)) {
       masterID = location.state.masterID;
       resortID = location.state.resortID;

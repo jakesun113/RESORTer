@@ -25,8 +25,6 @@ class MemberController {
   async checkCompleteProfile({request,response,params,auth}){
 
     try{
-      //FIXME: can not do auth.check()
-      // await auth.check();
       const userToken = await Token.findBy('Token', params.token);
       const user = await Member.find(userToken.MemberID)
 

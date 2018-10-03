@@ -35,6 +35,15 @@ class NumberSelector extends Component {
 
   handleChangeTimeSpan = () => {
     const spanList = ["Full Day", "AM", "PM"];
+    const indexOfCurrent = spanList.indexOf(this.state.timeSpan);
+    let resultIndex = 0;
+    if (indexOfCurrent === 2) {
+      resultIndex = 0;
+      this.setState({ timeSpan: spanList[resultIndex] });
+    } else {
+      resultIndex = indexOfCurrent + 1;
+      this.setState({ timeSpan: spanList[resultIndex] });
+    }
   };
 
   render() {
@@ -80,6 +89,7 @@ class NumberSelector extends Component {
               textDecoration: "underline",
               cursor: "pointer"
             }}
+            onClick={this.handleChangeTimeSpan}
           >
             (Change)
           </span>
@@ -225,24 +235,26 @@ class LiftPassCard extends Component {
         >
           <div className="col-lg-1" />
           <div className="col-md-12 col-lg-10">
-            <table className="table table-borderless">
-              <tbody
-                style={{
-                  border: "1px solid rgb(232, 234, 237)",
-                  height: "auto",
-                  boxShadow: "2px 3px rgb(232, 234, 237)"
-                }}
-              >
+            <table
+              className="table table-borderless"
+              style={{ tableLayout: "auto" }}
+            >
+              <tbody>
                 {liftPassList.map(eachLiftPass => (
-                  <tr>
+                  <tr
+                    style={{
+                      border: "1px solid rgb(232, 234, 237)",
+                      height: "auto",
+                      boxShadow: "2px 3px rgb(232, 234, 237)"
+                    }}
+                  >
                     <td style={{ color: "#4682B4" }}>{eachLiftPass.date}</td>
-
                     <NumberSelector
                       title="Adults:"
                       value={eachLiftPass.adultsNum}
                       timeSpan={eachLiftPass.adultsTimeSpan}
                     />
-                    <td />
+                    {/* <td /> */}
                     <NumberSelector
                       title="Children:"
                       value={eachLiftPass.childrenNum}

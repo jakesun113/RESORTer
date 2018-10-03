@@ -26,11 +26,11 @@ class AddSavedMemberCard extends Component {
     }
     return (
     <React.Fragment>
-    <div className="row">
+    {/* <div className="row"> */}
     {groupMember === null ? null :
         groupMember.map((info,index) => {
           return (
-              <div className="col-12 col-lg-4">
+              <div className="col-12 col-lg-6 ocl-xl-6">
               <br/>
                   <GroupMemberInfoCard
                       key={index}
@@ -51,7 +51,7 @@ class AddSavedMemberCard extends Component {
         })
       }
       
-    </div>
+    {/* </div> */}
     </React.Fragment>
     )
   }
