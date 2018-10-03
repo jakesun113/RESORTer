@@ -58,6 +58,13 @@ class PlanSummaryPage extends Component {
           adultsTimeSpan: "Full Day",
           childrenNum: "3",
           childrenTimeSpan: "AM"
+        },
+        {
+          date: "8 October 2018",
+          adultsNum: "2",
+          adultsTimeSpan: "Full Day",
+          childrenNum: "3",
+          childrenTimeSpan: "AM"
         }
       ]
     };
@@ -87,7 +94,8 @@ class PlanSummaryPage extends Component {
     if (sessionStorage.getItem("userToken")) {
       let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
       const postData = {
-        token: tokenData.token
+        token: tokenData.token,
+        place: place
       };
       console.log(tokenData.token);
       await axios

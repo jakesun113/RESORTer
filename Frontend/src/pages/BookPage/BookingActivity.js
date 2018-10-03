@@ -140,8 +140,8 @@ class BookingActivity extends Component {
                 }
             },
             warning: false,
-            token: cookies.get("access-token") || null,
-            provider: cookies.get("user-provider") || null,
+            token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
+            provider: JSON.parse(sessionStorage.getItem("userSocialData"))['provider'] || null,
         }
     }
 

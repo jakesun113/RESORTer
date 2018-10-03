@@ -7,6 +7,7 @@ import AddSavedMemberCard from "./AddSavedMemberCard";
 import AlertWindow from "../template/AlertWindow";
 import AddGroupMemberCard from "../GroupMemberPage/AddGroupMemberCard";
 
+//FIXME: No person in a trip, can not be saved and proceeded
 class AddTripMember extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +18,8 @@ class AddTripMember extends Component {
       savedGroupMember: null,
       showAddSavedGroupMemberCard: false,
       showAlertWindow: false,
-      showAddNewGroupMemberCard: false
+      showAddNewGroupMemberCard: false,
+      isTripHasPerson:null
     };
     this.addSavedGroupMember = this.addSavedGroupMember.bind(this);
   }
@@ -114,9 +116,12 @@ class AddTripMember extends Component {
 
   handleAddNewGroupMember = data => {
     let newGroupMember = this.state.groupMember;
+    let newSavedGroupMember = this.state.savedGroupMember;
     newGroupMember.push(data);
+    newSavedGroupMember.push(data)
     this.setState({
-      groupMember: newGroupMember
+      groupMember: newGroupMember,
+      savedGroupMember:newSavedGroupMember
     });
   };
 
@@ -153,6 +158,7 @@ class AddTripMember extends Component {
       groupMember = this.state.groupMember;
     }
 
+    console.log(this.state.isTripHasPerson)
     return (
       <React.Fragment>
         {this.state.showAlertWindow === true ? (

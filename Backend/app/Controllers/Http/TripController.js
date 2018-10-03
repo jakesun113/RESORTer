@@ -977,6 +977,38 @@ class TripController {
     }
   }
 
+  async checkTokenAuth({request, response, auth}) {
+
+    try {
+      let backToken = request.input('token') //token that will be sent back to front end
+      console.log("backToken is ", request.input('token'))
+      try {
+        if (request.input('provider') === 'email') {
+          await auth.check();
+          const validationToken = await ValidationToken.findBy('Token', request.input('token'));
+          const member = await Member.findBy('id', validationToken.MemberID);
+
+          let userToken = await auth.generate(member);
+          backToken = userToken.token;
+          validationToken.merge({Token: userToken.token});
+          await validationToken.save();
+        }
+      } catch (e) {
+        console.log(e);
+        return response.send(JSON.stringify({status: 'ExpiredJWT'}))
+      }
+      let responseData = {};
+      responseData.status = 'success';
+      responseData.token = backToken;
+      return response.send(JSON.stringify(responseData))
+    } catch (e) {
+      response.send(JSON.stringify({status: 'fail'}));
+      console.log(e)
+    }
+
+
+  }
+
 }
 
 module.exports = TripController;
