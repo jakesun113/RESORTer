@@ -114,9 +114,12 @@ class AddTripMember extends Component {
 
   handleAddNewGroupMember = data => {
     let newGroupMember = this.state.groupMember;
+    let newSavedGroupMember = this.state.savedGroupMember;
     newGroupMember.push(data);
+    newSavedGroupMember.push(data)
     this.setState({
-      groupMember: newGroupMember
+      groupMember: newGroupMember,
+      savedGroupMember:newSavedGroupMember
     });
   };
 
