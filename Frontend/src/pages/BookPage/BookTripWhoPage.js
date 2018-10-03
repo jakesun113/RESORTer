@@ -243,36 +243,27 @@ class BookTripPage extends Component {
       .then(response => {
         if (response.data.status === "ExpiredJWT") {
           //Redirect to login page
-          this.setState({
-            token: "",
-            alert: "ExpiredJWT"
-          });
-        } else if (response.data.status === "fail") {
-        
+          alert('Token Expire')
+          this.handleLogout()
           this.props.history.push({
             pathname: "/login",
             state: {
               from: this.props.history.location.pathname,
-            //   masterID: masterID,
-            //   resortID: resortID,
-            //   tripID: tripID,
-            //   history: this.props.history
             }
           });
+        } else if (response.data.status === "fail") {
+            alert('Server Error, Please Try again')
         } else if (response.data.status === "success") {
-            this.handleLogout()
+            console.log(response.data)
             this.props.history.push({
-                pathname: "/login",
+                pathname:`/booking/${this.props.place}/sleep` ,
                 state: {
                   from: this.props.history.location.pathname,
-                //   masterID: masterID,
-                //   resortID: resortID,
-                //   tripID: tripID,
-                //   history: this.props.history
+                  masterID: response.data.masterID,
+                  resortID: response.data.resortID,
+                  tripID: response.data.tripID,
                 }
               });
-          //pass data to second booking page
-          alert("success");
           //save token into session
           sessionStorage.setItem(
             "userToken",
