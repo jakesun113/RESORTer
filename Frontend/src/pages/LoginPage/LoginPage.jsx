@@ -256,7 +256,6 @@ class LoginPage extends Component {
 
                 let re = new RegExp(/\/booking\/[^\n]*\/who/,'g')
                 // if (from.indexOf('/booking/') === -1) {
-                alert(re.source)
                 if(re.test(from)){
                     return <Redirect to={from}/>;
                 } else {
