@@ -10,7 +10,8 @@ class SendQuoteController {
             const token = await Token.findBy('Token', request.input('token'));
             const member = await Member.findBy('id', token.MemberID);
             const mailData = {
-              member: member.toJSON()
+              member: member.toJSON(),
+              place: request.input('place')
             };
             // send email to user's email address
             await Mail.send('auth.emails.quoteEmail', mailData, message => {

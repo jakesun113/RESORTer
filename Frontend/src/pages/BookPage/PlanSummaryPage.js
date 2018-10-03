@@ -77,7 +77,8 @@ class PlanSummaryPage extends Component {
     if (sessionStorage.getItem("userToken")) {
       let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
       const postData = {
-        token: tokenData.token
+        token: tokenData.token,
+        place: place
       }; 
     console.log(tokenData.token);     
     await axios
