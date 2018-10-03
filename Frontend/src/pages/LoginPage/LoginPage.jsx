@@ -253,9 +253,11 @@ class LoginPage extends Component {
         if (this.props.location.state) {
             const {from} = this.props.location.state;
             if (this.state.redirectToReferrer) {
-                console.log(from);
 
-                if (from.indexOf('/booking/') === -1) {
+                let re = new RegExp(/\/booking\/[^\n]*\/who/,'g')
+                // if (from.indexOf('/booking/') === -1) {
+                alert(re.source)
+                if(re.test(from)){
                     return <Redirect to={from}/>;
                 } else {
                     const {masterID, resortID, tripID, history} = this.props.location.state;
@@ -268,6 +270,7 @@ class LoginPage extends Component {
                         }
                     })
                 }
+
             }
         }
 
