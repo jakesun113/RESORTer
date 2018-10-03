@@ -3,35 +3,61 @@ import EquipmentPageTip from "../../components/BookTripPage/EquipmentPageTip";
 import ActivityCard from "../../components/BookTripPage/ActivityEquipmentCard";
 import NumberSelector from "../../components/template/NumberSelector";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { withCookies, Cookies } from "react-cookie";
+import { instanceOf } from "prop-types";
 
 const StyledSelect = styled.select`
   width: 80%;
   border: solid 1px rgba(198, 226, 247, 1);
 `;
 class EquipmentMemberCard extends Component {
-  state = {
-    shoeSize: "",
-    height: "",
-    weight: "",
-    isShowTip: this.props.isShowTip,
-    hasActivity: true,
-    currentActivity: [
-      {
-        id: 1,
-        ActivityName: "hit sb jiacheng",
-        EquipmentOne: "Boots",
-        EquipmentTwo: "Skis & Poles",
-        Grade: "standard"
-      },
-      {
-        id: 2,
-        ActivityName: "Snowboard",
-        EquipmentOne: "Boots",
-        EquipmentTwo: "Board",
-        Grade: "standard"
-      }
-    ]
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
   };
+
+  constructor(props) {
+    super(props);
+    const { cookies } = props;
+    this.state = {
+      currentMember: "1",
+      members: {
+        "1": {
+          id: 1,
+          firstName: "",
+          fullName: "",
+          activity: [false, false, false, false, false, false],
+          ability: [1, 1, 1, 1, 1, 1],
+          age: 0,
+          skipEquipmentLesson: false
+        }
+      },
+      warning: false,
+      // token: cookies.get("access-token") || null,
+      // provider: cookies.get("user-provider") || null,
+      shoeSize: "",
+      height: "",
+      weight: "",
+      isShowTip: this.props.isShowTip,
+      hasActivity: true,
+      currentActivity: [
+        {
+          id: 1,
+          ActivityName: "hit sb jiacheng",
+          EquipmentOne: "Boots",
+          EquipmentTwo: "Skis & Poles",
+          Grade: "standard"
+        },
+        {
+          id: 2,
+          ActivityName: "Snowboard",
+          EquipmentOne: "Boots",
+          EquipmentTwo: "Board",
+          Grade: "standard"
+        }
+      ]
+    };
+  }
 
   handleChange = (name, value) => {
     this.setState({
@@ -78,13 +104,33 @@ class EquipmentMemberCard extends Component {
             </div>
             <div className="col-12 col-lg-1" />
           </div>
+          {/* tip for first time book */}
+          <div className="row" style={{ marginTop: "20px" }}>
+            <div className="col-12 col-lg-1" />
+            <div className="col-md-12 col-lg-10">
+              <table className="table table-borderless">
+                <thead>
+                  <tr style={{ color: "#FF4040" }}>
+                    <th scope="col-10">
+                      <p style={{ textAlign: "center" }}>
+                        A first time package is sold if you have never done a
+                        snowsport (skiing, snowboarding, or telemarking) and
+                        includes a lift pass, gear rental and a lesson.
+                      </p>
+                    </th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div className="col-12 col-lg-1" />
+          </div>
+
           {/* 2 */}
           <div
             className="row"
             style={{
               fontWeight: "bold",
               marginBottom: "10px",
-              marginTop: "20px",
               whiteSpace: "nowrap"
             }}
           >
@@ -114,6 +160,7 @@ class EquipmentMemberCard extends Component {
             </div>
             <div className="col-lg-1" />
           </div>
+
           {/* 3 */}
           <div
             className="row"
@@ -151,7 +198,9 @@ class EquipmentMemberCard extends Component {
                     <td />
                     <td>
                       Helmet:
-                      <p>3132</p>
+                      <p style={{ color: "red", position: "absolute" }}>
+                        Helmets are compulsory for children up to 15 (3-15)
+                      </p>
                     </td>
                     <td>
                       <StyledSelect id="helmet">
@@ -223,6 +272,67 @@ class EquipmentMemberCard extends Component {
                     </td>
                   </tr>
                 </tbody>
+              </table>
+            </div>
+            <div className="col-lg-1" />
+          </div>
+          {/* tips */}
+          <div
+            className="row"
+            style={{
+              fontWeight: "bold",
+              whiteSpace: "nowrap"
+            }}
+          >
+            <div className="col-lg-1" />
+            <div className="col-md-12 col-lg-10">
+              <table
+                className="table table-borderless"
+                style={{ color: "#686369" }}
+              >
+                <thead>
+                  <tr>
+                    <th scope="col-12" />
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style={{ fontSize: "15px", color: "#4682B4" }}>
+                      <p>
+                        * subject to availability. Confirm with resort when they
+                        make contact
+                      </p>
+                      <p>** required fields</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="col-lg-1" />
+          </div>
+          {/* privacy statement */}
+          <div
+            className="row"
+            style={{
+              fontWeight: "bold",
+              whiteSpace: "nowrap"
+            }}
+          >
+            <div className="col-lg-1" />
+            <div className="col-md-12 col-lg-10">
+              <table
+                className="table table-borderless"
+                style={{ color: "#686369" }}
+              >
+                <thead>
+                  <tr>
+                    <td style={{ fontSize: "15px", color: "#4682B4" }}>
+                      <Link to="/term-privacy/privacy-statement">
+                        Privacy Statement
+                      </Link>
+                    </td>
+                  </tr>
+                </thead>
               </table>
             </div>
             <div className="col-lg-1" />

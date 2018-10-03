@@ -3,6 +3,8 @@ import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import MemberBtn from "../../components/BookTripPage/MemberBtn";
 import MemberCard from "../../components/BookTripPage/EquipmentMemberCard";
 import styled from "styled-components";
+import {withCookies, Cookies} from "react-cookie";
+import {instanceOf} from "prop-types";
 
 const UpperEllipseButton = styled.button`
   border: 0 solid black;
@@ -19,7 +21,9 @@ const UpperEllipseButton = styled.button`
 `;
 
 class Equipmentpage extends Component {
+
     state = {
+        currentMember: "",
         members: [
             {id: 1, name: "user 1", age: 0},
             {id: 2, name: "user 2", age: 0}

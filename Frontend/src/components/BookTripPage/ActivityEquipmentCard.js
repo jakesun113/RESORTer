@@ -15,6 +15,7 @@ class ActivityEquipmentCard extends Component {
             <td>{this.props.ActivityName}</td>
             <td>
               <i class="far fa-check-square" />
+              <i class="far fa-square" />
               &nbsp;&nbsp; &nbsp;&nbsp;
               {this.props.EquipmentOne}
             </td>

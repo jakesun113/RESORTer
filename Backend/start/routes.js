@@ -108,6 +108,8 @@ Route.get("/api/getPopularResortsByCountry/:token", "TripController.getPopularRe
 //get user booking history, and return all trips of that user
 Route.get("/api/getBookingHistory/:token", "TripController.getBookingHistory");
 
+//get the summary information of one specific trip
+Route.get("/api/getTripSummary/:id", "TripController.getTripSummary");
 //Acquire members and their family members information
 Route.get("/api/acquireSelfInfoAndFamilyInfo/:token", "TripController.acquireSelfInfoAndFamilyInfo")
 /*TripController end*/

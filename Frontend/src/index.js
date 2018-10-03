@@ -66,7 +66,7 @@ ReactDOM.render(
                     {/* login required */}
                     <Route path="/profile" component={ProfilePage}/>
                     <Route path="/my-trip" component={MyTripPage}/>
-                    <Route path="/trip/:placeName/" component={TripSummaryPage}/>
+                    <Route path="/trip/:id/summary" component={TripSummaryPage}/>
                     <Route path="/group-member" component={GroupMemberPage}/>
                     <Route path="/change-password" component={ChangePwdPage}/>
 
@@ -82,7 +82,7 @@ ReactDOM.render(
                     {/*resortID={this.props.location.state.resortID}*/}
                     {/*tripID={this.props.location.state.tripID}/>}/>*/}
                     <Route path="/booking/:placeName/" component={BookIndex}/>
-                    <Route path="/successPage" component={BookSuccessPage} />
+                    <Route path="/successPage/:placeName" component={BookSuccessPage} />
 
                     {/* term privacy */}
                     <Route path="/term-privacy">

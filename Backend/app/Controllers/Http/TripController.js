@@ -395,7 +395,6 @@ class TripController {
           tripInfo.checkButton = "Continue"
         }
         tripInfo.bookingStep = await getBookingStep(tripInfo.id, tripInfo.name)
-        console.log(tripInfo.bookingStep)
         tripArray.push(tripInfo);
       }
 
@@ -421,7 +420,7 @@ class TripController {
 
       //if the trip has been submitted, go to the trip summary page
       if (trip.IsTripDone) {
-        bookingStep = "/trip/" + resortName
+        bookingStep = "/trip/" + tripID + "/summary"
       }
       //otherwise, go to the corresponding booking step
       else {
@@ -468,6 +467,26 @@ class TripController {
       }
       return bookingStep;
     }
+  }
+
+  async getTripSummary({params}) {
+
+    const tripID = params.id;
+    //console.log(tripID);
+    const dbTrip = await Trip.findBy("id", tripID);
+    const resort = await ResortInfo.findBy('id', dbTrip.ResortID);
+    let tripInfo = {};
+    tripInfo.place = resort.Name;
+    tripInfo.startDate = moment(dbTrip.StartDate).format("YYYY-MM-DD");
+    tripInfo.endDate = moment(dbTrip.EndDate).format("YYYY-MM-DD");
+    tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
+
+    //TODO: get member info
+
+    return JSON.stringify({
+      tripInfo: tripInfo
+    });
+
   }
 
   async getAccoInfo({response, params}) {
