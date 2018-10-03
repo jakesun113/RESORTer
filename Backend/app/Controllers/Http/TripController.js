@@ -190,12 +190,12 @@ class TripController {
   /*
   REQUEST: {"resortName":"","token":""}
   */
-  async enrollNewTrip({request, response,auth}) {
+  async enrollNewTrip({request, response, auth}) {
 
     try {
       let backToken = request.input('token') //token that will be sent back to front end
-      try{
-        if(request.input('provider') == 'email'){
+      try {
+        if (request.input('provider') == 'email') {
           await auth.check();
           //Update new token for email user
           console.log(request.input('token'))
@@ -207,7 +207,7 @@ class TripController {
           validationToken.merge({Token: userToken.token});
           await validationToken.save();
         }
-      }catch(err){
+      } catch (err) {
         console.log(err);
         return response.send(JSON.stringify({status: 'ExpiredJWT'}))
       }
@@ -216,7 +216,7 @@ class TripController {
       const resortInfo = await ResortInfo.findBy('Name', request.input('ResortName'));
 
       let groupMemberId = [];
-      await request.input('GroupMember').map(member =>{
+      await request.input('GroupMember').map(member => {
         groupMemberId.push(member.id)
       })
 
@@ -227,7 +227,7 @@ class TripController {
       newTrip.StartDate = request.input('StartDate');
       newTrip.EndDate = request.input('EndDate');
       newTrip.IsMasterMemberGoing = request.input('IsMasterMemberGoing');
-      newTrip.GroupMemberIDs = JSON.stringify({family_members:groupMemberId})
+      newTrip.GroupMemberIDs = JSON.stringify({family_members: groupMemberId})
       await newTrip.save();
 
       let responseData = {};
@@ -513,10 +513,10 @@ class TripController {
 
     let accommodationInfo = {};
     //user skipped accommodation
-    if(tripAccommodation === null){
+    if (tripAccommodation === null) {
       accommodationInfo = null;
     }
-    else{
+    else {
       accommodationInfo.type = tripAccommodation.AccoType;
       accommodationInfo.category = tripAccommodation.AccoCate;
       accommodationInfo.adultNum = tripAccommodation.NumOfAdults;
@@ -774,6 +774,38 @@ class TripController {
       old_member.SnowmobileAbility = ability_chart[5];
       await old_member.save();
     }
+  }
+
+  async checkTokenAuth({request, response, auth}) {
+
+    try {
+      let backToken = request.input('token') //token that will be sent back to front end
+      console.log("backToken is ", request.input('token'))
+      try {
+        if (request.input('provider') === 'email') {
+          await auth.check();
+          const validationToken = await ValidationToken.findBy('Token', request.input('token'));
+          const member = await Member.findBy('id', validationToken.MemberID);
+
+          let userToken = await auth.generate(member);
+          backToken = userToken.token;
+          validationToken.merge({Token: userToken.token});
+          await validationToken.save();
+        }
+      } catch (e) {
+        console.log(e);
+        return response.send(JSON.stringify({status: 'ExpiredJWT'}))
+      }
+      let responseData = {};
+      responseData.status = 'success';
+      responseData.token = backToken;
+      return response.send(JSON.stringify(responseData))
+    } catch (e) {
+      response.send(JSON.stringify({status: 'fail'}));
+      console.log(e)
+    }
+
+
   }
 
 }

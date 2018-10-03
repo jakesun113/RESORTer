@@ -266,28 +266,28 @@ class BookingAccommodation extends Component {
             requirement: '',
             warning_status: false,
             infoShow: false,
-            token: cookies.get("access-token") || null,
-            provider: cookies.get("user-provider") || null,
+            token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
+            provider: JSON.parse(sessionStorage.getItem("userSocialData"))['provider'] || null,
         }
     }
 
     handleAuth = async (eventType) => {
-
         const {provider, token} = this.state;
         const {cookies, history, masterID, resortID, tripID} = this.props;
+
+        console.log(provider, token);
 
         if (sessionStorage.getItem('guestUser') === null) {
             // not a guest user
             if (provider === 'email') {
                 const BaseURL = "http://127.0.0.1:3333/api/";
                 const postData = {
-                    token: token
+                    token: token,
+                    provider: provider
                 };
-
-                await axios.post(BaseURL + "check-token", postData).then(response => {
-                    //handle token is not valid
-                    if (response.data.tokenValid === false) {
-                        console.log("token expired");
+                await axios.post(BaseURL + "checkTokenAuth", postData).then(response => {
+                    if (response.data.status === "ExpiredJWT") {
+                        alert('Token Expire');
                         history.push({
                             pathname: "/login",
                             state: {
@@ -297,11 +297,11 @@ class BookingAccommodation extends Component {
                                 tripID: tripID,
                             }
                         });
-                    }
-
-                    //token is valid
-                    else {
+                    } else if (response.data.status === "fail") {
+                        alert('Server Error, Please Try again')
+                    } else if (response.data.status === "success") {
                         console.log("token valid");
+                        console.log(response.data.token);
                         //save token into session
                         const sessionData = {
                             token: response.data.token
@@ -339,6 +339,7 @@ class BookingAccommodation extends Component {
                                 break;
                         }
                     }
+
                 })
             }
         } else {
@@ -512,7 +513,6 @@ class BookingAccommodation extends Component {
     }
 
     render() {
-        console.log(this.props);
         const {infoShow, acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement, warning_status} = this.state;
         return (
             <div className='container' style={{marginTop: '20px'}}>

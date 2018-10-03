@@ -255,6 +255,19 @@ class BookTripPage extends Component {
             alert('Server Error, Please Try again')
         } else if (response.data.status === "success") {
             console.log(response.data)
+<<<<<<< HEAD
+=======
+            this.props.history.push({
+                pathname:`/booking/${this.props.place}/sleep` ,
+                state: {
+                  from: this.props.history.location.pathname,
+                  masterID: response.data.masterID,
+                  resortID: response.data.resortID,
+                  tripID: response.data.tripID,
+                }
+              });
+
+>>>>>>> ec92e1411ceb00ab19ee9fdd3601c01e3358a494
           //save token into session
           sessionStorage.setItem(
             "userToken",
