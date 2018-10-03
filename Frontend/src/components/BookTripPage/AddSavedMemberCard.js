@@ -30,7 +30,7 @@ class AddSavedMemberCard extends Component {
     {groupMember === null ? null :
         groupMember.map((info,index) => {
           return (
-              <div className="col-12 col-lg-4">
+              <div className="col-12 col-lg-6">
               <br/>
                   <GroupMemberInfoCard
                       key={index}
