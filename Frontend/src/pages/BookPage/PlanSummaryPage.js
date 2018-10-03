@@ -5,29 +5,56 @@ import DatePickerComponent from "../../components/template/DatePickerComponent";
 import GroupMemberCard from "../../components/template/GroupMemberCard";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import axios from "axios/index";
-
+import AccommodationCard from "../../components/template/AccommodationCard";
+import LiftPassCard from "../../components/BookTripPage/LiftPassCard";
+class BreakLine extends Component {
+  render() {
+    return (
+      <React.Fragment>
+        <div className="row">
+          <div className="col-lg-1" />
+          <div className="col-12 col-lg-10">
+            <hr />
+          </div>
+          <div className="col-lg-1" />
+        </div>
+      </React.Fragment>
+    );
+  }
+}
 
 class PlanSummaryPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    groupMembers: [
-      {
-        name: "sb jiacheng",
-        dob: "1992 - 10 - 10",
-        age: 2,
-        shoeSize: 1,
-        weight: 2,
-        height: 99,
-        disability: "ß",
-        foodAllergy: "12",
-        activity: "3434"
-      }
-    ]
-  };
-  this.handleSendQuote = this.handleSendQuote.bind(this);
+      groupMembers: [
+        {
+          name: "sb jiacheng",
+          dob: "1992 - 10 - 10",
+          age: 2,
+          shoeSize: 1,
+          weight: 2,
+          height: 99,
+          disability: "ß",
+          foodAllergy: "12",
+          activity: "3434"
+        }
+      ],
+      accommodation: [
+        {
+          type: "Apartment",
+          category: "Economy",
+          adultNum: "1",
+          childNum: "2",
+          todNum: "3",
+          bedNum: "1",
+          bathNum: "2"
+        }
+      ]
+    };
+    this.handleSendQuote = this.handleSendQuote.bind(this);
   }
-  
+
   goPrevious = () => {
     const { place, history, masterID, resortID, tripID } = this.props;
     const url = `/booking/${place}/learn`;
@@ -61,7 +88,7 @@ class PlanSummaryPage extends Component {
 
   render() {
     const { place, days, history } = this.props;
-    const { groupMembers } = this.state;
+    const { groupMembers, accommodation } = this.state;
     return (
       <React.Fragment>
         <div
@@ -203,25 +230,39 @@ class PlanSummaryPage extends Component {
             </div>
             <div className="col-lg-1" />
           </div>
+          {/* Accommodation Needs */}
+          <AccommodationCard
+            accommodation={accommodation}
+            style={{
+              border: "1px solid rgba(0, 166, 255, 1)",
+              width: "100%",
+              resize: "none",
+              borderRadius: "10px 10px 10px 10px"
+            }}
+          />
+          <BreakLine />
+          {/* LiftPassCard */}
+          <LiftPassCard />
+
           {/* btn */}
 
-          <SmallEllipseBtn  
-             text="Back"
-             onClick={this.goPrevious}
-             btnColor="rgba(255, 97, 97, 1)" 
-             width="100px"
-             paddingLeft="10px"
-             paddingRight= "10px" 
+          <SmallEllipseBtn
+            text="Back"
+            onClick={this.goPrevious}
+            btnColor="rgba(255, 97, 97, 1)"
+            width="100px"
+            paddingLeft="10px"
+            paddingRight="10px"
           />
           <Link to={`/successPage/${this.props.place}`}>
-          <SmallEllipseBtn  
-             text="Get a quote"
-             onClick={this.handleSendQuote}
-             btnColor="rgba(255, 97, 97, 1)" 
-             width="100px"
-             paddingLeft="10px"
-             paddingRight= "10px" 
-          />
+            <SmallEllipseBtn
+              text="Get a quote"
+              onClick={this.handleSendQuote}
+              btnColor="rgba(255, 97, 97, 1)"
+              width="100px"
+              paddingLeft="10px"
+              paddingRight="10px"
+            />
           </Link>
 
           {/* end */}
