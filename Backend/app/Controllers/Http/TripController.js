@@ -25,22 +25,22 @@ class TripController {
         .query()
         .where('id', '=', validationToken.MemberID)
         .fetch()
-      let user = userInfo.rows[0]
+      let user = userInfo.rows[0];
       //FIXME:Better way to exclude EncryptedPW column
-      user.EncryptedPW = null
+      user.EncryptedPW = null;
       const familyMember = await FamilyMember
         .query()
         .where('MemberID', '=', validationToken.MemberID)
-        .fetch()
+        .fetch();
 
-      let dataResponse = new Object();
+      let dataResponse = {};
       dataResponse.user = user;
       dataResponse.familyMember = familyMember;
 
       return response.send(dataResponse);
 
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return response.send('SERVER ERROR')
     }
 
@@ -309,7 +309,7 @@ class TripController {
     try {
       let backToken = request.input('token') //token that will be sent back to front end
       try {
-        if (request.input('provider') == 'email') {
+        if (request.input('provider') === 'email') {
           await auth.check();
           //Update new token for email user
           console.log(request.input('token'))
@@ -317,7 +317,7 @@ class TripController {
           const member = await Member.findBy('id', validationToken.MemberID);
 
           let userToken = await auth.generate(member);
-          backToken = userToken.token
+          backToken = userToken.token;
           validationToken.merge({Token: userToken.token});
           await validationToken.save();
         }
@@ -332,7 +332,7 @@ class TripController {
       let groupMemberId = [];
       await request.input('GroupMember').map(member => {
         groupMemberId.push(member.id)
-      })
+      });
 
       const newTrip = new Trip();
       newTrip.ResortID = resortInfo.id;
@@ -347,7 +347,7 @@ class TripController {
       let responseData = {};
       responseData.status = 'success';
       responseData.masterID = validationToken.MemberID;
-      responseData.token = backToken
+      responseData.token = backToken;
       responseData.tripID = newTrip.id;
       responseData.resortID = resortInfo.id;
 
@@ -531,13 +531,13 @@ class TripController {
         tripInfo.startDate = moment(trips[i].StartDate).format("YYYY-MM-DD");
         tripInfo.endDate = moment(trips[i].EndDate).format("YYYY-MM-DD");
         if (trips[i].IsTripDone) {
-          tripInfo.status = "Submitted"
-          tripInfo.checkButton = "View"
+          tripInfo.status = "Submitted";
+          tripInfo.checkButton = "View";
         } else {
-          tripInfo.status = "In Progress"
-          tripInfo.checkButton = "Continue"
+          tripInfo.status = "In Progress";
+          tripInfo.checkButton = "Continue";
         }
-        tripInfo.bookingStep = await getBookingStep(tripInfo.id, tripInfo.name)
+        tripInfo.bookingStep = await getBookingStep(tripInfo.id, tripInfo.name);
         tripArray.push(tripInfo);
       }
 
@@ -980,8 +980,8 @@ class TripController {
   async checkTokenAuth({request, response, auth}) {
 
     try {
-      let backToken = request.input('token') //token that will be sent back to front end
-      console.log("backToken is ", request.input('token'))
+      let backToken = request.input('token');//token that will be sent back to front end
+      console.log("backToken is ", request.input('token'));
       try {
         if (request.input('provider') === 'email') {
           await auth.check();
