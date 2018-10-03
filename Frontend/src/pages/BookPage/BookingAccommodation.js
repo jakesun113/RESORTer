@@ -5,6 +5,16 @@ import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import axios from "axios/index";
 
+const Info = styled.div`
+  display: inline-block;
+  position: relative;
+  left: 20px;
+  color:rgba(255, 97, 97, 1);
+  //font-style: italic;
+  font-weight: 900;
+  font-size:smaller;
+  //background-color: #00A6FF;
+`;
 
 export const HeaderLine = styled.div`
   margin: 20px 0 30px 0;
@@ -255,6 +265,7 @@ class BookingAccommodation extends Component {
             num_bathroom: null,
             requirement: '',
             warning_status: false,
+            infoShow: false,
             token: cookies.get("access-token") || null,
             provider: cookies.get("user-provider") || null,
         }
@@ -284,7 +295,6 @@ class BookingAccommodation extends Component {
                                 masterID: masterID,
                                 resortID: resortID,
                                 tripID: tripID,
-                                history: history
                             }
                         });
                     }
@@ -352,18 +362,41 @@ class BookingAccommodation extends Component {
     };
 
     skipAccommodation = () => {
-        console.log(sessionStorage.getItem('guestUser')); // null
         const {place, history, masterID, resortID, tripID} = this.props;
-        const url = `/booking/${place}/doing`;
-        history.push({
-            pathname: url,
-            state: {masterID: masterID, resortID: resortID, tripID: tripID},
+
+        const api_url = `http://127.0.0.1:3333/api/uploadAccoInfo`;
+        const upload_data = {
+            acco_type: '',
+            acco_cate: '',
+            num_adult: null,
+            num_child: null,
+            num_toddler: null,
+            num_bedroom: null,
+            num_bathroom: null,
+            requirement: '',
+            tripID: tripID,
+        };
+
+        fetch(api_url, {method: 'POST', body: JSON.stringify(upload_data)})
+            .then(() => {
+                const url = `/booking/${place}/doing`;
+                history.push({
+                    pathname: url,
+                    state: {
+                        masterID: masterID,
+                        resortID: resortID,
+                        tripID: tripID
+                    },
+                });
+            }).catch(err => {
+            console.log(err);
         });
+
+
     };
 
     goPrevious = () => {
         const {place, history, resortID, tripID, masterID} = this.props;
-
 
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement} = this.state;
 
@@ -479,9 +512,8 @@ class BookingAccommodation extends Component {
     }
 
     render() {
-        console.log('all props:');
         console.log(this.props);
-        const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement, warning_status} = this.state;
+        const {infoShow, acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement, warning_status} = this.state;
         return (
             <div className='container' style={{marginTop: '20px'}}>
                 <HeaderLine>
@@ -489,13 +521,26 @@ class BookingAccommodation extends Component {
                         <strong>2. ACCOMMODATION NEEDS</strong>
                     </Title>
                     <UpperEllipseButton
-                        onClick={() => this.handleAuth('skipAccommodation')}>
+                        onClick={() => this.handleAuth('skipAccommodation')}
+                        onMouseEnter={() => {
+                            this.setState({infoShow: true});
+                        }}
+                        onMouseLeave={() => {
+                            this.setState({infoShow: false});
+                        }}>
                         <div style={{
                             fontSize: '12px',
                             color: 'white',
                         }}>Skip Accommodation
                         </div>
                     </UpperEllipseButton>
+                    {infoShow ?
+                        <Info>
+                            Once skip accommodation, all your accommodation
+                            information will be gone. To save your options,
+                            please click Save&Continue.
+                        </Info> :
+                        null}
                 </HeaderLine>
                 <p style={{marginBottom: '10px'}}>Get a recommendation from the
                     local folk at the resort</p>

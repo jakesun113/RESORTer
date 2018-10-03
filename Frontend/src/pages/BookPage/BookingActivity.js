@@ -149,7 +149,6 @@ class BookingActivity extends Component {
     componentDidMount() {
         const {tripID, masterID} = this.props;
 
-
         const url = `http://127.0.0.1:3333/api/getActivityInfo/${tripID}/${masterID}`;
         fetch(url)
             .then(response => response.text())
@@ -188,7 +187,6 @@ class BookingActivity extends Component {
                                 masterID: masterID,
                                 resortID: resortID,
                                 tripID: tripID,
-                                history: history
                             }
                         });
                     }
@@ -344,13 +342,14 @@ class BookingActivity extends Component {
         const {members} = this.state;
         const {place, history, resortID, tripID, masterID} = this.props;
 
-
         const keys = Object.keys(members);
 
         let master_activity = {};
         let group_activity = {};
+        let skip_state = [];
 
         keys.forEach(key => {
+            skip_state.push(members[key].skipEquipmentLesson);
             if (key.indexOf("master") === -1) {
                 // family member activity
                 group_activity[members[key].id] = {
@@ -378,7 +377,10 @@ class BookingActivity extends Component {
 
         fetch(api_url, {method: 'POST', body: JSON.stringify(upload_data)})
             .then(() => {
-                const next_page_url = `/booking/${place}/equipment`;
+                let next_page_url = `/booking/${place}/equipment`;
+                if (skip_state.every(skip => skip)) {
+                    next_page_url = `/booking/${place}/summary`;
+                }
                 history.push({
                     pathname: next_page_url,
                     state: {

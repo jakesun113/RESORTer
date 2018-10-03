@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from "axios/index";
 import GroupMemberCard from "../template/GroupMemberCard";
+import AccommodationCard from "../template/AccommodationCard";
 
 const ShortLineStyle = {
     marginTop: "20px",
@@ -15,7 +16,8 @@ class MyTripPage extends Component {
             startDate: null,
             endDate: null,
             submitDate: null,
-            memberInfo: []
+            memberInfo: [],
+            accommodationInfo: []
         };
         this.getTripSummary = this.getTripSummary.bind(this);
     }
@@ -131,7 +133,6 @@ class MyTripPage extends Component {
                                 <th scope="col">Weight(kg)</th>
                                 <th scope="col">Height(cm)</th>
                                 <th scope="col">Physical Disabilities</th>
-                                <th scope="col">Food Allergies</th>
                                 <th scope="col">Activity</th>
                             </tr>
                             </thead>
@@ -143,8 +144,41 @@ class MyTripPage extends Component {
                                     weight={member.weight}
                                     height={member.height}
                                     disability={member.disability}
-                                    foodAllergy={member.foodAllergy}
                                     activity={member.activity}
+                                />
+                            ))}
+                        </table>
+                    </div>
+                    {/* Accommodation information*/}
+                    <div className="row">
+                        <div className="mt-3">
+                            <h6>
+                            <span style={{fontSize: "2rem", color: "#686369"}}>
+                                Accommodation Needs
+                            </span>
+                            </h6>
+                        </div>
+                        <table className="table table-borderless">
+                            <thead>
+                            <tr style={{color: "#686369"}}>
+                                <th scope="col">Type</th>
+                                <th scope="col">Category</th>
+                                <th scope="col"># of adults</th>
+                                <th scope="col"># of children</th>
+                                <th scope="col"># of toddlers</th>
+                                <th scope="col"># of bedroom</th>
+                                <th scope="col"># of bathroom</th>
+                            </tr>
+                            </thead>
+                            {this.state.accommodationInfo.map(accommodation => (
+                                <AccommodationCard
+                                    type={accommodation.type}
+                                    category={accommodation.category}
+                                    adultNum={accommodation.adultNum}
+                                    childNum={accommodation.childNum}
+                                    todNum={accommodation.todNum}
+                                    bedNum={accommodation.bedNum}
+                                    bathNum={accommodation.bathNum}
                                 />
                             ))}
                         </table>

@@ -22,6 +22,7 @@ class SmallEllipseBtn extends Component {
             color: this.props.color,
             border: this.props.border
           }}
+          onClick={this.props.onClick}
         >
           {this.props.text}
         </button>

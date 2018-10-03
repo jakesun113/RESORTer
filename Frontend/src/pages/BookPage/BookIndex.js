@@ -6,6 +6,7 @@ import BookingAccommodation from "./BookingAccommodation";
 import BookingActivity from "./BookingActivity";
 import EquipmentPage from "./EquipmentPage";
 import PlanSummaryPage from "./PlanSummaryPage";
+import BookingLesson from './BookingLesson';
 
 class BookIndex extends Component {
 
@@ -53,6 +54,12 @@ class BookIndex extends Component {
                             render={() => <EquipmentPage
                                 place={place}
                                 history={history}/>}
+                        />
+
+                        <Route
+                            path={`/booking/${place}/learn`}
+                            render={() => <BookingLesson place={place}
+                                                         history={history}/>}
                         />
 
                         {/* plan summary page */}
