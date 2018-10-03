@@ -112,4 +112,9 @@ Route.get("/api/getBookingHistory/:token", "TripController.getBookingHistory");
 Route.get("/api/getTripSummary/:id", "TripController.getTripSummary");
 //Acquire members and their family members information
 Route.get("/api/acquireSelfInfoAndFamilyInfo/:token", "TripController.acquireSelfInfoAndFamilyInfo")
+
+//Send the quote email to user's email address
+Route.post("/api/send-quote", "SendQuoteController.sendQuoteEmail")
+
+
 /*TripController end*/

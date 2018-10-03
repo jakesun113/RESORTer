@@ -45,8 +45,11 @@ class PlanSummaryPage extends Component {
     e.preventDefault();
     if (sessionStorage.getItem("userToken")) {
       let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-      await axios
-      .post(`http://127.0.0.1:3333/api/send-quote`, tokenData.token)
+      const postData = {
+        token: tokenData.token
+      };      
+    await axios
+      .post(`http://127.0.0.1:3333/api/send-quote`, postData)
       .then(response => {
         console.log("sent quote successfully");
         console.log(response.data);
