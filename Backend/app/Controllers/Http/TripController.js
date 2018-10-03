@@ -1,10 +1,11 @@
 'use strict';
 const Database = use('Database');
 const Trip = use('App/Models/Trip');
+const TripAccommodation = use('App/Models/TripAccommodation');
 const ResortInfo = use('App/Models/ResortInfo');
 const Member = use("App/Models/Member");
 const ValidationToken = use("App/Models/ValidationToken");
-const FamilyMember = use("App/Models/FamilyMember")
+const FamilyMember = use("App/Models/FamilyMember");
 const moment = use('moment');
 const topSix = 6;
 
@@ -475,16 +476,28 @@ class TripController {
     //console.log(tripID);
     const dbTrip = await Trip.findBy("id", tripID);
     const resort = await ResortInfo.findBy('id', dbTrip.ResortID);
+    const tripAccommodation = await TripAccommodation.findBy('id', dbTrip.ResortID);
     let tripInfo = {};
     tripInfo.place = resort.Name;
     tripInfo.startDate = moment(dbTrip.StartDate).format("YYYY-MM-DD");
     tripInfo.endDate = moment(dbTrip.EndDate).format("YYYY-MM-DD");
     tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
 
+    let accommodationInfo = {};
+    accommodationInfo.type = tripAccommodation.AccoType;
+    accommodationInfo.category = tripAccommodation.AccoCate;
+    accommodationInfo.adultNum = tripAccommodation.NumOfAdults;
+    accommodationInfo.childNum = tripAccommodation.NumOfChildren;
+    accommodationInfo.todNum = tripAccommodation.NumOfToddlers;
+    accommodationInfo.bedNum = tripAccommodation.NumOfBedroom;
+    accommodationInfo.bathNum = tripAccommodation.NumOfBathroom;
+    accommodationInfo.requirment = tripAccommodation.Requirement;
+
     //TODO: get member info
 
     return JSON.stringify({
-      tripInfo: tripInfo
+      tripInfo: tripInfo,
+      accommodationInfo: accommodationInfo
     });
 
   }
