@@ -55,6 +55,7 @@ class BookingLesson extends Component {
             private_show: true,
             token: cookies.get("access-token") || null,
             provider: cookies.get("user-provider") || null,
+
         }
     }
 
@@ -149,9 +150,11 @@ class BookingLesson extends Component {
     };
 
     skipLesson = () => {
+
     };
 
     goPrevious = () => {
+
     };
 
     goNext = () => {
@@ -214,7 +217,7 @@ class BookingLesson extends Component {
                 </div>
 
                 <div className="collapse show" id="group">
-                    <div className='alert alert-info'>
+                    <div className='alert alert-primary'>
                         Lesson durations vary from resort to resort but
                         typically adult lesson duration is around <strong>2 -3
                         hours</strong>.<br/>

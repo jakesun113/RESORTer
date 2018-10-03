@@ -295,7 +295,6 @@ class BookingAccommodation extends Component {
                                 masterID: masterID,
                                 resortID: resortID,
                                 tripID: tripID,
-                                history: history
                             }
                         });
                     }
