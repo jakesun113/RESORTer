@@ -7,8 +7,7 @@ const Mail = use("Mail");
 class SendQuoteController {
     async sendQuoteEmail({request}) {
         try {
-            console.log(request.data.token);
-            const token = await Token.findBy('Token', request.data.token);
+            const token = await Token.findBy('Token', request.input('token'));
             const member = await Member.findBy('id', token.MemberID);
             const mailData = {
               member: member.toJSON()
@@ -20,7 +19,7 @@ class SendQuoteController {
                 .from('RESORTer <no-reply@site-members.com>')
                 .subject('Congratulations! Plan submitted!')
             });
-  
+            console.log("send email successfully")
           } catch (error) {
             console.log(error)   
           }
@@ -28,3 +27,4 @@ class SendQuoteController {
     }
 
 }
+module.exports = SendQuoteController;

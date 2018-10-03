@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 // compomemts
 import DatePickerComponent from "../../components/template/DatePickerComponent";
 import GroupMemberCard from "../../components/template/GroupMemberCard";
@@ -70,16 +69,22 @@ class PlanSummaryPage extends Component {
 
   async handleSendQuote(e) {
     e.preventDefault();
+    const { place, history } = this.props;
+    const url = `/successPage/${place}`;
+    history.push({
+      pathname: url
+    });
     if (sessionStorage.getItem("userToken")) {
       let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
       const postData = {
         token: tokenData.token
-      };      
+      }; 
+    console.log(tokenData.token);     
     await axios
       .post(`http://127.0.0.1:3333/api/send-quote`, postData)
       .then(response => {
         console.log("sent quote successfully");
-        console.log(response.data);
+        console.log(response);
       }).catch(error => {
         console.log(error)
       });
@@ -254,17 +259,14 @@ class PlanSummaryPage extends Component {
             paddingLeft="10px"
             paddingRight="10px"
           />
-          <Link to={`/successPage/${this.props.place}`}>
-            <SmallEllipseBtn
-              text="Get a quote"
-              onClick={this.handleSendQuote}
-              btnColor="rgba(255, 97, 97, 1)"
-              width="100px"
-              paddingLeft="10px"
-              paddingRight="10px"
-            />
-          </Link>
-
+          <SmallEllipseBtn
+            text="Get a quote"
+            onClick={this.handleSendQuote}
+            btnColor="rgba(255, 97, 97, 1)"
+            width="100px"
+            paddingLeft="10px"
+            paddingRight="10px"
+          />
           {/* end */}
         </div>
       </React.Fragment>

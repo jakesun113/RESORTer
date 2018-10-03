@@ -114,7 +114,7 @@ Route.get("/api/getTripSummary/:id", "TripController.getTripSummary");
 Route.get("/api/acquireSelfInfoAndFamilyInfo/:token", "TripController.acquireSelfInfoAndFamilyInfo")
 
 //Send the quote email to user's email address
-Route.post("/api/send-quote", "SendQuoteController.sendQuoteEmail")
+Route.post("/api/send-quote", "Other/SendQuoteController.sendQuoteEmail");
 
 
 /*TripController end*/

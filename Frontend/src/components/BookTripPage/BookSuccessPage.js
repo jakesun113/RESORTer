@@ -24,8 +24,8 @@ class BookSuccessPage extends Component {
                     <div style={{color: '#4682B4', 'font-size': '28px', 'font-weight': 'bold'}}>
                         {place}
                     </div>
-                    <div data-packed="false">
-                        <Paragraph>They will be in touch to take payment once your order has been processed and
+                    <div>
+                        <Paragraph>They will be in touch to take payment once your order has been processed <br /> and
                             available deals have been applied.</Paragraph>
                         <Paragraph>Credit card payments coming soon!</Paragraph>
                     </div>
@@ -37,8 +37,8 @@ class BookSuccessPage extends Component {
                filling in this survey
               </span>
                             </a>
-                            .</Paragraph>
-                        <Paragraph>It won't take long, we promise!</Paragraph>
+                            . <br />
+                        It won't take long, we promise!</Paragraph>
                     </div>
                     <span>​</span>
                     <Paragraph className="row justify-content-between ">
