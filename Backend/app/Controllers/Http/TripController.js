@@ -721,7 +721,7 @@ class TripController {
         memberInfo.weight = tripEquipment.Weight;
         memberInfo.height = tripEquipment.Height;
       }
-
+      //add master member activity information
       let masterActivity = JSON.parse(tripActivity.MasterMemberActivity);
       //masterActivity = {2: master_activity}
       // master_activity = {
@@ -782,7 +782,7 @@ class TripController {
         memberInfo.weight = tripEquipment.Weight;
         memberInfo.height = tripEquipment.Height;
       }
-
+      //add group member activity information
       let familyActivityBoolArray = familyActivity[i + 1].activity;
       //console.log(familyActivityBoolArray);
       let memberActivityArray = [];
@@ -796,7 +796,7 @@ class TripController {
       memberInfoArray.push(memberInfo);
     }
 
-
+    //add accommodation information
     let accommodationInfo = {};
     //user skipped accommodation
     if (tripAccommodation === null) {
@@ -812,6 +812,8 @@ class TripController {
       accommodationInfo.bathNum = tripAccommodation.NumOfBathroom;
       accommodationInfo.requirement = tripAccommodation.Requirement;
     }
+
+    //TODO: add liftPass information
 
     return JSON.stringify({
       tripInfo: tripInfo,
