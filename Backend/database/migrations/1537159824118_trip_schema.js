@@ -15,6 +15,7 @@ class TripSchema extends Schema {
       table.text('GroupMemberIDs')
       table.date('StartDate')
       table.date('EndDate')
+      table.text('Comment')
     })
   }
 

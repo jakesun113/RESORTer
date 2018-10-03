@@ -22,18 +22,12 @@ class AddTripMember extends Component {
     this.addSavedGroupMember = this.addSavedGroupMember.bind(this);
   }
 
-  //Submit information of Trip Member
-  componentDidUpdate() {
-    //FIXME: maximum stack
-    // this.props.setTripMember(this.state.user,this.state.groupMember)
-  }
-
   //Http Request Acquires GroupMembers
-  componentDidMount() {
+  async componentDidMount() {
     //if the user is not a guest User TODO: If guestUser
     if (!sessionStorage.getItem("guestUser")) {
       //Acquire the groupMember information when loading
-      axios
+      await axios
         .get(
           "http://127.0.0.1:3333/api/acquireSelfInfoAndFamilyInfo/" +
             JSON.parse(sessionStorage.getItem("userToken")).token
@@ -134,7 +128,7 @@ class AddTripMember extends Component {
 
   //This function just used to overwrite the existed function inside of AddGroupMemberCard.js component
   handleAddGroupNumber(params) {
-    console.log(params);
+    console.log('');
   }
 
   handleAfterAddNewGroupMemberClose = () => {
