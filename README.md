@@ -48,7 +48,7 @@ https://confluence.atlassian.com/confkb/how-to-fix-the-collation-and-character-s
 - Reference: https://stackoverflow.com/questions/39007243/cannot-open-local-file-chrome-not-allowed-to-load-local-resource
 
 # Load fake trip data to the database
-- __NOTE__: before doing this step, you have to have at least __TWO__ row data in Member table
+- __NOTE__: before doing this step, you have to have at least __TWO__ row data in __Member__ table
 - Type the url of backend + "/addFakeTripData" 
 - For example, if your backend home url is "http://127.0.0.1:3333",
 - just type "http://127.0.0.1:3333/addFakeTripData" on the browser
