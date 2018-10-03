@@ -7,6 +7,7 @@ const CheckStyle = {
   color: "rgba(0, 166, 255, 1)",
   cursor: "pointer"
 };
+
 const StyledTextArea = styled.textarea`
   width: 100%;
   height: 150px;
@@ -18,6 +19,75 @@ const StyledTextArea = styled.textarea`
     background-color: rgba(198, 226, 247, 1);
   }
 `;
+class NumberSelector extends Component {
+  state = { value: this.props.value, timeSpan: this.props.timeSpan };
+
+  handleChangeNum = type => {
+    if (type === "up") {
+      this.setState({ value: this.state.value + 1 });
+    }
+    if (type === "down") {
+      this.setState({
+        value: this.state.value === 0 ? 0 : this.state.value - 1
+      });
+    }
+  };
+
+  handleChangeTimeSpan = () => {
+    const spanList = ["Full Day", "AM", "PM"];
+  };
+
+  render() {
+    const { title } = this.props;
+    const { value, timeSpan } = this.state;
+
+    return (
+      <React.Fragment>
+        <td>{title}</td>
+        <td style={{ color: "#4682B4" }}>{value}</td>
+        <td style={{ paddingBottom: "30px !important", color: "#3D9BE9" }}>
+          <i
+            style={{
+              position: "absolute",
+
+              fontSize: "35px",
+              cursor: "pointer",
+              marginTop: "-15px"
+            }}
+            class="fas fa-caret-up"
+            onClick={() => {
+              this.handleChangeNum("up");
+            }}
+          />
+          <i
+            class="fas fa-caret-down"
+            style={{
+              position: "absolute",
+              fontSize: "35px",
+              cursor: "pointer",
+              marginTop: "3px"
+            }}
+            onClick={() => {
+              this.handleChangeNum("down");
+            }}
+          />
+        </td>
+        <td style={{ color: "#4682B4" }}>{timeSpan}</td>
+        <td style={{ color: "#4682B4" }}>
+          <span
+            style={{
+              color: "#F5980C",
+              textDecoration: "underline",
+              cursor: "pointer"
+            }}
+          >
+            (Change)
+          </span>
+        </td>
+      </React.Fragment>
+    );
+  }
+}
 
 class LiftPassCard extends Component {
   state = { noNeedLiftPass: false };
@@ -27,6 +97,7 @@ class LiftPassCard extends Component {
   };
   render() {
     const { noNeedLiftPass } = this.state;
+    const { liftPassList } = this.props;
     return (
       <React.Fragment>
         {/* title */}
@@ -104,7 +175,10 @@ class LiftPassCard extends Component {
                 onClick={this.HandleNeedLiftPass}
               />
             )}
-            &nbsp;&nbsp;Some group members do not require liftpasses
+            &nbsp;&nbsp;
+            <span style={{ color: "#4682B4" }}>
+              Some group members do not require liftpasses
+            </span>
           </div>
           <div className="col-lg-7" />
         </div>
@@ -137,6 +211,47 @@ class LiftPassCard extends Component {
             style={{ color: "black", fontSize: "13px", paddingLeft: "15px" }}
           >
             No lift pass required for snowshoeing or snowmobiling
+          </div>
+          <div className="col-lg-1" />
+        </div>
+        {/* liftpass lists */}
+        <div
+          className="row"
+          style={{
+            fontWeight: "bold",
+            marginBottom: "10px",
+            whiteSpace: "nowrap"
+          }}
+        >
+          <div className="col-lg-1" />
+          <div className="col-md-12 col-lg-10">
+            <table className="table table-borderless">
+              <tbody
+                style={{
+                  border: "1px solid rgb(232, 234, 237)",
+                  height: "auto",
+                  boxShadow: "2px 3px rgb(232, 234, 237)"
+                }}
+              >
+                {liftPassList.map(eachLiftPass => (
+                  <tr>
+                    <td style={{ color: "#4682B4" }}>{eachLiftPass.date}</td>
+
+                    <NumberSelector
+                      title="Adults:"
+                      value={eachLiftPass.adultsNum}
+                      timeSpan={eachLiftPass.adultsTimeSpan}
+                    />
+                    <td />
+                    <NumberSelector
+                      title="Children:"
+                      value={eachLiftPass.childrenNum}
+                      timeSpan={eachLiftPass.childrenTimeSpan}
+                    />
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
           <div className="col-lg-1" />
         </div>

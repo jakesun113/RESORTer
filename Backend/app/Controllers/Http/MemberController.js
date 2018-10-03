@@ -476,7 +476,7 @@ class MemberController {
           };
 
           // send email to user's email address
-          await Mail.send('auth.emails.password_reset', mailData, message => {
+          await Mail.send('auth.emails.passwordResetEmail', mailData, message => {
             message
               .to(user.Email)
               .from('resorterapp-test <no-reply@site-members.com>')

@@ -190,22 +190,50 @@ class TripController {
   /*
   REQUEST: {"resortName":"","token":""}
   */
-  async enrollNewTrip({request, response}) {
+  async enrollNewTrip({request, response,auth}) {
 
     try {
-      console.log(request.all());
-      const validationToken = await ValidationToken.findBy('Token', request.input('token'));
-      const resortInfo = await ResortInfo.findBy('Name', request.input('resortName'));
+      let backToken = request.input('token') //token that will be sent back to front end
+      try{
+        if(request.input('provider') == 'email'){
+          await auth.check();
+          //Update new token for email user
+          console.log(request.input('token'))
+          const validationToken = await ValidationToken.findBy('Token', request.input('token'));
+          const member = await Member.findBy('id', validationToken.MemberID);
+
+          let userToken = await auth.generate(member);
+          backToken = userToken.token
+          validationToken.merge({Token: userToken.token});
+          await validationToken.save();
+        }
+      }catch(err){
+        console.log(err);
+        return response.send(JSON.stringify({status: 'ExpiredJWT'}))
+      }
+
+      const validationToken = await ValidationToken.findBy('Token', backToken);
+      const resortInfo = await ResortInfo.findBy('Name', request.input('ResortName'));
+
+      let groupMemberId = [];
+      await request.input('GroupMember').map(member =>{
+        groupMemberId.push(member.id)
+      })
 
       const newTrip = new Trip();
       newTrip.ResortID = resortInfo.id;
       newTrip.MasterMemberID = validationToken.MemberID;
       newTrip.IsTripDone = 0;
+      newTrip.StartDate = request.input('StartDate');
+      newTrip.EndDate = request.input('EndDate');
+      newTrip.IsMasterMemberGoing = request.input('IsMasterMemberGoing');
+      newTrip.GroupMemberIDs = JSON.stringify({family_members:groupMemberId})
       await newTrip.save();
 
       let responseData = {};
       responseData.status = 'success';
       responseData.masterID = validationToken.MemberID;
+      responseData.token = backToken
       responseData.tripID = newTrip.id;
       responseData.resortID = resortInfo.id;
 

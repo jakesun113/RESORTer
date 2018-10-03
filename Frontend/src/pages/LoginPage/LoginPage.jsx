@@ -268,7 +268,6 @@ class LoginPage extends Component {
                         }
                     })
                 }
-
             }
         }
 

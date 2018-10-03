@@ -50,6 +50,15 @@ class PlanSummaryPage extends Component {
           bedNum: "1",
           bathNum: "2"
         }
+      ],
+      liftPassList: [
+        {
+          date: "7 October 2018",
+          adultsNum: "2",
+          adultsTimeSpan: "Full Day",
+          childrenNum: "3",
+          childrenTimeSpan: "AM"
+        }
       ]
     };
     this.handleSendQuote = this.handleSendQuote.bind(this);
@@ -70,13 +79,22 @@ class PlanSummaryPage extends Component {
 
   async handleSendQuote(e) {
     e.preventDefault();
+    const { place, history } = this.props;
+    const url = `/successPage/${place}`;
+    history.push({
+      pathname: url
+    });
     if (sessionStorage.getItem("userToken")) {
       let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+      const postData = {
+        token: tokenData.token
+      };
+      console.log(tokenData.token);
       await axios
-        .post(`http://127.0.0.1:3333/api/send-quote`, tokenData.token)
+        .post(`http://127.0.0.1:3333/api/send-quote`, postData)
         .then(response => {
           console.log("sent quote successfully");
-          console.log(response.data);
+          console.log(response);
         })
         .catch(error => {
           console.log(error);
@@ -86,7 +104,7 @@ class PlanSummaryPage extends Component {
 
   render() {
     const { place, days, history } = this.props;
-    const { groupMembers, accommodation } = this.state;
+    const { groupMembers, accommodation, liftPassList } = this.state;
     return (
       <React.Fragment>
         <div
@@ -231,6 +249,7 @@ class PlanSummaryPage extends Component {
           {/* Accommodation Needs */}
           <AccommodationCard
             accommodation={accommodation}
+            text="12"
             style={{
               border: "1px solid rgba(0, 166, 255, 1)",
               width: "100%",
@@ -240,7 +259,7 @@ class PlanSummaryPage extends Component {
           />
           <BreakLine />
           {/* LiftPassCard */}
-          <LiftPassCard />
+          <LiftPassCard liftPassList={liftPassList} />
 
           {/* btn */}
 
