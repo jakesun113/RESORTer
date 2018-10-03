@@ -255,15 +255,6 @@ class BookTripPage extends Component {
             alert('Server Error, Please Try again')
         } else if (response.data.status === "success") {
             console.log(response.data)
-            this.props.history.push({
-                pathname:`/booking/${this.props.place}/sleep` ,
-                state: {
-                  from: this.props.history.location.pathname,
-                  masterID: response.data.masterID,
-                  resortID: response.data.resortID,
-                  tripID: response.data.tripID,
-                }
-              });
           //save token into session
           sessionStorage.setItem(
             "userToken",
@@ -290,6 +281,15 @@ class BookTripPage extends Component {
                 cookies.get("access-token")
             );
           }
+          this.props.history.push({
+            pathname:`/booking/${this.props.place}/sleep` ,
+            state: {
+              from: this.props.history.location.pathname,
+              masterID: response.data.masterID,
+              resortID: response.data.resortID,
+              tripID: response.data.tripID,
+            }
+          });
         }
       });
   }
