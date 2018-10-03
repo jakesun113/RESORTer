@@ -14,12 +14,10 @@ class GroupMemberCard extends Component {
           <tr>
             <td>{this.props.name}</td>
             <td>{this.props.dob}</td>
-            <td>{this.props.age}</td>
             <td>{this.props.shoeSize}</td>
             <td>{this.props.weight}</td>
             <td>{this.props.height}</td>
             <td>{this.props.disability}</td>
-            <td>{this.props.foodAllergy}</td>
             <td>{this.props.activity}</td>
           </tr>
         </tbody>

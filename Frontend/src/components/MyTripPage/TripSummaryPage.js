@@ -131,7 +131,6 @@ class MyTripPage extends Component {
                                 <th scope="col">Weight(kg)</th>
                                 <th scope="col">Height(cm)</th>
                                 <th scope="col">Physical Disabilities</th>
-                                <th scope="col">Food Allergies</th>
                                 <th scope="col">Activity</th>
                             </tr>
                             </thead>
@@ -143,7 +142,6 @@ class MyTripPage extends Component {
                                     weight={member.weight}
                                     height={member.height}
                                     disability={member.disability}
-                                    foodAllergy={member.foodAllergy}
                                     activity={member.activity}
                                 />
                             ))}

@@ -159,12 +159,10 @@ class PlanSummaryPage extends Component {
                   <tr style={{ color: "#686369" }}>
                     <th scope="col">Resorter</th>
                     <th scope="col">Date of Birth</th>
-                    <th scope="col">Age</th>
                     <th scope="col">Shoesize (AU)</th>
                     <th scope="col">Height (cm)</th>
                     <th scope="col">Weight (kg)</th>
-                    <th scope="col">Disabilities</th>
-                    <th scope="col">Food Allergies</th>
+                    <th scope="col">Physical Disabilities</th>
                     <th scope="col">Activity</th>
                   </tr>
                 </thead>
@@ -172,12 +170,10 @@ class PlanSummaryPage extends Component {
                   <GroupMemberCard
                     name={member.name}
                     dob={member.dob}
-                    age={member.age}
                     shoeSize={member.shoeSize}
                     weight={member.weight}
                     height={member.height}
                     disability={member.disability}
-                    foodAllergy={member.foodAllergy}
                     activity={member.activity}
                   />
                 ))}
