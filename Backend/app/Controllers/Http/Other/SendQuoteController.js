@@ -10,6 +10,7 @@ class SendQuoteController {
         try {
             const token = await Token.findBy('Token', request.input('token'));
             const member = await Member.findBy('id', token.MemberID);
+            //TODO: Need to use resort id sent from frontend to identify resort
             const resort = await Resort.findBy('Name', request.input('place'));
             const mailData = {
               member: member.toJSON(),
@@ -23,7 +24,6 @@ class SendQuoteController {
                 .from('RESORTer <no-reply@site-members.com>')
                 .subject('Congratulations! Plan submitted!')
             });
-            console.log(resort.OwnerEmail)
             // send email to resort's email address
             await Mail.send('auth.emails.resortQuoteEmail', mailData, message => {
               message
