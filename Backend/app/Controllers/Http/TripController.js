@@ -4,6 +4,7 @@ const Trip = use('App/Models/Trip');
 const TripAccommodation = use('App/Models/TripAccommodation');
 const TripActivity = use('App/Models/TripActivity');
 const TripEquipment = use('App/Models/TripEquipment');
+const TripLiftPass = use('App/Models/TripLiftpass');
 const ResortInfo = use('App/Models/ResortInfo');
 const Member = use("App/Models/Member");
 const ValidationToken = use("App/Models/ValidationToken");
@@ -79,6 +80,7 @@ class TripController {
     const tripEquipmentCount = await TripEquipment.getCount();
     const tripActivityCount = await TripActivity.getCount();
     const tripAccommodationCount = await TripAccommodation.getCount();
+    const tripLiftPassCount = await TripLiftPass.getCount();
 
     //fake data of family member table
     if (familyCount === 0) {
@@ -363,6 +365,48 @@ class TripController {
         }
       }
       console.log("Finish adding fake trip equipment data.");
+    }
+
+
+    //fake data of trip lift pass table
+    let liftPassInfo = [];
+    let startDate = moment().subtract(1, "days");
+    let endDate = moment().add(1, "days");
+    let duration = moment.duration(endDate.diff(startDate));
+    let days = Math.trunc(duration.asDays());
+    //console.log(days);
+
+    for (let i = 0; i <= days; i++) {
+      let liftPassObj = {};
+      let startDate = moment().subtract(1, "days");
+      liftPassObj.date = startDate.add(i, "days").format("YYYY-MM-DD");
+      liftPassObj.adultNumber = 4;
+      liftPassObj.adultDuration = "Full day";
+      liftPassObj.childNumber = 0;
+      liftPassObj.childDuration = "Full day";
+      liftPassInfo.push(liftPassObj);
+    }
+
+    if (tripLiftPassCount === 0) {
+      console.log("Start adding fake trip lift pass data.");
+      for (let i = 0; i < totalTripNum; i++) {
+        const tripLiftPass = new TripLiftPass();
+        //insert empty data for tripID 16
+        if (i === tripID - 1) {
+          tripLiftPass.TripID = i + 1;
+          tripLiftPass.IsRemoved = true;
+        }
+        else {
+          tripLiftPass.TripID = i + 1;
+          tripLiftPass.IsRemoved = false;
+          tripLiftPass.Comment = "Fake Comment";
+          tripLiftPass.LiftpassInfo = JSON.stringify({liftPassInfo});
+        }
+
+        await tripLiftPass.save();
+      }
+
+      console.log("Finish adding fake trip lift pass data.");
     }
   }
 
@@ -685,6 +729,7 @@ class TripController {
     const resort = await ResortInfo.findBy('id', dbTrip.ResortID);
     const tripAccommodation = await TripAccommodation.findBy('TripID', tripID);
     const tripActivity = await TripActivity.findBy('TripID', tripID);
+    const tripLiftPass = await TripLiftPass.findBy('TripID', tripID);
     //add trip basic info
     let tripInfo = {};
     tripInfo.place = resort.Name;
@@ -813,12 +858,22 @@ class TripController {
       accommodationInfo.requirement = tripAccommodation.Requirement;
     }
 
-    //TODO: add liftPass information
+    //add liftPass information
+    let liftPassInfo = {};
+    //user removed lift pass
+    if (tripLiftPass.IsRemoved) {
+      liftPassInfo = null;
+    }
+    else {
+      liftPassInfo.comment = tripLiftPass.Comment;
+      liftPassInfo.liftPassArray = JSON.parse(tripLiftPass.LiftpassInfo).liftPassInfo;
+    }
 
     return JSON.stringify({
       tripInfo: tripInfo,
       memberInfo: memberInfoArray,
-      accommodationInfo: accommodationInfo
+      accommodationInfo: accommodationInfo,
+      liftPassInfo: liftPassInfo
     });
 
   }
