@@ -337,89 +337,93 @@ class TripController {
       console.log("Finish adding fake trip activity data.");
     }
 
-    let masterRentalInfo = {};
-    let masterRentalSkiArray = [];
-
-    let startDate = moment().subtract(1, "days");
-    let endDate = moment().add(1, "days");
-    let duration = moment.duration(endDate.diff(startDate));
-    let days = Math.round(duration.asDays());
-    //console.log(days);
-
-    for (let i = 0; i <= days; i++) {
-      let masterRentalInfoByDay = {};
-      let startDate = moment().subtract(1, "days");
-      masterRentalInfoByDay.participant = "Jiacheng Sun";
-      masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
-      masterRentalInfoByDay.duration = "Full day";
-      masterRentalInfoByDay.boots = "Yes";
-      masterRentalInfoByDay.poles = "No";
-      masterRentalInfoByDay.grade = "Standard";
-      masterRentalSkiArray.push(masterRentalInfoByDay);
-    }
-
-    masterRentalInfo.skiInfo = masterRentalSkiArray;
-
-    let masterRentalSnowboardArray = [];
-
-    for (let i = 0; i <= days; i++) {
-      let masterRentalInfoByDay = {};
-      let startDate = moment().subtract(1, "days");
-      masterRentalInfoByDay.participant = "Jiacheng Sun";
-      masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
-      masterRentalInfoByDay.duration = "Full day";
-      masterRentalInfoByDay.boots = "No";
-      masterRentalInfoByDay.board = "Yes";
-      masterRentalInfoByDay.grade = "Standard";
-      masterRentalSnowboardArray.push(masterRentalInfoByDay);
-    }
-
-    masterRentalInfo.snowboardInfo = masterRentalSnowboardArray;
-    masterRentalInfo.telemarkInfo = masterRentalSkiArray;
-
-    let masterRentalOtherArray = [];
-
-    for (let i = 0; i <= days; i++) {
-      let masterRentalInfoByDay = {};
-      let startDate = moment().subtract(1, "days");
-      masterRentalInfoByDay.participant = "Jiacheng Sun";
-      masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
-      masterRentalInfoByDay.duration = "Full day";
-      masterRentalInfoByDay.outfit = "Medium";
-      masterRentalInfoByDay.helmet = "Small";
-      masterRentalOtherArray.push(masterRentalInfoByDay);
-    }
-
-    masterRentalInfo.otherInfo = masterRentalOtherArray;
-    //console.log(masterRentalInfo);
-
-    let familyRentalInfo = [];
-    for (let j = 0; j <= 2; j++) {
-      let singleFamilyRentalInfo = {};
-      let singleFamilyRentalSkiArray = [];
-
-      for (let i = 0; i <= days; i++) {
-        let singleFamilyRentalInfoByDay = {};
-        let startDate = moment().subtract(1, "days");
-        singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
-        singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
-        singleFamilyRentalInfoByDay.duration = "Full day";
-        singleFamilyRentalInfoByDay.boots = "Yes";
-        singleFamilyRentalInfoByDay.poles = "No";
-        singleFamilyRentalInfoByDay.grade = "Standard";
-        singleFamilyRentalSkiArray.push(singleFamilyRentalInfoByDay);
-      }
-
-      singleFamilyRentalInfo.skiInfo = singleFamilyRentalSkiArray;
-      singleFamilyRentalInfo.snowboardInfo = null;
-      singleFamilyRentalInfo.telemarkInfo = null;
-      singleFamilyRentalInfo.otherInfo = null;
-
-      //console.log(singleFamilyRentalInfo);
-      familyRentalInfo.push(singleFamilyRentalInfo);
-    }
     //fake data of trip equipment table
     if (tripEquipmentCount === 0) {
+
+      let masterRentalInfo = {};
+      let masterRentalSkiArray = [];
+
+      let startDate = moment().subtract(1, "days");
+      let endDate = moment().add(1, "days");
+      let duration = moment.duration(endDate.diff(startDate));
+      let days = Math.round(duration.asDays());
+      //console.log(days);
+
+      for (let i = 0; i <= days; i++) {
+        let masterRentalInfoByDay = {};
+        let startDate = moment().subtract(1, "days");
+        masterRentalInfoByDay.participant = "Jiacheng Sun";
+        masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        masterRentalInfoByDay.duration = "Full day";
+        masterRentalInfoByDay.boots = "Yes";
+        masterRentalInfoByDay.poles = "No";
+        masterRentalInfoByDay.grade = "Standard";
+        masterRentalSkiArray.push(masterRentalInfoByDay);
+      }
+
+      masterRentalInfo.skiInfo = masterRentalSkiArray;
+
+      let masterRentalSnowboardArray = [];
+
+      for (let i = 0; i <= days; i++) {
+        let masterRentalInfoByDay = {};
+        let startDate = moment().subtract(1, "days");
+        masterRentalInfoByDay.participant = "Jiacheng Sun";
+        masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        masterRentalInfoByDay.duration = "Full day";
+        masterRentalInfoByDay.boots = "No";
+        masterRentalInfoByDay.board = "Yes";
+        masterRentalInfoByDay.grade = "Standard";
+        masterRentalSnowboardArray.push(masterRentalInfoByDay);
+      }
+
+      masterRentalInfo.snowboardInfo = masterRentalSnowboardArray;
+      masterRentalInfo.telemarkInfo = masterRentalSkiArray;
+      masterRentalInfo.otherInfo = null;
+      //console.log(masterRentalInfo);
+
+      let familyRentalInfo = [];
+      for (let j = 0; j <= 2; j++) {
+        let singleFamilyRentalInfo = {};
+        //add ski info
+        let singleFamilyRentalSkiArray = [];
+
+        for (let i = 0; i <= days; i++) {
+          let singleFamilyRentalInfoByDay = {};
+          let startDate = moment().subtract(1, "days");
+          singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
+          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+          singleFamilyRentalInfoByDay.duration = "Full day";
+          singleFamilyRentalInfoByDay.boots = "Yes";
+          singleFamilyRentalInfoByDay.poles = "No";
+          singleFamilyRentalInfoByDay.grade = "Standard";
+          singleFamilyRentalSkiArray.push(singleFamilyRentalInfoByDay);
+        }
+
+        singleFamilyRentalInfo.skiInfo = singleFamilyRentalSkiArray;
+        singleFamilyRentalInfo.snowboardInfo = null;
+        singleFamilyRentalInfo.telemarkInfo = null;
+
+        //add other equipment info
+        let familyRentalOtherArray = [];
+
+        for (let i = 0; i <= days; i++) {
+          let singleFamilyRentalInfoByDay = {};
+          let startDate = moment().subtract(1, "days");
+          singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
+          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+          singleFamilyRentalInfoByDay.duration = "Full day";
+          singleFamilyRentalInfoByDay.outfit = "Medium";
+          singleFamilyRentalInfoByDay.helmet = "Small";
+          familyRentalOtherArray.push(singleFamilyRentalInfoByDay);
+        }
+
+        singleFamilyRentalInfo.otherInfo = familyRentalOtherArray;
+
+        //console.log(singleFamilyRentalInfo);
+        familyRentalInfo.push(singleFamilyRentalInfo);
+      }
+
       console.log("Start adding fake trip equipment data.");
       //fake data for trip equipment
       for (let i = 0; i < totalTripNum; i++) {
@@ -448,8 +452,6 @@ class TripController {
               tripEquipment.MemberType = "family";
               tripEquipment.MemberID = j;
               tripEquipment.RentInfo = JSON.stringify({familyRentalInfo: familyRentalInfo[j - 1]});
-              tripEquipment.Outfit = "small";
-              tripEquipment.Helmet = "Medium";
               tripEquipment.ShoeSize = 8;
               tripEquipment.Height = 178;
               tripEquipment.Weight = 65;
