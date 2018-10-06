@@ -30,7 +30,7 @@ class Equipmentpage extends Component {
         ]
     };
 
-    skipAccommodation = () => {
+    skipRental = () => {
         const {place, history, masterID, resortID, tripID} = this.props;
         const url = `/booking/${place}/learn`;
         history.push({
@@ -58,14 +58,14 @@ class Equipmentpage extends Component {
                         <div className="col-lg-1"/>
                         <div className="col-12 col-lg-2">
                             <UpperEllipseButton
-                                onClick={this.skipAccommodation}>
+                                onClick={this.skipRental}>
                                 <div
                                     style={{
                                         fontSize: "12px",
                                         color: "white"
                                     }}
                                 >
-                                    Skip Accommodation
+                                    Skip Rental
                                 </div>
                             </UpperEllipseButton>
                         </div>
