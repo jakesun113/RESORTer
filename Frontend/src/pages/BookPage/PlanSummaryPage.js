@@ -86,7 +86,7 @@ class PlanSummaryPage extends Component {
 
   async handleSendQuote(e) {
     e.preventDefault();
-    const { place, history } = this.props;
+    const { place, history, masterID, resortID, tripID } = this.props;
     const url = `/successPage/${place}`;
     history.push({
       pathname: url
@@ -95,9 +95,9 @@ class PlanSummaryPage extends Component {
       let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
       const postData = {
         token: tokenData.token,
+        resortID: resortID,
         place: place
       };
-      console.log(tokenData.token);
       await axios
         .post(`http://127.0.0.1:3333/api/send-quote`, postData)
         .then(response => {
