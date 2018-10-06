@@ -113,6 +113,7 @@ class TripController {
         trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
         trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
         await trip.save();
       }
@@ -127,6 +128,7 @@ class TripController {
         trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
         trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
         await trip.save();
       }
@@ -141,6 +143,7 @@ class TripController {
         trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
         trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
         await trip.save();
       }
@@ -155,6 +158,7 @@ class TripController {
         trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
         trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
         await trip.save();
       }
@@ -169,6 +173,7 @@ class TripController {
         trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
         trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
         await trip.save();
       }
@@ -183,6 +188,7 @@ class TripController {
         trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
         trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
         await trip.save();
       }
@@ -197,6 +203,7 @@ class TripController {
         trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
         trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
         await trip.save();
       }
@@ -211,6 +218,7 @@ class TripController {
         trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
         trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
         await trip.save();
       }
@@ -225,6 +233,7 @@ class TripController {
         trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
         trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
         await trip.save();
       }
@@ -239,6 +248,7 @@ class TripController {
         trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
         trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
         await trip.save();
       }
@@ -286,13 +296,13 @@ class TripController {
           tripActivity.TripID = i + 1;
           let master_activity = {
             activity: [false, false, false, false, false, false],
-            ability: [2, 2, 2, 2, 2],
+            ability: [1, 1, 1, 1, 1],
             skipEquipmentLesson: false
           };
           tripActivity.MasterMemberActivity = JSON.stringify({2: master_activity});
           let family_activity = {
             activity: [false, false, false, false, false, false],
-            ability: [3, 3, 3, 3, 3],
+            ability: [1, 1, 1, 1, 1],
             skipEquipmentLesson: false
           };
           tripActivity.GroupMemberActivity = JSON.stringify({
@@ -305,13 +315,13 @@ class TripController {
           tripActivity.TripID = i + 1;
           let master_activity = {
             activity: [true, true, true, true, true, true],
-            ability: [2, 2, 2, 2, 2],
+            ability: [1, 1, 3, 1, 1],
             skipEquipmentLesson: false
           };
           tripActivity.MasterMemberActivity = JSON.stringify({2: master_activity});
           let family_activity = {
             activity: [true, false, false, false, false, false],
-            ability: [3, 3, 3, 3, 3],
+            ability: [3, 1, 1, 1, 1],
             skipEquipmentLesson: false
           };
           tripActivity.GroupMemberActivity = JSON.stringify({
@@ -329,6 +339,91 @@ class TripController {
 
     //fake data of trip equipment table
     if (tripEquipmentCount === 0) {
+
+      let masterRentalInfo = {};
+      let masterRentalSkiArray = [];
+
+      let startDate = moment().subtract(1, "days");
+      let endDate = moment().add(1, "days");
+      let duration = moment.duration(endDate.diff(startDate));
+      let days = Math.round(duration.asDays());
+      //console.log(days);
+
+      for (let i = 0; i <= days; i++) {
+        let masterRentalInfoByDay = {};
+        let startDate = moment().subtract(1, "days");
+        masterRentalInfoByDay.participant = "Jiacheng Sun";
+        masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        masterRentalInfoByDay.duration = "Full day";
+        masterRentalInfoByDay.boots = "Yes";
+        masterRentalInfoByDay.poles = "No";
+        masterRentalInfoByDay.grade = "Standard";
+        masterRentalSkiArray.push(masterRentalInfoByDay);
+      }
+
+      masterRentalInfo.skiInfo = masterRentalSkiArray;
+
+      let masterRentalSnowboardArray = [];
+
+      for (let i = 0; i <= days; i++) {
+        let masterRentalInfoByDay = {};
+        let startDate = moment().subtract(1, "days");
+        masterRentalInfoByDay.participant = "Jiacheng Sun";
+        masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        masterRentalInfoByDay.duration = "Full day";
+        masterRentalInfoByDay.boots = "No";
+        masterRentalInfoByDay.board = "Yes";
+        masterRentalInfoByDay.grade = "Standard";
+        masterRentalSnowboardArray.push(masterRentalInfoByDay);
+      }
+
+      masterRentalInfo.snowboardInfo = masterRentalSnowboardArray;
+      masterRentalInfo.telemarkInfo = masterRentalSkiArray;
+      masterRentalInfo.otherInfo = null;
+      //console.log(masterRentalInfo);
+
+      let familyRentalInfo = [];
+      for (let j = 0; j <= 2; j++) {
+        let singleFamilyRentalInfo = {};
+        //add ski info
+        let singleFamilyRentalSkiArray = [];
+
+        for (let i = 0; i <= days; i++) {
+          let singleFamilyRentalInfoByDay = {};
+          let startDate = moment().subtract(1, "days");
+          singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
+          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+          singleFamilyRentalInfoByDay.duration = "Full day";
+          singleFamilyRentalInfoByDay.boots = "Yes";
+          singleFamilyRentalInfoByDay.poles = "No";
+          singleFamilyRentalInfoByDay.grade = "Standard";
+          singleFamilyRentalSkiArray.push(singleFamilyRentalInfoByDay);
+        }
+
+        singleFamilyRentalInfo.skiInfo = singleFamilyRentalSkiArray;
+        singleFamilyRentalInfo.snowboardInfo = null;
+        singleFamilyRentalInfo.telemarkInfo = null;
+
+        //add other equipment info
+        let familyRentalOtherArray = [];
+
+        for (let i = 0; i <= days; i++) {
+          let singleFamilyRentalInfoByDay = {};
+          let startDate = moment().subtract(1, "days");
+          singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
+          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+          singleFamilyRentalInfoByDay.duration = "Full day";
+          singleFamilyRentalInfoByDay.outfit = "Medium";
+          singleFamilyRentalInfoByDay.helmet = "Small";
+          familyRentalOtherArray.push(singleFamilyRentalInfoByDay);
+        }
+
+        singleFamilyRentalInfo.otherInfo = familyRentalOtherArray;
+
+        //console.log(singleFamilyRentalInfo);
+        familyRentalInfo.push(singleFamilyRentalInfo);
+      }
+
       console.log("Start adding fake trip equipment data.");
       //fake data for trip equipment
       for (let i = 0; i < totalTripNum; i++) {
@@ -346,6 +441,7 @@ class TripController {
             if (j === 0) {
               tripEquipment.MemberType = "master";
               tripEquipment.MemberID = userID2;
+              tripEquipment.RentInfo = JSON.stringify({masterRentalInfo});
               tripEquipment.ShoeSize = 7;
               tripEquipment.Height = 180;
               tripEquipment.Weight = 55;
@@ -355,6 +451,7 @@ class TripController {
             else {
               tripEquipment.MemberType = "family";
               tripEquipment.MemberID = j;
+              tripEquipment.RentInfo = JSON.stringify({familyRentalInfo: familyRentalInfo[j - 1]});
               tripEquipment.ShoeSize = 8;
               tripEquipment.Height = 178;
               tripEquipment.Weight = 65;
@@ -367,27 +464,25 @@ class TripController {
       console.log("Finish adding fake trip equipment data.");
     }
 
-
     //fake data of trip lift pass table
-    let liftPassInfo = [];
-    let startDate = moment().subtract(1, "days");
-    let endDate = moment().add(1, "days");
-    let duration = moment.duration(endDate.diff(startDate));
-    let days = Math.trunc(duration.asDays());
-    //console.log(days);
-
-    for (let i = 0; i <= days; i++) {
-      let liftPassObj = {};
-      let startDate = moment().subtract(1, "days");
-      liftPassObj.date = startDate.add(i, "days").format("YYYY-MM-DD");
-      liftPassObj.adultNumber = 4;
-      liftPassObj.adultDuration = "Full day";
-      liftPassObj.childNumber = 0;
-      liftPassObj.childDuration = "Full day";
-      liftPassInfo.push(liftPassObj);
-    }
-
     if (tripLiftPassCount === 0) {
+      let liftPassInfo = [];
+      let startDate = moment().subtract(1, "days");
+      let endDate = moment().add(1, "days");
+      let duration = moment.duration(endDate.diff(startDate));
+      let days = Math.trunc(duration.asDays());
+      //console.log(days);
+
+      for (let i = 0; i <= days; i++) {
+        let liftPassObj = {};
+        let startDate = moment().subtract(1, "days");
+        liftPassObj.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        liftPassObj.adultNumber = 4;
+        liftPassObj.adultDuration = "Full day";
+        liftPassObj.childNumber = 0;
+        liftPassObj.childDuration = "Full day";
+        liftPassInfo.push(liftPassObj);
+      }
       console.log("Start adding fake trip lift pass data.");
       for (let i = 0; i < totalTripNum; i++) {
         const tripLiftPass = new TripLiftPass();
@@ -733,16 +828,25 @@ class TripController {
     //add trip basic info
     let tripInfo = {};
     tripInfo.place = resort.Name;
-    tripInfo.startDate = moment(dbTrip.StartDate).format("YYYY-MM-DD");
-    tripInfo.endDate = moment(dbTrip.EndDate).format("YYYY-MM-DD");
+    const startDate = moment(dbTrip.StartDate).format("YYYY-MM-DD");
+    const endDate = moment(dbTrip.EndDate).format("YYYY-MM-DD");
+    tripInfo.startDate = startDate;
+    tripInfo.endDate = endDate;
     tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
+    tripInfo.comment = dbTrip.Comment;
     //add member info (information on who are going to the trip)
     let memberInfoArray = [];
     const activityArray = ["ski", "snowboard", "telemark", "snowbike", "snowshoe", "snowmobile"];
+    //activity based rental information
+    let rentalInfo = {};
+    rentalInfo.skiInfo = null;
+    rentalInfo.snowboardInfo = null;
+    rentalInfo.telemarkInfo = null;
+    rentalInfo.otherInfo = null;
     //if master member is going, add his information
     if (dbTrip.IsMasterMemberGoing === 1) {
       const member = await Member.findBy('id', dbTrip.MasterMemberID);
-      const tripEquipment = await TripEquipment.findBy({
+      const tripEquipmentMaster = await TripEquipment.findBy({
         'TripID': tripID,
         'MemberType': "master",
         'MemberID': dbTrip.MasterMemberID
@@ -752,19 +856,38 @@ class TripController {
         name = member.Firstname + " " + member.Lastname;
       }
       let memberInfo = {};
+      let masterRentalInfo = {};
       memberInfo.name = name;
       memberInfo.dob = moment(member.DOB).format("YYYY-MM-DD");
       memberInfo.disability = member.IsDisabled;
       //if there is no equipment data
-      if (tripEquipment === null) {
+      if (tripEquipmentMaster === null) {
         memberInfo.shoeSize = null;
         memberInfo.weight = null;
         memberInfo.height = null;
+        masterRentalInfo = null;
       }
       else {
-        memberInfo.shoeSize = tripEquipment.ShoeSize;
-        memberInfo.weight = tripEquipment.Weight;
-        memberInfo.height = tripEquipment.Height;
+        memberInfo.shoeSize = tripEquipmentMaster.ShoeSize;
+        memberInfo.weight = tripEquipmentMaster.Weight;
+        memberInfo.height = tripEquipmentMaster.Height;
+
+        //add master rental information
+        masterRentalInfo = JSON.parse(tripEquipmentMaster.RentInfo).masterRentalInfo;
+
+        if (masterRentalInfo.skiInfo !== null) {
+          rentalInfo.skiInfo = masterRentalInfo.skiInfo;
+        }
+        if (masterRentalInfo.snowboardInfo !== null) {
+          rentalInfo.snowboardInfo = masterRentalInfo.snowboardInfo;
+        }
+        if (masterRentalInfo.telemarkInfo !== null) {
+          rentalInfo.telemarkInfo = masterRentalInfo.telemarkInfo;
+        }
+        if (masterRentalInfo.otherInfo !== null) {
+          rentalInfo.otherInfo = masterRentalInfo.otherInfo;
+        }
+
       }
       //add master member activity information
       let masterActivity = JSON.parse(tripActivity.MasterMemberActivity);
@@ -799,11 +922,13 @@ class TripController {
     //   ability: [3, 3, 3, 3, 3],
     //   skipEquipmentLesson: false
     // };
+
+    //add family member information
     for (let i = 0; i < familyMemberArray.length; i++) {
       let familyMemberID = familyMemberArray[i];
       //console.log(familyMemberID);
       const familyMember = await FamilyMember.findBy('id', familyMemberID);
-      const tripEquipment = await TripEquipment.findBy({
+      const tripEquipmentFamily = await TripEquipment.findBy({
         'TripID': tripID,
         'MemberType': "family",
         'MemberID': familyMemberID
@@ -813,19 +938,62 @@ class TripController {
         name = familyMember.FirstName + " " + familyMember.LastName;
       }
       let memberInfo = {};
+      let familyRentalInfo = {};
       memberInfo.name = name;
       memberInfo.dob = moment(familyMember.DOB).format("YYYY-MM-DD");
       memberInfo.disability = familyMember.IsDisabled;
       //if there is no equipment data
-      if (tripEquipment === null) {
+      if (tripEquipmentFamily === null) {
         memberInfo.shoeSize = null;
         memberInfo.weight = null;
         memberInfo.height = null;
+        familyRentalInfo = null;
       }
       else {
-        memberInfo.shoeSize = tripEquipment.ShoeSize;
-        memberInfo.weight = tripEquipment.Weight;
-        memberInfo.height = tripEquipment.Height;
+        memberInfo.shoeSize = tripEquipmentFamily.ShoeSize;
+        memberInfo.weight = tripEquipmentFamily.Weight;
+        memberInfo.height = tripEquipmentFamily.Height;
+
+        //add family rental information
+        familyRentalInfo = JSON.parse(tripEquipmentFamily.RentInfo).familyRentalInfo;
+
+
+        //only when family individual rental information is not null
+        if (familyRentalInfo.skiInfo !== null) {
+          if (rentalInfo.skiInfo !== null) {
+            rentalInfo.skiInfo = rentalInfo.skiInfo.concat(familyRentalInfo.skiInfo);
+          }
+          else {
+            rentalInfo.skiInfo = familyRentalInfo.skiInfo;
+          }
+        }
+
+        if (familyRentalInfo.snowboardInfo !== null) {
+          if (rentalInfo.skiInfo !== null) {
+            rentalInfo.snowboardInfo = rentalInfo.snowboardInfo.concat(familyRentalInfo.snowboardInfo);
+          }
+          else {
+            rentalInfo.snowboardInfo = familyRentalInfo.snowboardInfo;
+          }
+        }
+
+        if (familyRentalInfo.telemarkInfo !== null) {
+          if (rentalInfo.skiInfo !== null) {
+            rentalInfo.telemarkInfo = rentalInfo.telemarkInfo.concat(familyRentalInfo.telemarkInfo);
+          }
+          else {
+            rentalInfo.telemarkInfo = familyRentalInfo.telemarkInfo;
+          }
+        }
+
+        if (familyRentalInfo.otherInfo !== null) {
+          if (rentalInfo.otherInfo !== null) {
+            rentalInfo.otherInfo = rentalInfo.otherInfo.concat(familyRentalInfo.otherInfo);
+          }
+          else {
+            rentalInfo.otherInfo = familyRentalInfo.otherInfo;
+          }
+        }
       }
       //add group member activity information
       let familyActivityBoolArray = familyActivity[i + 1].activity;
@@ -869,11 +1037,13 @@ class TripController {
       liftPassInfo.liftPassArray = JSON.parse(tripLiftPass.LiftpassInfo).liftPassInfo;
     }
 
+    //console.log(rentalInfo);
     return JSON.stringify({
       tripInfo: tripInfo,
       memberInfo: memberInfoArray,
       accommodationInfo: accommodationInfo,
-      liftPassInfo: liftPassInfo
+      liftPassInfo: liftPassInfo,
+      rentalInfo: rentalInfo
     });
 
   }
