@@ -2,6 +2,9 @@
 const Database = use('Database');
 const Trip = use('App/Models/Trip');
 const TripAccommodation = use('App/Models/TripAccommodation');
+const TripActivity = use('App/Models/TripActivity');
+const TripEquipment = use('App/Models/TripEquipment');
+const TripLiftPass = use('App/Models/TripLiftpass');
 const ResortInfo = use('App/Models/ResortInfo');
 const Member = use("App/Models/Member");
 const ValidationToken = use("App/Models/ValidationToken");
@@ -23,22 +26,22 @@ class TripController {
         .query()
         .where('id', '=', validationToken.MemberID)
         .fetch()
-      let user = userInfo.rows[0]
+      let user = userInfo.rows[0];
       //FIXME:Better way to exclude EncryptedPW column
-      user.EncryptedPW = null
+      user.EncryptedPW = null;
       const familyMember = await FamilyMember
         .query()
         .where('MemberID', '=', validationToken.MemberID)
-        .fetch()
+        .fetch();
 
-      let dataResponse = new Object();
+      let dataResponse = {};
       dataResponse.user = user;
       dataResponse.familyMember = familyMember;
 
       return response.send(dataResponse);
 
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return response.send('SERVER ERROR')
     }
 
@@ -63,128 +66,443 @@ class TripController {
     //in Japan
     const NisekoNum = 10;
 
-    console.log("Start adding fake trip data.");
-    //fake data for resort Mt.Buller
-    for (let i = 0; i < mtBullerNum; i++) {
-      const trip = new Trip();
-      trip.ResortID = 1;
-      trip.MasterMemberID = userID1;
-      trip.IsTripDone = true;
-      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
-      trip.SubmitDate = moment().format("YYYY-MM-DD");
+    //family member num
+    const familyNum = 3;
+    //equipment number, (how many people in a trip, by default, self + family member)
+    const equipmentNum = familyNum + 1;
+    //trip ID that equipment, accommodation and activity is null
+    const tripID = 16;
+    //total number of trip table
+    const totalTripNum = 55;
 
-      await trip.save();
-    }
-    //fake data for resort Thredbo
-    for (let i = 0; i < ThredboNum; i++) {
-      const trip = new Trip();
-      trip.ResortID = 429;
-      trip.MasterMemberID = userID1;
-      trip.IsTripDone = true;
-      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
-      trip.SubmitDate = moment().format("YYYY-MM-DD");
+    const familyCount = await FamilyMember.getCount();
+    const tripCount = await Trip.getCount();
+    const tripEquipmentCount = await TripEquipment.getCount();
+    const tripActivityCount = await TripActivity.getCount();
+    const tripAccommodationCount = await TripAccommodation.getCount();
+    const tripLiftPassCount = await TripLiftPass.getCount();
 
-      await trip.save();
-    }
-    //fake data for resort Perisher
-    for (let i = 0; i < PerisherNum; i++) {
-      const trip = new Trip();
-      trip.ResortID = 1204;
-      trip.MasterMemberID = userID1;
-      trip.IsTripDone = true;
-      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
-      trip.SubmitDate = moment().format("YYYY-MM-DD");
+    //fake data of family member table
+    if (familyCount === 0) {
+      console.log("Start adding fake family member data.");
+      //fake data for family member
+      for (let i = 0; i < familyNum; i++) {
+        const familyMember = new FamilyMember();
+        familyMember.FirstName = "Fake";
+        familyMember.LastName = "Member" + i;
+        familyMember.DOB = moment().subtract(1000, "days").format("YYYY-MM-DD");
+        familyMember.IsDisabled = false;
+        familyMember.MemberID = userID2;
 
-      await trip.save();
+        await familyMember.save();
+      }
+      console.log("Finish adding fake family member data.");
     }
-    //fake data for resort Mount Hotham
-    for (let i = 0; i < MountHothamNum; i++) {
-      const trip = new Trip();
-      trip.ResortID = 1516;
-      trip.MasterMemberID = userID1;
-      trip.IsTripDone = true;
-      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
-      trip.SubmitDate = moment().format("YYYY-MM-DD");
 
-      await trip.save();
-    }
-    //fake data for resort Falls Creek
-    for (let i = 0; i < FallsCreekNum; i++) {
-      const trip = new Trip();
-      trip.ResortID = 2670;
-      trip.MasterMemberID = userID1;
-      trip.IsTripDone = true;
-      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
-      trip.SubmitDate = moment().format("YYYY-MM-DD");
+    //fake data of trip table
+    if (tripCount === 0) {
+      console.log("Start adding fake trip data.");
+      //fake data for resort Mt.Buller
+      for (let i = 0; i < mtBullerNum; i++) {
+        const trip = new Trip();
+        trip.ResortID = 1;
+        trip.MasterMemberID = userID1;
+        trip.IsTripDone = true;
+        trip.IsMasterMemberGoing = true;
+        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
+        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
-      await trip.save();
-    }
-    //fake data for resort Coronet Peak
-    for (let i = 0; i < CoronetPeakNum; i++) {
-      const trip = new Trip();
-      trip.ResortID = 2886;
-      trip.MasterMemberID = userID2;
-      trip.IsTripDone = true;
-      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
-      trip.SubmitDate = moment().format("YYYY-MM-DD");
+        await trip.save();
+      }
+      //fake data for resort Thredbo
+      for (let i = 0; i < ThredboNum; i++) {
+        const trip = new Trip();
+        trip.ResortID = 429;
+        trip.MasterMemberID = userID1;
+        trip.IsTripDone = true;
+        trip.IsMasterMemberGoing = true;
+        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
+        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
-      await trip.save();
-    }
-    //fake data for resort Cardrona
-    for (let i = 0; i < CardronaNum; i++) {
-      const trip = new Trip();
-      trip.ResortID = 2893;
-      trip.MasterMemberID = userID2;
-      trip.IsTripDone = true;
-      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
-      trip.SubmitDate = moment().format("YYYY-MM-DD");
+        await trip.save();
+      }
+      //fake data for resort Perisher
+      for (let i = 0; i < PerisherNum; i++) {
+        const trip = new Trip();
+        trip.ResortID = 1204;
+        trip.MasterMemberID = userID1;
+        trip.IsTripDone = true;
+        trip.IsMasterMemberGoing = true;
+        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
+        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
-      await trip.save();
-    }
-    //fake data for resort Aspen Snowmass
-    for (let i = 0; i < AspenSnowmassNum; i++) {
-      const trip = new Trip();
-      trip.ResortID = 2;
-      trip.MasterMemberID = userID2;
-      trip.IsTripDone = true;
-      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
-      trip.SubmitDate = moment().format("YYYY-MM-DD");
+        await trip.save();
+      }
+      //fake data for resort Mount Hotham
+      for (let i = 0; i < MountHothamNum; i++) {
+        const trip = new Trip();
+        trip.ResortID = 1516;
+        trip.MasterMemberID = userID1;
+        trip.IsTripDone = true;
+        trip.IsMasterMemberGoing = true;
+        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
+        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
-      await trip.save();
-    }
-    //fake data for resort Telluride
-    for (let i = 0; i < TellurideNum; i++) {
-      const trip = new Trip();
-      trip.ResortID = 402;
-      trip.MasterMemberID = userID2;
-      trip.IsTripDone = true;
-      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
-      trip.SubmitDate = moment().format("YYYY-MM-DD");
+        await trip.save();
+      }
+      //fake data for resort Falls Creek
+      for (let i = 0; i < FallsCreekNum; i++) {
+        const trip = new Trip();
+        trip.ResortID = 2670;
+        trip.MasterMemberID = userID1;
+        trip.IsTripDone = true;
+        trip.IsMasterMemberGoing = true;
+        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
+        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
-      await trip.save();
-    }
-    //fake data for resort Niseko
-    for (let i = 0; i < NisekoNum; i++) {
-      const trip = new Trip();
-      trip.ResortID = 3;
-      trip.MasterMemberID = userID2;
-      trip.IsTripDone = true;
-      trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-      trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
-      trip.SubmitDate = moment().format("YYYY-MM-DD");
+        await trip.save();
+      }
+      //fake data for resort Coronet Peak
+      for (let i = 0; i < CoronetPeakNum; i++) {
+        const trip = new Trip();
+        trip.ResortID = 2886;
+        trip.MasterMemberID = userID2;
+        trip.IsTripDone = true;
+        trip.IsMasterMemberGoing = true;
+        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
+        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
 
-      await trip.save();
+        await trip.save();
+      }
+      //fake data for resort Cardrona
+      for (let i = 0; i < CardronaNum; i++) {
+        const trip = new Trip();
+        trip.ResortID = 2893;
+        trip.MasterMemberID = userID2;
+        trip.IsTripDone = true;
+        trip.IsMasterMemberGoing = true;
+        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
+        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
+
+        await trip.save();
+      }
+      //fake data for resort Aspen Snowmass
+      for (let i = 0; i < AspenSnowmassNum; i++) {
+        const trip = new Trip();
+        trip.ResortID = 2;
+        trip.MasterMemberID = userID2;
+        trip.IsTripDone = true;
+        trip.IsMasterMemberGoing = true;
+        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
+        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
+
+        await trip.save();
+      }
+      //fake data for resort Telluride
+      for (let i = 0; i < TellurideNum; i++) {
+        const trip = new Trip();
+        trip.ResortID = 402;
+        trip.MasterMemberID = userID2;
+        trip.IsTripDone = true;
+        trip.IsMasterMemberGoing = true;
+        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
+        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
+
+        await trip.save();
+      }
+      //fake data for resort Niseko
+      for (let i = 0; i < NisekoNum; i++) {
+        const trip = new Trip();
+        trip.ResortID = 3;
+        trip.MasterMemberID = userID2;
+        trip.IsTripDone = true;
+        trip.IsMasterMemberGoing = true;
+        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
+        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
+        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.SubmitDate = moment().format("YYYY-MM-DD");
+        trip.Comment = "Fake further comments";
+
+        await trip.save();
+      }
+      console.log("Finish adding fake trip data.");
     }
-    console.log("Finish adding fake trip data.");
+
+    //fake data of trip accommodation table
+    if (tripAccommodationCount === 0) {
+      console.log("Start adding fake trip accommodation data.");
+      //fake data for trip accommodation
+
+      for (let i = 0; i < totalTripNum; i++) {
+        const tripAccommodation = new TripAccommodation();
+        //insert empty data for tripID 16
+        if (i === tripID - 1) {
+          tripAccommodation.TripID = i + 1;
+        }
+        else {
+          tripAccommodation.TripID = i + 1;
+          tripAccommodation.AccoType = "Apartment";
+          tripAccommodation.AccoCate = "Economy";
+          tripAccommodation.NumOfAdults = "4";
+          tripAccommodation.NumOfChildren = "0";
+          tripAccommodation.NumOfToddlers = "0";
+          tripAccommodation.NumOfBathroom = "2";
+          tripAccommodation.NumOfBedroom = "2";
+          tripAccommodation.Requirement = "Fake requirement";
+        }
+
+        await tripAccommodation.save();
+      }
+
+      console.log("Finish adding fake trip accommodation data.");
+    }
+
+    //fake data of trip activity table
+    if (tripActivityCount === 0) {
+      console.log("Start adding fake trip activity data.");
+      //fake data for trip activity
+
+      for (let i = 0; i < totalTripNum; i++) {
+        const tripActivity = new TripActivity();
+        //insert empty data for tripID 16
+        if (i === tripID - 1) {
+          tripActivity.TripID = i + 1;
+          let master_activity = {
+            activity: [false, false, false, false, false, false],
+            ability: [1, 1, 1, 1, 1],
+            skipEquipmentLesson: false
+          };
+          tripActivity.MasterMemberActivity = JSON.stringify({2: master_activity});
+          let family_activity = {
+            activity: [false, false, false, false, false, false],
+            ability: [1, 1, 1, 1, 1],
+            skipEquipmentLesson: false
+          };
+          tripActivity.GroupMemberActivity = JSON.stringify({
+            1: family_activity,
+            2: family_activity,
+            3: family_activity
+          });
+        }
+        else {
+          tripActivity.TripID = i + 1;
+          let master_activity = {
+            activity: [true, true, true, true, true, true],
+            ability: [1, 1, 3, 1, 1],
+            skipEquipmentLesson: false
+          };
+          tripActivity.MasterMemberActivity = JSON.stringify({2: master_activity});
+          let family_activity = {
+            activity: [true, false, false, false, false, false],
+            ability: [3, 1, 1, 1, 1],
+            skipEquipmentLesson: false
+          };
+          tripActivity.GroupMemberActivity = JSON.stringify({
+            1: family_activity,
+            2: family_activity,
+            3: family_activity
+          });
+        }
+
+        await tripActivity.save();
+      }
+
+      console.log("Finish adding fake trip activity data.");
+    }
+
+    //fake data of trip equipment table
+    if (tripEquipmentCount === 0) {
+
+      let masterRentalInfo = {};
+      let masterRentalSkiArray = [];
+
+      let startDate = moment().subtract(1, "days");
+      let endDate = moment().add(1, "days");
+      let duration = moment.duration(endDate.diff(startDate));
+      let days = Math.round(duration.asDays());
+      //console.log(days);
+
+      for (let i = 0; i <= days; i++) {
+        let masterRentalInfoByDay = {};
+        let startDate = moment().subtract(1, "days");
+        masterRentalInfoByDay.participant = "Jiacheng Sun";
+        masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        masterRentalInfoByDay.duration = "Full day";
+        masterRentalInfoByDay.boots = "Yes";
+        masterRentalInfoByDay.poles = "No";
+        masterRentalInfoByDay.grade = "Standard";
+        masterRentalSkiArray.push(masterRentalInfoByDay);
+      }
+
+      masterRentalInfo.skiInfo = masterRentalSkiArray;
+
+      let masterRentalSnowboardArray = [];
+
+      for (let i = 0; i <= days; i++) {
+        let masterRentalInfoByDay = {};
+        let startDate = moment().subtract(1, "days");
+        masterRentalInfoByDay.participant = "Jiacheng Sun";
+        masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        masterRentalInfoByDay.duration = "Full day";
+        masterRentalInfoByDay.boots = "No";
+        masterRentalInfoByDay.board = "Yes";
+        masterRentalInfoByDay.grade = "Standard";
+        masterRentalSnowboardArray.push(masterRentalInfoByDay);
+      }
+
+      masterRentalInfo.snowboardInfo = masterRentalSnowboardArray;
+      masterRentalInfo.telemarkInfo = masterRentalSkiArray;
+      masterRentalInfo.otherInfo = null;
+      //console.log(masterRentalInfo);
+
+      let familyRentalInfo = [];
+      for (let j = 0; j <= 2; j++) {
+        let singleFamilyRentalInfo = {};
+        //add ski info
+        let singleFamilyRentalSkiArray = [];
+
+        for (let i = 0; i <= days; i++) {
+          let singleFamilyRentalInfoByDay = {};
+          let startDate = moment().subtract(1, "days");
+          singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
+          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+          singleFamilyRentalInfoByDay.duration = "Full day";
+          singleFamilyRentalInfoByDay.boots = "Yes";
+          singleFamilyRentalInfoByDay.poles = "No";
+          singleFamilyRentalInfoByDay.grade = "Standard";
+          singleFamilyRentalSkiArray.push(singleFamilyRentalInfoByDay);
+        }
+
+        singleFamilyRentalInfo.skiInfo = singleFamilyRentalSkiArray;
+        singleFamilyRentalInfo.snowboardInfo = null;
+        singleFamilyRentalInfo.telemarkInfo = null;
+
+        //add other equipment info
+        let familyRentalOtherArray = [];
+
+        for (let i = 0; i <= days; i++) {
+          let singleFamilyRentalInfoByDay = {};
+          let startDate = moment().subtract(1, "days");
+          singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
+          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+          singleFamilyRentalInfoByDay.duration = "Full day";
+          singleFamilyRentalInfoByDay.outfit = "Medium";
+          singleFamilyRentalInfoByDay.helmet = "Small";
+          familyRentalOtherArray.push(singleFamilyRentalInfoByDay);
+        }
+
+        singleFamilyRentalInfo.otherInfo = familyRentalOtherArray;
+
+        //console.log(singleFamilyRentalInfo);
+        familyRentalInfo.push(singleFamilyRentalInfo);
+      }
+
+      console.log("Start adding fake trip equipment data.");
+      //fake data for trip equipment
+      for (let i = 0; i < totalTripNum; i++) {
+        //insert empty data for tripID 16
+        if (i === tripID - 1) {
+          const tripEquipment = new TripEquipment();
+          tripEquipment.TripID = i + 1;
+          await tripEquipment.save();
+        }
+        else {
+          //for each trip, insert number of group member data
+          for (let j = 0; j < equipmentNum; j++) {
+            const tripEquipment = new TripEquipment();
+            tripEquipment.TripID = i + 1;
+            if (j === 0) {
+              tripEquipment.MemberType = "master";
+              tripEquipment.MemberID = userID2;
+              tripEquipment.RentInfo = JSON.stringify({masterRentalInfo});
+              tripEquipment.ShoeSize = 7;
+              tripEquipment.Height = 180;
+              tripEquipment.Weight = 55;
+
+              await tripEquipment.save();
+            }
+            else {
+              tripEquipment.MemberType = "family";
+              tripEquipment.MemberID = j;
+              tripEquipment.RentInfo = JSON.stringify({familyRentalInfo: familyRentalInfo[j - 1]});
+              tripEquipment.ShoeSize = 8;
+              tripEquipment.Height = 178;
+              tripEquipment.Weight = 65;
+
+              await tripEquipment.save();
+            }
+          }
+        }
+      }
+      console.log("Finish adding fake trip equipment data.");
+    }
+
+    //fake data of trip lift pass table
+    if (tripLiftPassCount === 0) {
+      let liftPassInfo = [];
+      let startDate = moment().subtract(1, "days");
+      let endDate = moment().add(1, "days");
+      let duration = moment.duration(endDate.diff(startDate));
+      let days = Math.trunc(duration.asDays());
+      //console.log(days);
+
+      for (let i = 0; i <= days; i++) {
+        let liftPassObj = {};
+        let startDate = moment().subtract(1, "days");
+        liftPassObj.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        liftPassObj.adultNumber = 4;
+        liftPassObj.adultDuration = "Full day";
+        liftPassObj.childNumber = 0;
+        liftPassObj.childDuration = "Full day";
+        liftPassInfo.push(liftPassObj);
+      }
+      console.log("Start adding fake trip lift pass data.");
+      for (let i = 0; i < totalTripNum; i++) {
+        const tripLiftPass = new TripLiftPass();
+        //insert empty data for tripID 16
+        if (i === tripID - 1) {
+          tripLiftPass.TripID = i + 1;
+          tripLiftPass.IsRemoved = true;
+        }
+        else {
+          tripLiftPass.TripID = i + 1;
+          tripLiftPass.IsRemoved = false;
+          tripLiftPass.Comment = "Fake Comment";
+          tripLiftPass.LiftpassInfo = JSON.stringify({liftPassInfo});
+        }
+
+        await tripLiftPass.save();
+      }
+
+      console.log("Finish adding fake trip lift pass data.");
+    }
   }
 
   /*
@@ -193,17 +511,17 @@ class TripController {
   async enrollNewTrip({request, response, auth}) {
 
     try {
-      let backToken = request.input('token') //token that will be sent back to front end
+      let backToken = request.input('token'); //token that will be sent back to front end
       try {
-        if (request.input('provider') == 'email') {
+        if (request.input('provider') === 'email') {
           await auth.check();
           //Update new token for email user
-          console.log(request.input('token'))
+          console.log(request.input('token'));
           const validationToken = await ValidationToken.findBy('Token', request.input('token'));
           const member = await Member.findBy('id', validationToken.MemberID);
 
           let userToken = await auth.generate(member);
-          backToken = userToken.token
+          backToken = userToken.token;
           validationToken.merge({Token: userToken.token});
           await validationToken.save();
         }
@@ -218,7 +536,7 @@ class TripController {
       let groupMemberId = [];
       await request.input('GroupMember').map(member => {
         groupMemberId.push(member.id)
-      })
+      });
 
       const newTrip = new Trip();
       newTrip.ResortID = resortInfo.id;
@@ -227,13 +545,13 @@ class TripController {
       newTrip.StartDate = request.input('StartDate');
       newTrip.EndDate = request.input('EndDate');
       newTrip.IsMasterMemberGoing = request.input('IsMasterMemberGoing');
-      newTrip.GroupMemberIDs = JSON.stringify({family_members: groupMemberId})
+      newTrip.GroupMemberIDs = JSON.stringify({family_members: groupMemberId});
       await newTrip.save();
 
       let responseData = {};
       responseData.status = 'success';
       responseData.masterID = validationToken.MemberID;
-      responseData.token = backToken
+      responseData.token = backToken;
       responseData.tripID = newTrip.id;
       responseData.resortID = resortInfo.id;
 
@@ -417,13 +735,13 @@ class TripController {
         tripInfo.startDate = moment(trips[i].StartDate).format("YYYY-MM-DD");
         tripInfo.endDate = moment(trips[i].EndDate).format("YYYY-MM-DD");
         if (trips[i].IsTripDone) {
-          tripInfo.status = "Submitted"
-          tripInfo.checkButton = "View"
+          tripInfo.status = "Submitted";
+          tripInfo.checkButton = "View";
         } else {
-          tripInfo.status = "In Progress"
-          tripInfo.checkButton = "Continue"
+          tripInfo.status = "In Progress";
+          tripInfo.checkButton = "Continue";
         }
-        tripInfo.bookingStep = await getBookingStep(tripInfo.id, tripInfo.name)
+        tripInfo.bookingStep = await getBookingStep(tripInfo.id, tripInfo.name);
         tripArray.push(tripInfo);
       }
 
@@ -505,12 +823,193 @@ class TripController {
     const dbTrip = await Trip.findBy("id", tripID);
     const resort = await ResortInfo.findBy('id', dbTrip.ResortID);
     const tripAccommodation = await TripAccommodation.findBy('TripID', tripID);
+    const tripActivity = await TripActivity.findBy('TripID', tripID);
+    const tripLiftPass = await TripLiftPass.findBy('TripID', tripID);
+    //add trip basic info
     let tripInfo = {};
     tripInfo.place = resort.Name;
-    tripInfo.startDate = moment(dbTrip.StartDate).format("YYYY-MM-DD");
-    tripInfo.endDate = moment(dbTrip.EndDate).format("YYYY-MM-DD");
+    const startDate = moment(dbTrip.StartDate).format("YYYY-MM-DD");
+    const endDate = moment(dbTrip.EndDate).format("YYYY-MM-DD");
+    tripInfo.startDate = startDate;
+    tripInfo.endDate = endDate;
     tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
+    tripInfo.comment = dbTrip.Comment;
+    //add member info (information on who are going to the trip)
+    let memberInfoArray = [];
+    const activityArray = ["ski", "snowboard", "telemark", "snowbike", "snowshoe", "snowmobile"];
+    //activity based rental information
+    let rentalInfo = {};
+    rentalInfo.skiInfo = null;
+    rentalInfo.snowboardInfo = null;
+    rentalInfo.telemarkInfo = null;
+    rentalInfo.otherInfo = null;
+    //if master member is going, add his information
+    if (dbTrip.IsMasterMemberGoing === 1) {
+      const member = await Member.findBy('id', dbTrip.MasterMemberID);
+      const tripEquipmentMaster = await TripEquipment.findBy({
+        'TripID': tripID,
+        'MemberType': "master",
+        'MemberID': dbTrip.MasterMemberID
+      });
+      let name = "";
+      if (member.Firstname !== null && member.Lastname !== null) {
+        name = member.Firstname + " " + member.Lastname;
+      }
+      let memberInfo = {};
+      let masterRentalInfo = {};
+      memberInfo.name = name;
+      memberInfo.dob = moment(member.DOB).format("YYYY-MM-DD");
+      memberInfo.disability = member.IsDisabled;
+      //if there is no equipment data
+      if (tripEquipmentMaster === null) {
+        memberInfo.shoeSize = null;
+        memberInfo.weight = null;
+        memberInfo.height = null;
+        masterRentalInfo = null;
+      }
+      else {
+        memberInfo.shoeSize = tripEquipmentMaster.ShoeSize;
+        memberInfo.weight = tripEquipmentMaster.Weight;
+        memberInfo.height = tripEquipmentMaster.Height;
 
+        //add master rental information
+        masterRentalInfo = JSON.parse(tripEquipmentMaster.RentInfo).masterRentalInfo;
+
+        if (masterRentalInfo.skiInfo !== null) {
+          rentalInfo.skiInfo = masterRentalInfo.skiInfo;
+        }
+        if (masterRentalInfo.snowboardInfo !== null) {
+          rentalInfo.snowboardInfo = masterRentalInfo.snowboardInfo;
+        }
+        if (masterRentalInfo.telemarkInfo !== null) {
+          rentalInfo.telemarkInfo = masterRentalInfo.telemarkInfo;
+        }
+        if (masterRentalInfo.otherInfo !== null) {
+          rentalInfo.otherInfo = masterRentalInfo.otherInfo;
+        }
+
+      }
+      //add master member activity information
+      let masterActivity = JSON.parse(tripActivity.MasterMemberActivity);
+      //masterActivity = {2: master_activity}
+      // master_activity = {
+      //   activity: [true, true, true, true, true, true],
+      //   ability: [2, 2, 2, 2, 2],
+      //   skipEquipmentLesson: false
+      // };
+      let activityBoolArray = masterActivity[2].activity;
+      let memberActivityArray = [];
+      for (let i = 0; i < activityBoolArray.length; i++) {
+        if (activityBoolArray[i]) {
+          memberActivityArray.push(activityArray[i]);
+        }
+      }
+      memberInfo.activity = memberActivityArray;
+
+      memberInfoArray.push(memberInfo);
+    }
+    //add group member information
+    let familyMemberArray = JSON.parse(dbTrip.GroupMemberIDs).family_members;
+    //[1, 2, 3]
+    let familyActivity = JSON.parse(tripActivity.GroupMemberActivity);
+    // familyActivity = {
+    //   1: family_activity,
+    //   2: family_activity,
+    //   3: family_activity
+    // };
+    // family_activity = {
+    //   activity: [true, false, false, false, false, false],
+    //   ability: [3, 3, 3, 3, 3],
+    //   skipEquipmentLesson: false
+    // };
+
+    //add family member information
+    for (let i = 0; i < familyMemberArray.length; i++) {
+      let familyMemberID = familyMemberArray[i];
+      //console.log(familyMemberID);
+      const familyMember = await FamilyMember.findBy('id', familyMemberID);
+      const tripEquipmentFamily = await TripEquipment.findBy({
+        'TripID': tripID,
+        'MemberType': "family",
+        'MemberID': familyMemberID
+      });
+      let name = "";
+      if (familyMember.FirstName !== null && familyMember.LastName !== null) {
+        name = familyMember.FirstName + " " + familyMember.LastName;
+      }
+      let memberInfo = {};
+      let familyRentalInfo = {};
+      memberInfo.name = name;
+      memberInfo.dob = moment(familyMember.DOB).format("YYYY-MM-DD");
+      memberInfo.disability = familyMember.IsDisabled;
+      //if there is no equipment data
+      if (tripEquipmentFamily === null) {
+        memberInfo.shoeSize = null;
+        memberInfo.weight = null;
+        memberInfo.height = null;
+        familyRentalInfo = null;
+      }
+      else {
+        memberInfo.shoeSize = tripEquipmentFamily.ShoeSize;
+        memberInfo.weight = tripEquipmentFamily.Weight;
+        memberInfo.height = tripEquipmentFamily.Height;
+
+        //add family rental information
+        familyRentalInfo = JSON.parse(tripEquipmentFamily.RentInfo).familyRentalInfo;
+
+
+        //only when family individual rental information is not null
+        if (familyRentalInfo.skiInfo !== null) {
+          if (rentalInfo.skiInfo !== null) {
+            rentalInfo.skiInfo = rentalInfo.skiInfo.concat(familyRentalInfo.skiInfo);
+          }
+          else {
+            rentalInfo.skiInfo = familyRentalInfo.skiInfo;
+          }
+        }
+
+        if (familyRentalInfo.snowboardInfo !== null) {
+          if (rentalInfo.skiInfo !== null) {
+            rentalInfo.snowboardInfo = rentalInfo.snowboardInfo.concat(familyRentalInfo.snowboardInfo);
+          }
+          else {
+            rentalInfo.snowboardInfo = familyRentalInfo.snowboardInfo;
+          }
+        }
+
+        if (familyRentalInfo.telemarkInfo !== null) {
+          if (rentalInfo.skiInfo !== null) {
+            rentalInfo.telemarkInfo = rentalInfo.telemarkInfo.concat(familyRentalInfo.telemarkInfo);
+          }
+          else {
+            rentalInfo.telemarkInfo = familyRentalInfo.telemarkInfo;
+          }
+        }
+
+        if (familyRentalInfo.otherInfo !== null) {
+          if (rentalInfo.otherInfo !== null) {
+            rentalInfo.otherInfo = rentalInfo.otherInfo.concat(familyRentalInfo.otherInfo);
+          }
+          else {
+            rentalInfo.otherInfo = familyRentalInfo.otherInfo;
+          }
+        }
+      }
+      //add group member activity information
+      let familyActivityBoolArray = familyActivity[i + 1].activity;
+      //console.log(familyActivityBoolArray);
+      let memberActivityArray = [];
+      for (let i = 0; i < familyActivityBoolArray.length; i++) {
+        if (familyActivityBoolArray[i]) {
+          memberActivityArray.push(activityArray[i]);
+        }
+      }
+      memberInfo.activity = memberActivityArray;
+
+      memberInfoArray.push(memberInfo);
+    }
+
+    //add accommodation information
     let accommodationInfo = {};
     //user skipped accommodation
     if (tripAccommodation === null) {
@@ -527,12 +1026,24 @@ class TripController {
       accommodationInfo.requirement = tripAccommodation.Requirement;
     }
 
+    //add liftPass information
+    let liftPassInfo = {};
+    //user removed lift pass
+    if (tripLiftPass.IsRemoved) {
+      liftPassInfo = null;
+    }
+    else {
+      liftPassInfo.comment = tripLiftPass.Comment;
+      liftPassInfo.liftPassArray = JSON.parse(tripLiftPass.LiftpassInfo).liftPassInfo;
+    }
 
-    //TODO: get member info
-
+    //console.log(rentalInfo);
     return JSON.stringify({
       tripInfo: tripInfo,
-      accommodationInfo: accommodationInfo
+      memberInfo: memberInfoArray,
+      accommodationInfo: accommodationInfo,
+      liftPassInfo: liftPassInfo,
+      rentalInfo: rentalInfo
     });
 
   }
@@ -779,8 +1290,8 @@ class TripController {
   async checkTokenAuth({request, response, auth}) {
 
     try {
-      let backToken = request.input('token') //token that will be sent back to front end
-      console.log("backToken is ", request.input('token'))
+      let backToken = request.input('token');//token that will be sent back to front end
+      console.log("backToken is ", request.input('token'));
       try {
         if (request.input('provider') === 'email') {
           await auth.check();

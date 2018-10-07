@@ -27,10 +27,11 @@ class ActivityEquipmentCard extends Component {
             <td>
               <select
                 value={this.props.Grade}
-                disabled
                 style={{ border: "solid 1px #686369", width: "80%" }}
               >
                 <option value="standard">Standard</option>
+                <option value="deluxe">Deluxe</option>
+                <option value="high performance">High Performance</option>
               </select>
             </td>
           </tr>

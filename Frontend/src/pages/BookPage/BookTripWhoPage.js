@@ -13,6 +13,7 @@ import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import handleLogOut from "../../components/template/HandleLogOut";
 
+//FIXME:If can receive this.history.state.tripID, show trip information (In BookingIndex)
 function StartDate(props) {
     function handleChange(date) {
         props.onChange(date, "startDate");

@@ -34,21 +34,21 @@ class AccommodationCard extends Component {
                             </thead>
 
                             <tbody/>
-                            {accommodation === null ? "" :
-                                <tr
-                                    style={{
-                                        color: "#4682B3"
-                                    }}
-                                >
-                                    <td>{accommodation.type}</td>
-                                    <td>{accommodation.category}</td>
-                                    <td>{accommodation.adultNum}</td>
-                                    <td>{accommodation.childNum}</td>
-                                    <td>{accommodation.todNum}</td>
-                                    <td>{accommodation.bedNum}</td>
-                                    <td>{accommodation.bathNum}</td>
-                                </tr>
-                            }
+
+                            <tr
+                                style={{
+                                    color: "#4682B3"
+                                }}
+                            >
+                                <td>{accommodation.type === null ? "N/A" : accommodation.type}</td>
+                                <td>{accommodation.category === null ? "N/A" : accommodation.category}</td>
+                                <td>{accommodation.adultNum === null ? "N/A" : accommodation.adultNum}</td>
+                                <td>{accommodation.childNum === null ? "N/A" : accommodation.childNum}</td>
+                                <td>{accommodation.todNum === null ? "N/A" : accommodation.todNum}</td>
+                                <td>{accommodation.bedNum === null ? "N/A" : accommodation.bedNum}</td>
+                                <td>{accommodation.bathNum === null ? "N/A" : accommodation.bathNum}</td>
+                            </tr>
+
 
                         </table>
                     </div>
@@ -75,9 +75,9 @@ class AccommodationCard extends Component {
                   <textarea
                       style={this.props.style}
                       readOnly={this.props.readOnly}
-                      value={accommodation === null ? "" : accommodation.requirement}
-                  >
-                  </textarea>
+                      value={accommodation.requirement === null ? "N/A" : accommodation.requirement}
+                  />
+
                                 </td>
                             </tr>
                         </table>
