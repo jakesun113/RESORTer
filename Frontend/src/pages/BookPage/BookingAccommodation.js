@@ -275,7 +275,6 @@ class BookingAccommodation extends Component {
         const {provider, token} = this.state;
         const {cookies, history, masterID, resortID, tripID} = this.props;
 
-        console.log(provider, token);
 
         if (sessionStorage.getItem('guestUser') === null) {
             // not a guest user
@@ -300,8 +299,6 @@ class BookingAccommodation extends Component {
                     } else if (response.data.status === "fail") {
                         alert('Server Error, Please Try again')
                     } else if (response.data.status === "success") {
-                        console.log("token valid");
-                        console.log(response.data.token);
                         //save token into session
                         const sessionData = {
                             token: response.data.token
@@ -339,7 +336,6 @@ class BookingAccommodation extends Component {
                                 break;
                         }
                     }
-
                 })
             }
         } else {

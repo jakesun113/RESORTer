@@ -21,11 +21,11 @@ class FamilyMemberSchema extends Schema {
       table.string('DisabilityMembership');
       table.string('DisabilityMembershipID');
       table.text('DisabilityDetail');
-      table.boolean('IsFoodAllergic');
-      table.text('FoodAllergyDetail');
-      table.binary('Portrait');
+      // table.boolean('IsFoodAllergic');
+      // table.text('FoodAllergyDetail');
+      // table.binary('Portrait');
       table.integer('MemberID').unsigned().references('id').inTable('members'); // come back later, foreign key, one to many
-      table.string('Owner'); // owner is the id of Master user (required by WIX), may be optional in our implementation
+      // table.string('Owner'); // owner is the id of Master user (required by WIX), may be optional in our implementation
     })
   }
 

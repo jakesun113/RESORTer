@@ -173,13 +173,13 @@ class BookingActivity extends Component {
             if (provider === 'email') {
                 const BaseURL = "http://127.0.0.1:3333/api/";
                 const postData = {
-                    token: token
+                    token: token,
+                    provider: provider
                 };
 
-                await axios.post(BaseURL + "check-token", postData).then(response => {
-                    //handle token is not valid
-                    if (response.data.tokenValid === false) {
-                        console.log("token expired");
+                await axios.post(BaseURL + "checkTokenAuth", postData).then(response => {
+                    if (response.data.status === "ExpiredJWT") {
+                        alert('Token Expire');
                         history.push({
                             pathname: "/login",
                             state: {
@@ -189,11 +189,9 @@ class BookingActivity extends Component {
                                 tripID: tripID,
                             }
                         });
-                    }
-
-                    //token is valid
-                    else {
-                        console.log("token valid");
+                    } else if (response.data.status === "fail") {
+                        alert('Server Error, Please Try again')
+                    } else if (response.data.status === "success") {
                         //save token into session
                         const sessionData = {
                             token: response.data.token
@@ -229,6 +227,7 @@ class BookingActivity extends Component {
                         }
                     }
                 })
+
             }
         } else {
             // is a guest user, then no need to handle auth
