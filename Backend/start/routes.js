@@ -90,14 +90,14 @@ Route.get("/addFakeTripData", "TripController.addFakeTripData");
 Route.post("/api/enrollTrip", "TripController.enrollNewTrip");
 
 // Get the age information of trip members (i.e. number of adults/children/toddlers)
-Route.get("/api/getAccoInfo/:tripID/:masterID", 'TripController.getAccoInfo');
+Route.get("/api/getAccoInfo/:tripID/:masterID", 'TripAccommodationController.getAccoInfo');
 // upload user's accommodation info into database
-Route.post("/api/uploadAccoInfo", "TripController.uploadAccoInfo");
+Route.post("/api/uploadAccoInfo", "TripAccommodationController.uploadAccoInfo");
 
 // Get the activity information
-Route.get("/api/getActivityInfo/:tripID/:masterID", "TripController.getActivityInfo");
+Route.get("/api/getActivityInfo/:tripID/:masterID", "TripActivityController.getActivityInfo");
 // upload activity information
-Route.post("/api/uploadActivityInfo", "TripController.uploadActivityInfo");
+Route.post("/api/uploadActivityInfo", "TripActivityController.uploadActivityInfo");
 
 // check if token valid, return new if valid
 Route.post('api/checkTokenAuth', 'TripController.checkTokenAuth');
