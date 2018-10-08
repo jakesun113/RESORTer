@@ -173,7 +173,9 @@ class ImageCard extends Component {
               >
                 <SmallEllipseBtn
                   text={this.props.btnText}
-                  btnColor=" rgba(255, 97, 97, 1)"
+                  style={{
+                    backgroundColor: "rgba(255, 97, 97, 1)"
+                  }}
                 />
               </Link>
             </div>

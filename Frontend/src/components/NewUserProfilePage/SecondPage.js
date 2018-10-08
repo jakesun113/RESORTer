@@ -180,9 +180,11 @@ class SecondPage extends Component {
                   <span onClick={this.handleClickPre}>
                     <SmallEllipseBtn
                       text="Previous"
-                      btnColor="rgba(0, 166, 255, 1)"
-                      paddingLeft="20px"
-                      paddingRight="20px"
+                      style={{
+                        backgroundColor: "rgba(0, 166, 255, 1)",
+                        paddingLeft: "20px",
+                        paddingRight: "20px"
+                      }}
                     />
                   </span>
                 </div>
@@ -193,9 +195,11 @@ class SecondPage extends Component {
                   <span onClick={this.handleClickNext}>
                     <SmallEllipseBtn
                       text="Next"
-                      btnColor="rgba(0, 166, 255, 1)"
-                      paddingLeft="35px"
-                      paddingRight="35px"
+                      style={{
+                        backgroundColor: "rgba(0, 166, 255, 1)",
+                        paddingLeft: "35px",
+                        paddingRight: "35px"
+                      }}
                     />
                   </span>
                 </div>
