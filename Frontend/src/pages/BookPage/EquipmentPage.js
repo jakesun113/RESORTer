@@ -24,7 +24,7 @@ class Equipmentpage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentMember: "",
+      currentMember: "1",
       members: {
         "1": { id: 1, name: "user 1", age: 0 },
         "2": { id: 2, name: "user 2", age: 0 }
@@ -49,8 +49,18 @@ class Equipmentpage extends Component {
   componentDidMount() {
     const { place, history, masterID, resortID, tripID } = this.props;
   }
-
+  // change current memeber
+  handleChangeCurrentMember = memberId => {
+    this.setState({
+      currentMember: memberId
+    });
+  };
   render() {
+    const { members, currentMember } = this.state;
+    let memberArray = [];
+    Object.keys(members).forEach(memberId => {
+      memberArray.push(members[memberId]);
+    });
     return (
       <React.Fragment>
         <div className="container">
@@ -85,22 +95,26 @@ class Equipmentpage extends Component {
           {/* members */}
           <div className="row">
             <div className="col-lg-1" />
-            {this.state.members.map(eachMember => (
+            {memberArray.map(eachMember => (
               <div className="col-xl-2 col-lg-3 col-md-4 col-6">
-                <MemberBtn text={eachMember.name} />
+                <MemberBtn
+                  key={eachMember.id.toString()}
+                  text={eachMember.name}
+                  onHandleClick={() =>
+                    this.handleChangeCurrentMember(eachMember.id.toString())
+                  }
+                />
               </div>
             ))}
           </div>
           <br />
           {/* equipment info */}
 
-          {this.state.members.map(eachMember => (
-            <MemberCard
-              isShowTip={eachMember.id === 1 ? true : false}
-              memberName={eachMember.name}
-              memberAge={eachMember.age}
-            />
-          ))}
+          <MemberCard
+            isShowTip={members[currentMember].id === 1 ? true : false}
+            memberName={members[currentMember].name}
+            memberAge={members[currentMember].age}
+          />
         </div>
       </React.Fragment>
     );

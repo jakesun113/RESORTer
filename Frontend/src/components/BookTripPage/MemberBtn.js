@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 
 const MemberCard = styled.div`
@@ -27,26 +27,28 @@ const MemberButton = styled.button`
 `;
 
 class MemberBtn extends Component {
-    state = {};
+  state = {};
 
-    render() {
-        return (
-            <React.Fragment>
-                <MemberCard>
-                    <MemberButton>
-                        <div
-                            style={{
-                                fontSize: "12px",
-                                color: "white"
-                            }}
-                        >
-                            {this.props.text}
-                        </div>
-                    </MemberButton>
-                </MemberCard>
-            </React.Fragment>
-        );
-    }
+  render() {
+    return (
+      <React.Fragment>
+        <MemberCard>
+          <MemberButton>
+            <div
+              id={this.props.id}
+              style={{
+                fontSize: "12px",
+                color: "white"
+              }}
+              onClick={this.props.onHandleClick}
+            >
+              {this.props.text}
+            </div>
+          </MemberButton>
+        </MemberCard>
+      </React.Fragment>
+    );
+  }
 }
 
 export default MemberBtn;
