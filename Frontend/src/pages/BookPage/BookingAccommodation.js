@@ -375,21 +375,25 @@ class BookingAccommodation extends Component {
         };
 
         fetch(api_url, {method: 'POST', body: JSON.stringify(upload_data)})
-            .then(() => {
-                const url = `/booking/${place}/doing`;
-                history.push({
-                    pathname: url,
-                    state: {
-                        masterID: masterID,
-                        resortID: resortID,
-                        tripID: tripID
-                    },
-                });
+            .then(response => response.text())
+            .then(data => {
+                if (data === "Upload Successfully.") {
+                    const url = `/booking/${place}/doing`;
+                    history.push({
+                        pathname: url,
+                        state: {
+                            masterID: masterID,
+                            resortID: resortID,
+                            tripID: tripID
+                        },
+                    });
+                }
+                if (data === "Error In Uploading Accommodation Information.") {
+                    alert(data);
+                }
             }).catch(err => {
             console.log(err);
         });
-
-
     };
 
     goPrevious = () => {
@@ -411,16 +415,22 @@ class BookingAccommodation extends Component {
         };
 
         fetch(api_url, {method: 'POST', body: JSON.stringify(upload_data)})
-            .then(() => {
-                const previous_page_url = `/booking/${place}/who`;
-                history.push({
-                    pathname: previous_page_url,
-                    state: {
-                        masterID: masterID,
-                        resortID: resortID,
-                        tripID: tripID
-                    },
-                });
+            .then(response => response.text())
+            .then(data => {
+                if (data === "Upload Successfully.") {
+                    const previous_page_url = `/booking/${place}/who`;
+                    history.push({
+                        pathname: previous_page_url,
+                        state: {
+                            masterID: masterID,
+                            resortID: resortID,
+                            tripID: tripID
+                        },
+                    });
+                }
+                if (data === "Error In Uploading Accommodation Information.") {
+                    alert(data);
+                }
             }).catch(err => {
             console.log(err);
         });
@@ -428,8 +438,6 @@ class BookingAccommodation extends Component {
 
     goNext = () => {
         const {place, history, resortID, tripID, masterID} = this.props;
-
-
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement} = this.state;
         if (acco_type === '' || acco_cate === '' || num_adult === null || num_child === null || num_toddler === null || num_bedroom === null || num_bathroom === null) {
             this.setState({
@@ -452,16 +460,22 @@ class BookingAccommodation extends Component {
             };
 
             fetch(api_url, {method: 'POST', body: JSON.stringify(upload_data)})
-                .then(() => {
-                    const next_page_url = `/booking/${place}/doing`;
-                    history.push({
-                        pathname: next_page_url,
-                        state: {
-                            masterID: masterID,
-                            resortID: resortID,
-                            tripID: tripID
-                        },
-                    });
+                .then(response => response.text())
+                .then(data => {
+                    if (data === "Upload Successfully.") {
+                        const next_page_url = `/booking/${place}/doing`;
+                        history.push({
+                            pathname: next_page_url,
+                            state: {
+                                masterID: masterID,
+                                resortID: resortID,
+                                tripID: tripID
+                            },
+                        });
+                    }
+                    if (data === "Error In Uploading Accommodation Information.") {
+                        alert(data);
+                    }
                 }).catch(err => {
                 console.log(err);
             });
@@ -477,32 +491,35 @@ class BookingAccommodation extends Component {
     componentDidMount() {
         const {tripID, masterID} = this.props;
 
-
         const url = `http://127.0.0.1:3333/api/getAccoInfo/${tripID}/${masterID}`;
         fetch(url)
             .then(response => response.text())
             .then(data => {
-                const res_data = JSON.parse(data);
-                if (res_data.status === "trip is new") {
-                    const ageInfo = res_data.ageInfo;
-                    this.setState({
-                        num_adult: ageInfo['adults'],
-                        num_child: ageInfo['children'],
-                        num_toddler: ageInfo['toddlers'],
-                    })
-                }
-                if (res_data.status === "trip already exists") {
-                    const accoInfo = res_data.accoInfo;
-                    this.setState({
-                        acco_type: accoInfo.acco_type,
-                        acco_cate: accoInfo.acco_cate,
-                        num_adult: accoInfo.num_adult,
-                        num_child: accoInfo.num_child,
-                        num_toddler: accoInfo.num_toddler,
-                        num_bedroom: accoInfo.num_bedroom,
-                        num_bathroom: accoInfo.num_bathroom,
-                        requirement: accoInfo.requirement
-                    })
+                if (data === 'Error In Getting Accommodation Information.') {
+                    alert(data)
+                } else {
+                    const res_data = JSON.parse(data);
+                    if (res_data.status === "trip is new") {
+                        const ageInfo = res_data.ageInfo;
+                        this.setState({
+                            num_adult: ageInfo['adults'],
+                            num_child: ageInfo['children'],
+                            num_toddler: ageInfo['toddlers'],
+                        })
+                    }
+                    if (res_data.status === "trip already exists") {
+                        const accoInfo = res_data.accoInfo;
+                        this.setState({
+                            acco_type: accoInfo.acco_type,
+                            acco_cate: accoInfo.acco_cate,
+                            num_adult: accoInfo.num_adult,
+                            num_child: accoInfo.num_child,
+                            num_toddler: accoInfo.num_toddler,
+                            num_bedroom: accoInfo.num_bedroom,
+                            num_bathroom: accoInfo.num_bathroom,
+                            requirement: accoInfo.requirement
+                        })
+                    }
                 }
             })
             .catch(err => console.log(err))

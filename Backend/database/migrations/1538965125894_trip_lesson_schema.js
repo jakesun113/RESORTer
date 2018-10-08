@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-const Schema = use('Schema')
+const Schema = use('Schema');
 
 class TripLessonSchema extends Schema {
   up() {
