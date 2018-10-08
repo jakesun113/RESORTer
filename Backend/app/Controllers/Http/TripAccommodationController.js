@@ -7,6 +7,7 @@ const moment = use('moment');
 
 class TripAccommodationController {
   async getAccoInfo({response, params}) {
+    
     async function getMasterMemberAge(id) {
       const dob = await Database.select('DOB').from('members').where({id: id});
       return moment().diff(moment(dob[0]['DOB']), "years");
