@@ -60,8 +60,10 @@ class AlertWindow extends Component {
                       >
                         <SmallEllipseBtn
                           text={this.props.btnText}
-                          btnColor="rgba(104, 99, 105, 1)"
-                          width="100%"
+                          style={{
+                            backgroundColor: "rgba(104, 99, 105, 1)",
+                            width: "100%"
+                          }}
                         />
                       </Link>
                       <br />
@@ -75,8 +77,10 @@ class AlertWindow extends Component {
                       <span onClick={this.props.onHandClick}>
                         <SmallEllipseBtn
                           text={this.props.btnText}
-                          btnColor="rgba(104, 99, 105, 1)"
-                          width="100%"
+                          style={{
+                            backgroundColor: "rgba(104, 99, 105, 1)",
+                            width: "100%"
+                          }}
                         />
                       </span>
                       <br />
@@ -105,8 +109,10 @@ class AlertWindow extends Component {
                       >
                         <SmallEllipseBtn
                           text={this.props.btnOneText}
-                          btnColor="rgba(104, 99, 105, 1)"
-                          width="100%"
+                          style={{
+                            backgroundColor: "rgba(104, 99, 105, 1)",
+                            width: "100%"
+                          }}
                         />
                       </Link>
                       <br />
@@ -120,8 +126,10 @@ class AlertWindow extends Component {
                       <span onClick={this.props.onHandClickOne}>
                         <SmallEllipseBtn
                           text={this.props.btnOneText}
-                          btnColor="rgba(255, 97, 97, 1)"
-                          width="100%"
+                          style={{
+                            backgroundColor: "rgba(255, 97, 97, 1)",
+                            width: "100%"
+                          }}
                         />
                       </span>
                       <br />
@@ -140,8 +148,10 @@ class AlertWindow extends Component {
                       >
                         <SmallEllipseBtn
                           text={this.props.btnTwoText}
-                          btnColor="rgba(104, 99, 105, 1)"
-                          width="100%"
+                          style={{
+                            backgroundColor: "rgba(104, 99, 105, 1)",
+                            width: "100%"
+                          }}
                         />
                       </Link>
                       <br />
@@ -155,8 +165,10 @@ class AlertWindow extends Component {
                       <span onClick={this.props.onHandClickTwo}>
                         <SmallEllipseBtn
                           text={this.props.btnTwoText}
-                          btnColor="rgba(255, 97, 97, 1)"
-                          width="100%"
+                          style={{
+                            backgroundColor: "rgba(255, 97, 97, 1)",
+                            width: "100%"
+                          }}
                         />
                       </span>
                       <br />

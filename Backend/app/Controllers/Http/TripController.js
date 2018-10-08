@@ -1052,6 +1052,25 @@ class TripController {
       liftPassInfo: liftPassInfo,
       rentalInfo: rentalInfo
     });
+  }
+
+  async completeTrip({request}) {
+
+    try {
+      const requestData = request.all();
+      const dbTrip = await Trip.findBy("id", requestData.tripID);
+
+      dbTrip.merge({
+        Comment: requestData.comment,
+        IsTripDone: true,
+        SubmitDate: requestData.submitDate
+      });
+
+      await dbTrip.save();
+    }
+    catch (e) {
+      console.log(e)
+    }
 
   }
 

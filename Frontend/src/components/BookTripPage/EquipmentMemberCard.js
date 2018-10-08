@@ -20,18 +20,6 @@ class EquipmentMemberCard extends Component {
     super(props);
     const { cookies } = props;
     this.state = {
-      currentMember: "1",
-      members: {
-        "1": {
-          id: 1,
-          firstName: "",
-          fullName: "",
-          activity: [false, false, false, false, false, false],
-          ability: [1, 1, 1, 1, 1, 1],
-          age: 0,
-          skipEquipmentLesson: false
-        }
-      },
       warning: false,
       // token: cookies.get("access-token") || null,
       // provider: cookies.get("user-provider") || null,
@@ -57,6 +45,13 @@ class EquipmentMemberCard extends Component {
         }
       ]
     };
+  }
+  componentDidUpdate() {
+    if (this.state.isShowTip !== this.props.isShowTip) {
+      this.setState({
+        isShowTip: this.props.isShowTip
+      });
+    }
   }
 
   handleChange = (name, value) => {
@@ -141,7 +136,6 @@ class EquipmentMemberCard extends Component {
                   <tr style={{ color: "#686369" }}>
                     <th scope="col-2">Activity</th>
                     <th scope="col-4">Equipment</th>
-                    <th scope="col-2" />
                     <th scope="col-4">Grade</th>
                   </tr>
                 </thead>

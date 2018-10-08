@@ -7,35 +7,41 @@ class TripLiftpassController {
 
     const requestData = request.all();
 
-    const dbTripLiftPass = await TripLiftPass.findBy("TripID", requestData.tripID);
-    if (requestData.isRemoved) {
+    try {
 
-      let tripLiftPass;
-      if (dbTripLiftPass === null) {
-        tripLiftPass = new TripLiftPass();
+      const dbTripLiftPass = await TripLiftPass.findBy("TripID", requestData.tripID);
+      if (requestData.isRemoved) {
+
+        let tripLiftPass;
+        if (dbTripLiftPass === null) {
+          tripLiftPass = new TripLiftPass();
+        }
+        else {
+          tripLiftPass = dbTripLiftPass;
+        }
+        tripLiftPass.TripID = requestData.tripID;
+        tripLiftPass.IsRemoved = true;
+
+        await tripLiftPass.save();
       }
       else {
-        tripLiftPass = dbTripLiftPass;
-      }
-      tripLiftPass.TripID = requestData.tripID;
-      tripLiftPass.IsRemoved = true;
+        let tripLiftPass;
+        if (dbTripLiftPass === null) {
+          tripLiftPass = new TripLiftPass();
+        }
+        else {
+          tripLiftPass = dbTripLiftPass;
+        }
+        tripLiftPass.TripID = requestData.tripID;
+        tripLiftPass.IsRemoved = false;
+        tripLiftPass.Comment = requestData.comment;
+        tripLiftPass.LiftpassInfo = JSON.stringify({liftPassInfo: requestData.liftPassInfo});
 
-      await tripLiftPass.save();
+        await tripLiftPass.save();
+      }
     }
-    else {
-      let tripLiftPass;
-      if (dbTripLiftPass === null) {
-        tripLiftPass = new TripLiftPass();
-      }
-      else {
-        tripLiftPass = dbTripLiftPass;
-      }
-      tripLiftPass.TripID = requestData.tripID;
-      tripLiftPass.IsRemoved = false;
-      tripLiftPass.Comment = requestData.comment;
-      tripLiftPass.LiftpassInfo = JSON.stringify({liftPassInfo: requestData.liftPassInfo});
-
-      await tripLiftPass.save();
+    catch (e) {
+      console.log(e)
     }
 
   }

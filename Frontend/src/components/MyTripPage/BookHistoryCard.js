@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import { Link } from "react-router-dom";
 
-
 class BookHistoryCard extends Component {
   state = {};
 
@@ -26,18 +25,18 @@ class BookHistoryCard extends Component {
             <td>
               {/* <SmallEllipseBtn text="View" btnColor="rgba(255, 97, 97, 1)" /> */}
             </td>
-            <td className ="d-flex justify-content-end">
-            <Link
-              to={this.props.linkTo}
-            >
-              <SmallEllipseBtn 
-                 text={this.props.buttonText} 
-                 btnColor="rgba(255, 97, 97, 1)" 
-                 width="80px"
-                 paddingLeft="10px"
-                 paddingRight= "10px"                 
-              />
-            </Link>
+            <td className="d-flex justify-content-end">
+              <Link to={this.props.linkTo}>
+                <SmallEllipseBtn
+                  text={this.props.buttonText}
+                  style={{
+                    backgroundColor: "rgba(255, 97, 97, 1)",
+                    width: "80px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px"
+                  }}
+                />
+              </Link>
             </td>
           </tr>
         </tbody>
