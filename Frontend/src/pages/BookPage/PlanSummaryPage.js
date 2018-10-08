@@ -45,7 +45,7 @@ class PlanSummaryPage extends Component {
     this.state = {
       groupMembers: [
         {
-          name: "sb jiacheng",
+          name: "Fake User",
           dob: "1992 - 10 - 10",
           age: 2,
           shoeSize: 1,
@@ -353,7 +353,7 @@ class PlanSummaryPage extends Component {
                 readOnly={this.props.readOnly}
                 placeholder="Lift names who do not require liftpasses"
               >
-                Sb jiacheng do not need liftpass
+                Fake further comments
               </StyledTextArea>
             </div>
             <div className="col-lg-1" />
