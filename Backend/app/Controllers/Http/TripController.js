@@ -90,6 +90,13 @@ class TripController {
         const familyMember = new FamilyMember();
         familyMember.FirstName = "Fake";
         familyMember.LastName = "Member" + i;
+        familyMember.Gender = "Male";
+        familyMember.SkiAbility = 3;
+        familyMember.SnowboardAbility = 1;
+        familyMember.TelemarkAbility = 1;
+        familyMember.SnowbikeAbility = 1;
+        familyMember.SnowmobileAbility = 1;
+        familyMember.SnowshoeAbility = 1;
         familyMember.DOB = moment().subtract(1000, "days").format("YYYY-MM-DD");
         familyMember.IsDisabled = false;
         familyMember.MemberID = userID2;
@@ -296,13 +303,13 @@ class TripController {
           tripActivity.TripID = i + 1;
           let master_activity = {
             activity: [false, false, false, false, false, false],
-            ability: [1, 1, 1, 1, 1],
+            ability: [1, 1, 3, 1, 1],
             skipEquipmentLesson: false
           };
           tripActivity.MasterMemberActivity = JSON.stringify({2: master_activity});
           let family_activity = {
             activity: [false, false, false, false, false, false],
-            ability: [1, 1, 1, 1, 1],
+            ability: [3, 1, 1, 1, 1],
             skipEquipmentLesson: false
           };
           tripActivity.GroupMemberActivity = JSON.stringify({
@@ -1046,11 +1053,6 @@ class TripController {
       rentalInfo: rentalInfo
     });
   }
-
-
-
-
-
 
   async checkTokenAuth({request, response, auth}) {
 
