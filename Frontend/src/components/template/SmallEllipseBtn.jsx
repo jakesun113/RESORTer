@@ -11,17 +11,7 @@ class SmallEllipseBtn extends Component {
         <button
           className="small_button"
           type={this.props.btnType}
-          style={{
-            background: this.props.btnColor,
-            paddingLeft: this.props.paddingLeft,
-            paddingRight: this.props.paddingRight,
-            paddingTop: this.props.paddingTop,
-            paddingBottom: this.props.paddingBottom,
-            width: this.props.width,
-            fontSize: this.props.fontSize,
-            color: this.props.color,
-            border: this.props.border
-          }}
+          style={this.props.style}
           onClick={this.props.onClick}
         >
           {this.props.text}
