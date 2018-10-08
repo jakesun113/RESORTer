@@ -7,6 +7,22 @@ import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import axios from "axios/index";
 import AccommodationCard from "../../components/template/AccommodationCard";
 import LiftPassCard from "../../components/BookTripPage/LiftPassCard";
+import RentalCard from "../../components/BookTripPage/RentalCard";
+import LessonCard from "../../components/BookTripPage/LessonCard";
+import styled from "styled-components";
+
+const StyledTextArea = styled.textarea`
+  width: 100%;
+  height: 150px;
+  border: 1px solid rgba(0, 166, 255, 1);
+  border-radius: 10px 10px 10px 10px;
+  resize: none;
+
+  &:hover {
+    background-color: rgba(198, 226, 247, 1);
+  }
+`;
+
 class BreakLine extends Component {
   render() {
     return (
@@ -51,6 +67,7 @@ class PlanSummaryPage extends Component {
           bathNum: "2"
         }
       ],
+      isShowLiftPass: true,
       liftPassList: [
         {
           date: "7 October 2018",
@@ -65,6 +82,27 @@ class PlanSummaryPage extends Component {
           adultsTimeSpan: "Full Day",
           childrenNum: "3",
           childrenTimeSpan: "AM"
+        }
+      ],
+
+      // test
+      activityList: ["ski", "snowBoard"],
+      rentalList: [
+        {
+          participant: "s",
+          date: "8 October 2018",
+          duration: "Full Day",
+          boots: "None",
+          skis: "Yes",
+          grade: "Standard"
+        },
+        {
+          participant: "s",
+          date: "9 October 2018",
+          duration: "Full Day",
+          boots: "None",
+          skis: "Yes",
+          grade: "Standard"
         }
       ]
     };
@@ -109,10 +147,20 @@ class PlanSummaryPage extends Component {
         });
     }
   }
+  // don't show liftpass component
+  handleCloseLiftPass = () => {
+    this.setState({ isShowLiftPass: false });
+  };
 
   render() {
     const { place, days, history } = this.props;
-    const { groupMembers, accommodation, liftPassList } = this.state;
+    const {
+      groupMembers,
+      accommodation,
+      isShowLiftPass,
+      liftPassList,
+      rentalList
+    } = this.state;
     return (
       <React.Fragment>
         <div
@@ -266,29 +314,86 @@ class PlanSummaryPage extends Component {
             }}
           />
           <BreakLine />
-          {/* LiftPassCard */}
-          <LiftPassCard liftPassList={liftPassList} />
+          {/* LiftPass Card */}
+          {isShowLiftPass === true ? (
+            <LiftPassCard
+              liftPassList={liftPassList}
+              onHandleRemove={this.handleCloseLiftPass}
+            />
+          ) : (
+            ""
+          )}
+          {/* Rental Card */}
+          <RentalCard
+            activityList={this.state.activityList}
+            rentalList={rentalList}
+          />
+          {/* Lesson Card */}
+          <LessonCard />
+
+          {/* futurn Comments */}
+          <div className="row">
+            <div className="col-lg-1" />
+            <div
+              className="col-lg-10"
+              style={{
+                paddingLeft: "15px",
+                fontSize: "22px",
+                fontWeight: "bold"
+              }}
+            >
+              Further Comments
+            </div>
+            <div className="col-lg-1" />
+          </div>
+          <div className="row">
+            <div className="col-lg-1" />
+            <div className="col-lg-10" style={{ paddingLeft: "15px" }}>
+              <StyledTextArea
+                readOnly={this.props.readOnly}
+                placeholder="Lift names who do not require liftpasses"
+              >
+                Sb jiacheng do not need liftpass
+              </StyledTextArea>
+            </div>
+            <div className="col-lg-1" />
+          </div>
 
           {/* btn */}
-
-          <SmallEllipseBtn
-            text="Back"
-            onClick={this.goPrevious}
-            btnColor="rgba(255, 97, 97, 1)"
-            width="100px"
-            paddingLeft="10px"
-            paddingRight="10px"
-          />
-          <Link to={`/successPage/${this.props.place}`}>
-            <SmallEllipseBtn
-              text="Get a quote"
-              onClick={this.handleSendQuote}
-              btnColor="rgba(255, 97, 97, 1)"
-              width="100px"
-              paddingLeft="10px"
-              paddingRight="10px"
-            />
-          </Link>
+          <div
+            className="row"
+            style={{ color: "#4682B4", fontSize: "26px", fontWeight: "bold" }}
+          >
+            <div className="col-lg-1" style={{ paddingRight: "15px" }} />
+            <div className="col-12 col-lg-2">
+              <SmallEllipseBtn
+                text="Back"
+                onClick={this.goPrevious}
+                style={{
+                  backgroundColor: "rgba(255, 97, 97, 1)",
+                  width: "100%",
+                  paddingLeft: "10px",
+                  paddingRight: "10px"
+                }}
+              />
+            </div>
+            <div className="col-lg-6" />
+            <div className="col-12 col-lg-2">
+              <Link to={`/successPage/${this.props.place}`}>
+                <SmallEllipseBtn
+                  text="Get a quote"
+                  onClick={this.handleSendQuote}
+                  style={{
+                    backgroundColor: "rgba(255, 97, 97, 1)",
+                    width: "100%",
+                    paddingLeft: "10px",
+                    paddingRight: "10px"
+                  }}
+                />
+              </Link>
+            </div>
+            <div className="col-lg-1" />
+          </div>
 
           {/* end */}
         </div>
