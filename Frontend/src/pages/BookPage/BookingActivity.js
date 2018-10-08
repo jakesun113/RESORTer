@@ -145,20 +145,22 @@ class BookingActivity extends Component {
         }
     }
 
-
     componentDidMount() {
         const {tripID, masterID} = this.props;
-
         const url = `http://127.0.0.1:3333/api/getActivityInfo/${tripID}/${masterID}`;
         fetch(url)
             .then(response => response.text())
             .then(data => {
-                const membersInfo = JSON.parse(data);
-                const keys = Object.keys(membersInfo);
-                this.setState({
-                    currentMember: keys[0],
-                    members: membersInfo
-                })
+                if (data === "Error in Getting Activity Information.") {
+                    alert(data)
+                } else {
+                    const membersInfo = JSON.parse(data);
+                    const keys = Object.keys(membersInfo);
+                    this.setState({
+                        currentMember: keys[0],
+                        members: membersInfo
+                    })
+                }
             })
             .catch(err => console.log(err))
     }
@@ -322,19 +324,26 @@ class BookingActivity extends Component {
         };
 
         fetch(api_url, {method: 'POST', body: JSON.stringify(upload_data)})
-            .then(() => {
-                const previous_page_url = `/booking/${place}/sleep`;
-                history.push({
-                    pathname: previous_page_url,
-                    state: {
-                        masterID: masterID,
-                        resortID: resortID,
-                        tripID: tripID
-                    },
-                });
-            }).catch(err => {
-            console.log(err)
-        });
+            .then(response => response.text())
+            .then(data => {
+                if (data === "Success") {
+                    const previous_page_url = `/booking/${place}/sleep`;
+                    history.push({
+                        pathname: previous_page_url,
+                        state: {
+                            masterID: masterID,
+                            resortID: resortID,
+                            tripID: tripID
+                        },
+                    });
+                }
+                if (data === "Error in uploading activity information.") {
+                    alert(data)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
     };
 
     goNext = () => {
@@ -375,24 +384,29 @@ class BookingActivity extends Component {
         };
 
         fetch(api_url, {method: 'POST', body: JSON.stringify(upload_data)})
-            .then(() => {
-                let next_page_url = `/booking/${place}/equipment`;
-                if (skip_state.every(skip => skip)) {
-                    next_page_url = `/booking/${place}/summary`;
+            .then(response => response.text())
+            .then(data => {
+                if (data === "Success") {
+                    let next_page_url = `/booking/${place}/equipment`;
+                    if (skip_state.every(skip => skip)) {
+                        next_page_url = `/booking/${place}/summary`;
+                    }
+                    history.push({
+                        pathname: next_page_url,
+                        state: {
+                            masterID: masterID,
+                            resortID: resortID,
+                            tripID: tripID
+                        },
+                    });
                 }
-                history.push({
-                    pathname: next_page_url,
-                    state: {
-                        masterID: masterID,
-                        resortID: resortID,
-                        tripID: tripID
-                    },
-                });
-            }).catch(err => {
-            console.log(err)
-        });
-
-
+                if (data === "Error in uploading activity information.") {
+                    alert(data)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            });
     };
 
     render() {
