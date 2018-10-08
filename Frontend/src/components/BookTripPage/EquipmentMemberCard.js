@@ -31,7 +31,7 @@ class EquipmentMemberCard extends Component {
       currentActivity: [
         {
           id: 1,
-          ActivityName: "hit sb jiacheng",
+          ActivityName: "Ski",
           EquipmentOne: "Boots",
           EquipmentTwo: "Skis & Poles",
           Grade: "standard"

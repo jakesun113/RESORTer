@@ -26,9 +26,11 @@ class EquipmentPageTip extends Component {
           <p style={{ textAlign: "center" }} onClick={this.props.onHandleClose}>
             <SmallEllipseBtn
               text="Got it!"
-              btnColor="white"
-              color="#3D9BE9"
-              border="1px solid #3D9BE9"
+              style={{
+                backgroundColor: "white",
+                color: "#3D9BE9",
+                border: "1px solid #3D9BE9"
+              }}
             />
           </p>
         </StyledDiv>
