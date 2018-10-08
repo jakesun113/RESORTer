@@ -1078,7 +1078,6 @@ class TripController {
 
     try {
       let backToken = request.input('token');//token that will be sent back to front end
-      console.log("backToken is ", request.input('token'));
       try {
         if (request.input('provider') === 'email') {
           await auth.check();
