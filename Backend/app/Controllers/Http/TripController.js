@@ -1052,7 +1052,6 @@ class TripController {
       liftPassInfo: liftPassInfo,
       rentalInfo: rentalInfo
     });
-
   }
 
   async completeTrip({request}) {

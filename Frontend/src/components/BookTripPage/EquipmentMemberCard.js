@@ -141,7 +141,6 @@ class EquipmentMemberCard extends Component {
                   <tr style={{ color: "#686369" }}>
                     <th scope="col-2">Activity</th>
                     <th scope="col-4">Equipment</th>
-                    <th scope="col-2" />
                     <th scope="col-4">Grade</th>
                   </tr>
                 </thead>
