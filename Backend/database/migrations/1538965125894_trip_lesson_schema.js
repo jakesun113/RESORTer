@@ -7,9 +7,9 @@ class TripLessonSchema extends Schema {
     this.create('trip_lessons', (table) => {
       table.increments();
       table.timestamps();
-      table.integer('TripID').unsigned().notNullable().references('id').inTable('trips')
-
-
+      table.integer('TripID').unsigned().notNullable().references('id').inTable('trips');
+      table.mediumtext('GroupLessonInfo');
+      table.mediumtext('PrivateLessonInfo');
     })
   }
 
