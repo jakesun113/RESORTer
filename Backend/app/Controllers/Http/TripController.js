@@ -1055,6 +1055,20 @@ class TripController {
 
   }
 
+  async completeTrip({request}) {
+
+    const requestData = request.all();
+    const dbTrip = await Trip.findBy("id", requestData.tripID);
+
+    dbTrip.merge({
+      Comment: requestData.comment,
+      IsTripDone: true,
+      SubmitDate: requestData.submitDate
+    });
+
+    await dbTrip.save();
+  }
+
   async checkTokenAuth({request, response, auth}) {
 
     try {

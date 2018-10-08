@@ -1,7 +1,7 @@
 'use strict'
 
 const Schema = use('Schema')
-//FIXME: remove "Outfit" and "Helmet" column
+
 class TripEquipmentSchema extends Schema {
   up() {
     this.create('trip_equipments', (table) => {
