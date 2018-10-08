@@ -21,15 +21,19 @@ const UpperEllipseButton = styled.button`
 `;
 
 class Equipmentpage extends Component {
-
-    state = {
+    constructor(props) {
+        super(props);
+        this.state = {
         currentMember: "",
         members: [
             {id: 1, name: "user 1", age: 0},
             {id: 2, name: "user 2", age: 0}
         ]
-    };
+        };
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
+    
     skipRental = () => {
         const {place, history, masterID, resortID, tripID} = this.props;
         const url = `/booking/${place}/learn`;
@@ -38,6 +42,17 @@ class Equipmentpage extends Component {
             state: {masterID: masterID, resortID: resortID, tripID: tripID}
         });
     };
+
+    async handleSubmit(e) {
+        e.preventDefault();
+        
+    }
+
+    componentDidMount() {
+        const {place, history, masterID, resortID, tripID} = this.props;
+        
+
+    }
 
     render() {
         return (
