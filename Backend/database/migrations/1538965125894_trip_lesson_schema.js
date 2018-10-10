@@ -10,6 +10,9 @@ class TripLessonSchema extends Schema {
       table.integer('TripID').unsigned().notNullable().references('id').inTable('trips');
       table.mediumtext('GroupLessonInfo');
       table.mediumtext('PrivateLessonInfo');
+      table.string('SpecificInstructor', 5);
+      table.text('InstructorInfo');
+      table.text('Request');
     })
   }
 
