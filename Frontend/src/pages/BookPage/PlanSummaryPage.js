@@ -29,14 +29,13 @@ const StyledTextArea = styled.textarea`
 `;
 
 const BreakLine =
-
-    <div className="row">
+    (<div className="row">
         <div className="col-lg-1"/>
         <div className="col-12 col-lg-10">
             <hr/>
         </div>
         <div className="col-lg-1"/>
-    </div>
+    </div>);
 
 
 class PlanSummaryPage extends Component {
