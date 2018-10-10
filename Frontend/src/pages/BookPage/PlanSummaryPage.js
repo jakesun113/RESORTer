@@ -362,7 +362,7 @@ class PlanSummaryPage extends Component {
           {/* btn */}
           <div
             className="row"
-            style={{ color: "#4682B4", fontSize: "26px", fontWeight: "bold" }}
+            style={{ color: "#4682B4", fontSize: "20px", fontWeight: "bold" }}
           >
             <div className="col-lg-1" style={{ paddingRight: "15px" }} />
             <div className="col-12 col-lg-2">
@@ -379,7 +379,6 @@ class PlanSummaryPage extends Component {
             </div>
             <div className="col-lg-6" />
             <div className="col-12 col-lg-2">
-              <Link to={`/successPage/${this.props.place}`}>
                 <SmallEllipseBtn
                   text="Get a quote"
                   onClick={this.handleSendQuote}
@@ -390,7 +389,6 @@ class PlanSummaryPage extends Component {
                     paddingRight: "10px"
                   }}
                 />
-              </Link>
             </div>
             <div className="col-lg-1" />
           </div>

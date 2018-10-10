@@ -109,6 +109,11 @@ Route.get("/api/getActivityInfo/:tripID/:masterID", "TripActivityController.getA
 Route.post("/api/uploadActivityInfo", "TripActivityController.uploadActivityInfo");
 /*TripActivityController end*/
 
+/*TripEquipmentController start*/
+// Get the equipment information
+Route.get("/api/getEquipmentInfo/:tripID/:masterID", "TripEquipmentController.getEquipmentInfo");
+
+
 /*TripLiftpassController start*/
 // update lift pass information
 Route.post("/api/updateLiftPassInfo", "TripLiftpassController.updateLiftPassInfo");
