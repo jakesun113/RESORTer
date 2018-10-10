@@ -577,105 +577,28 @@ class TripController {
 
     //first, get most popular resorts ID from trip table
     //only return the resort ID whose trip is "done"
-    const resortIDs = await Database.table('trips')
-      .where({'IsTripDone': 1}).column('ResortID');
-    //console.log(resortIDs);
+    try {
+      const resortIDs = await Database.table('trips')
+        .where({'IsTripDone': 1}).column('ResortID');
+      //console.log(resortIDs);
 
-    //array contains all the resorts ID
-    let resortArray = [];
-    for (let i = 0; i < resortIDs.length; i++) {
-      resortArray[i] = resortIDs[i].ResortID;
-    }
-    //console.log(resortArray);
-
-    //object that each resort ID with its occurrence time
-    let counts = {};
-    for (let i = 0; i < resortArray.length; i++) {
-      let num = resortArray[i];
-      counts[num] = counts[num] ? counts[num] + 1 : 1;
-    }
-    //console.log(counts);
-
-    //array that sorts the resort by its occurring time
-    let popularResortArray = Object.keys(counts).sort(function (a, b) {
-      return counts[b] - counts[a]
-    });
-    //console.log(popularResortArray);
-
-    let minNum = Math.min(topSix, popularResortArray.length);
-    //then, based on the resorts ID, return corresponding resorts information
-    let resortInfoArray = [];
-    for (let i = 0; i < minNum; i++) {
-      let resortID = popularResortArray[i];
-
-      let resortInfo = {};
-      const resort = await ResortInfo.findBy('id', resortID);
-      resortInfo.id = resort.id;
-      resortInfo.image = resort.Image;
-      resortInfo.name = resort.Name;
-      resortInfo.country = resort.Country;
-      resortInfo.description = resort.Description;
-      //console.log(resortInfo);
-
-      resortInfoArray.push(resortInfo);
-    }
-
-    //console.log(resortInfoArray);
-
-    return JSON.stringify({
-      popularResorts: resortInfoArray
-    })
-  }
-
-  async getPopularResortsByCountry({params}) {
-
-    //first, get the country of the user
-    const token = params.token;
-    //console.log(token);
-    const dbMemberID = await Database.table('validation_tokens')
-      .where("Token", token).select('MemberID');
-
-    const member = await Member.findBy('id', dbMemberID[0].MemberID);
-    const country = member.Country;
-    console.log(country);
-
-    //then, get most popular resorts ID from trip table
-    //only return the resort ID whose trip is "done"
-    const resortIDs = await Database.table('trips')
-      .where({'IsTripDone': 1}).column('ResortID');
-    //console.log(resortIDs);
-
-    //array contains all the resorts ID
-    let resortArray = [];
-    for (let i = 0; i < resortIDs.length; i++) {
-      resortArray[i] = resortIDs[i].ResortID;
-    }
-    //console.log(resortArray);
-
-    //object that each resort ID with its occurrence time
-    let counts = {};
-    for (let i = 0; i < resortArray.length; i++) {
-      let num = resortArray[i];
-      counts[num] = counts[num] ? counts[num] + 1 : 1;
-    }
-    let identicalResortIDs = [];
-
-    // whether resorts in the specific country is in the trip table,
-    //if so, add the resort ID in the array
-    for (let i = 0; i < Object.keys(counts).length; i++) {
-      const resort = await ResortInfo.findBy('id', Object.keys(counts)[i]);
-      if (resort.Country === country) {
-        identicalResortIDs.push(Object.keys(counts)[i]);
+      //array contains all the resorts ID
+      let resortArray = [];
+      for (let i = 0; i < resortIDs.length; i++) {
+        resortArray[i] = resortIDs[i].ResortID;
       }
-    }
-    console.log(identicalResortIDs);
+      //console.log(resortArray);
 
-    //only when there is at least one searched resort in that country,
-    //do the ranking and return corresponding information
-    if (identicalResortIDs.length > 0) {
-      console.log("this country has resorts");
+      //object that each resort ID with its occurrence time
+      let counts = {};
+      for (let i = 0; i < resortArray.length; i++) {
+        let num = resortArray[i];
+        counts[num] = counts[num] ? counts[num] + 1 : 1;
+      }
+      //console.log(counts);
+
       //array that sorts the resort by its occurring time
-      let popularResortArray = identicalResortIDs.sort(function (a, b) {
+      let popularResortArray = Object.keys(counts).sort(function (a, b) {
         return counts[b] - counts[a]
       });
       //console.log(popularResortArray);
@@ -701,16 +624,101 @@ class TripController {
       //console.log(resortInfoArray);
 
       return JSON.stringify({
-        hasResorts: true,
         popularResorts: resortInfoArray
-      });
+      })
+    } catch (e) {
+      console.log(e);
     }
-    //otherwise, return no resorts found in that country
-    else {
-      console.log("this country doesn't have resorts");
-      return JSON.stringify({
-        hasResorts: false
-      });
+  }
+
+  async getPopularResortsByCountry({params}) {
+
+    try {
+      //first, get the country of the user
+      const token = params.token;
+      //console.log(token);
+      const dbMemberID = await Database.table('validation_tokens')
+        .where("Token", token).select('MemberID');
+
+      const member = await Member.findBy('id', dbMemberID[0].MemberID);
+      const country = member.Country;
+      console.log(country);
+
+      //then, get most popular resorts ID from trip table
+      //only return the resort ID whose trip is "done"
+      const resortIDs = await Database.table('trips')
+        .where({'IsTripDone': 1}).column('ResortID');
+      //console.log(resortIDs);
+
+      //array contains all the resorts ID
+      let resortArray = [];
+      for (let i = 0; i < resortIDs.length; i++) {
+        resortArray[i] = resortIDs[i].ResortID;
+      }
+      //console.log(resortArray);
+
+      //object that each resort ID with its occurrence time
+      let counts = {};
+      for (let i = 0; i < resortArray.length; i++) {
+        let num = resortArray[i];
+        counts[num] = counts[num] ? counts[num] + 1 : 1;
+      }
+      let identicalResortIDs = [];
+
+      // whether resorts in the specific country is in the trip table,
+      //if so, add the resort ID in the array
+      for (let i = 0; i < Object.keys(counts).length; i++) {
+        const resort = await ResortInfo.findBy('id', Object.keys(counts)[i]);
+        if (resort.Country === country) {
+          identicalResortIDs.push(Object.keys(counts)[i]);
+        }
+      }
+      console.log(identicalResortIDs);
+
+      //only when there is at least one searched resort in that country,
+      //do the ranking and return corresponding information
+      if (identicalResortIDs.length > 0) {
+        console.log("this country has resorts");
+        //array that sorts the resort by its occurring time
+        let popularResortArray = identicalResortIDs.sort(function (a, b) {
+          return counts[b] - counts[a]
+        });
+        //console.log(popularResortArray);
+
+        let minNum = Math.min(topSix, popularResortArray.length);
+        //then, based on the resorts ID, return corresponding resorts information
+        let resortInfoArray = [];
+        for (let i = 0; i < minNum; i++) {
+          let resortID = popularResortArray[i];
+
+          let resortInfo = {};
+          const resort = await ResortInfo.findBy('id', resortID);
+          resortInfo.id = resort.id;
+          resortInfo.image = resort.Image;
+          resortInfo.name = resort.Name;
+          resortInfo.country = resort.Country;
+          resortInfo.description = resort.Description;
+          //console.log(resortInfo);
+
+          resortInfoArray.push(resortInfo);
+        }
+
+        //console.log(resortInfoArray);
+
+        return JSON.stringify({
+          hasResorts: true,
+          popularResorts: resortInfoArray
+        });
+      }
+      //otherwise, return no resorts found in that country
+      else {
+        console.log("this country doesn't have resorts");
+        return JSON.stringify({
+          hasResorts: false
+        });
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -825,233 +833,237 @@ class TripController {
 
   async getTripSummary({params}) {
 
-    const tripID = params.id;
-    console.log(tripID);
-    const dbTrip = await Trip.findBy("id", tripID);
-    const resort = await ResortInfo.findBy('id', dbTrip.ResortID);
-    const tripAccommodation = await TripAccommodation.findBy('TripID', tripID);
-    const tripActivity = await TripActivity.findBy('TripID', tripID);
-    const tripLiftPass = await TripLiftPass.findBy('TripID', tripID);
-    //add trip basic info
-    let tripInfo = {};
-    tripInfo.place = resort.Name;
-    const startDate = moment(dbTrip.StartDate).format("YYYY-MM-DD");
-    const endDate = moment(dbTrip.EndDate).format("YYYY-MM-DD");
-    tripInfo.startDate = startDate;
-    tripInfo.endDate = endDate;
-    tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
-    tripInfo.comment = dbTrip.Comment;
-    //add member info (information on who are going to the trip)
-    let memberInfoArray = [];
-    const activityArray = ["ski", "snowboard", "telemark", "snowbike", "snowshoe", "snowmobile"];
-    //activity based rental information
-    let rentalInfo = {};
-    rentalInfo.skiInfo = null;
-    rentalInfo.snowboardInfo = null;
-    rentalInfo.telemarkInfo = null;
-    rentalInfo.otherInfo = null;
-    //if master member is going, add his information
-    if (dbTrip.IsMasterMemberGoing === 1) {
-      const member = await Member.findBy('id', dbTrip.MasterMemberID);
-      const tripEquipmentMaster = await TripEquipment.findBy({
-        'TripID': tripID,
-        'MemberType': "master",
-        'MemberID': dbTrip.MasterMemberID
-      });
-      let name = "";
-      if (member.Firstname !== null && member.Lastname !== null) {
-        name = member.Firstname + " " + member.Lastname;
-      }
-      let memberInfo = {};
-      let masterRentalInfo = {};
-      memberInfo.name = name;
-      memberInfo.dob = moment(member.DOB).format("YYYY-MM-DD");
-      memberInfo.disability = member.IsDisabled;
-      //if there is no equipment data
-      if (tripEquipmentMaster === null) {
-        memberInfo.shoeSize = null;
-        memberInfo.weight = null;
-        memberInfo.height = null;
-        masterRentalInfo = null;
-      }
-      else {
-        memberInfo.shoeSize = tripEquipmentMaster.ShoeSize;
-        memberInfo.weight = tripEquipmentMaster.Weight;
-        memberInfo.height = tripEquipmentMaster.Height;
+    try {
+      const tripID = params.id;
+      console.log(tripID);
+      const dbTrip = await Trip.findBy("id", tripID);
+      const resort = await ResortInfo.findBy('id', dbTrip.ResortID);
+      const tripAccommodation = await TripAccommodation.findBy('TripID', tripID);
+      const tripActivity = await TripActivity.findBy('TripID', tripID);
+      const tripLiftPass = await TripLiftPass.findBy('TripID', tripID);
+      //add trip basic info
+      let tripInfo = {};
+      tripInfo.place = resort.Name;
+      const startDate = moment(dbTrip.StartDate).format("YYYY-MM-DD");
+      const endDate = moment(dbTrip.EndDate).format("YYYY-MM-DD");
+      tripInfo.startDate = startDate;
+      tripInfo.endDate = endDate;
+      tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
+      tripInfo.comment = dbTrip.Comment;
+      //add member info (information on who are going to the trip)
+      let memberInfoArray = [];
+      const activityArray = ["ski", "snowboard", "telemark", "snowbike", "snowshoe", "snowmobile"];
+      //activity based rental information
+      let rentalInfo = {};
+      rentalInfo.skiInfo = null;
+      rentalInfo.snowboardInfo = null;
+      rentalInfo.telemarkInfo = null;
+      rentalInfo.otherInfo = null;
+      //if master member is going, add his information
+      if (dbTrip.IsMasterMemberGoing === 1) {
+        const member = await Member.findBy('id', dbTrip.MasterMemberID);
+        const tripEquipmentMaster = await TripEquipment.findBy({
+          'TripID': tripID,
+          'MemberType': "master",
+          'MemberID': dbTrip.MasterMemberID
+        });
+        let name = "";
+        if (member.Firstname !== null && member.Lastname !== null) {
+          name = member.Firstname + " " + member.Lastname;
+        }
+        let memberInfo = {};
+        let masterRentalInfo = {};
+        memberInfo.name = name;
+        memberInfo.dob = moment(member.DOB).format("YYYY-MM-DD");
+        memberInfo.disability = member.IsDisabled;
+        //if there is no equipment data
+        if (tripEquipmentMaster === null) {
+          memberInfo.shoeSize = null;
+          memberInfo.weight = null;
+          memberInfo.height = null;
+          masterRentalInfo = null;
+        }
+        else {
+          memberInfo.shoeSize = tripEquipmentMaster.ShoeSize;
+          memberInfo.weight = tripEquipmentMaster.Weight;
+          memberInfo.height = tripEquipmentMaster.Height;
 
-        //add master rental information
-        masterRentalInfo = JSON.parse(tripEquipmentMaster.RentInfo).masterRentalInfo;
+          //add master rental information
+          masterRentalInfo = JSON.parse(tripEquipmentMaster.RentInfo).masterRentalInfo;
 
-        if (masterRentalInfo.skiInfo !== null) {
-          rentalInfo.skiInfo = masterRentalInfo.skiInfo;
-        }
-        if (masterRentalInfo.snowboardInfo !== null) {
-          rentalInfo.snowboardInfo = masterRentalInfo.snowboardInfo;
-        }
-        if (masterRentalInfo.telemarkInfo !== null) {
-          rentalInfo.telemarkInfo = masterRentalInfo.telemarkInfo;
-        }
-        if (masterRentalInfo.otherInfo !== null) {
-          rentalInfo.otherInfo = masterRentalInfo.otherInfo;
-        }
+          if (masterRentalInfo.skiInfo !== null) {
+            rentalInfo.skiInfo = masterRentalInfo.skiInfo;
+          }
+          if (masterRentalInfo.snowboardInfo !== null) {
+            rentalInfo.snowboardInfo = masterRentalInfo.snowboardInfo;
+          }
+          if (masterRentalInfo.telemarkInfo !== null) {
+            rentalInfo.telemarkInfo = masterRentalInfo.telemarkInfo;
+          }
+          if (masterRentalInfo.otherInfo !== null) {
+            rentalInfo.otherInfo = masterRentalInfo.otherInfo;
+          }
 
+        }
+        //add master member activity information
+        let masterActivity = JSON.parse(tripActivity.MasterMemberActivity);
+        //masterActivity = {2: master_activity}
+        // master_activity = {
+        //   activity: [true, true, true, true, true, true],
+        //   ability: [2, 2, 2, 2, 2],
+        //   skipEquipmentLesson: false
+        // };
+        let activityBoolArray = masterActivity[2].activity;
+        let memberActivityArray = [];
+        for (let i = 0; i < activityBoolArray.length; i++) {
+          if (activityBoolArray[i]) {
+            memberActivityArray.push(activityArray[i]);
+          }
+        }
+        memberInfo.activity = memberActivityArray;
+
+        memberInfoArray.push(memberInfo);
       }
-      //add master member activity information
-      let masterActivity = JSON.parse(tripActivity.MasterMemberActivity);
-      //masterActivity = {2: master_activity}
-      // master_activity = {
-      //   activity: [true, true, true, true, true, true],
-      //   ability: [2, 2, 2, 2, 2],
+      //add group member information
+      let familyMemberArray = JSON.parse(dbTrip.GroupMemberIDs).family_members;
+      //[1, 2, 3]
+      let familyActivity = JSON.parse(tripActivity.GroupMemberActivity);
+      // familyActivity = {
+      //   1: family_activity,
+      //   2: family_activity,
+      //   3: family_activity
+      // };
+      // family_activity = {
+      //   activity: [true, false, false, false, false, false],
+      //   ability: [3, 3, 3, 3, 3],
       //   skipEquipmentLesson: false
       // };
-      let activityBoolArray = masterActivity[2].activity;
-      let memberActivityArray = [];
-      for (let i = 0; i < activityBoolArray.length; i++) {
-        if (activityBoolArray[i]) {
-          memberActivityArray.push(activityArray[i]);
+
+      //add family member information
+      for (let i = 0; i < familyMemberArray.length; i++) {
+        let familyMemberID = familyMemberArray[i];
+        //console.log(familyMemberID);
+        const familyMember = await FamilyMember.findBy('id', familyMemberID);
+        const tripEquipmentFamily = await TripEquipment.findBy({
+          'TripID': tripID,
+          'MemberType': "family",
+          'MemberID': familyMemberID
+        });
+        let name = "";
+        if (familyMember.FirstName !== null && familyMember.LastName !== null) {
+          name = familyMember.FirstName + " " + familyMember.LastName;
         }
-      }
-      memberInfo.activity = memberActivityArray;
+        let memberInfo = {};
+        let familyRentalInfo = {};
+        memberInfo.name = name;
+        memberInfo.dob = moment(familyMember.DOB).format("YYYY-MM-DD");
+        memberInfo.disability = familyMember.IsDisabled;
+        //if there is no equipment data
+        if (tripEquipmentFamily === null) {
+          memberInfo.shoeSize = null;
+          memberInfo.weight = null;
+          memberInfo.height = null;
+          familyRentalInfo = null;
+        }
+        else {
+          memberInfo.shoeSize = tripEquipmentFamily.ShoeSize;
+          memberInfo.weight = tripEquipmentFamily.Weight;
+          memberInfo.height = tripEquipmentFamily.Height;
 
-      memberInfoArray.push(memberInfo);
-    }
-    //add group member information
-    let familyMemberArray = JSON.parse(dbTrip.GroupMemberIDs).family_members;
-    //[1, 2, 3]
-    let familyActivity = JSON.parse(tripActivity.GroupMemberActivity);
-    // familyActivity = {
-    //   1: family_activity,
-    //   2: family_activity,
-    //   3: family_activity
-    // };
-    // family_activity = {
-    //   activity: [true, false, false, false, false, false],
-    //   ability: [3, 3, 3, 3, 3],
-    //   skipEquipmentLesson: false
-    // };
+          //add family rental information
+          familyRentalInfo = JSON.parse(tripEquipmentFamily.RentInfo).familyRentalInfo;
 
-    //add family member information
-    for (let i = 0; i < familyMemberArray.length; i++) {
-      let familyMemberID = familyMemberArray[i];
-      //console.log(familyMemberID);
-      const familyMember = await FamilyMember.findBy('id', familyMemberID);
-      const tripEquipmentFamily = await TripEquipment.findBy({
-        'TripID': tripID,
-        'MemberType': "family",
-        'MemberID': familyMemberID
-      });
-      let name = "";
-      if (familyMember.FirstName !== null && familyMember.LastName !== null) {
-        name = familyMember.FirstName + " " + familyMember.LastName;
+
+          //only when family individual rental information is not null
+          if (familyRentalInfo.skiInfo !== null) {
+            if (rentalInfo.skiInfo !== null) {
+              rentalInfo.skiInfo = rentalInfo.skiInfo.concat(familyRentalInfo.skiInfo);
+            }
+            else {
+              rentalInfo.skiInfo = familyRentalInfo.skiInfo;
+            }
+          }
+
+          if (familyRentalInfo.snowboardInfo !== null) {
+            if (rentalInfo.skiInfo !== null) {
+              rentalInfo.snowboardInfo = rentalInfo.snowboardInfo.concat(familyRentalInfo.snowboardInfo);
+            }
+            else {
+              rentalInfo.snowboardInfo = familyRentalInfo.snowboardInfo;
+            }
+          }
+
+          if (familyRentalInfo.telemarkInfo !== null) {
+            if (rentalInfo.skiInfo !== null) {
+              rentalInfo.telemarkInfo = rentalInfo.telemarkInfo.concat(familyRentalInfo.telemarkInfo);
+            }
+            else {
+              rentalInfo.telemarkInfo = familyRentalInfo.telemarkInfo;
+            }
+          }
+
+          if (familyRentalInfo.otherInfo !== null) {
+            if (rentalInfo.otherInfo !== null) {
+              rentalInfo.otherInfo = rentalInfo.otherInfo.concat(familyRentalInfo.otherInfo);
+            }
+            else {
+              rentalInfo.otherInfo = familyRentalInfo.otherInfo;
+            }
+          }
+        }
+        //add group member activity information
+        let familyActivityBoolArray = familyActivity[i + 1].activity;
+        //console.log(familyActivityBoolArray);
+        let memberActivityArray = [];
+        for (let i = 0; i < familyActivityBoolArray.length; i++) {
+          if (familyActivityBoolArray[i]) {
+            memberActivityArray.push(activityArray[i]);
+          }
+        }
+        memberInfo.activity = memberActivityArray;
+
+        memberInfoArray.push(memberInfo);
       }
-      let memberInfo = {};
-      let familyRentalInfo = {};
-      memberInfo.name = name;
-      memberInfo.dob = moment(familyMember.DOB).format("YYYY-MM-DD");
-      memberInfo.disability = familyMember.IsDisabled;
-      //if there is no equipment data
-      if (tripEquipmentFamily === null) {
-        memberInfo.shoeSize = null;
-        memberInfo.weight = null;
-        memberInfo.height = null;
-        familyRentalInfo = null;
+
+      //add accommodation information
+      let accommodationInfo = {};
+      //user skipped accommodation
+      if (tripAccommodation === null) {
+        accommodationInfo = null;
       }
       else {
-        memberInfo.shoeSize = tripEquipmentFamily.ShoeSize;
-        memberInfo.weight = tripEquipmentFamily.Weight;
-        memberInfo.height = tripEquipmentFamily.Height;
-
-        //add family rental information
-        familyRentalInfo = JSON.parse(tripEquipmentFamily.RentInfo).familyRentalInfo;
-
-
-        //only when family individual rental information is not null
-        if (familyRentalInfo.skiInfo !== null) {
-          if (rentalInfo.skiInfo !== null) {
-            rentalInfo.skiInfo = rentalInfo.skiInfo.concat(familyRentalInfo.skiInfo);
-          }
-          else {
-            rentalInfo.skiInfo = familyRentalInfo.skiInfo;
-          }
-        }
-
-        if (familyRentalInfo.snowboardInfo !== null) {
-          if (rentalInfo.skiInfo !== null) {
-            rentalInfo.snowboardInfo = rentalInfo.snowboardInfo.concat(familyRentalInfo.snowboardInfo);
-          }
-          else {
-            rentalInfo.snowboardInfo = familyRentalInfo.snowboardInfo;
-          }
-        }
-
-        if (familyRentalInfo.telemarkInfo !== null) {
-          if (rentalInfo.skiInfo !== null) {
-            rentalInfo.telemarkInfo = rentalInfo.telemarkInfo.concat(familyRentalInfo.telemarkInfo);
-          }
-          else {
-            rentalInfo.telemarkInfo = familyRentalInfo.telemarkInfo;
-          }
-        }
-
-        if (familyRentalInfo.otherInfo !== null) {
-          if (rentalInfo.otherInfo !== null) {
-            rentalInfo.otherInfo = rentalInfo.otherInfo.concat(familyRentalInfo.otherInfo);
-          }
-          else {
-            rentalInfo.otherInfo = familyRentalInfo.otherInfo;
-          }
-        }
+        accommodationInfo.type = tripAccommodation.AccoType;
+        accommodationInfo.category = tripAccommodation.AccoCate;
+        accommodationInfo.adultNum = tripAccommodation.NumOfAdults;
+        accommodationInfo.childNum = tripAccommodation.NumOfChildren;
+        accommodationInfo.todNum = tripAccommodation.NumOfToddlers;
+        accommodationInfo.bedNum = tripAccommodation.NumOfBedroom;
+        accommodationInfo.bathNum = tripAccommodation.NumOfBathroom;
+        accommodationInfo.requirement = tripAccommodation.Requirement;
       }
-      //add group member activity information
-      let familyActivityBoolArray = familyActivity[i + 1].activity;
-      //console.log(familyActivityBoolArray);
-      let memberActivityArray = [];
-      for (let i = 0; i < familyActivityBoolArray.length; i++) {
-        if (familyActivityBoolArray[i]) {
-          memberActivityArray.push(activityArray[i]);
-        }
+
+      //add liftPass information
+      let liftPassInfo = {};
+      //user removed lift pass
+      if (tripLiftPass.IsRemoved) {
+        liftPassInfo = null;
       }
-      memberInfo.activity = memberActivityArray;
+      else {
+        liftPassInfo.comment = tripLiftPass.Comment;
+        liftPassInfo.liftPassArray = JSON.parse(tripLiftPass.LiftpassInfo).liftPassInfo;
+      }
 
-      memberInfoArray.push(memberInfo);
+      //console.log(rentalInfo);
+      return JSON.stringify({
+        tripInfo: tripInfo,
+        memberInfo: memberInfoArray,
+        accommodationInfo: accommodationInfo,
+        liftPassInfo: liftPassInfo,
+        rentalInfo: rentalInfo
+      });
+    } catch (e) {
+      console.log(e);
     }
-
-    //add accommodation information
-    let accommodationInfo = {};
-    //user skipped accommodation
-    if (tripAccommodation === null) {
-      accommodationInfo = null;
-    }
-    else {
-      accommodationInfo.type = tripAccommodation.AccoType;
-      accommodationInfo.category = tripAccommodation.AccoCate;
-      accommodationInfo.adultNum = tripAccommodation.NumOfAdults;
-      accommodationInfo.childNum = tripAccommodation.NumOfChildren;
-      accommodationInfo.todNum = tripAccommodation.NumOfToddlers;
-      accommodationInfo.bedNum = tripAccommodation.NumOfBedroom;
-      accommodationInfo.bathNum = tripAccommodation.NumOfBathroom;
-      accommodationInfo.requirement = tripAccommodation.Requirement;
-    }
-
-    //add liftPass information
-    let liftPassInfo = {};
-    //user removed lift pass
-    if (tripLiftPass.IsRemoved) {
-      liftPassInfo = null;
-    }
-    else {
-      liftPassInfo.comment = tripLiftPass.Comment;
-      liftPassInfo.liftPassArray = JSON.parse(tripLiftPass.LiftpassInfo).liftPassInfo;
-    }
-
-    //console.log(rentalInfo);
-    return JSON.stringify({
-      tripInfo: tripInfo,
-      memberInfo: memberInfoArray,
-      accommodationInfo: accommodationInfo,
-      liftPassInfo: liftPassInfo,
-      rentalInfo: rentalInfo
-    });
   }
 
   async completeTrip({request}) {
@@ -1069,7 +1081,7 @@ class TripController {
       await dbTrip.save();
     }
     catch (e) {
-      console.log(e)
+      console.log(e);
     }
 
   }
