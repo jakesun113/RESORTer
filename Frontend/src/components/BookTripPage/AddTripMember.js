@@ -133,7 +133,7 @@ class AddTripMember extends Component {
 
   //This function just used to overwrite the existed function inside of AddGroupMemberCard.js component
   handleAddGroupNumber(params) {
-    console.log('');
+    //console.log('');
   }
 
   handleAfterAddNewGroupMemberClose = () => {
@@ -158,7 +158,7 @@ class AddTripMember extends Component {
       groupMember = this.state.groupMember;
     }
 
-    console.log(this.state.isTripHasPerson)
+    //console.log(this.state.isTripHasPerson)
     return (
       <React.Fragment>
         {this.state.showAlertWindow === true ? (

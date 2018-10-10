@@ -178,13 +178,13 @@ class LiftPassCard extends Component {
           >
             {noNeedLiftPass ? (
               <i
-                class="far fa-check-square"
+                className="far fa-check-square"
                 style={CheckStyle}
                 onClick={this.HandleNeedLiftPass}
               />
             ) : (
               <i
-                class="far fa-square"
+                className="far fa-square"
                 style={CheckStyle}
                 onClick={this.HandleNeedLiftPass}
               />

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import SmallEllipseBtn from "../template/SmallEllipseBtn";
 
 class OtherEquipmentCard extends Component {
   state = {
@@ -50,7 +49,7 @@ class OtherEquipmentCard extends Component {
                   <td style={{ color: "#4682B4" }}>{equipment.outerwear}</td>
                   <td style={{ color: "#4682B4" }}>{equipment.helmet}</td>
                   <td style={{ cursor: "pointer" }}>
-                    <i class="far fa-trash-alt" />
+                    <i className="far fa-trash-alt" />
                   </td>
                 </tr>
               </tbody>
@@ -169,7 +168,7 @@ class RentalCard extends Component {
                       <td style={{ color: "#8CB50B" }}>{eachRental.skis}</td>
                       <td>{eachRental.grade}</td>
                       <td style={{ cursor: "pointer" }}>
-                        <i class="far fa-trash-alt" />
+                        <i className="far fa-trash-alt" />
                       </td>
                     </tr>
                   ))}

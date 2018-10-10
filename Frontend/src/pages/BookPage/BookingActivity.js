@@ -19,6 +19,7 @@ import pic_telemark from '../../materials/ActivityIcons/telemark.jpeg';
 import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import axios from "axios/index";
+import handleLogOut from "../../components/template/HandleLogOut";
 
 
 const Warning = styled.p`
@@ -182,6 +183,7 @@ class BookingActivity extends Component {
                 await axios.post(BaseURL + "checkTokenAuth", postData).then(response => {
                     if (response.data.status === "ExpiredJWT") {
                         alert('Token Expire');
+                        handleLogOut(cookies);
                         history.push({
                             pathname: "/login",
                             state: {
