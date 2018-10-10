@@ -258,11 +258,11 @@ class BookingAccommodation extends Component {
         this.state = {
             acco_type: '',
             acco_cate: '',
-            num_adult: "",
-            num_child: "",
-            num_toddler: "",
-            num_bedroom: "",
-            num_bathroom: "",
+            num_adult: undefined,
+            num_child: undefined,
+            num_toddler: undefined,
+            num_bedroom: undefined,
+            num_bathroom: undefined,
             requirement: '',
             warning_status: false,
             infoShow: false,
@@ -366,11 +366,11 @@ class BookingAccommodation extends Component {
         const upload_data = {
             acco_type: '',
             acco_cate: '',
-            num_adult: "",
-            num_child: "",
-            num_toddler: "",
-            num_bedroom: "",
-            num_bathroom: "",
+            num_adult: undefined,
+            num_child: undefined,
+            num_toddler: undefined,
+            num_bedroom: undefined,
+            num_bathroom: undefined,
             requirement: '',
             tripID: tripID,
         };
@@ -440,7 +440,9 @@ class BookingAccommodation extends Component {
     goNext = () => {
         const {place, history, resortID, tripID, masterID} = this.props;
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement} = this.state;
-        if (acco_type === '' || acco_cate === '' || num_adult === "" || num_child === "" || num_toddler === "" || num_bedroom === "" || num_bathroom === "") {
+        if (acco_type === '' || acco_cate === '' || num_adult === undefined ||
+            num_child === undefined || num_toddler === undefined || num_bedroom === undefined ||
+            num_bathroom === undefined) {
             this.setState({
                 warning_status: true,
             })
