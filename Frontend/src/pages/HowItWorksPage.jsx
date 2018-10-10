@@ -18,24 +18,18 @@ class SkiTripsMadeEasy extends Component {
     render() {
         return (
             <div id="skiTripsMadeEasy" className="text-center container-fluid">
-                <h1>Ski Trips Made Easy</h1>
+                <h1>One Portal | One Profile | Resorts Worldwide</h1>
                 <p className="plaintext">
-                    RESORTer is a web app to plan your activities at ski resorts
-                    worldwide, all in the one place, to get you the best deal.
-                    The first
-                    of its kind, RESORTer personalises the planning journey for
-                    future
-                    bookings and sends the plan you make directly to the resort
-                    to quote.
-                    Credit card payment is currently made direct with the resort
-                    but we're
-                    working to allow payments on our site shortly. It's our
-                    first
-                    iteration so things can only progress from here. Tell us
-                    what you
+                    RESORTer is a quick, seamless booking enquiry experience to
+                    get ski trips quoted direct from any resort in the world -
+                    liftpasses, lessons, equipment hire, and accommodation -
+                    just one profile for all resorts and past trips can be
+                    cloned for even faster planning. Credit card payment is
+                    currently made direct with the resort but we're working to
+                    allow payments on our site shortly. It's our first iteration
+                    so things can only progress from here. Tell us what you
                     think using the feedback tab on each page or via our survey
-                    at the
-                    end.
+                    at the end.
                 </p>
                 <p className="plaintext">Mobile app coming soon.</p>
                 <h2>Fast, efficient trip planner...</h2>

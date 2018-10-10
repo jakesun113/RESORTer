@@ -28,7 +28,10 @@ class Equipmentpage extends Component {
       members: {
         "1": { id: 1, name: "user 1", age: 0 },
         "2": { id: 2, name: "user 2", age: 0 }
-      }
+      },
+      warning: false,
+      token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
+      provider: JSON.parse(sessionStorage.getItem("userSocialData"))['provider'] || null,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -42,19 +45,50 @@ class Equipmentpage extends Component {
     });
   };
 
+  goPrevious = () => {
+    const { place, history, masterID, resortID, tripID } = this.props;
+    const url = `/booking/${place}/doing`;
+    history.push({
+      pathname: url,
+      state: {
+        masterID: masterID,
+        resortID: resortID,
+        tripID: tripID
+      }
+    });
+  };
+
   async handleSubmit(e) {
     e.preventDefault();
   }
 
   componentDidMount() {
-    const { place, history, masterID, resortID, tripID } = this.props;
+    const {tripID, masterID} = this.props;
+    const url = `http://127.0.0.1:3333/api/getEquipmentInfo/${tripID}/${masterID}`;
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            if (data === "Error in Getting Equipment Information.") {
+                alert(data)
+            } else {
+                const membersInfo = JSON.parse(data);
+                const keys = Object.keys(membersInfo);
+                this.setState({
+                    currentMember: keys[0],
+                    members: membersInfo
+                })
+            }
+        })
+        .catch(err => console.log(err))
   }
+
   // change current memeber
   handleChangeCurrentMember = memberId => {
     this.setState({
       currentMember: memberId
     });
   };
+
   render() {
     const { members, currentMember } = this.state;
     let memberArray = [];
@@ -115,6 +149,40 @@ class Equipmentpage extends Component {
             memberName={members[currentMember].name}
             memberAge={members[currentMember].age}
           />
+
+        {/* btn */}
+          <div
+            className="row"
+            style={{ color: "#4682B4", fontSize: "20px", fontWeight: "bold" }}
+          >
+            <div className="col-lg-1" style={{ paddingRight: "15px" }} />
+            <div className="col-2">
+              <SmallEllipseBtn
+                text="Back"
+                onClick={this.goPrevious}
+                style={{
+                  backgroundColor: "rgba(255, 97, 97, 1)",
+                  width: "100%",
+                  paddingLeft: "10px",
+                  paddingRight: "10px"
+                }}
+              />
+            </div>
+            <div className="col-6" />
+            <div className="col-2">
+                <SmallEllipseBtn
+                  text="Save & Continue"
+                  //onClick={}
+                  style={{
+                    backgroundColor: "rgba(255, 97, 97, 1)",
+                    width: "100%",
+                    paddingLeft: "10px",
+                    paddingRight: "10px"
+                  }}
+                />
+            </div>
+            <div className="col-lg-1" />
+          </div>
         </div>
       </React.Fragment>
     );

@@ -15,6 +15,13 @@ export const Title = styled.span`
   padding-right: 20px;
 `;
 
+const HeaderL2 = styled.div`
+   font-weight: 700;
+   color: #607375;
+   font-size: 20px;
+   margin-bottom: 10px;
+`;
+
 const Warning = styled.p`
   margin-bottom: 10px; 
   color:rgba(255, 97, 97, 1);
@@ -39,8 +46,28 @@ const UpperEllipseButton = styled.button`
 
 const Header = styled.p`
   font-size:25px;
-
 `;
+
+
+const TextInput = styled.textarea`
+  width: 90%;
+  height:100px;
+  border: 1px solid rgba(198, 226, 247, 1);
+  padding-left: 12px;
+  border-radius: 8px;
+  color: #00A6FF;
+  resize: none;
+  &::-webkit-input-placeholder {
+    color: darkgray;
+    font-size: smaller;
+  }
+`;
+
+const OptionSelector = styled.select`
+  border: 1px solid rgba(198, 226, 247, 1);
+  color: #3B88FE;
+`;
+
 
 class BookingLesson extends Component {
     static propTypes = {
@@ -56,6 +83,34 @@ class BookingLesson extends Component {
             token: cookies.get("access-token") || null,
             provider: cookies.get("user-provider") || null,
 
+            specificIns: "No",
+            insInfo: "",
+            request: "",
+
+            startDate: null,
+            endDate: null,
+
+            members: {
+                "1": {firstName: "Lily", age: 4},
+                "2": {firstName: "Susan", age: 5},
+                "3": {firstName: "Sam", age: 8},
+                "4": {firstName: "Jack", age: 12},
+                "5": {firstName: "Wayne", age: 23},
+                "6": {firstName: "Barbara", age: 30},
+            },
+
+            groupLesson: {
+                "adult": {
+                    "date-AM/PM-Activity-1": ["5", "6"],
+                    "date-AM/PM-Activity-2": ["5"],
+                },
+                "child": {
+                    "date-AM/PM-Activity-1": ["3", "4"],
+                    "date-AM/PM-Activity-2": ["3"],
+                },
+            },
+
+            privateLesson: {},
         }
     }
 
@@ -69,13 +124,13 @@ class BookingLesson extends Component {
             if (provider === 'email') {
                 const BaseURL = "http://127.0.0.1:3333/api/";
                 const postData = {
-                    token: token
+                    token: token,
+                    provider: provider
                 };
 
-                await axios.post(BaseURL + "check-token", postData).then(response => {
-                    //handle token is not valid
-                    if (response.data.tokenValid === false) {
-                        console.log("token expired");
+                await axios.post(BaseURL + "checkTokenAuth", postData).then(response => {
+                    if (response.data.status === "ExpiredJWT") {
+                        alert('Token Expire');
                         history.push({
                             pathname: "/login",
                             state: {
@@ -83,14 +138,11 @@ class BookingLesson extends Component {
                                 masterID: masterID,
                                 resortID: resortID,
                                 tripID: tripID,
-                                history: history
                             }
                         });
-                    }
-
-                    //token is valid
-                    else {
-                        console.log("token valid");
+                    } else if (response.data.status === "fail") {
+                        alert('Server Error, Please Try again')
+                    } else if (response.data.status === "success") {
                         //save token into session
                         const sessionData = {
                             token: response.data.token
@@ -129,6 +181,7 @@ class BookingLesson extends Component {
                         }
                     }
                 })
+
             }
         } else {
             // is a guest user, then no need to handle auth
@@ -175,12 +228,26 @@ class BookingLesson extends Component {
         }
     };
 
+    handleInsChange = (e) => {
+        this.setState({specificIns: e.target.value});
+    };
+
+    handleInsInfoChange = (e) => {
+        this.setState({insInfo: e.target.value});
+    };
+
+    handleRequestChange = (e) => {
+        this.setState({request: e.target.value});
+    };
+
     componentDidMount() {
 
     }
 
     render() {
-        const {group_show, private_show} = this.state;
+        const {group_show, private_show, specificIns, insInfo, request} = this.state;
+        const placeHolderText = "Any Specific requirements you want your instructor to know? " +
+            "What do you want to get out of the lesson? Max. 150 characters.";
         return (
             <div className='container' style={{marginTop: '20px'}}>
                 <HeaderLine>
@@ -201,6 +268,7 @@ class BookingLesson extends Component {
                     snowsport (skiing, snowboarding, or telemarking) and
                     includes a lift pass, gear rental and a lesson.</Warning>
 
+                {/*group lessons*/}
                 <div style={{margin: '25px 0 5px 0'}}>
                     <Header
                         style={{
@@ -217,7 +285,8 @@ class BookingLesson extends Component {
                 </div>
 
                 <div className="collapse show" id="group">
-                    <div className='alert alert-primary'>
+                    <div className='alert alert-primary'
+                         style={{marginBottom: "20px"}}>
                         Lesson durations vary from resort to resort but
                         typically adult lesson duration is around <strong>2 -3
                         hours</strong>.<br/>
@@ -229,9 +298,59 @@ class BookingLesson extends Component {
                         Start and end times are aimed to allow parents time to
                         drop off and pick up children.<br/>
                     </div>
+
+                    {/* adult group lesson */}
+                    <HeaderL2>Teen & Adult &nbsp; (Age 15+)</HeaderL2>
+
+                    <div className='row'
+                         style={{fontSize: "18px"}}>
+                        <div className='col-2'>
+                            Date
+                        </div>
+                        <div className='col-2'>
+                            AM/PM
+                        </div>
+                        <div className='col-2'>
+                            Activity
+                        </div>
+                        <div className='col-4'>
+                            Participants
+                        </div>
+                        <div className='col-2'
+                             style={{
+                                 color: 'rgb(73,131,178)',
+                                 fontSize: '16px',
+                                 transform: 'translate(0,4px)'
+                             }}>
+                            Add Lesson
+                        </div>
+                    </div>
+
+                    <div className='row'>
+                        <div className='col-2'>
+                            <div>6 Oct 2018 &nbsp;
+                                <div className='fa fas fa-edit'/>
+                            </div>
+                        </div>
+
+                        <div className='col-2'>
+                            <label>
+
+                            </label>
+                        </div>
+
+                    </div>
+
+
+                    {/* children group lesson */}
+                    <HeaderL2>Child &nbsp; (Age 6-14)</HeaderL2>
+
+
                 </div>
 
+                <div style={{height: '30px'}}/>
 
+                {/*private lessons*/}
                 <div style={{margin: '25px 0 5px 0'}}>
                     <Header
                         style={{
@@ -250,14 +369,59 @@ class BookingLesson extends Component {
                 <div className="collapse show" id="private">
                     <div className='alert alert-warning'>
                         A maximum of up to 4 people can join a lesson. Everyone
-                        must be the same ability level.<br/>
+                        must be at the same ability level. <br/>
+                        Children under age 5 (inclusive) cannot attend a private
+                        lesson with children above age 6 (inclusive) or
+                        adults. Instead, they should book a separate private
+                        lesson.<br/>
                         <span style={{fontSize: 'small'}}>* Activities & time are subject to availability.
                             Confirm
                             with resort when they make contact.</span>
                     </div>
+
+                    <div className='row'>
+                        <div className='col-3'>
+                            Specific instructor in mind?
+                        </div>
+                        <div className='col-9'>
+                            <label>
+                                <OptionSelector value={specificIns}
+                                                onChange={this.handleInsChange}>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </OptionSelector>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style={{height: '10px'}}/>
+
+                    {specificIns === 'Yes' ?
+                        <div className='row'>
+                            <div className='col-3'>
+                                Name or description of the instructor
+                            </div>
+                            <div className='col-9'>
+                                <TextInput value={insInfo}
+                                           onChange={this.handleInsInfoChange}/>
+                            </div>
+                        </div>
+                        : null}
+
+                    <div style={{height: '10px'}}/>
+
+                    <div className='row'>
+                        <div className='col-3'>
+                            Any special requests?
+                        </div>
+                        <div className='col-9'>
+                            <TextInput value={request}
+                                       onChange={this.handleRequestChange}
+                                       placeholder={placeHolderText}/>
+                        </div>
+                    </div>
+
                 </div>
-
-
             </div>
         )
     }
