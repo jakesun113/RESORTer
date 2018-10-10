@@ -16,36 +16,6 @@ class BookSuccessPage extends Component {
         }
     }
 
-    componentDidMount() {
-        this.handleSendQuote();
-    }
-
-    handleSendQuote = async () => {
-
-        if (this.props.location.state) {
-
-            const {resortID} = this.props.location.state;
-
-            if (sessionStorage.getItem("userToken")) {
-                let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
-                const postData = {
-                    token: tokenData.token,
-                    resortID: resortID,
-                    place: this.state.place
-                };
-                await axios
-                    .post(`http://127.0.0.1:3333/api/send-quote`, postData)
-                    .then(response => {
-                        console.log("sent quote successfully");
-                        console.log(response);
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            }
-        }
-    };
-
     render() {
 
         return (

@@ -240,7 +240,7 @@ class BookTripPage extends Component {
       ResortName: this.props.place,
       provider: JSON.parse(sessionStorage.getItem("userSocialData")).provider
     };
-    console.log(postData);
+    //console.log(postData);
     //TODO: Make HTTP request
     axios
       .post("http://127.0.0.1:3333/api/enrollTrip/", postData)
@@ -258,7 +258,7 @@ class BookTripPage extends Component {
         } else if (response.data.status === "fail") {
           alert("Server Error, Please Try again");
         } else if (response.data.status === "success") {
-          console.log(response.data);
+          //console.log(response.data);
           //save token into session
           sessionStorage.setItem(
             "userToken",

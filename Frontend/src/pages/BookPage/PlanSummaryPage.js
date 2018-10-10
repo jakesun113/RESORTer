@@ -137,9 +137,9 @@ class PlanSummaryPage extends Component {
     //handle action when clicking "Get a Quote"
     getQuote = () => {
 
+        this.completeTrip(this.state.tripID);
         this.submitLiftPassInfo(this.state.tripID);
         this.submitRentalInfo(this.state.tripID);
-        this.completeTrip(this.state.tripID);
     };
 
     async submitLiftPassInfo(tripID) {
@@ -205,6 +205,28 @@ class PlanSummaryPage extends Component {
         });
 
     }
+
+    handleSendQuote = async (resortID, place) => {
+
+        if (sessionStorage.getItem("userToken")) {
+            let tokenData = JSON.parse(sessionStorage.getItem("userToken"));
+            const postData = {
+                token: tokenData.token,
+                resortID: resortID,
+                place: place
+            };
+            await axios
+                .post(`http://127.0.0.1:3333/api/send-quote`, postData)
+                .then(response => {
+                    console.log("sent quote successfully");
+                    //console.log(response);
+                })
+                .catch(error => {
+                    //console.log(error);
+                });
+        }
+
+    };
 
     async handleClick(eventType) {
 
@@ -305,6 +327,7 @@ class PlanSummaryPage extends Component {
             //this.state.saveRentalInfoSuccess &&
             this.state.saveLiftPassSuccess) {
             if (this.state.completeTripSuccess) {
+                this.handleSendQuote(resortID, place);
                 return <Redirect to={{
                     pathname: "/successPage/" + place,
                     state: {
