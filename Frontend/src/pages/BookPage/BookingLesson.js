@@ -68,6 +68,10 @@ const OptionSelector = styled.select`
   color: #3B88FE;
 `;
 
+const ListBorder = styled.hr`
+  margin: 0 0 7px 0;
+`;
+
 
 class BookingLesson extends Component {
     static propTypes = {
@@ -87,8 +91,8 @@ class BookingLesson extends Component {
             insInfo: "",
             request: "",
 
-            startDate: null,
-            endDate: null,
+            startDate: "2018-10-21",
+            endDate: "2018-10-24",
 
             members: {
                 "1": {firstName: "Lily", age: 4},
@@ -101,12 +105,16 @@ class BookingLesson extends Component {
 
             groupLesson: {
                 "adult": {
-                    "date-AM/PM-Activity-1": ["5", "6"],
-                    "date-AM/PM-Activity-2": ["5"],
+                    "2018-10-23 PM Ski": ["5", "6"],
+                    "2018-10-21 AM Snowboard": ["5"],
                 },
                 "child": {
-                    "date-AM/PM-Activity-1": ["3", "4"],
-                    "date-AM/PM-Activity-2": ["3"],
+                    "2018-10-22 PM Ski": ["3", "4"],
+                    "2018-10-21 PM Ski": ["3"],
+                },
+                "mini": {
+                    "2018-10-24 PM Telemark": ["1", "2"],
+                    "2018-10-22 AM Telemark": ["1"],
                 },
             },
 
@@ -229,7 +237,7 @@ class BookingLesson extends Component {
     };
 
     handleInsChange = (e) => {
-        this.setState({specificIns: e.target.value});
+        this.setState({[e.target.name]: e.target.value});
     };
 
     handleInsInfoChange = (e) => {
@@ -240,14 +248,83 @@ class BookingLesson extends Component {
         this.setState({request: e.target.value});
     };
 
+    handleGroupAPChange = (e) => {
+        const {groupLesson} = this.state;
+
+        const keyname = e.target.name; // e.g. adult 2018-10-23 PM Ski
+        const ageType = keyname.split(" ")[0];
+        const original_json = groupLesson[ageType];
+
+        const remain = keyname.split(" ").slice(1, 4).join(" ");
+
+
+    };
+
+    sortByDate = (listname) => {
+        listname.sort((a, b) => {
+            let a_date = new Date(a.split(' ')[0]);
+            let b_date = new Date(b.split(' ')[0]);
+            if (a_date < b_date) return -1;
+            if (a_date > b_date) return 1;
+            if (a_date === b_date) return 0;
+        });
+    };
+
     componentDidMount() {
 
     }
 
     render() {
-        const {group_show, private_show, specificIns, insInfo, request} = this.state;
+        const {group_show, private_show, specificIns, insInfo, request, startDate, endDate, members, groupLesson, privateLesson} = this.state;
         const placeHolderText = "Any Specific requirements you want your instructor to know? " +
             "What do you want to get out of the lesson? Max. 150 characters.";
+
+        // Group lesson info
+        const group_adult = groupLesson['adult']; // json
+        const group_child = groupLesson['child'];
+        const group_mini = groupLesson['mini'];
+        const group_adult_keys = Object.keys(group_adult);
+        const group_child_keys = Object.keys(group_child);
+        const group_mini_keys = Object.keys(group_mini);
+        this.sortByDate(group_adult_keys);
+        this.sortByDate(group_child_keys);
+        this.sortByDate(group_mini_keys);
+
+        // Group Adult
+        const group_adult_rows = group_adult_keys.map(keyname => {
+
+            const date = keyname.split(" ")[0];
+            const ap = keyname.split(" ")[1];
+            const act = keyname.split(" ")[2];
+
+            return (
+                <div key={keyname}>
+                    <ListBorder/>
+                    <div className='row'>
+                        <div className='col-2'>
+                            <div>{date} &nbsp;
+                                <div className='fa fas fa-edit'
+                                     style={{color: 'rgb(73,131,178)'}}/>
+                            </div>
+                        </div>
+                        <div className='col-2'>
+                            <label>
+                                <OptionSelector value={ap}
+                                                name={"adult " + keyname}
+                                                onChange={this.handleGroupAPChange}>
+                                    <option value="PM" selected="selected">PM
+                                    </option>
+                                    <option value="AM">AM</option>
+                                </OptionSelector>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+            )
+        });
+
         return (
             <div className='container' style={{marginTop: '20px'}}>
                 <HeaderLine>
@@ -267,6 +344,7 @@ class BookingLesson extends Component {
                 <Warning>A first time package is sold if you have never done a
                     snowsport (skiing, snowboarding, or telemarking) and
                     includes a lift pass, gear rental and a lesson.</Warning>
+
 
                 {/*group lessons*/}
                 <div style={{margin: '25px 0 5px 0'}}>
@@ -300,50 +378,47 @@ class BookingLesson extends Component {
                     </div>
 
                     {/* adult group lesson */}
-                    <HeaderL2>Teen & Adult &nbsp; (Age 15+)</HeaderL2>
+                    {group_adult_keys.length === 0 ? null :
+                        <div style={{marginBottom: '16px'}}>
+                            <HeaderL2>Teen & Adult &nbsp; (Age 15+)</HeaderL2>
 
-                    <div className='row'
-                         style={{fontSize: "18px"}}>
-                        <div className='col-2'>
-                            Date
-                        </div>
-                        <div className='col-2'>
-                            AM/PM
-                        </div>
-                        <div className='col-2'>
-                            Activity
-                        </div>
-                        <div className='col-4'>
-                            Participants
-                        </div>
-                        <div className='col-2'
-                             style={{
-                                 color: 'rgb(73,131,178)',
-                                 fontSize: '16px',
-                                 transform: 'translate(0,4px)'
-                             }}>
-                            Add Lesson
-                        </div>
-                    </div>
-
-                    <div className='row'>
-                        <div className='col-2'>
-                            <div>6 Oct 2018 &nbsp;
-                                <div className='fa fas fa-edit'/>
+                            <div className='row'
+                                 style={{
+                                     fontSize: "18px",
+                                     marginBottom: '10px'
+                                 }}>
+                                <div className='col-2'>
+                                    Date
+                                </div>
+                                <div className='col-2'>
+                                    AM/PM
+                                </div>
+                                <div className='col-2'>
+                                    Activity
+                                </div>
+                                <div className='col-4'>
+                                    Participants
+                                </div>
+                                <div className='col-2'
+                                     style={{
+                                         color: 'rgb(73,131,178)',
+                                         fontSize: '16px',
+                                         transform: 'translate(0,4px)'
+                                     }}>
+                                    Add Lesson
+                                </div>
                             </div>
+
+                            {group_adult_rows}
                         </div>
-
-                        <div className='col-2'>
-                            <label>
-
-                            </label>
-                        </div>
-
-                    </div>
+                    }
 
 
                     {/* children group lesson */}
                     <HeaderL2>Child &nbsp; (Age 6-14)</HeaderL2>
+
+                    {/* Mini group lesson */}
+                    <HeaderL2>Mini &nbsp; (Age 3-5)</HeaderL2>
 
 
                 </div>
@@ -386,6 +461,7 @@ class BookingLesson extends Component {
                         <div className='col-9'>
                             <label>
                                 <OptionSelector value={specificIns}
+                                                name={'specificIns'}
                                                 onChange={this.handleInsChange}>
                                     <option value="No">No</option>
                                     <option value="Yes">Yes</option>

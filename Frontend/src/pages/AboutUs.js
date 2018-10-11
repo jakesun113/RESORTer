@@ -250,7 +250,7 @@ class HighFive extends Component {
     }
 }
 
-class HowItWorks extends Component {
+class AboutUs extends Component {
     state = {
         currentScrollHeight: 0
     };
@@ -262,7 +262,7 @@ class HowItWorks extends Component {
                 this.setState({currentScrollHeight: window.scrollY});
             }
         };
-
+        $("html,body").animate({scrollTop: $("#behindTheDesks").offset().top}, "slow");
     }
 
     render() {
@@ -290,4 +290,4 @@ class HowItWorks extends Component {
     }
 }
 
-export default HowItWorks;
+export default AboutUs;

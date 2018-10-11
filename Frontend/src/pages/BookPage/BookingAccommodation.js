@@ -254,7 +254,7 @@ class BookingAccommodation extends Component {
 
     constructor(props) {
         super(props);
-        const {cookies} = props;
+        // const {cookies} = props;
         this.state = {
             acco_type: '',
             acco_cate: '',

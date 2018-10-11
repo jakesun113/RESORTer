@@ -350,7 +350,9 @@ class Navbar extends Component {
                                         <NavLink
                                             activeClassName="initial_active"
                                             className="nav-link button_style"
-                                            to="/how-it-works"
+                                            to={{
+                                                pathname: "/how-it-works",
+                                            }}
                                         >
                                             How it Works
                                         </NavLink>
@@ -362,9 +364,6 @@ class Navbar extends Component {
                                             className="nav-link button_style"
                                             to={{
                                                 pathname: "/about-us",
-                                                state: {
-                                                    text: "Thank you for active your account, "
-                                                }
                                             }}
                                         >
                                             About Us

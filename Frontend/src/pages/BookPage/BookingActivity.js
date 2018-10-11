@@ -125,7 +125,7 @@ class BookingActivity extends Component {
 
     constructor(props) {
         super(props);
-        const {cookies} = props;
+        // const {cookies} = props;
         this.state = {
             currentMember: '1',
             members: {

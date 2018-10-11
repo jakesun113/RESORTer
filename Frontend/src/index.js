@@ -11,6 +11,7 @@ import NavBar from "./components/NavBar";
 import FooterNavBar from "./components/FooterNavBar";
 import HomePage from "./pages/HomePage";
 import HowItWorkPage from "./pages/HowItWorksPage";
+import AboutUs from "./pages/AboutUs";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignupPage from "./pages/LoginPage/SignupPage";
 import ContactPage from "./pages/ContactPage";
@@ -24,7 +25,6 @@ import MyTripPage from "./pages/MyTripPage";
 import TripSummaryPage from "./components/MyTripPage/TripSummaryPage";
 // test
 import NewUserProfilePage from "./pages/Profile/NewUserProfilePage";
-import PromptPage from "./components/template/PromptPage";
 // BookTrip
 
 import BookIndex from "./pages/BookPage/BookIndex";
@@ -62,11 +62,13 @@ ReactDOM.render(
 
                     {/* test */}
                     <Route path="/newProfile" component={NewUserProfilePage}/>
-                    <Route path="/about-us" component={PromptPage}/>
+
+                    <Route path="/about-us" component={AboutUs}/>
                     {/* login required */}
                     <Route path="/profile" component={ProfilePage}/>
                     <Route path="/my-trip" component={MyTripPage}/>
-                    <Route path="/trip/:id/summary" component={TripSummaryPage}/>
+                    <Route path="/trip/:id/summary"
+                           component={TripSummaryPage}/>
                     <Route path="/group-member" component={GroupMemberPage}/>
                     <Route path="/change-password" component={ChangePwdPage}/>
 
@@ -82,7 +84,8 @@ ReactDOM.render(
                     {/*resortID={this.props.location.state.resortID}*/}
                     {/*tripID={this.props.location.state.tripID}/>}/>*/}
                     <Route path="/booking/:placeName/" component={BookIndex}/>
-                    <Route path="/successPage/:placeName" component={BookSuccessPage} />
+                    <Route path="/successPage/:placeName"
+                           component={BookSuccessPage}/>
 
                     {/* term privacy */}
                     <Route path="/term-privacy">
