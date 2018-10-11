@@ -23,14 +23,17 @@ class TripEquipmentController {
             'MemberID': masterID
           });
           let members = {};
-          
+
+          // see if trip activity already exists
+          const activity = await TripActivity.findBy({TripID: tripID});
+
           if (IsMasterMemberGoing) {
             const {DOB, FirstName, LastName}
               = (await Database
               .select('DOB', 'FirstName', 'LastName')
               .from('members')
               .where({id: masterID}))[0];
-    
+            
             members["master " + masterID.toString()] = {
               "id": "master " + masterID.toString(),
               "firstName": FirstName,
@@ -45,14 +48,15 @@ class TripEquipmentController {
               "weight": null,
               "height": null
             };
-            const activity_tmp = await TripActivity.findBy("TripID", tripID);
-            const MasterMemberActivity = JSON.parse(activity_tmp.MasterMemberActivity)
-            const key = Object.keys(MasterMemberActivity); // single element array 
 
-            if (key.length > 0) {
+            if (activity.length > 0) {
+              const MasterMemberActivity = JSON.parse(activity.MasterMemberActivity)
+              const key = Object.keys(MasterMemberActivity); // single element array
+              if (key.length > 0) {
                 const master_key = key[0];
                 const activity_history = MasterMemberActivity[master_key].activity;
                 members["master " + masterID.toString()].activity = activity_history;
+              }
             }
             
             if (masterEquipment) {
@@ -104,6 +108,11 @@ class TripEquipmentController {
             "height": null
         }
 
+        const GroupMemberActivity = JSON.parse(activity.GroupMemberActivity)
+        const activity_history = GroupMemberActivity[family_member_id].activity;
+        console.log(activity_history)
+        members[family_member_id].activity = activity_history;
+
         const familyMemberEquipment = await TripEquipment.findBy({
           'TripID': tripID,
           'MemberType': "family",
@@ -134,6 +143,7 @@ class TripEquipmentController {
         }
       }
     }
+      console.log(members)
       return JSON.stringify(members);
       
     } catch (e) {

@@ -723,6 +723,7 @@ class TripController {
   }
 
   async getBookingHistory({params}) {
+    try {
     //first, get the user ID
     const token = params.token;
     const dbMemberID = await Database.table('validation_tokens')
@@ -829,6 +830,10 @@ class TripController {
       }
       return bookingStep;
     }
+    } catch (e) {
+      console.log(e);
+    }
+
   }
 
   async getTripSummary({params}) {

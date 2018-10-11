@@ -27,33 +27,10 @@ class EquipmentMemberCard extends Component {
       height: "",
       weight: "",
       isShowTip: this.props.isShowTip,
-      hasActivity: true,
-      currentActivity: [
-        {
-          id: 1,
-          ActivityName: "Ski",
-          EquipmentOne: "Boots",
-          EquipmentTwo: "Skis & Poles",
-          Grade: "standard"
-        },
-        {
-          id: 2,
-          ActivityName: "Snowboard",
-          EquipmentOne: "Boots",
-          EquipmentTwo: "Board",
-          Grade: "standard"
-        }
-      ]
+      hasActivity: this.props.hasActivity,
+      currentActivity: this.props.currentActivity
     };
   }
-  componentDidUpdate() {
-    if (this.state.isShowTip !== this.props.isShowTip) {
-      this.setState({
-        isShowTip: this.props.isShowTip
-      });
-    }
-  }
-
   handleChange = (name, value) => {
     this.setState({
       [name]: value
@@ -72,6 +49,7 @@ class EquipmentMemberCard extends Component {
       height,
       weight
     } = this.state;
+    {  console.log(this.state.currentActivity)}
     return (
       <React.Fragment>
         <div>
