@@ -208,9 +208,9 @@ class LiftPassCard extends Component {
               <StyledTextArea
                 readOnly={this.props.readOnly}
                 placeholder="Lift names who do not require liftpasses"
-              >
-                Sb jiacheng do not need liftpass
-              </StyledTextArea>
+                value={this.props.liftPassComment}
+              />
+
             ) : (
               ""
             )}
@@ -256,14 +256,14 @@ class LiftPassCard extends Component {
                     <td style={{ color: "#4682B4" }}>{eachLiftPass.date}</td>
                     <NumberSelector
                       title="Adults:"
-                      value={eachLiftPass.adultsNum}
-                      timeSpan={eachLiftPass.adultsTimeSpan}
+                      value={eachLiftPass.adultNumber}
+                      timeSpan={eachLiftPass.adultDuration}
                     />
                     {/* <td /> */}
                     <NumberSelector
                       title="Children:"
-                      value={eachLiftPass.childrenNum}
-                      timeSpan={eachLiftPass.childrenTimeSpan}
+                      value={eachLiftPass.childNumber}
+                      timeSpan={eachLiftPass.childDuration}
                     />
                   </tr>
                 ))}

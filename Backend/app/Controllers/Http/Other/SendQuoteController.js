@@ -24,15 +24,23 @@ class SendQuoteController {
           .from('RESORTer <no-reply@site-members.com>')
           .subject('Congratulations! Plan submitted!')
       });
+      console.log("send email to user successfully");
       // send email to resort's email address
-      await Mail.send('auth.emails.resortQuoteEmail', mailData, message => {
-        message
-          .to(resort.OwnerEmail)
-          .from('RESORTer <no-reply@site-members.com>')
-          .subject('New order submitted!')
-      });
+      console.log(resort.OwnerEmail);
+      if (resort.OwnerEmail === "" || resort.OwnerEmail === null) {
+        console.log("this resort has no resort email information.");
+      }
+      else {
+        await Mail.send('auth.emails.resortQuoteEmail', mailData, message => {
+          message
+            .to(resort.OwnerEmail)
+            .from('RESORTer <no-reply@site-members.com>')
+            .subject('New order submitted!')
+        });
 
-      console.log("send email successfully");
+        console.log("send email to resort successfully");
+      }
+
       return JSON.stringify({
         sendQuoteSuccess: true
       });

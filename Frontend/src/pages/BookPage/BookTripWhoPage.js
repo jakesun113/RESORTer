@@ -4,7 +4,7 @@ import GoogleMap from "../../components/template/GoogleMapRender";
 import AddTripMember from "../../components/BookTripPage/AddTripMember";
 import { Link } from "react-router-dom";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
-
+import BookTripNavBar from "../../components/BookTripPage/BookTripNavBar";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
@@ -312,9 +312,27 @@ class BookTripPage extends Component {
   render() {
     // const {place, masterID, resortID, tripID, history} = this.props;
     const { place, history } = this.props;
+    const finishedProcessList = [];
+    const unFinishedProcessList = [
+      "step_1_in_book_page",
+      "step_2_in_book_page",
+      "step_3_in_book_page",
+      "step_4_in_book_page",
+      "step_5_in_book_page",
+      "step_6_in_book_page"
+    ];
     return (
       <React.Fragment>
         <div className="container">
+          {/* navbar */}
+          <div className="row">
+            <BookTripNavBar
+              placeName={this.props.place}
+              currentPageName="step_1_in_book_page"
+              finishedProcessList={finishedProcessList}
+              unFinishedProcessList={unFinishedProcessList}
+            />
+          </div>
           <br />
           {/* title */}
           <div
