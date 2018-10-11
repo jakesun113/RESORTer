@@ -5,11 +5,20 @@ import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import axios from "axios/index";
 
-export const HeaderLine = styled.div`
+const HeaderLine = styled.div`
   margin: 20px 0 10px 0;
 `;
 
-export const Title = styled.span`
+const Icon = styled.div`
+  color: rgb(73,131,178);
+  transition: color 0.5s;
+  &:hover{
+    color: black;
+    cursor: pointer;
+  }
+`;
+
+const Title = styled.span`
   color: rgb(73,131,178);
   font-size: 25px;
   padding-right: 20px;
@@ -48,6 +57,53 @@ const Header = styled.p`
   font-size:25px;
 `;
 
+const CheckBoxInput = styled.input`
+  &:checked + label:before, &:not(:checked) + label:before{
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 2px;
+    width: 19px;
+    height: 19px;
+    border: 1px solid rgba(198, 226, 247, 1);
+    border-radius: 20%;
+    background: #fff;
+  }
+  
+
+  &:not(:checked):hover+ label:before{
+      background: rgba(198, 226, 247, 1);
+  }
+  
+  &:checked + label:after, &:not(:checked) + label:after{
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free"; 
+    position: absolute;
+    top: 1px;
+    left: -21px;
+    font-size: 0.9em;
+    color:#3B88FE;
+    font-weight: 600;
+    -webkit-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+   
+  &:not(:checked) + label:after{
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+   
+  &:checked + label:after{
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+`;
 
 const TextInput = styled.textarea`
   width: 90%;
@@ -101,11 +157,13 @@ class BookingLesson extends Component {
                 "4": {firstName: "Jack", age: 12},
                 "5": {firstName: "Wayne", age: 23},
                 "6": {firstName: "Barbara", age: 30},
+                "7": {firstName: "Tristan", age: 40},
             },
 
             groupLesson: {
                 "adult": {
                     "2018-10-23 PM Ski": ["5", "6"],
+                    "2018-10-23 AM Ski": ["5", "6"],
                     "2018-10-21 AM Snowboard": ["5"],
                 },
                 "child": {
@@ -248,26 +306,93 @@ class BookingLesson extends Component {
         this.setState({request: e.target.value});
     };
 
-    handleGroupAPChange = (e) => {
+    handleGroupInfoChange = (e) => {
         const {groupLesson} = this.state;
-
         const keyname = e.target.name; // e.g. adult 2018-10-23 PM Ski
-        const ageType = keyname.split(" ")[0];
-        const original_json = groupLesson[ageType];
+        const keysplit = keyname.split(" ");
 
-        const remain = keyname.split(" ").slice(1, 4).join(" ");
+        const ageType = keysplit[0];
+        const original_json = groupLesson[ageType]; // e.g. adult's json
+        const original_keys = Object.keys(original_json);
 
+        const old_key = keysplit.slice(1, 4).join(" ");
+        const old_value = original_json[old_key];
 
+        let new_key = "";
+        if (keysplit[4] === "ap") {
+            new_key = keysplit[1] + ` ${e.target.value} ` + keysplit[3];
+        }
+        if (keysplit[4] === "act") {
+            new_key = keysplit[1] + " " + keysplit[2] + ` ${e.target.value}`;
+        }
+        if (original_keys.indexOf(new_key) === -1) {
+            delete original_json[old_key];
+            original_json[new_key] = old_value;
+        }
+        this.forceUpdate();
     };
 
-    sortByDate = (listname) => {
+    handleGroupMemberChange = (e) => {
+        const {groupLesson} = this.state;
+
+        const keyname = e.target.id; // e.g. adult 2018-10-23 PM Ski 312
+        const keysplit = keyname.split(" ");
+        const ageType = keysplit[0];
+        const searchKey = keysplit.slice(1, 4).join(" ");
+        const old_array = groupLesson[ageType][searchKey];
+        const mid = keysplit[4];
+        const new_value = e.target.checked;
+
+        console.log(old_array);
+        console.log(mid);
+        console.log(new_value);
+
+        if (new_value === true) {
+            if (old_array.indexOf(mid) === -1) {
+                old_array.push(mid);
+                groupLesson[ageType][searchKey] = old_array
+            } else {
+                alert("logic error");
+            }
+        } else {
+            const rmv_index = old_array.indexOf(mid);
+            if (rmv_index !== -1) {
+                old_array.splice(rmv_index, 1);
+            } else {
+                alert("logic error");
+            }
+        }
+        this.forceUpdate();
+    };
+
+
+    sortByTime = (listname) => {
         listname.sort((a, b) => {
-            let a_date = new Date(a.split(' ')[0]);
-            let b_date = new Date(b.split(' ')[0]);
-            if (a_date < b_date) return -1;
-            if (a_date > b_date) return 1;
-            if (a_date === b_date) return 0;
-        });
+                const asplit = a.split(" ");
+                const bsplit = b.split(" ");
+                const a_date = new Date(asplit[0]);
+                const b_date = new Date(bsplit[0]);
+                const a_ap = asplit[1];
+                const b_ap = bsplit[1];
+
+                if (a_date < b_date) {
+                    return -1
+                }
+                else if (a_date > b_date) {
+                    return 1
+                }
+                else {
+                    if (a_ap === "AM" && b_ap === "PM") {
+                        return -1
+                    } else if (a_ap === "PM" && b_ap === "AM") {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                }
+            }
+        )
+        ;
     };
 
     componentDidMount() {
@@ -279,6 +404,22 @@ class BookingLesson extends Component {
         const placeHolderText = "Any Specific requirements you want your instructor to know? " +
             "What do you want to get out of the lesson? Max. 150 characters.";
 
+        // Members Info
+        const memberKeys = Object.keys(members); // array
+        let member_adult = [];
+        let member_child = [];
+        let member_mini = [];
+        for (let mid of memberKeys) {
+            const age = members[mid]['age'];
+            if (age <= 5) {
+                member_mini.push(mid)
+            } else if (age >= 15) {
+                member_adult.push(mid)
+            } else {
+                member_child.push(mid)
+            }
+        }
+
         // Group lesson info
         const group_adult = groupLesson['adult']; // json
         const group_child = groupLesson['child'];
@@ -286,16 +427,20 @@ class BookingLesson extends Component {
         const group_adult_keys = Object.keys(group_adult);
         const group_child_keys = Object.keys(group_child);
         const group_mini_keys = Object.keys(group_mini);
-        this.sortByDate(group_adult_keys);
-        this.sortByDate(group_child_keys);
-        this.sortByDate(group_mini_keys);
+        this.sortByTime(group_adult_keys);
+        this.sortByTime(group_child_keys);
+        this.sortByTime(group_mini_keys);
+
 
         // Group Adult
         const group_adult_rows = group_adult_keys.map(keyname => {
+            const keysplit = keyname.split(" ");
 
-            const date = keyname.split(" ")[0];
-            const ap = keyname.split(" ")[1];
-            const act = keyname.split(" ")[2];
+            const date = keysplit[0]; // Date
+            const ap = keysplit[1]; // AM/PM
+            const act = keysplit[2]; // Ski/Snowboard/Telemark
+
+            const parti = groupLesson['adult'][keyname]; // Participants, an array
 
             return (
                 <div key={keyname}>
@@ -303,24 +448,55 @@ class BookingLesson extends Component {
                     <div className='row'>
                         <div className='col-2'>
                             <div>{date} &nbsp;
-                                <div className='fa fas fa-edit'
-                                     style={{color: 'rgb(73,131,178)'}}/>
+                                <Icon className='fa fas fa-edit'/>
                             </div>
                         </div>
                         <div className='col-2'>
                             <label>
                                 <OptionSelector value={ap}
-                                                name={"adult " + keyname}
-                                                onChange={this.handleGroupAPChange}>
+                                                name={"adult " + keyname + " ap"}
+                                                onChange={this.handleGroupInfoChange}>
                                     <option value="PM" selected="selected">PM
                                     </option>
                                     <option value="AM">AM</option>
                                 </OptionSelector>
                             </label>
                         </div>
+                        <div className='col-md-2 col-sm-3 col-4'>
+                            <label>
+                                <OptionSelector value={act}
+                                                name={"adult " + keyname + " act"}
+                                                onChange={this.handleGroupInfoChange}>
+                                    <option value="Ski">Ski</option>
+                                    <option value="Snowboard">Snowboard</option>
+                                    <option value="Telemark">Telemark</option>
+                                </OptionSelector>
+                            </label>
+                        </div>
+                        <div className='col-md-5 col-sm-4 col-3'>
+                            {member_adult.map(mid =>
+                                <div key={mid}
+                                     style={{
+                                         display: 'inline-block',
+                                         marginRight: '30px',
+                                         position: 'relative'
+                                     }}>
+                                    <CheckBoxInput className="form-check-input"
+                                                   type="checkbox"
+                                                   checked={parti.indexOf(mid) !== -1}
+                                                   id={"adult " + keyname + " " + mid}
+                                                   onChange={this.handleGroupMemberChange}/>
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor={"adult " + keyname + " " + mid}> {members[mid]['firstName']}</label>
+                                </div>
+                            )}
+                        </div>
+                        <div className='col-1'>
+                            <Icon className='fa fas fa-trash-alt'/>
+                        </div>
                     </div>
                 </div>
-
 
             )
         });
@@ -393,10 +569,10 @@ class BookingLesson extends Component {
                                 <div className='col-2'>
                                     AM/PM
                                 </div>
-                                <div className='col-2'>
+                                <div className='col-md-2 col-3'>
                                     Activity
                                 </div>
-                                <div className='col-4'>
+                                <div className='col-md-4 col-3'>
                                     Participants
                                 </div>
                                 <div className='col-2'
