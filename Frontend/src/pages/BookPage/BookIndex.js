@@ -17,7 +17,7 @@ class BookIndex extends Component {
         let resortID;
         let tripID;
         //FIXME:no need "equipment,learn and summary"
-        let re = new RegExp(/\/booking\/[^\n]*\/who|equipment|learn|summary/, "g");
+        let re = new RegExp(/\/booking\/[^\n]*\/who|learn/, "g");
         if (!re.test(this.props.location.pathname)) {
             masterID = location.state.masterID;
             resortID = location.state.resortID;
@@ -64,7 +64,10 @@ class BookIndex extends Component {
                         {/*/!* euipment page *!/ */}
                         <Route
                             path={`/booking/${place}/equipment`}
-                            render={() => <EquipmentPage place={place}
+                            render={() => <EquipmentPage masterID={masterID}
+                                                         resortID={resortID}
+                                                         tripID={tripID}
+                                                         place={place}
                                                          history={history}/>}
                         />
 
@@ -77,7 +80,10 @@ class BookIndex extends Component {
                         {/* plan summary page */}
                         <Route
                             path={`/booking/${place}/summary`}
-                            render={() => <PlanSummaryPage place={place}
+                            render={() => <PlanSummaryPage masterID={masterID}
+                                                           resortID={resortID}
+                                                           tripID={tripID}
+                                                           place={place}
                                                            history={history}/>}
                         />
                     </Switch>

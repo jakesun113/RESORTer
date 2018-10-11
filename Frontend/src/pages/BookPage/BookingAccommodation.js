@@ -4,6 +4,7 @@ import 'react-router-dom';
 import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import axios from "axios/index";
+import handleLogOut from "../../components/template/HandleLogOut";
 
 const Info = styled.div`
   display: inline-block;
@@ -254,15 +255,14 @@ class BookingAccommodation extends Component {
 
     constructor(props) {
         super(props);
-        // const {cookies} = props;
         this.state = {
             acco_type: '',
             acco_cate: '',
-            num_adult: null,
-            num_child: null,
-            num_toddler: null,
-            num_bedroom: null,
-            num_bathroom: null,
+            num_adult: undefined,
+            num_child: undefined,
+            num_toddler: undefined,
+            num_bedroom: undefined,
+            num_bathroom: undefined,
             requirement: '',
             warning_status: false,
             infoShow: false,
@@ -287,6 +287,7 @@ class BookingAccommodation extends Component {
                 await axios.post(BaseURL + "checkTokenAuth", postData).then(response => {
                     if (response.data.status === "ExpiredJWT") {
                         alert('Token Expire');
+                        handleLogOut(cookies);
                         history.push({
                             pathname: "/login",
                             state: {
@@ -365,11 +366,11 @@ class BookingAccommodation extends Component {
         const upload_data = {
             acco_type: '',
             acco_cate: '',
-            num_adult: null,
-            num_child: null,
-            num_toddler: null,
-            num_bedroom: null,
-            num_bathroom: null,
+            num_adult: undefined,
+            num_child: undefined,
+            num_toddler: undefined,
+            num_bedroom: undefined,
+            num_bathroom: undefined,
             requirement: '',
             tripID: tripID,
         };
@@ -439,7 +440,9 @@ class BookingAccommodation extends Component {
     goNext = () => {
         const {place, history, resortID, tripID, masterID} = this.props;
         const {acco_type, acco_cate, num_adult, num_child, num_toddler, num_bedroom, num_bathroom, requirement} = this.state;
-        if (acco_type === '' || acco_cate === '' || num_adult === null || num_child === null || num_toddler === null || num_bedroom === null || num_bathroom === null) {
+        if (acco_type === '' || acco_cate === '' || num_adult === undefined ||
+            num_child === undefined || num_toddler === undefined || num_bedroom === undefined ||
+            num_bathroom === undefined) {
             this.setState({
                 warning_status: true,
             })

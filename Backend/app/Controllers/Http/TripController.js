@@ -1079,9 +1079,16 @@ class TripController {
       });
 
       await dbTrip.save();
+
+      return JSON.stringify({
+        completeTripSuccess: true
+      });
     }
     catch (e) {
       console.log(e);
+      return JSON.stringify({
+        completeTripSuccess: false
+      });
     }
 
   }

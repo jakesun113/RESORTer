@@ -39,9 +39,16 @@ class TripLiftpassController {
 
         await tripLiftPass.save();
       }
+
+      return JSON.stringify({
+        saveLiftPassSuccess: true
+      });
     }
     catch (e) {
       console.log(e);
+      return JSON.stringify({
+        saveLiftPassSuccess: false
+      });
     }
 
   }
