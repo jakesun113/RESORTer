@@ -244,13 +244,14 @@ class LiftPassCard extends Component {
               style={{ tableLayout: "auto" }}
             >
               <tbody>
-                {liftPassList.map(eachLiftPass => (
+                {liftPassList.map((eachLiftPass, index) => (
                   <tr
                     style={{
                       border: "1px solid rgb(232, 234, 237)",
                       height: "auto",
                       boxShadow: "2px 3px rgb(232, 234, 237)"
                     }}
+                    key={index}
                   >
                     <td style={{ color: "#4682B4" }}>{eachLiftPass.date}</td>
                     <NumberSelector

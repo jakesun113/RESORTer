@@ -33,7 +33,8 @@ class BookIndex extends Component {
                     <Switch>
                         <Route
                             path={`/booking/${place}/who`}
-                            render={() => <BookTripWhoPage place={place} history={history}/>}
+                            render={() => <BookTripWhoPage place={place}
+                                                           history={history}/>}
                         />
                         <Route
                             path={`/booking/${place}/sleep`}
@@ -72,7 +73,8 @@ class BookIndex extends Component {
 
                         <Route
                             path={`/booking/${place}/learn`}
-                            render={() => <BookingLesson place={place} history={history}/>}
+                            render={() => <BookingLesson place={place}
+                                                         history={history}/>}
                         />
 
                         {/* plan summary page */}
