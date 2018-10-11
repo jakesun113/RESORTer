@@ -33,6 +33,7 @@ class Equipmentpage extends Component {
       warning: false,
       token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
       provider: JSON.parse(sessionStorage.getItem("userSocialData"))['provider'] || null,
+      getFinished: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -76,9 +77,11 @@ class Equipmentpage extends Component {
                 const keys = Object.keys(membersInfo);
                 this.setState({
                     currentMember: keys[0],
-                    members: membersInfo
-                })
-                this.handleActivity();
+                    members: membersInfo,
+                }, () => {
+                   this.handleActivity();
+                }
+              )
             }
         })
         .catch(err => console.log(err))
@@ -136,29 +139,32 @@ class Equipmentpage extends Component {
         hasActivity: false
       })
     }
-    this.setState({
-      currentActivity: activityList
+    this.setState ({
+      currentActivity: activityList,
+      getFinished: true
     })
-    console.log(this.state.currentActivity)
   }
 
   // change current memeber
   handleChangeCurrentMember = memberId => {
     this.setState({
+      getFinished: false,
       currentMember: memberId
-    });
-    this.handleActivity();
+    }, () => {
+      this.handleActivity()
+    }
+  );
   };
 
   render() {
-
-    let {currentMember, members, warning, hasActivity, currentActivity} = this.state;
+    let {currentMember, members, warning, hasActivity, currentActivity, getFinished} = this.state;
     let memberArray = [];
     Object.keys(members).forEach(member_id => {
         memberArray.push(members[member_id])
     });
-
-    return (
+    
+    if (getFinished) {
+      return (
       <React.Fragment>
         <div className="container">
           <br />
@@ -206,7 +212,7 @@ class Equipmentpage extends Component {
           </div>
           <br />
           {/* equipment info */}
-
+          {console.log(currentActivity)}
           <MemberCard
             isShowTip={members[currentMember].id === 1 ? true : false}
             memberName={members[currentMember].fullName}
@@ -251,6 +257,9 @@ class Equipmentpage extends Component {
         </div>
       </React.Fragment>
     );
+    } else {
+      return <div>Loading...</div>;
+    }
   }
 }
 

@@ -49,7 +49,7 @@ class EquipmentMemberCard extends Component {
       height,
       weight
     } = this.state;
-    {  console.log(this.state.currentActivity)}
+    
     return (
       <React.Fragment>
         <div>
