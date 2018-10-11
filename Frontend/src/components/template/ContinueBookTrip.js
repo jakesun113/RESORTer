@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SmallEllipseBtn from "./SmallEllipseBtn";
 import { Link } from "react-router-dom";
 
+//FIXME: when clicking "another time" in other pages, also go back to home page
 class ContinueBookTrip extends Component {
   render() {
     return (

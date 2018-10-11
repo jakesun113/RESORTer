@@ -35,7 +35,7 @@ class TripLiftpassController {
         tripLiftPass.TripID = requestData.tripID;
         tripLiftPass.IsRemoved = false;
         tripLiftPass.Comment = requestData.comment;
-        tripLiftPass.LiftpassInfo = JSON.stringify({liftPassInfo: requestData.liftPassInfo});
+        tripLiftPass.LiftpassInfo = JSON.stringify({liftPassInfo: requestData.liftPassArray});
 
         await tripLiftPass.save();
       }
