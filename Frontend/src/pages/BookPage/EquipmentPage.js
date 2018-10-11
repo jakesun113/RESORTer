@@ -26,9 +26,10 @@ class Equipmentpage extends Component {
     this.state = {
       currentMember: "1",
       members: {
-        "1": { id: 1, name: "user 1", age: 0 },
-        "2": { id: 2, name: "user 2", age: 0 }
+        "1": { id: 1, name: "user 1", age: 0 }
       },
+      hasActivity: true,
+      currentActivity: [],
       warning: false,
       token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
       provider: JSON.parse(sessionStorage.getItem("userSocialData"))['provider'] || null,
@@ -77,9 +78,68 @@ class Equipmentpage extends Component {
                     currentMember: keys[0],
                     members: membersInfo
                 })
+                this.handleActivity();
             }
         })
         .catch(err => console.log(err))
+  }
+
+  handleActivity = () => {
+    let {currentMember, members, currentActivity} = this.state;
+    const ski = members[currentMember].activity[0];
+    const snowboard = members[currentMember].activity[1];
+    const telemark = members[currentMember].activity[2];
+    let activityList = [];
+    console.log("ski " + ski)
+    console.log("snowboard " + snowboard)
+    console.log("telemark " + telemark)
+    if (ski) {
+      activityList.push({
+        id: 1,
+        ActivityName: "Ski",
+        EquipmentOne: "Boots",
+        EquipmentTwo: "Skis & Poles",
+        Grade: "standard"
+      }),
+      this.setState ({
+        hasActivity: true
+      });
+    }
+    if (snowboard) {
+      activityList.push({
+            id: 2,
+            ActivityName: "Snowboard",
+            EquipmentOne: "Boots",
+            EquipmentTwo: "Board",
+            Grade: "standard"
+        }),
+      this.setState ({
+        hasActivity: true
+      });
+    }
+
+    if (telemark) {
+      activityList.push({
+            id: 3,
+            ActivityName: "Telemark",
+            EquipmentOne: "Boots",
+            EquipmentTwo: "Skis & Poles",
+            Grade: "standard"
+        }),
+      this.setState ({
+        hasActivity: true
+      });
+    }
+
+    if (!ski && !snowboard && !telemark) {
+      this.setState ({
+        hasActivity: false
+      })
+    }
+    this.setState({
+      currentActivity: activityList
+    })
+    console.log(this.state.currentActivity)
   }
 
   // change current memeber
@@ -87,14 +147,17 @@ class Equipmentpage extends Component {
     this.setState({
       currentMember: memberId
     });
+    this.handleActivity();
   };
 
   render() {
-    const { members, currentMember } = this.state;
+
+    let {currentMember, members, warning, hasActivity, currentActivity} = this.state;
     let memberArray = [];
-    Object.keys(members).forEach(memberId => {
-      memberArray.push(members[memberId]);
+    Object.keys(members).forEach(member_id => {
+        memberArray.push(members[member_id])
     });
+
     return (
       <React.Fragment>
         <div className="container">
@@ -133,7 +196,7 @@ class Equipmentpage extends Component {
               <div className="col-xl-2 col-lg-3 col-md-4 col-6">
                 <MemberBtn
                   key={eachMember.id.toString()}
-                  text={eachMember.name}
+                  text={eachMember.firstName}
                   onHandleClick={() =>
                     this.handleChangeCurrentMember(eachMember.id.toString())
                   }
@@ -146,8 +209,10 @@ class Equipmentpage extends Component {
 
           <MemberCard
             isShowTip={members[currentMember].id === 1 ? true : false}
-            memberName={members[currentMember].name}
+            memberName={members[currentMember].fullName}
             memberAge={members[currentMember].age}
+            hasActivity={hasActivity}
+            currentActivity={currentActivity}
           />
 
         {/* btn */}

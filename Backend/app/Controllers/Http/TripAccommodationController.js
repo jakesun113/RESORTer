@@ -123,6 +123,7 @@ class TripAccommodationController {
       }
       response.send("Upload Successfully.")
     } catch (e) {
+      console.log(e);
       response.send("Error In Uploading Accommodation Information.")
     }
   }
