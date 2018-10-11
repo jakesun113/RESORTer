@@ -29,7 +29,6 @@ const CHECKBOX = styled.div`
 `;
 
 
-
 export const CheckBoxInput = styled.input`
   &:checked + label:before, &:not(:checked) + label:before{
     content: '';

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import styled from "styled-components";
+import axios from "axios/index";
 
 const Paragraph = styled.p`
   font-size: 20px
@@ -8,8 +9,14 @@ const Paragraph = styled.p`
 
 class BookSuccessPage extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            place: this.props.match.params.placeName
+        }
+    }
+
     render() {
-        const place = this.props.match.params.placeName;
 
         return (
             <React.Fragment>
@@ -22,10 +29,10 @@ class BookSuccessPage extends Component {
                     </h3>
                     <Paragraph>Thank you. We have sent your enquiry to</Paragraph>
                     <div style={{color: '#4682B4', 'font-size': '28px', 'font-weight': 'bold'}}>
-                        {place}
+                        {this.state.place}
                     </div>
                     <div>
-                        <Paragraph>They will be in touch to take payment once your order has been processed <br /> and
+                        <Paragraph>They will be in touch to take payment once your order has been processed <br/> and
                             available deals have been applied.</Paragraph>
                         <Paragraph>Credit card payments coming soon!</Paragraph>
                     </div>
@@ -37,8 +44,8 @@ class BookSuccessPage extends Component {
                filling in this survey
               </span>
                             </a>
-                            . <br />
-                        It won't take long, we promise!</Paragraph>
+                            . <br/>
+                            It won't take long, we promise!</Paragraph>
                     </div>
                     <span>​</span>
                     <Paragraph className="row justify-content-between ">

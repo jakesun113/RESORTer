@@ -19,7 +19,7 @@ class AddTripMember extends Component {
       showAddSavedGroupMemberCard: false,
       showAlertWindow: false,
       showAddNewGroupMemberCard: false,
-      isTripHasPerson:null
+      isTripHasPerson: null
     };
     this.addSavedGroupMember = this.addSavedGroupMember.bind(this);
   }
@@ -118,10 +118,10 @@ class AddTripMember extends Component {
     let newGroupMember = this.state.groupMember;
     let newSavedGroupMember = this.state.savedGroupMember;
     newGroupMember.push(data);
-    newSavedGroupMember.push(data)
+    newSavedGroupMember.push(data);
     this.setState({
       groupMember: newGroupMember,
-      savedGroupMember:newSavedGroupMember
+      savedGroupMember: newSavedGroupMember
     });
   };
 
@@ -133,7 +133,7 @@ class AddTripMember extends Component {
 
   //This function just used to overwrite the existed function inside of AddGroupMemberCard.js component
   handleAddGroupNumber(params) {
-    console.log('');
+    //console.log('');
   }
 
   handleAfterAddNewGroupMemberClose = () => {
@@ -143,8 +143,8 @@ class AddTripMember extends Component {
   };
 
   handleSaveAndContinue = () => {
-    this.props.submitTripMember(this.state.user, this.state.groupMember)
-  }
+    this.props.submitTripMember(this.state.user, this.state.groupMember);
+  };
 
   render() {
     let user = null;
@@ -158,7 +158,7 @@ class AddTripMember extends Component {
       groupMember = this.state.groupMember;
     }
 
-    console.log(this.state.isTripHasPerson)
+    //console.log(this.state.isTripHasPerson)
     return (
       <React.Fragment>
         {this.state.showAlertWindow === true ? (
@@ -191,9 +191,11 @@ class AddTripMember extends Component {
             <span onClick={this.addMe}>
               <SmallEllipseBtn
                 text="+ Add Me"
-                btnColor="rgba(255, 97, 97, 1)"
-                paddingLeft="11ex"
-                paddingRight="11ex"
+                style={{
+                  backgroundColor: "rgba(255, 97, 97, 1)",
+                  paddingLeft: "11ex",
+                  paddingRight: "11ex"
+                }}
               />
             </span>
           </div>
@@ -205,9 +207,11 @@ class AddTripMember extends Component {
               <span onClick={this.addSavedGroupMember}>
                 <SmallEllipseBtn
                   text="+ Add Saved group Member"
-                  btnColor="rgba(255, 97, 97, 1)"
-                  paddingLeft="3ex"
-                  paddingRight="3ex"
+                  style={{
+                    backgroundColor: "rgba(255, 97, 97, 1)",
+                    paddingLeft: "3ex",
+                    paddingRight: "3ex"
+                  }}
                 />
               </span>
             </div>
@@ -219,9 +223,11 @@ class AddTripMember extends Component {
             <span onClick={this.showAddNewGroupMember}>
               <SmallEllipseBtn
                 text="+ Add new Group Member"
-                btnColor="rgba(255, 97, 97, 1)"
-                paddingLeft="3.9ex"
-                paddingRight="3.9ex"
+                style={{
+                  backgroundColor: "rgba(255, 97, 97, 1)",
+                  paddingLeft: "3.9ex",
+                  paddingRight: "3.9ex"
+                }}
               />
             </span>
           </div>
@@ -309,7 +315,9 @@ class AddTripMember extends Component {
             <span onClick={this.handleSaveAndContinue}>
               <SmallEllipseBtn
                 text="Save and Continue"
-                btnColor="rgba(255, 97, 97, 1)"
+                style={{
+                  backgroundColor: "rgba(255, 97, 97, 1)"
+                }}
               />
             </span>
           </div>

@@ -20,18 +20,6 @@ class EquipmentMemberCard extends Component {
     super(props);
     const { cookies } = props;
     this.state = {
-      currentMember: "1",
-      members: {
-        "1": {
-          id: 1,
-          firstName: "",
-          fullName: "",
-          activity: [false, false, false, false, false, false],
-          ability: [1, 1, 1, 1, 1, 1],
-          age: 0,
-          skipEquipmentLesson: false
-        }
-      },
       warning: false,
       // token: cookies.get("access-token") || null,
       // provider: cookies.get("user-provider") || null,
@@ -39,26 +27,10 @@ class EquipmentMemberCard extends Component {
       height: "",
       weight: "",
       isShowTip: this.props.isShowTip,
-      hasActivity: true,
-      currentActivity: [
-        {
-          id: 1,
-          ActivityName: "hit sb jiacheng",
-          EquipmentOne: "Boots",
-          EquipmentTwo: "Skis & Poles",
-          Grade: "standard"
-        },
-        {
-          id: 2,
-          ActivityName: "Snowboard",
-          EquipmentOne: "Boots",
-          EquipmentTwo: "Board",
-          Grade: "standard"
-        }
-      ]
+      hasActivity: this.props.hasActivity,
+      currentActivity: this.props.currentActivity
     };
   }
-
   handleChange = (name, value) => {
     this.setState({
       [name]: value
@@ -77,6 +49,7 @@ class EquipmentMemberCard extends Component {
       height,
       weight
     } = this.state;
+    
     return (
       <React.Fragment>
         <div>
@@ -141,7 +114,6 @@ class EquipmentMemberCard extends Component {
                   <tr style={{ color: "#686369" }}>
                     <th scope="col-2">Activity</th>
                     <th scope="col-4">Equipment</th>
-                    <th scope="col-2" />
                     <th scope="col-4">Grade</th>
                   </tr>
                 </thead>

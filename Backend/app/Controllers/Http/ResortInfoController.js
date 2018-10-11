@@ -40,7 +40,7 @@ class ResortInfoController {
         resort.WixID = resortArray[i].ID;
         resort.Owner = resortArray[i].Owner;
         resort.OwnerEmail = resortArray[i].Email;
-        if(imageArray[i].image !== "NULL"){
+        if (imageArray[i].image !== "NULL") {
           resort.Image = imageArray[i].image;
         }
         await resort.save();
@@ -155,32 +155,36 @@ class ResortInfoController {
   async getResortsByLiftPass({request}) {
 
     const requestData = request.all();
-    const liftPass = requestData.liftPass;
+    try {
+      const liftPass = requestData.liftPass;
 
-    const liftPassID = await Database.table('liftpasses').where("Name", liftPass).select('WixID');
-    //console.log(liftPassID);
-    const resortIDList = await Database.table('resort_liftpasses')
-      .where("LiftpassWixID", liftPassID[0].WixID).select('ResortWixID');
+      const liftPassID = await Database.table('liftpasses').where("Name", liftPass).select('WixID');
+      //console.log(liftPassID);
+      const resortIDList = await Database.table('resort_liftpasses')
+        .where("LiftpassWixID", liftPassID[0].WixID).select('ResortWixID');
 
-    //console.log(resortIDList);
-    let resortArray = [];
+      //console.log(resortIDList);
+      let resortArray = [];
 
-    for (let i = 0; i < resortIDList.length; i++) {
-      //resortIDArray[i] = resortIDList[i].ResortWixID;
-      const resortName = await Database.table('resort_infos')
-        .where("WixID", resortIDList[i].ResortWixID).select('Name');
+      for (let i = 0; i < resortIDList.length; i++) {
+        //resortIDArray[i] = resortIDList[i].ResortWixID;
+        const resortName = await Database.table('resort_infos')
+          .where("WixID", resortIDList[i].ResortWixID).select('Name');
 
-      //append each resort into the array
-      resortArray.push(resortName[0].Name);
+        //append each resort into the array
+        resortArray.push(resortName[0].Name);
+      }
+
+      //console.log(resortArray);
+
+      const sortedResortArray = resortArray.sort();
+      //console.log(sortedResortArray);
+      return JSON.stringify({
+        sortedResortArray
+      });
+    } catch (e) {
+      console.log(e);
     }
-
-    //console.log(resortArray);
-
-    const sortedResortArray = resortArray.sort();
-    //console.log(sortedResortArray);
-    return JSON.stringify({
-      sortedResortArray
-    });
 
   }
 

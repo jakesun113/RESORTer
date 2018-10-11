@@ -16,8 +16,8 @@ class BookIndex extends Component {
     let masterID;
     let resortID;
     let tripID;
-    //FIXME:no need "equipment,learn and summary"
-    let re = new RegExp(/\/booking\/[^\n]*\/who|equipment|learn|summary/, "g");
+    //FIXME:no need "learn" page
+    let re = new RegExp(/\/booking\/[^\n]*\/who|learn/, "g");
     if (!re.test(this.props.location.pathname)) {
       masterID = location.state.masterID;
       resortID = location.state.resortID;
@@ -26,9 +26,6 @@ class BookIndex extends Component {
 
     return (
       <div>
-        <div className="row">
-          <BookTripNavBar placeName={place} />
-        </div>
         <div className="row">
           <Switch>
             <Route
@@ -63,7 +60,15 @@ class BookIndex extends Component {
             {/*/!* euipment page *!/ */}
             <Route
               path={`/booking/${place}/equipment`}
-              render={() => <EquipmentPage place={place} history={history} />}
+              render={() => (
+                <EquipmentPage
+                  masterID={masterID}
+                  resortID={resortID}
+                  tripID={tripID}
+                  place={place}
+                  history={history}
+                />
+              )}
             />
 
             <Route
@@ -74,7 +79,15 @@ class BookIndex extends Component {
             {/* plan summary page */}
             <Route
               path={`/booking/${place}/summary`}
-              render={() => <PlanSummaryPage place={place} history={history} />}
+              render={() => (
+                <PlanSummaryPage
+                  masterID={masterID}
+                  resortID={resortID}
+                  tripID={tripID}
+                  place={place}
+                  history={history}
+                />
+              )}
             />
           </Switch>
         </div>

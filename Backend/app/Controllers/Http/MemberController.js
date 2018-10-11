@@ -568,7 +568,7 @@ class MemberController {
           'Type': "EmailLogin"
         });
         const newToken = await auth.generate(member);
-        console.log(newToken);
+        //console.log(newToken);
         //only change token
         dbToken.merge({Token: newToken.token});
         await dbToken.save();

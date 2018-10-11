@@ -91,6 +91,8 @@ Route.get("/api/getPopularResortsByCountry/:token", "TripController.getPopularRe
 Route.get("/api/getBookingHistory/:token", "TripController.getBookingHistory");
 //get the summary information of one specific trip
 Route.get("/api/getTripSummary/:id", "TripController.getTripSummary");
+//complete a trip (IsTripDone, Comment, SubmitDate)
+Route.post("/api/completeTrip", "TripController.completeTrip");
 /*TripController end*/
 
 /*TripAccommodationController start*/
@@ -107,7 +109,14 @@ Route.get("/api/getActivityInfo/:tripID/:masterID", "TripActivityController.getA
 Route.post("/api/uploadActivityInfo", "TripActivityController.uploadActivityInfo");
 /*TripActivityController end*/
 
+/*TripEquipmentController start*/
+// Get the equipment information
+Route.get("/api/getEquipmentInfo/:tripID/:masterID", "TripEquipmentController.getEquipmentInfo");
+// skip equipment page
+Route.post("/api/skipEquipmentInfo", "TripEquipmentController.skipEquipmentInfo");
+/*TripEquipmentController end*/
+
 /*TripLiftpassController start*/
-// post lift pass information
-Route.post("/api/postLiftPassInfo", "TripLiftpassController.updateLiftPassInfo");
+// update lift pass information
+Route.post("/api/updateLiftPassInfo", "TripLiftpassController.updateLiftPassInfo");
 /*TripLiftpassController end*/

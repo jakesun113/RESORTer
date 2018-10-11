@@ -7,11 +7,11 @@ import {Link, Redirect} from "react-router-dom";
 import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 
-
 class MyTripPage extends Component {
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
     };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -54,7 +54,8 @@ class MyTripPage extends Component {
     }
 
     render() {
-        const {cookies} = this.props;
+        //console.log(this.props.history);
+        const {cookies, history} = this.props;
         //if token has been expired, redirect to login page
         //console.log(this.props.location.state);
         if (this.props.location.state) {
@@ -145,12 +146,18 @@ class MyTripPage extends Component {
                                     status={trip.status}
                                     buttonText={trip.checkButton}
                                     linkTo={trip.bookingStep}
+                                    masterID={trip.masterID}
+                                    resortID={trip.resortID}
+                                    tripID={trip.id}
                                 />
                             ))
                             : null}
                     </table>
                     <Link to="/">
-                        <SmallEllipseBtn text="Back to Home" btnColor="rgba(104, 99, 105, 1)"/>
+                        <SmallEllipseBtn
+                            text="Back to Home"
+                            style={{backgroundColor: "rgba(104, 99, 105, 1)"}}
+                        />
                     </Link>
                     {hasTrips ? (
                         <div className="d-flex flex-row py-4 justify-content-center">

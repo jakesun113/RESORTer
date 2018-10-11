@@ -254,22 +254,22 @@ class LoginPage extends Component {
             const {from} = this.props.location.state;
             if (this.state.redirectToReferrer) {
 
-                let re = new RegExp(/\/booking\/[^\n]*\/who/,'g')
+                //if come from booking pages (step 2 to step 6)
+                let re = new RegExp(/\/booking\/[^\n]*\/(sleep|doing|equipment|learn|summary)/, 'g');
                 // if (from.indexOf('/booking/') === -1) {
-                if(re.test(from)){
-                    return <Redirect to={from}/>;
-                } else {
-                    const {masterID, resortID, tripID, history} = this.props.location.state;
-                    history.push({
+                if (re.test(from)) {
+                    const {masterID, resortID, tripID} = this.props.location.state;
+                    return <Redirect to={{
                         pathname: from,
                         state: {
                             masterID: masterID,
                             resortID: resortID,
                             tripID: tripID
                         }
-                    })
+                    }}/>;
+                } else {
+                    return <Redirect to={from}/>;
                 }
-
             }
         }
 

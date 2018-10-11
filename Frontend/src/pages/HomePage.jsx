@@ -24,14 +24,17 @@ class HomePage extends Component {
             currentScrollHeight: 0,
             isShowVideo: false
         };
-        this.getPopularResortsByCountry = this.getPopularResortsByCountry.bind(this);
+        this.getPopularResortsByCountry = this.getPopularResortsByCountry.bind(
+            this
+        );
     }
 
     async getPopularResortsByCountry(token) {
         let BaseURL = "http://127.0.0.1:3333/api/";
         //get the list of countries
-        await axios.get(BaseURL + "getPopularResortsByCountry/" + token).then(
-            response => {
+        await axios
+            .get(BaseURL + "getPopularResortsByCountry/" + token)
+            .then(response => {
                 console.log("get user country successfully");
                 //console.log(response.data.popularResorts);
 
@@ -39,10 +42,9 @@ class HomePage extends Component {
                     console.log("this country has resorts");
                     this.setState({
                         hasResorts: true,
-                        popularResorts: response.data.popularResorts,
+                        popularResorts: response.data.popularResorts
                     });
-                }
-                else {
+                } else {
                     console.log("this country doesn't have resorts");
                 }
             });
@@ -66,7 +68,6 @@ class HomePage extends Component {
     }
 
     render() {
-
         const opacity = Math.min(100 / this.state.currentScrollHeight, 1);
 
         return (
@@ -87,7 +88,9 @@ class HomePage extends Component {
               >
                 <SmallEllipseBtn
                     text="Want a sneak peek?"
-                    btnColor="orangered"
+                    style={{
+                        backgroundColor: "orangered"
+                    }}
                 />
               </span>
                         </div>
@@ -127,11 +130,11 @@ class HomePage extends Component {
                                 history={this.props.history}
                             />
                         </div>
-                    ) : ("")}
+                    ) : (
+                        ""
+                    )}
                     <hr style={ShortLineStyle}/>
                     <MostSearchArea history={this.props.history}/>
-
-
                 </div>
 
                 <FeedBackBtn/>

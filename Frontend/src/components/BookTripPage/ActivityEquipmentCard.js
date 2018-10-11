@@ -14,15 +14,20 @@ class ActivityEquipmentCard extends Component {
           <tr>
             <td>{this.props.ActivityName}</td>
             <td>
-              <i class="far fa-check-square" />
-              <i class="far fa-square" />
-              &nbsp;&nbsp; &nbsp;&nbsp;
-              {this.props.EquipmentOne}
-            </td>
-            <td>
-              <i class="far fa-check-square" />
-              &nbsp;&nbsp; &nbsp;&nbsp;
-              {this.props.EquipmentTwo}
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" id="equipmentOne" type="checkbox" /> 
+              &nbsp;&nbsp; 
+              <label class="form-check-label" for="equipmentOne">
+                 {this.props.EquipmentOne} 
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" id="equipmentTwo" type="checkbox" /> 
+              &nbsp;&nbsp; 
+              <label class="form-check-label" for="equipmentTwo">
+                 {this.props.EquipmentTwo} 
+              </label>
+            </div>
             </td>
             <td>
               <select

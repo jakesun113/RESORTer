@@ -47,11 +47,9 @@ class MyTripPage extends Component {
         const {match} = this.props;
 
         this.getTripSummary(match.params.id);
-
     }
 
     render() {
-
         if (this.state.loadFinished) {
             return (
                 <React.Fragment>
@@ -60,16 +58,16 @@ class MyTripPage extends Component {
                         <div className="row">
                             <div className="mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", color: "#686369"}}>
-                                My trip to:
-                            </span>
+                  <span style={{fontSize: "2rem", color: "#686369"}}>
+                    My trip to:
+                  </span>
                                 </h6>
                             </div>
                             <div className="ml-3 mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", color: "#4682B4"}}>
-                                {this.state.tripInfo.place}
-                            </span>
+                  <span style={{fontSize: "2rem", color: "#4682B4"}}>
+                    {this.state.tripInfo.place}
+                  </span>
                                 </h6>
                             </div>
                         </div>
@@ -77,30 +75,42 @@ class MyTripPage extends Component {
                         <div className="row">
                             <div className="mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", whiteSpace: "nowrap"}}>
-                                From:
-                            </span>
+                  <span style={{fontSize: "2rem", whiteSpace: "nowrap"}}>
+                    From:
+                  </span>
                                 </h6>
                             </div>
                             <div className="ml-3 mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", whiteSpace: "nowrap", color: "#4682B4"}}>
-                                {this.state.tripInfo.startDate}
-                            </span>
+                  <span
+                      style={{
+                          fontSize: "2rem",
+                          whiteSpace: "nowrap",
+                          color: "#4682B4"
+                      }}
+                  >
+                    {this.state.tripInfo.startDate}
+                  </span>
                                 </h6>
                             </div>
                             <div className="ml-3 mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", whiteSpace: "nowrap"}}>
-                                To:
-                            </span>
+                  <span style={{fontSize: "2rem", whiteSpace: "nowrap"}}>
+                    To:
+                  </span>
                                 </h6>
                             </div>
                             <div className="ml-3 mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", whiteSpace: "nowrap", color: "#4682B4"}}>
-                                {this.state.tripInfo.endDate}
-                            </span>
+                  <span
+                      style={{
+                          fontSize: "2rem",
+                          whiteSpace: "nowrap",
+                          color: "#4682B4"
+                      }}
+                  >
+                    {this.state.tripInfo.endDate}
+                  </span>
                                 </h6>
                             </div>
                         </div>
@@ -108,16 +118,22 @@ class MyTripPage extends Component {
                         <div className="row">
                             <div className="mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", whiteSpace: "nowrap"}}>
-                                Order Submitted at:
-                            </span>
+                  <span style={{fontSize: "2rem", whiteSpace: "nowrap"}}>
+                    Order Submitted at:
+                  </span>
                                 </h6>
                             </div>
                             <div className="ml-3 mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", whiteSpace: "nowrap", color: "#4682B4"}}>
-                                {this.state.tripInfo.submitDate}
-                            </span>
+                  <span
+                      style={{
+                          fontSize: "2rem",
+                          whiteSpace: "nowrap",
+                          color: "#4682B4"
+                      }}
+                  >
+                    {this.state.tripInfo.submitDate}
+                  </span>
                                 </h6>
                             </div>
                         </div>
@@ -126,9 +142,9 @@ class MyTripPage extends Component {
                         <div className="row">
                             <div className="mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", color: "#686369"}}>
-                                Group Members
-                            </span>
+                  <span style={{fontSize: "2rem", color: "#686369"}}>
+                    Group Members
+                  </span>
                                 </h6>
                             </div>
                             <table className="table table-borderless">
@@ -147,13 +163,22 @@ class MyTripPage extends Component {
                                     <GroupMemberCard
                                         name={member.name}
                                         dob={member.dob}
-                                        shoeSize={member.shoeSize === null ? "N/A" : member.shoeSize}
+                                        shoeSize={
+                                            member.shoeSize === null ? "N/A" : member.shoeSize
+                                        }
                                         weight={member.weight === null ? "N/A" : member.weight}
                                         height={member.height === null ? "N/A" : member.height}
                                         disability={member.disability === 0 ? "No" : "Yes"}
-                                        activity={member.activity.length ? member.activity.map(activity => (
-                                            <React.Fragment>{activity}<br/></React.Fragment>
-                                        )) : "N/A"}
+                                        activity={
+                                            member.activity.length
+                                                ? member.activity.map(activity => (
+                                                    <React.Fragment>
+                                                        {activity}
+                                                        <br/>
+                                                    </React.Fragment>
+                                                ))
+                                                : "N/A"
+                                        }
                                     />
                                 ))}
                             </table>
@@ -162,200 +187,233 @@ class MyTripPage extends Component {
                         {/* Accommodation information*/}
                         <AccommodationCard
                             accommodation={this.state.accommodationInfo}
-                            style={{width: '100%', border: '1px solid black'}}
+                            style={{width: "100%", border: "1px solid black"}}
                             readOnly
                         />
                         <hr style={ShortLineStyle}/>
                         {/* Lift Pass */}
-                        {this.state.liftPassInfo === null ? (<div>
-                            <div className="mt-3">
-                                <h6>
-                            <span style={{fontSize: "2rem", color: "#686369"}}>
-                                Liftpass
-                            </span>
-                                </h6>
-                            </div>
-                            <hr style={ShortLineStyle}/>
-                        </div>) : (<div>
-                            <div className="mt-3">
-                                <h6>
-                            <span style={{fontSize: "2rem", color: "#686369"}}>
-                                Liftpass
-                            </span>
-                                </h6>
-                            </div>
-                            {this.state.liftPassInfo.comment === null ? "" :
-                                <div className="mt-3 ml-3">
-                                    <h6>
-                        <span style={{color: "#4682B4"}}>
-              Some group members do not require liftpasses
-                        </span></h6>
-                                    <textarea className="mt-3"
-                                              style={{width: '100%', border: '1px solid black'}}
-                                              readOnly
-                                              value={this.state.liftPassInfo.comment}
-                                    />
-                                </div>}
-                            <table className="table table-borderless mt-3">
-                                {this.state.liftPassInfo.liftPassArray === null ? "" : this.state.liftPassInfo.liftPassArray.map(liftPassInfo => (
-                                    <LiftPassReadOnlyCard
-                                        date={liftPassInfo.date}
-                                        adultNum={liftPassInfo.adultNumber}
-                                        adultDuration={liftPassInfo.adultDuration}
-                                        childNum={liftPassInfo.childNumber}
-                                        childDuration={liftPassInfo.childDuration}
-                                    />
-                                ))}
-                            </table>
-                            <hr style={ShortLineStyle}/>
-                        </div>)}
-                        {/* Rental */}
-                        {this.state.rentalInfo === null ? "" : (
+                        {this.state.liftPassInfo.isRemoved ? (
                             <div>
                                 <div className="mt-3">
                                     <h6>
-                            <span style={{fontSize: "2rem", color: "#686369"}}>
-                                Rental
-                            </span>
+                    <span style={{fontSize: "2rem", color: "#686369"}}>
+                      Liftpass
+                    </span>
+                                    </h6>
+                                </div>
+                                <hr style={ShortLineStyle}/>
+                            </div>
+                        ) : (
+                            <div>
+                                <div className="mt-3">
+                                    <h6>
+                    <span style={{fontSize: "2rem", color: "#686369"}}>
+                      Liftpass
+                    </span>
+                                    </h6>
+                                </div>
+                                {this.state.liftPassInfo.comment === null ? (
+                                    ""
+                                ) : (
+                                    <div className="mt-3 ml-3">
+                                        <h6>
+                      <span style={{color: "#4682B4"}}>
+                        Some group members do not require liftpasses
+                      </span>
+                                        </h6>
+                                        <textarea
+                                            className="mt-3"
+                                            style={{width: "100%", border: "1px solid black"}}
+                                            readOnly
+                                            value={this.state.liftPassInfo.comment}
+                                        />
+                                    </div>
+                                )}
+                                <table className="table table-borderless mt-3">
+                                    {this.state.liftPassInfo.liftPassArray === null
+                                        ? ""
+                                        : this.state.liftPassInfo.liftPassArray.map(
+                                            liftPassInfo => (
+                                                <LiftPassReadOnlyCard
+                                                    date={liftPassInfo.date}
+                                                    adultNum={liftPassInfo.adultNumber}
+                                                    adultDuration={liftPassInfo.adultDuration}
+                                                    childNum={liftPassInfo.childNumber}
+                                                    childDuration={liftPassInfo.childDuration}
+                                                />
+                                            )
+                                        )}
+                                </table>
+                                <hr style={ShortLineStyle}/>
+                            </div>
+                        )}
+                        {/* Rental */}
+                        {this.state.rentalInfo === null ? (
+                            ""
+                        ) : (
+                            <div>
+                                <div className="mt-3">
+                                    <h6>
+                    <span style={{fontSize: "2rem", color: "#686369"}}>
+                      Rental
+                    </span>
                                     </h6>
                                 </div>
                                 {/* Rental: ski */}
-                                {this.state.rentalInfo.skiInfo === null ? "" : (<div>
-
-                                    <div className="mt-3">
-                                        <h6>
-                            <span style={{fontSize: "25px", color: "#686369"}}>
-                                Ski
-                            </span>
-                                        </h6>
+                                {this.state.rentalInfo.skiInfo === null ? (
+                                    ""
+                                ) : (
+                                    <div>
+                                        <div className="mt-3">
+                                            <h6>
+                        <span style={{fontSize: "25px", color: "#686369"}}>
+                          Ski
+                        </span>
+                                            </h6>
+                                        </div>
+                                        <table className="table table-borderless">
+                                            <thead>
+                                            <tr style={{color: "#686369"}}>
+                                                <th scope="col">Participant</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">Boots</th>
+                                                <th scope="col">Skis & Poles</th>
+                                                <th scope="col">Grade</th>
+                                            </tr>
+                                            </thead>
+                                            {this.state.rentalInfo.skiInfo.map(skiInfo => (
+                                                <RentalCard
+                                                    participant={skiInfo.participant}
+                                                    date={skiInfo.date}
+                                                    duration={skiInfo.duration}
+                                                    boots={skiInfo.boots}
+                                                    poles={skiInfo.poles}
+                                                    grade={skiInfo.grade}
+                                                />
+                                            ))}
+                                        </table>
                                     </div>
-                                    < table className="table table-borderless">
-                                        <thead>
-                                        <tr style={{color: "#686369"}}>
-                                            <th scope="col">Participant</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Duration</th>
-                                            <th scope="col">Boots</th>
-                                            <th scope="col">Skis & Poles</th>
-                                            <th scope="col">Grade</th>
-                                        </tr>
-                                        </thead>
-                                        {this.state.rentalInfo.skiInfo.map(skiInfo => (
-                                            <RentalCard
-                                                participant={skiInfo.participant}
-                                                date={skiInfo.date}
-                                                duration={skiInfo.duration}
-                                                boots={skiInfo.boots}
-                                                poles={skiInfo.poles}
-                                                grade={skiInfo.grade}
-                                            />
-                                        ))}
-                                    </table>
-                                </div>)}
+                                )}
                                 {/* Rental: Snowboard */}
-                                {this.state.rentalInfo.snowboardInfo === null ? "" : (<div>
-                                    <div className="mt-3">
-                                        <h6>
-                                <span style={{fontSize: "25px", color: "#686369"}}>
-                                Snowboard
-                                </span>
-                                        </h6>
+                                {this.state.rentalInfo.snowboardInfo === null ? (
+                                    ""
+                                ) : (
+                                    <div>
+                                        <div className="mt-3">
+                                            <h6>
+                        <span style={{fontSize: "25px", color: "#686369"}}>
+                          Snowboard
+                        </span>
+                                            </h6>
+                                        </div>
+                                        <table className="table table-borderless">
+                                            <thead>
+                                            <tr style={{color: "#686369"}}>
+                                                <th scope="col">Participant</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">Boots</th>
+                                                <th scope="col">Board</th>
+                                                <th scope="col">Grade</th>
+                                            </tr>
+                                            </thead>
+                                            {this.state.rentalInfo.snowboardInfo.map(
+                                                snowboardInfo => (
+                                                    <RentalCard
+                                                        participant={snowboardInfo.participant}
+                                                        date={snowboardInfo.date}
+                                                        duration={snowboardInfo.duration}
+                                                        boots={snowboardInfo.boots}
+                                                        poles={snowboardInfo.board}
+                                                        grade={snowboardInfo.grade}
+                                                    />
+                                                )
+                                            )}
+                                        </table>
                                     </div>
-                                    <table className="table table-borderless">
-                                        <thead>
-                                        <tr style={{color: "#686369"}}>
-                                            <th scope="col">Participant</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Duration</th>
-                                            <th scope="col">Boots</th>
-                                            <th scope="col">Board</th>
-                                            <th scope="col">Grade</th>
-                                        </tr>
-                                        </thead>
-                                        {this.state.rentalInfo.snowboardInfo.map(snowboardInfo => (
-                                            <RentalCard
-                                                participant={snowboardInfo.participant}
-                                                date={snowboardInfo.date}
-                                                duration={snowboardInfo.duration}
-                                                boots={snowboardInfo.boots}
-                                                poles={snowboardInfo.board}
-                                                grade={snowboardInfo.grade}
-                                            />
-                                        ))}
-                                    </table>
-                                </div>)}
+                                )}
                                 {/* Rental: telemark */}
-                                {this.state.rentalInfo.telemarkInfo === null ? "" : (<div>
-                                    <div className="mt-3">
-                                        <h6>
-                                <span style={{fontSize: "25px", color: "#686369"}}>
-                                Telemark
-                                </span>
-                                        </h6>
+                                {this.state.rentalInfo.telemarkInfo === null ? (
+                                    ""
+                                ) : (
+                                    <div>
+                                        <div className="mt-3">
+                                            <h6>
+                        <span style={{fontSize: "25px", color: "#686369"}}>
+                          Telemark
+                        </span>
+                                            </h6>
+                                        </div>
+                                        <table className="table table-borderless">
+                                            <thead>
+                                            <tr style={{color: "#686369"}}>
+                                                <th scope="col">Participant</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">Boots</th>
+                                                <th scope="col">Skis & Poles</th>
+                                                <th scope="col">Grade</th>
+                                            </tr>
+                                            </thead>
+                                            {this.state.rentalInfo.telemarkInfo.map(telemarkInfo => (
+                                                <RentalCard
+                                                    participant={telemarkInfo.participant}
+                                                    date={telemarkInfo.date}
+                                                    duration={telemarkInfo.duration}
+                                                    boots={telemarkInfo.boots}
+                                                    poles={telemarkInfo.poles}
+                                                    grade={telemarkInfo.grade}
+                                                />
+                                            ))}
+                                        </table>
                                     </div>
-                                    <table className="table table-borderless">
-                                        <thead>
-                                        <tr style={{color: "#686369"}}>
-                                            <th scope="col">Participant</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Duration</th>
-                                            <th scope="col">Boots</th>
-                                            <th scope="col">Skis & Poles</th>
-                                            <th scope="col">Grade</th>
-                                        </tr>
-                                        </thead>
-                                        {this.state.rentalInfo.telemarkInfo.map(telemarkInfo => (
-                                            <RentalCard
-                                                participant={telemarkInfo.participant}
-                                                date={telemarkInfo.date}
-                                                duration={telemarkInfo.duration}
-                                                boots={telemarkInfo.boots}
-                                                poles={telemarkInfo.poles}
-                                                grade={telemarkInfo.grade}
-                                            />
-                                        ))}
-                                    </table>
-                                </div>)}
+                                )}
                                 {/* Rental: other equipment */}
-                                {this.state.rentalInfo.otherInfo === null ? "" : (<div>
-                                    <div className="mt-3">
-                                        <h6>
-                                <span style={{fontSize: "25px", color: "#686369"}}>
-                                Other Equipment
-                                </span>
-                                        </h6>
+                                {this.state.rentalInfo.otherInfo === null ? (
+                                    ""
+                                ) : (
+                                    <div>
+                                        <div className="mt-3">
+                                            <h6>
+                        <span style={{fontSize: "25px", color: "#686369"}}>
+                          Other Equipment
+                        </span>
+                                            </h6>
+                                        </div>
+                                        <table className="table table-borderless">
+                                            <thead>
+                                            <tr style={{color: "#686369"}}>
+                                                <th scope="col">Participant</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">Outerwear</th>
+                                                <th scope="col">Helmet</th>
+                                            </tr>
+                                            </thead>
+                                            {this.state.rentalInfo.otherInfo.map(otherInfo => (
+                                                <RentalCard
+                                                    participant={otherInfo.participant}
+                                                    date={otherInfo.date}
+                                                    duration={otherInfo.duration}
+                                                    boots={otherInfo.outfit}
+                                                    poles={otherInfo.helmet}
+                                                />
+                                            ))}
+                                        </table>
                                     </div>
-                                    <table className="table table-borderless">
-                                        <thead>
-                                        <tr style={{color: "#686369"}}>
-                                            <th scope="col">Participant</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Duration</th>
-                                            <th scope="col">Outerwear</th>
-                                            <th scope="col">Helmet</th>
-                                        </tr>
-                                        </thead>
-                                        {this.state.rentalInfo.otherInfo.map(otherInfo => (
-                                            <RentalCard
-                                                participant={otherInfo.participant}
-                                                date={otherInfo.date}
-                                                duration={otherInfo.duration}
-                                                boots={otherInfo.outfit}
-                                                poles={otherInfo.helmet}
-                                            />
-                                        ))}
-                                    </table>
-                                </div>)}
+                                )}
                                 <hr style={ShortLineStyle}/>
-                            </div>)}
+                            </div>
+                        )}
 
                         {/* Lesson */}
                         <div>
                             <div className="mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", color: "#686369"}}>
-                                Lessons
-                            </span>
+                  <span style={{fontSize: "2rem", color: "#686369"}}>
+                    Lessons
+                  </span>
                                 </h6>
                             </div>
                             {/*TODO: add lesson part*/}
@@ -365,23 +423,34 @@ class MyTripPage extends Component {
                         <div>
                             <div className="mt-3">
                                 <h6>
-                            <span style={{fontSize: "2rem", color: "#686369"}}>
-                                Further Comments
-                            </span>
+                  <span style={{fontSize: "2rem", color: "#686369"}}>
+                    Further Comments
+                  </span>
                                 </h6>
                             </div>
                             <textarea
                                 className="mt-3"
-                                style={{width: '100%', height: '100px', border: '1px solid black'}}
+                                style={{
+                                    width: "100%",
+                                    height: "100px",
+                                    border: "1px solid black"
+                                }}
                                 readOnly
-                                value={this.state.tripInfo.comment === null ? "N/A" : this.state.tripInfo.comment}
+                                value={
+                                    this.state.tripInfo.comment === null
+                                        ? "N/A"
+                                        : this.state.tripInfo.comment
+                                }
                             />
                         </div>
                         {/*Back button*/}
                         <div className="mt-3">
-                        <Link to="/my-trip">
-                            <SmallEllipseBtn text="Back" btnColor="rgba(104, 99, 105, 1)"/>
-                        </Link>
+                            <Link to="/my-trip">
+                                <SmallEllipseBtn
+                                    text="Back"
+                                    style={{backgroundColor: "rgba(104, 99, 105, 1)"}}
+                                />
+                            </Link>
                         </div>
                     </div>
                 </React.Fragment>

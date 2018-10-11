@@ -23,12 +23,15 @@ class EquipmentPageTip extends Component {
             Don't want a ski pass, rental or a lesson every day? You'll have the
             chance to vary this at the end.
           </p>
-          <p style={{ textAlign: "center" }} onClick={this.props.onHandleClose}>
+          <p style={{ textAlign: "center" }} >
             <SmallEllipseBtn
               text="Got it!"
-              btnColor="white"
-              color="#3D9BE9"
-              border="1px solid #3D9BE9"
+              style={{
+                backgroundColor: "white",
+                color: "#3D9BE9",
+                border: "1px solid #3D9BE9"
+              }}
+              onClick={this.props.onHandleClose}
             />
           </p>
         </StyledDiv>
