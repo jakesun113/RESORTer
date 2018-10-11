@@ -112,7 +112,9 @@ Route.post("/api/uploadActivityInfo", "TripActivityController.uploadActivityInfo
 /*TripEquipmentController start*/
 // Get the equipment information
 Route.get("/api/getEquipmentInfo/:tripID/:masterID", "TripEquipmentController.getEquipmentInfo");
-
+// skip equipment page
+Route.post("/api/skipEquipmentInfo", "TripEquipmentController.skipEquipmentInfo");
+/*TripEquipmentController end*/
 
 /*TripLiftpassController start*/
 // update lift pass information

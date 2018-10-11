@@ -1060,7 +1060,7 @@ class TripController {
         let liftPassArray = [];
         let duration = moment.duration(endDate.diff(startDate));
         let days = Math.round(duration.asDays());
-        console.log(days);
+        //console.log(days);
 
         for (let i = 0; i <= days; i++) {
           let liftPassObj = {};
