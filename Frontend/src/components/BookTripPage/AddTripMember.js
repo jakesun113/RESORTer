@@ -253,48 +253,61 @@ class AddTripMember extends Component {
         </div>
         <br />
         {/* already added group member */}
-        <div className="row">
-          {this.state.user === null ? null : (
-            <div className="col-12 col-lg-6">
-              <br />
-              <GroupMemberInfoCard
-                id={user.id}
-                name={user.Lastname + " " + user.Firstname}
-                dob={user.DOB}
-                skierLevel={user.SkiAbility}
-                snowBikerLevel={user.SnowbikeAbility}
-                snowBorderLevel={user.SnowboardAbility}
-                snowMobilerLevel={user.SnowmobileAbility}
-                snowShoerLevel={user.SnowshoeAbility}
-                teleMarkerLevel={user.TelemarkAbility}
-                handleClick={this.deleteMe}
-                buttonName="Delete"
-              />
-            </div>
-          )}
-          {groupMember === null
-            ? null
-            : groupMember.map((info, index) => {
-                return (
-                  <div className="col-12 col-lg-6">
-                    <br />
-                    <GroupMemberInfoCard
-                      key={index}
-                      id={info.id}
-                      name={info.LastName + " " + info.FirstName}
-                      dob={info.DOB}
-                      skierLevel={info.SkiAbility}
-                      snowBikerLevel={info.SnowbikeAbility}
-                      snowBorderLevel={info.SnowboardAbility}
-                      snowMobilerLevel={info.SnowmobileAbility}
-                      snowShoerLevel={info.SnowshoeAbility}
-                      teleMarkerLevel={info.TelemarkAbility}
-                      handleClick={() => this.deleteGroupMember(index)}
-                      buttonName="Delete"
-                    />
-                  </div>
-                );
-              })}
+        <div style={{ border: "1px solid grey" }}>
+          <p
+            style={{
+              color: "black",
+              fontSize: "25px",
+              textAlign: "center"
+            }}
+          >
+            Current Selected Members
+          </p>
+          <div className="row">
+            <div className="col-lg-1" />
+            {this.state.user === null ? null : (
+              <div className="col-12 col-md-6 col-lg-5">
+                <br />
+                <GroupMemberInfoCard
+                  id={user.id}
+                  name={user.Lastname + " " + user.Firstname}
+                  dob={user.DOB}
+                  skierLevel={user.SkiAbility}
+                  snowBikerLevel={user.SnowbikeAbility}
+                  snowBorderLevel={user.SnowboardAbility}
+                  snowMobilerLevel={user.SnowmobileAbility}
+                  snowShoerLevel={user.SnowshoeAbility}
+                  teleMarkerLevel={user.TelemarkAbility}
+                  handleClick={this.deleteMe}
+                  buttonName="Delete"
+                />
+              </div>
+            )}
+            {groupMember === null
+              ? null
+              : groupMember.map((info, index) => {
+                  return (
+                    <div className="col-12 col-md-6 col-lg-5">
+                      <br />
+                      <GroupMemberInfoCard
+                        key={index}
+                        id={info.id}
+                        name={info.LastName + " " + info.FirstName}
+                        dob={info.DOB}
+                        skierLevel={info.SkiAbility}
+                        snowBikerLevel={info.SnowbikeAbility}
+                        snowBorderLevel={info.SnowboardAbility}
+                        snowMobilerLevel={info.SnowmobileAbility}
+                        snowShoerLevel={info.SnowshoeAbility}
+                        teleMarkerLevel={info.TelemarkAbility}
+                        handleClick={() => this.deleteGroupMember(index)}
+                        buttonName="Delete"
+                      />
+                    </div>
+                  );
+                })}
+            <div className="col-lg-1" />
+          </div>
         </div>
         {/* <div className="col-1" /> */}
         <br />
