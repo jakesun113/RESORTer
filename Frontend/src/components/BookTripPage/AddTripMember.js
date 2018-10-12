@@ -253,7 +253,7 @@ class AddTripMember extends Component {
         </div>
         <br />
         {/* already added group member */}
-        <div style={{ border: "1px solid grey" }}>
+        <div style={{ border: "1px solid grey", padding: "30px" }}>
           <p
             style={{
               color: "black",
@@ -263,11 +263,16 @@ class AddTripMember extends Component {
           >
             Current Selected Members
           </p>
-          <div className="row">
-            <div className="col-lg-1" />
+          <div
+            className="row"
+            style={{ paddingLeft: "5%", paddingRight: "5%" }}
+          >
+            {/* <div className="col-lg-1" /> */}
+
             {this.state.user === null ? null : (
-              <div className="col-12 col-md-6 col-lg-5">
+              <div className="col-12 col-md-6 col-lg-6">
                 <br />
+                {/* me */}
                 <GroupMemberInfoCard
                   id={user.id}
                   name={user.Lastname + " " + user.Firstname}
@@ -283,11 +288,12 @@ class AddTripMember extends Component {
                 />
               </div>
             )}
+            {/* members */}
             {groupMember === null
               ? null
               : groupMember.map((info, index) => {
                   return (
-                    <div className="col-12 col-md-6 col-lg-5">
+                    <div className="col-12 col-md-6 col-lg-6">
                       <br />
                       <GroupMemberInfoCard
                         key={index}
@@ -306,7 +312,8 @@ class AddTripMember extends Component {
                     </div>
                   );
                 })}
-            <div className="col-lg-1" />
+
+            {/* <div className="col-lg-1" /> */}
           </div>
         </div>
         {/* <div className="col-1" /> */}
