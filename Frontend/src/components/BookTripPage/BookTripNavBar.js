@@ -97,13 +97,11 @@ class BookTripNavBar extends Component {
   // end handle onClick
 
   componentDidMount() {
-    alert("mo");
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
   }
 
   componentWillUnmount() {
-    alert("un");
     window.removeEventListener("resize", this.updateWindowDimensions);
   }
 

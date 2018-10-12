@@ -26,7 +26,7 @@ class EquipmentMemberCard extends Component {
       shoeSize: "",
       height: "",
       weight: "",
-      isShowTip: this.props.isShowTip,
+      isShowTip:  true,
       hasActivity: this.props.hasActivity,
       currentActivity: this.props.currentActivity
     };
@@ -39,7 +39,23 @@ class EquipmentMemberCard extends Component {
 
   handleClose = () => {
     this.setState({ isShowTip: false });
+    sessionStorage.setItem(
+      "userCloseTip",
+      JSON.stringify({
+          isTipClicked: true
+      })
+  );
   };
+
+  componentDidMount() {
+    //if user is already clicked tip before
+    if (sessionStorage.getItem("userCloseTip")) {
+        this.setState({
+            isShowTip: false
+        });
+    }
+  }
+  
   render() {
     const {
       isShowTip,

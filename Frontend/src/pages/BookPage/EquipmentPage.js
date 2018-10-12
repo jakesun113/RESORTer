@@ -88,7 +88,7 @@ class Equipmentpage extends Component {
   }
 
   handleActivity = () => {
-    let {currentMember, members, currentActivity} = this.state;
+    let {currentMember, members} = this.state;
     const ski = members[currentMember].activity[0];
     const snowboard = members[currentMember].activity[1];
     const telemark = members[currentMember].activity[2];
@@ -214,7 +214,7 @@ class Equipmentpage extends Component {
           {/* equipment info */}
           {console.log(currentActivity)}
           <MemberCard
-            isShowTip={members[currentMember].id === 1 ? true : false}
+            key={members[currentMember].id}
             memberName={members[currentMember].fullName}
             memberAge={members[currentMember].age}
             hasActivity={hasActivity}
