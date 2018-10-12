@@ -69,39 +69,41 @@ class BookTripNavBar extends Component {
 
   // click first btn
   // only can click navbar go to already finished step
-  onHandleClickOne = () => {
+  onHandleClickOne() {
     this.props.onHandleClickOne;
     // this.handleActive("step_1_in_book_page");
-  };
-  onHandleClickTwo = () => {
+  }
+  onHandleClickTwo() {
     this.props.onHandleClickTwo;
     // this.handleActive("step_2_in_book_page");
-  };
-  onHandleClickThree = () => {
+  }
+  onHandleClickThree() {
     this.props.onHandleClickThree;
     // this.handleActive("step_3_in_book_page");
-  };
-  onHandleClickFour = () => {
+  }
+  onHandleClickFour() {
     this.props.onHandleClickFour;
     // this.handleActive("step_4_in_book_page");
-  };
-  onHandleClickFive = () => {
+  }
+  onHandleClickFive() {
     this.props.onHandleClickFive;
     // this.handleActive("step_5_in_book_page");
-  };
-  onHandleClickSix = () => {
+  }
+  onHandleClickSix() {
     this.props.onHandleClickSix;
     // this.handleActive("step_6_in_book_page");
-  };
+  }
 
   // end handle onClick
 
   componentDidMount() {
+    alert("mo");
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
   }
 
   componentWillUnmount() {
+    alert("un");
     window.removeEventListener("resize", this.updateWindowDimensions);
   }
 

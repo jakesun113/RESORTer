@@ -476,6 +476,7 @@ class BookingAccommodation extends Component {
   };
 
   goNext = pageName => {
+    alert("Act");
     const { place, history, resortID, tripID, masterID } = this.props;
     const {
       acco_type,
@@ -488,13 +489,14 @@ class BookingAccommodation extends Component {
       requirement
     } = this.state;
     if (
-      acco_type === "" ||
-      acco_cate === "" ||
-      num_adult === undefined ||
-      num_child === undefined ||
-      num_toddler === undefined ||
-      num_bedroom === undefined ||
-      num_bathroom === undefined
+      (acco_type === "" ||
+        acco_cate === "" ||
+        num_adult === undefined ||
+        num_child === undefined ||
+        num_toddler === undefined ||
+        num_bedroom === undefined ||
+        num_bathroom === undefined) &&
+      this.state.warning_status !== true
     ) {
       this.setState({
         warning_status: true
@@ -610,9 +612,8 @@ class BookingAccommodation extends Component {
             currentPageName="step_2_in_book_page"
             finishedProcessList={finishedProcessList}
             unFinishedProcessList={unFinishedProcessList}
-            // onHandleClickOne={this.goNext("Who")}
+            // onHandleClickOne={() => this.goNext("Who")}
             // onHandleClickTwo={this.goNext("sleep")}
-            // onHandleClickThree={this.goNext("doing")}
           />
         </div>
         <HeaderLine>
