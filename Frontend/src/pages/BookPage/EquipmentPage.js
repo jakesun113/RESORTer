@@ -4,6 +4,7 @@ import MemberBtn from "../../components/BookTripPage/MemberBtn";
 import MemberCard from "../../components/BookTripPage/EquipmentMemberCard";
 import styled from "styled-components";
 import axios from "axios/index";
+import handleLogOut from "../../components/template/HandleLogOut";
 import { withCookies, Cookies } from "react-cookie";
 import { instanceOf } from "prop-types";
 
@@ -62,6 +63,88 @@ class Equipmentpage extends Component {
     });
   };
 
+  handleAuth = async eventType => {
+    const { provider, token } = this.state;
+    const { cookies, history, masterID, resortID, tripID } = this.props;
+
+    if (sessionStorage.getItem("guestUser") === null) {
+      // not a guest user
+      if (provider === "email") {
+        const BaseURL = "http://127.0.0.1:3333/api/";
+        const postData = {
+          token: token,
+          provider: provider
+        };
+
+        await axios
+          .post(BaseURL + "checkTokenAuth", postData)
+          .then(response => {
+            if (response.data.status === "ExpiredJWT") {
+              alert("Token Expire");
+              handleLogOut(cookies);
+              history.push({
+                pathname: "/login",
+                state: {
+                  from: history.location.pathname,
+                  masterID: masterID,
+                  resortID: resortID,
+                  tripID: tripID
+                }
+              });
+            } else if (response.data.status === "fail") {
+              alert("Server Error, Please Try again");
+            } else if (response.data.status === "success") {
+              //save token into session
+              const sessionData = {
+                token: response.data.token
+              };
+              sessionStorage.setItem("userToken", JSON.stringify(sessionData));
+
+              //save token into cookie
+              const date = new Date();
+              date.setTime(date.getTime() + +2592000);
+
+              //only when user click "remember me", update the token in cookies
+              if (cookies.get("access-token")) {
+                cookies.set("access-token", response.data.token, {
+                  expires: date,
+                  path: "/"
+                });
+
+                console.log(
+                  "token has been extended. Token is: " +
+                    cookies.get("access-token")
+                );
+              }
+
+              switch (eventType) {
+                case "goPrevious":
+                  this.goPrevious();
+                  break;
+                case "goNext":
+                  this.goNext("learn");
+                  break;
+                default:
+                  break;
+              }
+            }
+          });
+      }
+    } else {
+      // is a guest user, then no need to handle auth
+      switch (eventType) {
+        case "goPrevious":
+          this.goPrevious();
+          break;
+        case "goNext":
+          this.goNext("learn");
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   goPrevious = () => {
     const { place, history, masterID, resortID, tripID } = this.props;
     const url = `/booking/${place}/doing`;
@@ -75,8 +158,7 @@ class Equipmentpage extends Component {
     });
   };
 
-  async handleSubmit(e) {
-    e.preventDefault();
+  goNext = pageName => {
   }
 
   componentDidMount() {
