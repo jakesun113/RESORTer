@@ -52,10 +52,13 @@ class Equipmentpage extends Component {
       tripID: tripID,
       masterID: masterID
     };
+    
     //send lift pass related information
     await axios.post(BaseURL + "skipEquipmentInfo", postData).then(response => {
       console.log("skip rental info success");
       console.log(response.data);
+    }) .catch(error => {
+      console.log(error);
     });
   };
 
@@ -78,10 +81,10 @@ class Equipmentpage extends Component {
 
   componentDidMount() {
     const {tripID, masterID} = this.props;
-    const url = `http://127.0.0.1:3333/api/getEquipmentInfo/${tripID}/${masterID}`;
+    const url = "http://127.0.0.1:3333/api/getEquipmentInfo/" + tripID + "/" + masterID;
     fetch(url)
-        .then(response => response.text())
-        .then(data => {
+    .then(response => response.text())
+    .then(data => {
             if (data === "Error in Getting Equipment Information.") {
                 alert(data)
             } else {
@@ -96,7 +99,7 @@ class Equipmentpage extends Component {
               )
             }
         })
-        .catch(err => console.log(err))
+        .catch(error => console.log(error))
   }
 
   handleRentalInfo = () => {
@@ -240,7 +243,7 @@ class Equipmentpage extends Component {
             <div className="col-12 col-lg-2"> 4. EQUIPMENT?</div>
             <div className="col-lg-1" />
             <div className="col-12 col-lg-2">
-              <UpperEllipseButton onClick={this.skipRental}>
+              <UpperEllipseButton onClick={this.handleSkipRental}>
                 <div
                   style={{
                     fontSize: "12px",

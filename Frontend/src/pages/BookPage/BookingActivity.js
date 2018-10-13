@@ -21,7 +21,6 @@ import { withCookies, Cookies } from "react-cookie";
 import { instanceOf } from "prop-types";
 import axios from "axios/index";
 import handleLogOut from "../../components/template/HandleLogOut";
-import moment from "moment/moment";
 
 const Warning = styled.p`
   margin-top: 10px;

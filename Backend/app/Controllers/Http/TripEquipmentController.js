@@ -60,7 +60,7 @@ class TripEquipmentController {
             }
             
             if (masterEquipment) {
-              const masterMemberRentalInfo = JSON.parse(masterEquipment.RentalInfo)
+              const masterMemberRentalInfo = JSON.parse(masterEquipment.RentInfo)
               const key = Object.keys(masterMemberRentalInfo); // single element array
               if (key.length > 0) {
                 const master_key = key[0];
@@ -110,7 +110,6 @@ class TripEquipmentController {
 
         const GroupMemberActivity = JSON.parse(activity.GroupMemberActivity)
         const activity_history = GroupMemberActivity[family_member_id].activity;
-        console.log(activity_history)
         members[family_member_id].activity = activity_history;
 
         const familyMemberEquipment = await TripEquipment.findBy({
@@ -120,7 +119,7 @@ class TripEquipmentController {
         });
         
         if (familyMemberEquipment) {
-          const familyMemberRentalInfo = JSON.parse(familyMemberEquipment.RentalInfo)
+          const familyMemberRentalInfo = JSON.parse(familyMemberEquipment.RentInfo)
           const key = Object.keys(familyMemberRentalInfo); // single element array
           if (key.length > 0) {
             const family_key = key[0];
@@ -151,6 +150,69 @@ class TripEquipmentController {
       return "Error in Getting Equipment Information."
     }
   }
+
+  async skipEquipmentInfo({request}) {
+    try {  
+      const {GroupMemberIDs, IsMasterMemberGoing} = (await Database.select('GroupMemberIDs', 'IsMasterMemberGoing').from('trips').where({id: request.input('tripID')}))[0];
+      const familyMembers = JSON.parse(GroupMemberIDs).family_members;
+      const masterEquipment = await TripEquipment.findBy({
+        "TripID": request.input('tripID'),
+        'MemberType': "master",
+        'MemberID': request.input('masterID')
+      });
+      if (!masterEquipment && IsMasterMemberGoing) {
+        const newTripEquipment = new TripEquipment();
+        let masterMemberRentalInfo = {};
+        masterMemberRentalInfo["masterRentalInfo"] = {
+          skiInfo: null,
+          snowboardInfo: null,
+          telemarkInfo: null,
+          otherInfo: null
+        };
+        newTripEquipment.TripID = request.input('tripID');
+        newTripEquipment.MemberType = "master"; 
+        newTripEquipment.MemberID = request.input('masterID'); 
+        newTripEquipment.RentInfo = JSON.stringify(masterMemberRentalInfo);
+        await newTripEquipment.save();
+      }
+
+      for (let i = 0; i < familyMembers.length; i++) {
+        const familyMemberID = familyMembers[i];
+        const familyMemberEquipment = await TripEquipment.findBy({
+          'TripID': request.input('tripID'),
+          'MemberType': "family",
+          'MemberID': familyMemberID
+        });
+        if (!familyMemberEquipment) {
+          const newTripEquipment = new TripEquipment();
+          let familyMemberRentalInfo = {};
+          familyMemberRentalInfo["familyRentalInfo"] = {
+            skiInfo: null,
+            snowboardInfo: null,
+            telemarkInfo: null,
+            otherInfo: null
+          };
+          newTripEquipment.TripID = request.input('tripID');
+          newTripEquipment.MemberType = "family"; 
+          newTripEquipment.MemberID = familyMemberID; 
+          newTripEquipment.RentInfo = JSON.stringify(familyMemberRentalInfo);
+          await newTripEquipment.save();
+        }
+      };
+      console.log("skip rental info successfully");
+      return JSON.stringify({
+        skipRentalSuccess: true
+      });
+
+    } catch {
+      console.log(error);
+      return JSON.stringify({
+        skipRentalSuccess: false
+      });
+    }
+    
+  }
+
 }
 
 module.exports = TripEquipmentController
