@@ -139,7 +139,9 @@ class EquipmentMemberCard extends Component {
                         key={activity.id}
                         ActivityName={activity.ActivityName}
                         EquipmentOne={activity.EquipmentOne}
+                        EquipmentOneChecked={activity.EquipmentOneChecked}
                         EquipmentTwo={activity.EquipmentTwo}
+                        EquipmentTwoChecked={activity.EquipmentTwoChecked}
                         Grade={activity.Grade}
                       />
                     ))
@@ -176,11 +178,11 @@ class EquipmentMemberCard extends Component {
                   <tr>
                     <td>Outfit (jacket, pants):*</td>
                     <td>
-                      <StyledSelect id="outfit">
-                        <option value="none">None</option>
-                        <option value="small">Small</option>
-                        <option value="medium">Medium</option>
-                        <option value="large">Large</option>
+                      <StyledSelect id="outfit" value={this.props.memberOutfit}>
+                        <option value="None">None</option>
+                        <option value="Small">Small</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
                       </StyledSelect>
                     </td>
                     <td />
@@ -191,11 +193,11 @@ class EquipmentMemberCard extends Component {
                       </p>
                     </td>
                     <td>
-                      <StyledSelect id="helmet">
-                        <option value="none">None</option>
-                        <option value="small">Small</option>
-                        <option value="medium">Medium</option>
-                        <option value="large">Large</option>
+                      <StyledSelect id="helmet" value={this.props.memberHelmet}>
+                        <option value="None">None</option>
+                        <option value="Small">Small</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Large">Large</option>
                       </StyledSelect>
                     </td>
                   </tr>
@@ -233,7 +235,7 @@ class EquipmentMemberCard extends Component {
                       <NumberSelector
                         labelName="Shoe size**:"
                         referName="shoeSize"
-                        cur_value={shoeSize}
+                        cur_value={this.props.memberShoeSize}
                         onChange={this.handleChange}
                         unit="(AU)"
                       />
@@ -243,7 +245,7 @@ class EquipmentMemberCard extends Component {
                       <NumberSelector
                         labelName="Height**:"
                         referName="height"
-                        cur_value={height}
+                        cur_value={this.props.memberHeight}
                         onChange={this.handleChange}
                         unit="(cm)"
                       />
@@ -253,7 +255,7 @@ class EquipmentMemberCard extends Component {
                       <NumberSelector
                         labelName="Weight**:"
                         referName="weight"
-                        cur_value={weight}
+                        cur_value={this.props.memberWeight}
                         onChange={this.handleChange}
                         unit="(kg)"
                       />

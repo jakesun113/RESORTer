@@ -45,8 +45,8 @@ class TripEquipmentController {
               "telemarkInfo": null,
               "otherInfo": null,
               "shoeSize": null,
-              "weight": null,
-              "height": null
+              "height": null,
+              "weight": null
             };
 
             if (activity.length > 0) {
@@ -104,8 +104,8 @@ class TripEquipmentController {
             "telemarkInfo": null,
             "otherInfo": null,
             "shoeSize": null,
-            "weight": null,
-            "height": null
+            "height": null,
+            "weight": null
         }
 
         const GroupMemberActivity = JSON.parse(activity.GroupMemberActivity)

@@ -15,14 +15,24 @@ class ActivityEquipmentCard extends Component {
             <td>{this.props.ActivityName}</td>
             <td>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" id="equipmentOne" type="checkbox" /> 
+              <input 
+                class="form-check-input" 
+                id="equipmentOne" 
+                type="checkbox" 
+                checked={this.props.EquipmentOneChecked}
+              /> 
               &nbsp;&nbsp; 
               <label class="form-check-label" for="equipmentOne">
                  {this.props.EquipmentOne} 
               </label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" id="equipmentTwo" type="checkbox" /> 
+              <input 
+                class="form-check-input" 
+                id="equipmentTwo" 
+                type="checkbox"
+                checked={this.props.EquipmentTwoChecked} 
+              /> 
               &nbsp;&nbsp; 
               <label class="form-check-label" for="equipmentTwo">
                  {this.props.EquipmentTwo} 
@@ -34,9 +44,9 @@ class ActivityEquipmentCard extends Component {
                 value={this.props.Grade}
                 style={{ border: "solid 1px #686369", width: "80%" }}
               >
-                <option value="standard">Standard</option>
-                <option value="deluxe">Deluxe</option>
-                <option value="high performance">High Performance</option>
+                <option value="Standard">Standard</option>
+                <option value="Deluxe">Deluxe</option>
+                <option value="High Performance">High Performance</option>
               </select>
             </td>
           </tr>
