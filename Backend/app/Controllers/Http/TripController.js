@@ -779,13 +779,13 @@ class TripController {
           const resort = await ResortInfo.findBy('id', trips[i].ResortID);
           tripInfo.id = trips[i].id;
           if (trips[i].SubmitDate) {
-            tripInfo.submitDate = moment(trips[i].SubmitDate).format("YYYY-MM-DD");
+            tripInfo.submitDate = moment(trips[i].SubmitDate).format("D MMMM YYYY");
           } else {
             tripInfo.submitDate = "-"
           }
           tripInfo.name = resort.Name;
-          tripInfo.startDate = moment(trips[i].StartDate).format("YYYY-MM-DD");
-          tripInfo.endDate = moment(trips[i].EndDate).format("YYYY-MM-DD");
+          tripInfo.startDate = moment(trips[i].StartDate).format("D MMMM YYYY");
+          tripInfo.endDate = moment(trips[i].EndDate).format("D MMMM YYYY");
           if (trips[i].IsTripDone) {
             tripInfo.status = "Submitted";
             tripInfo.checkButton = "View";

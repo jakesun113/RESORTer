@@ -6,6 +6,7 @@ import SmallEllipseBtn from "../components/template/SmallEllipseBtn";
 import {Link, Redirect} from "react-router-dom";
 import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
+import moment from "moment";
 
 class MyTripPage extends Component {
     static propTypes = {
@@ -137,7 +138,6 @@ class MyTripPage extends Component {
                         {hasTrips
                             ? currentTrips.map(trip => (
                                 <BookHistoryCard
-                                    //TODO: change data format to be the same as original website
                                     key={trip.id}
                                     submitDate={trip.submitDate}
                                     resort={trip.name}

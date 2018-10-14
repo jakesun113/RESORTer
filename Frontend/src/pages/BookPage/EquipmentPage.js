@@ -175,26 +175,26 @@ class Equipmentpage extends Component {
         let masterEquipment = {};
         let familyEquipment= {};
 
-        keys.forEach(key => {
-          if (key.indexOf("master") === -1) {
-              // family member equipment
-              familyEquipment[members[key].id] = {
-                  skiInfo: {
-                      boots: document
-                  },
-                  ability: members[key].ability,
-                  skipEquipmentLesson: members[key].skipEquipmentLesson
-              };
-          } else {
-              // master equipment
-              const master_id = key.split(" ")[1];
-              masterEquipment[master_id] = {
-                  activity: members[key].activity,
-                  ability: members[key].ability,
-                  skipEquipmentLesson: members[key].skipEquipmentLesson
-              };
-          }
-      });
+    //     keys.forEach(key => {
+    //       if (key.indexOf("master") === -1) {
+    //           // family member equipment
+    //           familyEquipment[members[key].id] = {
+    //               skiInfo: {
+    //                   boots: document
+    //               },
+    //               ability: members[key].ability,
+    //               skipEquipmentLesson: members[key].skipEquipmentLesson
+    //           };
+    //       } else {
+    //           // master equipment
+    //           const master_id = key.split(" ")[1];
+    //           masterEquipment[master_id] = {
+    //               activity: members[key].activity,
+    //               ability: members[key].ability,
+    //               skipEquipmentLesson: members[key].skipEquipmentLesson
+    //           };
+    //       }
+    //   });
 
         
         const url = `/booking/${place}/doing`;
