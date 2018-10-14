@@ -1,9 +1,7 @@
-.booktrip-navbar .circle .label:hover {
+/* .booktrip-navbar .circle .label:hover {
   background-color: rgba(237, 69, 69, 1);
-}
-.booktrip-navbar .circle.active .label:hover {
-  background-color: rgba(237, 69, 69, 1);
-}
+} */
+
 /* Form Progress */
 .booktrip-navbar {
   margin: 50px auto;
@@ -44,7 +42,7 @@
   margin-top: 3.5px;
   color: #b5b5ba;
   font-size: 25px;
-  cursor: pointer;
+  /* cursor: pointer; */
   background-color: rgba(255, 138, 128, 1);
   -webkit-transition: background-color 2s; /* Safari */
   transition: background-color 0.4s ease 0s;
@@ -60,7 +58,16 @@
   white-space: nowrap;
 }
 
-/* Done / Active */
+/* Done or Active style setting */
+.booktrip-navbar .circle {
+  cursor: default;
+}
+
+.booktrip-navbar .circle.done .label:hover,
+.booktrip-navbar .circle.active .label:hover {
+  cursor: pointer;
+  background-color: rgba(237, 69, 69, 1);
+}
 
 .booktrip-navbar .bar.done,
 .booktrip-navbar .circle.done {

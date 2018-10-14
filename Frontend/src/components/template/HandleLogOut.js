@@ -6,6 +6,7 @@ function handleLogOut(cookies) {
     sessionStorage.removeItem("userFinishProfile");
     sessionStorage.removeItem("userFinishTrip");
     sessionStorage.removeItem("userIsClicked");
+    sessionStorage.removeItem("userCloseTip");
     cookies.remove("user-name");
     cookies.remove("access-token");
     cookies.remove("user-pic");

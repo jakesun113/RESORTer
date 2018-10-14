@@ -1,49 +1,75 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
+import styled from "styled-components";
+
+const StyledSelect = styled.select`
+  width: 80%;
+  border: solid 1px rgba(198, 226, 247, 1);
+`;
 
 class ActivityEquipmentCard extends Component {
-  state = {};
-  render() {
-    return (
-      <React.Fragment>
-        <tbody
-          style={{
-            height: "auto",
-            color: "#686369"
-          }}
-        >
-          <tr>
-            <td>{this.props.ActivityName}</td>
-            <td>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" id="equipmentOne" type="checkbox" /> 
-              &nbsp;&nbsp; 
-              <label class="form-check-label" for="equipmentOne">
-                 {this.props.EquipmentOne} 
-              </label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" id="equipmentTwo" type="checkbox" /> 
-              &nbsp;&nbsp; 
-              <label class="form-check-label" for="equipmentTwo">
-                 {this.props.EquipmentTwo} 
-              </label>
-            </div>
-            </td>
-            <td>
-              <select
-                value={this.props.Grade}
-                style={{ border: "solid 1px #686369", width: "80%" }}
-              >
-                <option value="standard">Standard</option>
-                <option value="deluxe">Deluxe</option>
-                <option value="high performance">High Performance</option>
-              </select>
-            </td>
-          </tr>
-        </tbody>
-      </React.Fragment>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            equipmentOneChecked: this.props.EquipmentOneChecked,
+            equipmentTwoChecked: this.props.EquipmentTwoChecked
+        };
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                <tbody
+                    style={{
+                        height: "auto",
+                        color: "#686369"
+                    }}
+                >
+                <tr>
+                    <td>{this.props.ActivityName}</td>
+                    <td>
+                        <div className="form-check form-check-inline">
+                            <input
+                                className="form-check-input"
+                                id="equipmentOne"
+                                type="checkbox"
+                                onChange={e => {
+                                    this.setState({equipmentOneChecked: e.target.checked});
+                                }}                                
+                                checked={this.state.equipmentOneChecked}
+                            />
+                            &nbsp;&nbsp;
+                            <label className="form-check-label" htmlFor="equipmentOne">
+                                {this.props.EquipmentOne}
+                            </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input
+                                className="form-check-input"
+                                id="equipmentTwo"
+                                type="checkbox"
+                                onChange={e => {
+                                    this.setState({equipmentTwoChecked: e.target.checked});
+                                }}
+                                checked={this.state.equipmentTwoChecked}
+                            />
+                            &nbsp;&nbsp;
+                            <label className="form-check-label" htmlFor="equipmentTwo">
+                                {this.props.EquipmentTwo}
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <StyledSelect  id="grade" defaultValue={this.props.Grade}>
+                            <option value="Standard">Standard</option>
+                            <option value="Deluxe">Deluxe</option>
+                            <option value="High Performance">High Performance</option>
+                        </StyledSelect>
+                    </td>
+                </tr>
+                </tbody>
+            </React.Fragment>
+        );
+    }
 }
 
 export default ActivityEquipmentCard;

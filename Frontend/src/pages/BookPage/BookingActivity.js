@@ -21,7 +21,6 @@ import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import axios from "axios/index";
 import handleLogOut from "../../components/template/HandleLogOut";
-import moment from "moment/moment";
 
 const Warning = styled.p`
   margin-top: 10px;
@@ -423,12 +422,9 @@ class BookingActivity extends Component {
         };
         //send lift pass related information
         await axios.post(BaseURL + "skipEquipmentInfo", postData).then(response => {
-
             console.log("skip rental info success");
             console.log(response.data);
-
         });
-
     }
 
     render() {
@@ -478,8 +474,9 @@ class BookingActivity extends Component {
                         currentPageName="step_3_in_book_page"
                         finishedProcessList={finishedProcessList}
                         unFinishedProcessList={unFinishedProcessList}
-                        // onHandleClickOne={this.goNext("Who")}
-                        // onHandleClickTwo={this.goNext("sleep")}
+                        // onHandleClickOne={() => alert("1")}
+                        // onHandleClickTwo={() => this.goNext("sleep")}
+                        // onHandleClickThree={this.goNext("doing")}
                     />
                 </div>
                 <HeaderLine>

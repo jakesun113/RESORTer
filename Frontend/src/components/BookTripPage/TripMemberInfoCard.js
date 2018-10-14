@@ -14,7 +14,6 @@ const MemberInfoCard = styled.div`
 `;
 
 class GroupMemberInfoCard extends Component {
-
     constructor(props) {
         super(props);
         this.state = {};
@@ -35,7 +34,10 @@ class GroupMemberInfoCard extends Component {
                         }}
                     >
             <span onClick={this.props.handleClick}>
-              <SmallEllipseBtn text={this.props.buttonName} btnColor="grey"/>
+              <SmallEllipseBtn
+                  text={this.props.buttonName}
+                  style={{backgroundColor: "grey"}}
+              />
             </span>
                     </div>
                     <br/>

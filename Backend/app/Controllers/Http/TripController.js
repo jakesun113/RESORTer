@@ -362,8 +362,8 @@ class TripController {
         masterRentalInfoByDay.participant = "Jiacheng Sun";
         masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
         masterRentalInfoByDay.duration = "Full day";
-        masterRentalInfoByDay.boots = "Yes";
-        masterRentalInfoByDay.poles = "No";
+        masterRentalInfoByDay.boots = 1;
+        masterRentalInfoByDay.poles = 0;
         masterRentalInfoByDay.grade = "Standard";
         masterRentalSkiArray.push(masterRentalInfoByDay);
       }
@@ -378,8 +378,8 @@ class TripController {
         masterRentalInfoByDay.participant = "Jiacheng Sun";
         masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
         masterRentalInfoByDay.duration = "Full day";
-        masterRentalInfoByDay.boots = "No";
-        masterRentalInfoByDay.board = "Yes";
+        masterRentalInfoByDay.boots = 1;
+        masterRentalInfoByDay.board = 0;
         masterRentalInfoByDay.grade = "Standard";
         masterRentalSnowboardArray.push(masterRentalInfoByDay);
       }
@@ -401,8 +401,8 @@ class TripController {
           singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
           singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
           singleFamilyRentalInfoByDay.duration = "Full day";
-          singleFamilyRentalInfoByDay.boots = "Yes";
-          singleFamilyRentalInfoByDay.poles = "No";
+          singleFamilyRentalInfoByDay.boots = 1;
+          singleFamilyRentalInfoByDay.poles = 0;
           singleFamilyRentalInfoByDay.grade = "Standard";
           singleFamilyRentalSkiArray.push(singleFamilyRentalInfoByDay);
         }
@@ -779,13 +779,13 @@ class TripController {
           const resort = await ResortInfo.findBy('id', trips[i].ResortID);
           tripInfo.id = trips[i].id;
           if (trips[i].SubmitDate) {
-            tripInfo.submitDate = moment(trips[i].SubmitDate).format("YYYY-MM-DD");
+            tripInfo.submitDate = moment(trips[i].SubmitDate).format("D MMMM YYYY");
           } else {
             tripInfo.submitDate = "-"
           }
           tripInfo.name = resort.Name;
-          tripInfo.startDate = moment(trips[i].StartDate).format("YYYY-MM-DD");
-          tripInfo.endDate = moment(trips[i].EndDate).format("YYYY-MM-DD");
+          tripInfo.startDate = moment(trips[i].StartDate).format("D MMMM YYYY");
+          tripInfo.endDate = moment(trips[i].EndDate).format("D MMMM YYYY");
           if (trips[i].IsTripDone) {
             tripInfo.status = "Submitted";
             tripInfo.checkButton = "View";
