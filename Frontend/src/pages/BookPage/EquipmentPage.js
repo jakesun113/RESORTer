@@ -40,11 +40,6 @@ class Equipmentpage extends Component {
 
     async handleSkipRental() {
         const {place, history, masterID, resortID, tripID} = this.props;
-        const url = `/booking/${place}/learn`;
-        history.push({
-            pathname: url,
-            state: {masterID: masterID, resortID: resortID, tripID: tripID}
-        });
         let BaseURL = "http://127.0.0.1:3333/api/";
         let postData;
         postData = {
@@ -54,8 +49,19 @@ class Equipmentpage extends Component {
 
         //send lift pass related information
         await axios.post(BaseURL + "skipEquipmentInfo", postData).then(response => {
-            console.log("skip rental info success");
-            console.log(response.data);
+            if (response.data.skipRentalSuccess) {
+              const url = `/booking/${place}/learn`;
+              history.push({
+                  pathname: url,
+                  state: {masterID: masterID, resortID: resortID, tripID: tripID}
+              });
+              console.log("skip rental info success");
+              console.log(response.data);
+            } else {
+              alert("Error in skip rental info");
+              console.log(response.data);
+            }
+            
         }).catch(error => {
             console.log(error);
         });
@@ -143,8 +149,54 @@ class Equipmentpage extends Component {
         }
     };
 
+    // handleEquipmentOneCheck = (id, isChecked) => {
+    //     const {currentActivity} = this.state;
+    //     currentActivity[id].EquipmentOneChecked = isChecked;
+    //     this.forceUpdate();
+    // };
+
+    // handleEquipmentTwoCheck = (id, isChecked) => {
+    //     const {currentActivity} = this.state;
+    //     currentActivity[id].EquipmentTwoChecked = isChecked;
+    //     this.forceUpdate();
+    // };
+
+    // handleGradeChange = (id, gradeValue) => {
+    //     const {currentActivity} = this.state;
+    //     currentActivity[id].Grade = gradeValue;
+    //     this.forceUpdate();
+    // };
+
+
     goPrevious = () => {
+        const {members} = this.state;
         const {place, history, masterID, resortID, tripID} = this.props;
+        const keys = Object.keys(members);
+        let masterEquipment = {};
+        let familyEquipment= {};
+
+        keys.forEach(key => {
+          if (key.indexOf("master") === -1) {
+              // family member equipment
+              familyEquipment[members[key].id] = {
+                  skiInfo: {
+                      boots: document
+                  },
+                  ability: members[key].ability,
+                  skipEquipmentLesson: members[key].skipEquipmentLesson
+              };
+          } else {
+              // master equipment
+              const master_id = key.split(" ")[1];
+              masterEquipment[master_id] = {
+                  activity: members[key].activity,
+                  ability: members[key].ability,
+                  skipEquipmentLesson: members[key].skipEquipmentLesson
+              };
+          }
+      });
+
+        
         const url = `/booking/${place}/doing`;
         history.push({
             pathname: url,
@@ -154,6 +206,8 @@ class Equipmentpage extends Component {
                 tripID: tripID
             }
         });
+
+
     };
 
     goNext = pageName => {

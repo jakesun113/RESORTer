@@ -114,6 +114,8 @@ Route.post("/api/uploadActivityInfo", "TripActivityController.uploadActivityInfo
 Route.get("/api/getEquipmentInfo/:tripID/:masterID", "TripEquipmentController.getEquipmentInfo");
 // skip equipment page
 Route.post("/api/skipEquipmentInfo", "TripEquipmentController.skipEquipmentInfo");
+// upload equipment information
+Route.post("/api/uploadEquipmentInfo", "TripEquipmentController.uploadEquipmentInfo");
 /*TripEquipmentController end*/
 
 /*TripLiftpassController start*/

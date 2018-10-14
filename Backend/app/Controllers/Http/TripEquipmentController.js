@@ -212,6 +212,9 @@ class TripEquipmentController {
     }
 
   }
+  async uploadEquipmentInfo({request}) {
+
+  }
 
 }
 

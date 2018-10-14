@@ -175,7 +175,7 @@ class EquipmentMemberCard extends Component {
                                 <tr>
                                     <td>Outfit (jacket, pants):*</td>
                                     <td>
-                                        <StyledSelect id="outfit" value={this.props.memberOutfit}>
+                                        <StyledSelect id="outfit" defaultValue={this.props.memberOutfit}>
                                             <option value="None">None</option>
                                             <option value="Small">Small</option>
                                             <option value="Medium">Medium</option>
@@ -190,7 +190,7 @@ class EquipmentMemberCard extends Component {
                                         </p>
                                     </td>
                                     <td>
-                                        <StyledSelect id="helmet" value={this.props.memberHelmet}>
+                                        <StyledSelect id="helmet" defaultValue={this.props.memberHelmet}>
                                             <option value="None">None</option>
                                             <option value="Small">Small</option>
                                             <option value="Medium">Medium</option>

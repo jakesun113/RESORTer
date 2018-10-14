@@ -1,7 +1,19 @@
 import React, {Component} from "react";
+import styled from "styled-components";
+
+const StyledSelect = styled.select`
+  width: 80%;
+  border: solid 1px rgba(198, 226, 247, 1);
+`;
 
 class ActivityEquipmentCard extends Component {
-    state = {};
+    constructor(props) {
+        super(props);
+        this.state = {
+            equipmentOneChecked: this.props.EquipmentOneChecked,
+            equipmentTwoChecked: this.props.EquipmentTwoChecked
+        };
+    }
 
     render() {
         return (
@@ -20,7 +32,10 @@ class ActivityEquipmentCard extends Component {
                                 className="form-check-input"
                                 id="equipmentOne"
                                 type="checkbox"
-                                checked={this.props.EquipmentOneChecked}
+                                onChange={e => {
+                                    this.setState({equipmentOneChecked: e.target.checked});
+                                }}                                
+                                checked={this.state.equipmentOneChecked}
                             />
                             &nbsp;&nbsp;
                             <label className="form-check-label" htmlFor="equipmentOne">
@@ -32,7 +47,10 @@ class ActivityEquipmentCard extends Component {
                                 className="form-check-input"
                                 id="equipmentTwo"
                                 type="checkbox"
-                                checked={this.props.EquipmentTwoChecked}
+                                onChange={e => {
+                                    this.setState({equipmentTwoChecked: e.target.checked});
+                                }}
+                                checked={this.state.equipmentTwoChecked}
                             />
                             &nbsp;&nbsp;
                             <label className="form-check-label" htmlFor="equipmentTwo">
@@ -41,14 +59,11 @@ class ActivityEquipmentCard extends Component {
                         </div>
                     </td>
                     <td>
-                        <select
-                            defaultValue={this.props.Grade}
-                            style={{border: "solid 1px #686369", width: "80%"}}
-                        >
+                        <StyledSelect  id="grade" defaultValue={this.props.Grade}>
                             <option value="Standard">Standard</option>
                             <option value="Deluxe">Deluxe</option>
                             <option value="High Performance">High Performance</option>
-                        </select>
+                        </StyledSelect>
                     </td>
                 </tr>
                 </tbody>
