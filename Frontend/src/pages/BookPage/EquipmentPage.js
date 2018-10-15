@@ -149,23 +149,23 @@ class Equipmentpage extends Component {
         }
     };
 
-    // handleEquipmentOneCheck = (id, isChecked) => {
-    //     const {currentActivity} = this.state;
-    //     currentActivity[id].EquipmentOneChecked = isChecked;
-    //     this.forceUpdate();
-    // };
+    handleEquipmentOneChange = (id, isChecked) => {
+        const {currentActivity} = this.state;
+        currentActivity[id].EquipmentOneChecked = isChecked;
+        this.forceUpdate();
+    };
 
-    // handleEquipmentTwoCheck = (id, isChecked) => {
-    //     const {currentActivity} = this.state;
-    //     currentActivity[id].EquipmentTwoChecked = isChecked;
-    //     this.forceUpdate();
-    // };
+    handleEquipmentTwoChange = (id, isChecked) => {
+        const {currentActivity} = this.state;
+        currentActivity[id].EquipmentTwoChecked = isChecked;
+        this.forceUpdate();
+    };
 
-    // handleGradeChange = (id, gradeValue) => {
-    //     const {currentActivity} = this.state;
-    //     currentActivity[id].Grade = gradeValue;
-    //     this.forceUpdate();
-    // };
+    handleGradeChange = (id, gradeValue) => {
+        const {currentActivity} = this.state;
+        currentActivity[id].Grade = gradeValue;
+        this.forceUpdate();
+    };
 
 
     goPrevious = () => {
@@ -420,6 +420,9 @@ class Equipmentpage extends Component {
                             memberShoeSize={members[currentMember].shoeSize}
                             memberHeight={members[currentMember].height}
                             memberWeight={members[currentMember].weight}
+                            handleEquipmentOneChange={this.handleEquipmentOneChange}
+                            handleEquipmentTwoChange={this.handleEquipmentTwoChange}
+                            handleGradeChange={this.handleGradeChange}
                         />
 
                         {/* btn */}
