@@ -533,6 +533,7 @@ class TripController {
         if (i === tripID - 1) {
           tripLiftPass.TripID = i + 1;
           tripLiftPass.IsRemoved = true;
+          tripLiftPass.LiftpassInfo = JSON.stringify({liftPassInfo: null});
         }
         else {
           tripLiftPass.TripID = i + 1;
@@ -889,10 +890,13 @@ class TripController {
       tripInfo.place = resort.Name;
       const startDate = moment(dbTrip.StartDate);
       const endDate = moment(dbTrip.EndDate);
+      const duration = moment.duration(endDate.diff(startDate));
+      const days = Math.round(duration.asDays());
       tripInfo.startDate = startDate.format("YYYY-MM-DD");
       tripInfo.endDate = endDate.format("YYYY-MM-DD");
       tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
       tripInfo.comment = dbTrip.Comment;
+      tripInfo.days = days;
       //add member info (information on who are going to the trip)
       let memberInfoArray = [];
       const activityArray = ["ski", "snowboard", "telemark", "snowbike", "snowshoe", "snowmobile"];
@@ -1058,8 +1062,6 @@ class TripController {
       if (tripLiftPass === null) {
 
         let liftPassArray = [];
-        let duration = moment.duration(endDate.diff(startDate));
-        let days = Math.round(duration.asDays());
         //console.log(days);
 
         for (let i = 0; i <= days; i++) {

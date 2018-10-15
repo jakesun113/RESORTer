@@ -21,6 +21,7 @@ class TripLiftpassController {
         }
         tripLiftPass.TripID = requestData.tripID;
         tripLiftPass.IsRemoved = true;
+        tripLiftPass.LiftpassInfo = JSON.stringify({liftPassInfo: null});
 
         await tripLiftPass.save();
       }

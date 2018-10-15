@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 // compomemts
-import DatePickerComponent from "../../components/template/DatePickerComponent";
 import GroupMemberCard from "../../components/template/GroupMemberCard";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import axios from "axios/index";
@@ -49,6 +48,7 @@ class PlanSummaryPage extends Component {
             tripID: this.props.tripID,
             token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
             provider: JSON.parse(sessionStorage.getItem("userSocialData"))['provider'] || null,
+            tripInfo: {},
             memberInfo: [],
             accommodationInfo: {},
             isShowLiftPass: true,
@@ -282,8 +282,9 @@ class PlanSummaryPage extends Component {
     };
 
     render() {
-        const {place, masterID, resortID, tripID, days} = this.props;
+        const {place, masterID, resortID, tripID} = this.props;
         const {
+            tripInfo,
             memberInfo,
             accommodationInfo,
             isShowLiftPass,
@@ -325,7 +326,11 @@ class PlanSummaryPage extends Component {
                         {/* title */}
                         <div
                             className="row"
-                            style={{color: "#4682B4", fontSize: "26px", fontWeight: "bold"}}
+                            style={{
+                                color: "#4682B4",
+                                fontSize: "26px",
+                                fontWeight: "bold"
+                            }}
                         >
                             <div className="col-1"/>
                             <div className="col-4">6. PLAN SUMMARY</div>
@@ -364,7 +369,7 @@ class PlanSummaryPage extends Component {
                                 className="col-md-12 col-lg-1"
                                 style={{color: "#3D9BE9", fontSize: "23px"}}
                             >
-                                {days === undefined ? 6 : days}
+                                {tripInfo.days}
                             </div>
 
                             <div
@@ -396,9 +401,9 @@ class PlanSummaryPage extends Component {
 
                             <div
                                 className="col-md-6 col-lg-3"
-                                style={{color: "black", fontSize: "20px"}}
+                                style={{color: "#3D9BE9", fontSize: "20px"}}
                             >
-                                <DatePickerComponent key="1" readOnly={true}/>
+                                {tripInfo.startDate}
                             </div>
                             <div
                                 className="col-md-6 col-lg-1"
@@ -408,9 +413,9 @@ class PlanSummaryPage extends Component {
                             </div>
                             <div
                                 className="col-md-6 col-lg-3"
-                                style={{color: "black", fontSize: "20px"}}
+                                style={{color: "#3D9BE9", fontSize: "20px"}}
                             >
-                                <DatePickerComponent key="2" readOnly={true}/>
+                                {tripInfo.endDate}
                             </div>
                             <div className="col-lg-3"/>
                         </div>
@@ -438,7 +443,8 @@ class PlanSummaryPage extends Component {
                                         <th scope="col">Shoesize (AU)</th>
                                         <th scope="col">Height (cm)</th>
                                         <th scope="col">Weight (kg)</th>
-                                        <th scope="col">Physical Disabilities</th>
+                                        <th scope="col">Physical Disabilities
+                                        </th>
                                         <th scope="col">Activity</th>
                                     </tr>
                                     </thead>
@@ -663,12 +669,11 @@ class PlanSummaryPage extends Component {
                         </div>
                         <div className="row">
                             <div className="col-lg-1"/>
-                            <div className="col-lg-10" style={{paddingLeft: "15px"}}>
+                            <div className="col-lg-10"
+                                 style={{paddingLeft: "15px"}}>
                                 <StyledTextArea
-                                    readOnly={this.props.readOnly}
-                                    placeholder="Lift names who do not require liftpasses"
+                                    placeholder="Further Comments?"
                                 >
-                                    Fake further comments
                                 </StyledTextArea>
                             </div>
                             <div className="col-lg-1"/>
@@ -677,9 +682,14 @@ class PlanSummaryPage extends Component {
                         {/* btn */}
                         <div
                             className="row"
-                            style={{color: "#4682B4", fontSize: "26px", fontWeight: "bold"}}
+                            style={{
+                                color: "#4682B4",
+                                fontSize: "26px",
+                                fontWeight: "bold"
+                            }}
                         >
-                            <div className="col-lg-1" style={{paddingRight: "15px"}}/>
+                            <div className="col-lg-1"
+                                 style={{paddingRight: "15px"}}/>
                             <div className="col-12 col-lg-2">
                                 <SmallEllipseBtn
                                     text="Back"
