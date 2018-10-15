@@ -3,7 +3,8 @@ import React, {Component} from "react";
 import GroupMemberCard from "../../components/template/GroupMemberCard";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import axios from "axios/index";
-import AccommodationCard from "../../components/template/AccommodationCard";
+import AccommodationReadOnlyCard
+    from "../../components/BookTripPage/AccommodationCard";
 import LiftPassCard from "../../components/BookTripPage/LiftPassCard";
 import RentalCardInPlan from "../../components/BookTripPage/RentalCardInPlan";
 import LessonCard from "../../components/BookTripPage/LessonCard";
@@ -13,8 +14,7 @@ import {instanceOf} from "prop-types";
 import moment from "moment";
 import handleLogOut from "../../components/template/HandleLogOut";
 import {Redirect} from "react-router-dom";
-import RentalEquipmentCard
-    from "../../components/BookTripPage/RentalEquipmentCard";
+import RentalEquipmentCard from "../../components/BookTripPage/RentalEquipmentCard";
 
 const StyledTextArea = styled.textarea`
   width: 100%;
@@ -475,7 +475,7 @@ class PlanSummaryPage extends Component {
                             <div className="col-lg-1"/>
                         </div>
                         {/* Accommodation Needs */}
-                        <AccommodationCard
+                        <AccommodationReadOnlyCard
                             accommodation={accommodationInfo}
                             text="12"
                             style={{
@@ -555,7 +555,10 @@ class PlanSummaryPage extends Component {
 
                                         <table
                                             className="table table-borderless"
-                                            style={{color: "#686369", fontWeight: "bold"}}>
+                                            style={{
+                                                color: "#686369",
+                                                fontWeight: "bold"
+                                            }}>
                                             <thead>
                                             <tr style={{color: "#686369"}}>
                                                 <th scope="col">Participant</th>
@@ -594,7 +597,10 @@ class PlanSummaryPage extends Component {
 
                                         <table
                                             className="table table-borderless"
-                                            style={{color: "#686369", fontWeight: "bold"}}>
+                                            style={{
+                                                color: "#686369",
+                                                fontWeight: "bold"
+                                            }}>
                                             <thead>
                                             <tr style={{color: "#686369"}}>
                                                 <th scope="col">Participant</th>
@@ -633,7 +639,10 @@ class PlanSummaryPage extends Component {
                         </span>
                                         <table
                                             className="table table-borderless"
-                                            style={{color: "#686369", fontWeight: "bold"}}>
+                                            style={{
+                                                color: "#686369",
+                                                fontWeight: "bold"
+                                            }}>
                                             <thead>
                                             <tr style={{color: "#686369"}}>
                                                 <th scope="col">Participant</th>
@@ -671,7 +680,10 @@ class PlanSummaryPage extends Component {
                         </span>
                                         <table
                                             className="table table-borderless"
-                                            style={{color: "#686369", fontWeight: "bold"}}>
+                                            style={{
+                                                color: "#686369",
+                                                fontWeight: "bold"
+                                            }}>
                                             <thead>
                                             <tr style={{color: "#686369"}}>
                                                 <th scope="col">Participant</th>

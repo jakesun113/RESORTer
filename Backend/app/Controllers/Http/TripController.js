@@ -360,7 +360,7 @@ class TripController {
         let masterRentalInfoByDay = {};
         let startDate = moment().subtract(1, "days");
         masterRentalInfoByDay.participant = "Jiacheng Sun";
-        masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        masterRentalInfoByDay.date = startDate.add(i, "days").format("D MMMM YYYY");
         masterRentalInfoByDay.duration = "Full Day";
         masterRentalInfoByDay.boots = true;
         masterRentalInfoByDay.poles = false;
@@ -376,7 +376,7 @@ class TripController {
         let masterRentalInfoByDay = {};
         let startDate = moment().subtract(1, "days");
         masterRentalInfoByDay.participant = "Jiacheng Sun";
-        masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        masterRentalInfoByDay.date = startDate.add(i, "days").format("D MMMM YYYY");
         masterRentalInfoByDay.duration = "Full Day";
         masterRentalInfoByDay.boots = true;
         masterRentalInfoByDay.board = false;
@@ -399,7 +399,7 @@ class TripController {
           let singleFamilyRentalInfoByDay = {};
           let startDate = moment().subtract(1, "days");
           singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
-          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("D MMMM YYYY");
           singleFamilyRentalInfoByDay.duration = "Full Day";
           singleFamilyRentalInfoByDay.boots = true;
           singleFamilyRentalInfoByDay.poles = false;
@@ -418,7 +418,7 @@ class TripController {
           let singleFamilyRentalInfoByDay = {};
           let startDate = moment().subtract(1, "days");
           singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
-          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
+          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("D MMMM YYYY");
           singleFamilyRentalInfoByDay.duration = "Full Day";
           singleFamilyRentalInfoByDay.outfit = "Medium";
           singleFamilyRentalInfoByDay.helmet = "Small";
@@ -519,7 +519,7 @@ class TripController {
       for (let i = 0; i <= days; i++) {
         let liftPassObj = {};
         let startDate = moment().subtract(1, "days");
-        liftPassObj.date = startDate.add(i, "days").format("YYYY-MM-DD");
+        liftPassObj.date = startDate.add(i, "days").format("D MMMM YYYY");
         liftPassObj.adultNumber = 4;
         liftPassObj.adultDuration = "Full Day";
         liftPassObj.childNumber = 0;
@@ -892,9 +892,9 @@ class TripController {
       const endDate = moment(dbTrip.EndDate);
       const duration = moment.duration(endDate.diff(startDate));
       const days = Math.round(duration.asDays());
-      tripInfo.startDate = startDate.format("YYYY-MM-DD");
-      tripInfo.endDate = endDate.format("YYYY-MM-DD");
-      tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
+      tripInfo.startDate = startDate.format("D MMMM YYYY");
+      tripInfo.endDate = endDate.format("D MMMM YYYY");
+      tripInfo.submitDate = moment(dbTrip.SubmitDate).format("D MMMM YYYY");
       tripInfo.comment = dbTrip.Comment;
       tripInfo.days = days + 1;
       //add member info (information on who are going to the trip)
@@ -916,7 +916,7 @@ class TripController {
         }
         let memberInfo = {};
         memberInfo.name = name;
-        memberInfo.dob = moment(member.DOB).format("YYYY-MM-DD");
+        memberInfo.dob = moment(member.DOB).format("D MMMM YYYY");
         memberInfo.disability = member.IsDisabled;
 
         memberInfo.shoeSize = tripEquipmentMaster.ShoeSize;
@@ -946,6 +946,8 @@ class TripController {
           }
         }
         memberInfo.activity = memberActivityArray;
+
+        //memberInfo.activityAbility = masterActivity[2].ability;
 
         memberInfoArray.push(memberInfo);
       }
@@ -981,7 +983,7 @@ class TripController {
         let memberInfo = {};
         let familyRentalInfo = {};
         memberInfo.name = name;
-        memberInfo.dob = moment(familyMember.DOB).format("YYYY-MM-DD");
+        memberInfo.dob = moment(familyMember.DOB).format("D MMMM YYYY");
         memberInfo.disability = familyMember.IsDisabled;
 
         memberInfo.shoeSize = tripEquipmentFamily.ShoeSize;
@@ -1040,6 +1042,8 @@ class TripController {
         }
         memberInfo.activity = memberActivityArray;
 
+        //memberInfo.activityAbility = familyActivity[i + 1].ability;
+
         memberInfoArray.push(memberInfo);
       }
 
@@ -1067,7 +1071,7 @@ class TripController {
         for (let i = 0; i <= days; i++) {
           let liftPassObj = {};
           let firstDate = startDate;
-          liftPassObj.date = firstDate.add(i, "days").format("YYYY-MM-DD");
+          liftPassObj.date = firstDate.add(i, "days").format("D MMMM YYYY");
           liftPassObj.adultNumber = memberInfoArray.length;
           liftPassObj.adultDuration = "Full Day";
           liftPassObj.childNumber = 0;
