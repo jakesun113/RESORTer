@@ -34,6 +34,18 @@ class EquipmentMemberCard extends Component {
         });
     };
 
+   handleEquipmentOneChange = (id, checked) => {
+       this.props.handleEquipmentOneChange(id, checked)
+   }
+
+   handleEquipmentTwoChange = (id, checked) => {
+    this.props.handleEquipmentTwoChange(id, checked)
+   }
+
+   handleGradeChange = (id, value) => {
+    this.props.handleGradeChange(id, value)
+   }
+
     handleClose = () => {
         this.setState({isShowTip: false});
         sessionStorage.setItem(
@@ -140,6 +152,9 @@ class EquipmentMemberCard extends Component {
                                             EquipmentTwo={activity.EquipmentTwo}
                                             EquipmentTwoChecked={activity.EquipmentTwoChecked}
                                             Grade={activity.Grade}
+                                            handleEquipmentOneChange={this.handleEquipmentOneChange}
+                                            handleEquipmentTwoChange={this.handleEquipmentTwoChange}
+                                            handleGradeChange={this.handleGradeChange}
                                         />
                                     ))
                                     : null}

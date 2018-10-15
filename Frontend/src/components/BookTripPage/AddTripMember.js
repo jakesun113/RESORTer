@@ -15,7 +15,7 @@ class AddTripMember extends Component {
       groupMember: null,
       user: null,
       numberOfFamilyMember: 0, //control whether show the addSavedMember button
-      savedGroupMember: null,
+      savedGroupMember: [],
       showAddSavedGroupMemberCard: false,
       showAlertWindow: false,
       showAddNewGroupMemberCard: false,

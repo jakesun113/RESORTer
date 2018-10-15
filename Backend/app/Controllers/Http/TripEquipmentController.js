@@ -49,7 +49,7 @@ class TripEquipmentController {
           "weight": null
         };
 
-        if (activity.length > 0) {
+        if (activity) {
           const MasterMemberActivity = JSON.parse(activity.MasterMemberActivity)
           const key = Object.keys(MasterMemberActivity); // single element array
           if (key.length > 0) {

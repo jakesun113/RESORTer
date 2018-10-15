@@ -15,6 +15,20 @@ class ActivityEquipmentCard extends Component {
         };
     }
 
+    handleEquipmentOneChange = e => {
+        this.props.handleEquipmentOneChange(e.target.id, e.target.checked);
+    }
+
+    handleEquipmentTwoChange= e => {
+        this.props.handleEquipmentTwoChange(e.target.id, e.target.checked);
+    }
+
+    handleGradeChange= e => {
+        this.props.handleGradeChange(e.target.id, e.target.value);
+    }
+
+
+
     render() {
         return (
             <React.Fragment>
@@ -30,36 +44,41 @@ class ActivityEquipmentCard extends Component {
                         <div className="form-check form-check-inline">
                             <input
                                 className="form-check-input"
-                                id="equipmentOne"
+                                id={this.props.key}
                                 type="checkbox"
                                 onChange={e => {
-                                    this.setState({equipmentOneChecked: e.target.checked});
+                                    this.setState({equipmentOneChecked: e.target.checked},
+                                    this.handleEquipmentOneChange(e));
                                 }}                                
                                 checked={this.state.equipmentOneChecked}
                             />
                             &nbsp;&nbsp;
-                            <label className="form-check-label" htmlFor="equipmentOne">
+                            <label className="form-check-label" htmlFor={this.props.key}>
                                 {this.props.EquipmentOne}
                             </label>
                         </div>
                         <div className="form-check form-check-inline">
                             <input
                                 className="form-check-input"
-                                id="equipmentTwo"
+                                id={this.props.key}
                                 type="checkbox"
                                 onChange={e => {
-                                    this.setState({equipmentTwoChecked: e.target.checked});
+                                    this.setState({equipmentTwoChecked: e.target.checked},
+                                    this.handleEquipmentTwoChange(e));
                                 }}
                                 checked={this.state.equipmentTwoChecked}
                             />
                             &nbsp;&nbsp;
-                            <label className="form-check-label" htmlFor="equipmentTwo">
+                            <label className="form-check-label" htmlFor={this.props.key}>
                                 {this.props.EquipmentTwo}
                             </label>
                         </div>
                     </td>
                     <td>
-                        <StyledSelect  id="grade" defaultValue={this.props.Grade}>
+                        <StyledSelect  
+                        id={this.props.key}
+                        defaultValue={this.props.Grade}
+                        onChange={e => {this.handleGradeChange(e)}}>
                             <option value="Standard">Standard</option>
                             <option value="Deluxe">Deluxe</option>
                             <option value="High Performance">High Performance</option>
