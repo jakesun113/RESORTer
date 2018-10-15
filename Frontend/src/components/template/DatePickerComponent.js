@@ -41,6 +41,7 @@ class DatePickerComponent extends Component {
         onChange={this.handleChange}
         dateFormat="DD-MM-YYYY"
         maxDate={moment().subtract(1, "days")}
+        maxDate={moment().subtract(1, "days")}
         placeholderText="DD-MM-YYYY"
         showYearDropdown
         showMonthDropdown

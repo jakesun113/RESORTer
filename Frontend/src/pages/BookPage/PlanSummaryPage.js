@@ -3,9 +3,10 @@ import React, {Component} from "react";
 import GroupMemberCard from "../../components/template/GroupMemberCard";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import axios from "axios/index";
-import AccommodationCard from "../../components/template/AccommodationCard";
+import AccommodationReadOnlyCard
+    from "../../components/BookTripPage/AccommodationCard";
 import LiftPassCard from "../../components/BookTripPage/LiftPassCard";
-import RentalCard from "../../components/template/RentalCard";
+import RentalCardInPlan from "../../components/BookTripPage/RentalCardInPlan";
 import LessonCard from "../../components/BookTripPage/LessonCard";
 import styled from "styled-components";
 import {withCookies, Cookies} from "react-cookie";
@@ -13,6 +14,7 @@ import {instanceOf} from "prop-types";
 import moment from "moment";
 import handleLogOut from "../../components/template/HandleLogOut";
 import {Redirect} from "react-router-dom";
+import RentalEquipmentCard from "../../components/BookTripPage/RentalEquipmentCard";
 
 const StyledTextArea = styled.textarea`
   width: 100%;
@@ -473,7 +475,7 @@ class PlanSummaryPage extends Component {
                             <div className="col-lg-1"/>
                         </div>
                         {/* Accommodation Needs */}
-                        <AccommodationCard
+                        <AccommodationReadOnlyCard
                             accommodation={accommodationInfo}
                             text="12"
                             style={{
@@ -496,156 +498,212 @@ class PlanSummaryPage extends Component {
                             ""
                         )}
                         {/* Rental Card */}
-                        <div>
-                            <div className="mt-3">
-                                <h6>
-                    <span style={{fontSize: "2rem", color: "#686369"}}>
-                      Rental
-                    </span>
-                                </h6>
+                        <div className="mt-3">
+                            <div className="row">
+                                <div className="col-lg-1"/>
+                                <div className="col-12 col-lg-1">
+                                    <img
+                                        style={{
+                                            width: "80px",
+                                            height: "80px",
+                                            objectFit: "cover"
+                                        }}
+                                        alt="rentalsImage"
+                                        src="https://static.wixstatic.com/media/25b4a3_2dc5dc31a0b8432aa954074e0fd46924~mv2.jpg/v1/fill/w_160,h_160,al_c,q_80,usm_0.66_1.00_0.01/25b4a3_2dc5dc31a0b8432aa954074e0fd46924~mv2.webp"
+                                    />
+                                </div>
+                                <div
+                                    className="col-12 col-lg-1"
+                                    style={{
+                                        color: "#686369",
+                                        fontSize: "22px",
+                                        marginTop: "50px",
+                                        fontWeight: "bold"
+                                    }}
+                                >
+                                    Rentals
+                                </div>
+                                <div
+                                    className="col-12 col-lg-3"
+                                    style={{
+                                        color: "black",
+                                        fontSize: "13px",
+                                        paddingLeft: "15px",
+                                        marginTop: "57px"
+                                    }}
+                                >
+                                    Lessons and rental for snowbiking,
+                                    snowshoeing and snowmobiling are
+                                    arranged directly with resort
+                                </div>
+                                <div className="col-lg-6"/>
                             </div>
+                            <br/>
                             {/* Rental: ski */}
                             {this.state.rentalInfo.skiInfo === null ? (
                                 ""
                             ) : (
-                                <div>
-                                    <div className="mt-3">
-                                        <h6>
-                        <span style={{fontSize: "25px", color: "#686369"}}>
+                                <div className="row mt-3">
+                                    <div className="col-lg-1"/>
+                                    <div className="col-lg-10">
+
+                        <span style={{
+                            fontSize: "25px", fontWeight: "bold"
+                        }}>
                           Ski
                         </span>
-                                        </h6>
+
+                                        <table
+                                            className="table table-borderless"
+                                            style={{
+                                                color: "#686369",
+                                                fontWeight: "bold"
+                                            }}>
+                                            <thead>
+                                            <tr style={{color: "#686369"}}>
+                                                <th scope="col">Participant</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">Boots</th>
+                                                <th scope="col">Skis & Poles
+                                                </th>
+                                                <th scope="col">Grade</th>
+                                            </tr>
+                                            </thead>
+                                            {this.state.rentalInfo.skiInfo.map(skiInfo => (
+                                                <RentalCardInPlan
+                                                    participant={skiInfo.participant}
+                                                    date={skiInfo.date}
+                                                    duration={skiInfo.duration}
+                                                    boots={skiInfo.boots}
+                                                    poles={skiInfo.poles}
+                                                    grade={skiInfo.grade}
+                                                />
+                                            ))}
+                                        </table>
                                     </div>
-                                    <table className="table table-borderless">
-                                        <thead>
-                                        <tr style={{color: "#686369"}}>
-                                            <th scope="col">Participant</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Duration</th>
-                                            <th scope="col">Boots</th>
-                                            <th scope="col">Skis & Poles</th>
-                                            <th scope="col">Grade</th>
-                                        </tr>
-                                        </thead>
-                                        {this.state.rentalInfo.skiInfo.map(skiInfo => (
-                                            <RentalCard
-                                                participant={skiInfo.participant}
-                                                date={skiInfo.date}
-                                                duration={skiInfo.duration}
-                                                boots={skiInfo.boots}
-                                                poles={skiInfo.poles}
-                                                grade={skiInfo.grade}
-                                            />
-                                        ))}
-                                    </table>
                                 </div>
                             )}
                             {/* Rental: Snowboard */}
                             {this.state.rentalInfo.snowboardInfo === null ? (
                                 ""
                             ) : (
-                                <div>
-                                    <div className="mt-3">
-                                        <h6>
-                        <span style={{fontSize: "25px", color: "#686369"}}>
+                                <div className="row mt-3">
+                                    <div className="col-lg-1"/>
+                                    <div className="col-lg-10">
+                        <span style={{fontSize: "25px", fontWeight: "bold"}}>
                           Snowboard
                         </span>
-                                        </h6>
+
+                                        <table
+                                            className="table table-borderless"
+                                            style={{
+                                                color: "#686369",
+                                                fontWeight: "bold"
+                                            }}>
+                                            <thead>
+                                            <tr style={{color: "#686369"}}>
+                                                <th scope="col">Participant</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">Boots</th>
+                                                <th scope="col">Board</th>
+                                                <th scope="col">Grade</th>
+                                            </tr>
+                                            </thead>
+                                            {this.state.rentalInfo.snowboardInfo.map(
+                                                snowboardInfo => (
+                                                    <RentalCardInPlan
+                                                        participant={snowboardInfo.participant}
+                                                        date={snowboardInfo.date}
+                                                        duration={snowboardInfo.duration}
+                                                        boots={snowboardInfo.boots}
+                                                        poles={snowboardInfo.board}
+                                                        grade={snowboardInfo.grade}
+                                                    />
+                                                )
+                                            )}
+                                        </table>
                                     </div>
-                                    <table className="table table-borderless">
-                                        <thead>
-                                        <tr style={{color: "#686369"}}>
-                                            <th scope="col">Participant</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Duration</th>
-                                            <th scope="col">Boots</th>
-                                            <th scope="col">Board</th>
-                                            <th scope="col">Grade</th>
-                                        </tr>
-                                        </thead>
-                                        {this.state.rentalInfo.snowboardInfo.map(
-                                            snowboardInfo => (
-                                                <RentalCard
-                                                    participant={snowboardInfo.participant}
-                                                    date={snowboardInfo.date}
-                                                    duration={snowboardInfo.duration}
-                                                    boots={snowboardInfo.boots}
-                                                    poles={snowboardInfo.board}
-                                                    grade={snowboardInfo.grade}
-                                                />
-                                            )
-                                        )}
-                                    </table>
                                 </div>
                             )}
                             {/* Rental: telemark */}
                             {this.state.rentalInfo.telemarkInfo === null ? (
                                 ""
                             ) : (
-                                <div>
-                                    <div className="mt-3">
-                                        <h6>
-                        <span style={{fontSize: "25px", color: "#686369"}}>
+                                <div className="row mt-3">
+                                    <div className="col-lg-1"/>
+                                    <div className="col-lg-10">
+                        <span style={{fontSize: "25px", fontWeight: "bold"}}>
                           Telemark
                         </span>
-                                        </h6>
+                                        <table
+                                            className="table table-borderless"
+                                            style={{
+                                                color: "#686369",
+                                                fontWeight: "bold"
+                                            }}>
+                                            <thead>
+                                            <tr style={{color: "#686369"}}>
+                                                <th scope="col">Participant</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">Boots</th>
+                                                <th scope="col">Skis & Poles
+                                                </th>
+                                                <th scope="col">Grade</th>
+                                            </tr>
+                                            </thead>
+                                            {this.state.rentalInfo.telemarkInfo.map(telemarkInfo => (
+                                                <RentalCardInPlan
+                                                    participant={telemarkInfo.participant}
+                                                    date={telemarkInfo.date}
+                                                    duration={telemarkInfo.duration}
+                                                    boots={telemarkInfo.boots}
+                                                    poles={telemarkInfo.poles}
+                                                    grade={telemarkInfo.grade}
+                                                />
+                                            ))}
+                                        </table>
                                     </div>
-                                    <table className="table table-borderless">
-                                        <thead>
-                                        <tr style={{color: "#686369"}}>
-                                            <th scope="col">Participant</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Duration</th>
-                                            <th scope="col">Boots</th>
-                                            <th scope="col">Skis & Poles</th>
-                                            <th scope="col">Grade</th>
-                                        </tr>
-                                        </thead>
-                                        {this.state.rentalInfo.telemarkInfo.map(telemarkInfo => (
-                                            <RentalCard
-                                                participant={telemarkInfo.participant}
-                                                date={telemarkInfo.date}
-                                                duration={telemarkInfo.duration}
-                                                boots={telemarkInfo.boots}
-                                                poles={telemarkInfo.poles}
-                                                grade={telemarkInfo.grade}
-                                            />
-                                        ))}
-                                    </table>
                                 </div>
                             )}
                             {/* Rental: other equipment */}
                             {this.state.rentalInfo.otherInfo === null ? (
                                 ""
                             ) : (
-                                <div>
-                                    <div className="mt-3">
-                                        <h6>
-                        <span style={{fontSize: "25px", color: "#686369"}}>
+                                <div className="row mt-3">
+                                    <div className="col-lg-1"/>
+                                    <div className="col-lg-10">
+                        <span style={{fontSize: "25px", fontWeight: "bold"}}>
                           Other Equipment
                         </span>
-                                        </h6>
+                                        <table
+                                            className="table table-borderless"
+                                            style={{
+                                                color: "#686369",
+                                                fontWeight: "bold"
+                                            }}>
+                                            <thead>
+                                            <tr style={{color: "#686369"}}>
+                                                <th scope="col">Participant</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Duration</th>
+                                                <th scope="col">Outerwear</th>
+                                                <th scope="col">Helmet</th>
+                                            </tr>
+                                            </thead>
+                                            {this.state.rentalInfo.otherInfo.map(otherInfo => (
+                                                <RentalEquipmentCard
+                                                    participant={otherInfo.participant}
+                                                    date={otherInfo.date}
+                                                    duration={otherInfo.duration}
+                                                    boots={otherInfo.outfit}
+                                                    poles={otherInfo.helmet}
+                                                />
+                                            ))}
+                                        </table>
                                     </div>
-                                    <table className="table table-borderless">
-                                        <thead>
-                                        <tr style={{color: "#686369"}}>
-                                            <th scope="col">Participant</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Duration</th>
-                                            <th scope="col">Outerwear</th>
-                                            <th scope="col">Helmet</th>
-                                        </tr>
-                                        </thead>
-                                        {this.state.rentalInfo.otherInfo.map(otherInfo => (
-                                            <RentalCard
-                                                participant={otherInfo.participant}
-                                                date={otherInfo.date}
-                                                duration={otherInfo.duration}
-                                                boots={otherInfo.outfit}
-                                                poles={otherInfo.helmet}
-                                            />
-                                        ))}
-                                    </table>
                                 </div>
                             )}
                         </div>

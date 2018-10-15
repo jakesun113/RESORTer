@@ -15,8 +15,8 @@ class RentalCard extends Component {
             <td>{this.props.participant}</td>
             <td>{this.props.date}</td>
             <td>{this.props.duration}</td>
-            <td>{this.props.boots}</td>
-            <td>{this.props.poles}</td>
+            <td>{this.props.boots ? "Yes": "No"}</td>
+            <td>{this.props.poles ? "Yes": "No"}</td>
             <td>{this.props.grade}</td>
           </tr>
         </tbody>

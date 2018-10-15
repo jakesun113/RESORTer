@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import axios from "axios/index";
 import GroupMemberCard from "../template/GroupMemberCard";
-import AccommodationCard from "../template/AccommodationCard";
+import AccommodationReadOnlyCard from "../template/AccommodationReadOnlyCard";
 import LiftPassReadOnlyCard from "../template/LiftPassReadOnlyCard";
 import RentalCard from "../template/RentalCard";
 import SmallEllipseBtn from "../template/SmallEllipseBtn";
 import {Link} from "react-router-dom";
+import RentalEquipmentReadOnlyCard
+    from "../template/RentalEquipmentReadOnlyCard";
 
 const ShortLineStyle = {
     marginTop: "20px",
@@ -185,7 +187,7 @@ class MyTripPage extends Component {
                         </div>
                         <hr style={ShortLineStyle}/>
                         {/* Accommodation information*/}
-                        <AccommodationCard
+                        <AccommodationReadOnlyCard
                             accommodation={this.state.accommodationInfo}
                             style={{width: "100%", border: "1px solid black"}}
                             readOnly
@@ -392,7 +394,7 @@ class MyTripPage extends Component {
                                             </tr>
                                             </thead>
                                             {this.state.rentalInfo.otherInfo.map(otherInfo => (
-                                                <RentalCard
+                                                <RentalEquipmentReadOnlyCard
                                                     participant={otherInfo.participant}
                                                     date={otherInfo.date}
                                                     duration={otherInfo.duration}
