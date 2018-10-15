@@ -305,6 +305,20 @@ class BookingLesson extends Component {
                     }
                 })
 
+            } else {
+                switch (eventType) {
+                    case "skipLesson":
+                        this.skipLesson();
+                        break;
+                    case "goPrevious":
+                        this.goPrevious();
+                        break;
+                    case"goNext":
+                        this.goNext();
+                        break;
+                    default:
+                        break;
+                }
             }
         } else {
             // is a guest user, then no need to handle auth

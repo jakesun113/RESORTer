@@ -237,14 +237,11 @@ class BookingActivity extends Component {
                     });
             } else {
                 switch (eventType) {
-                    case "skipAccommodation":
-                        this.skipAccommodation();
-                        break;
                     case "goPrevious":
                         this.goPrevious();
                         break;
                     case "goNext":
-                        this.goNext("doing");
+                        this.goNext("equipment");
                         break;
                     default:
                         break;
