@@ -4,6 +4,13 @@ import 'react-router-dom';
 import {withCookies, Cookies} from "react-cookie";
 import {instanceOf} from "prop-types";
 import axios from "axios/index";
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import {
+    CSSTransition,
+    TransitionGroup,
+} from 'react-transition-group';
+import "../../css/BookingPages/BookingLesson.css";
 
 const HeaderLine = styled.div`
   margin: 20px 0 10px 0;
@@ -29,6 +36,7 @@ const HeaderL2 = styled.div`
    color: #607375;
    font-size: 20px;
    margin-bottom: 10px;
+   display:inline-block;
 `;
 
 const Warning = styled.p`
@@ -37,6 +45,33 @@ const Warning = styled.p`
   font-style: italic;
   font-weight: 100;
   //font-size:smaller;
+`;
+
+const DuplicateAlert = styled.div`
+  display: inline-block;
+  margin-left: 30px;
+  color:rgba(255, 97, 97, 1);
+  font-style: italic;
+  font-weight: 100;
+`;
+
+const DateDiv = styled.div`
+  position: absolute;
+  z-index: 99;
+  //display: none;
+`;
+
+const AddLessonText = styled.div`
+  color: rgb(73,131,178);
+  font-size: 16px;
+  font-weight: 800;
+  transform: translate(0,4px);
+  transition: color 0.5s;
+  
+  &:hover{
+    cursor:pointer;
+    color: black;
+  }                                        
 `;
 
 const UpperEllipseButton = styled.button`
@@ -176,6 +211,28 @@ class BookingLesson extends Component {
                 },
             },
 
+            showGroupLessonDate: {
+                "adult": {
+                    "2018-10-23 PM Ski": false,
+                    "2018-10-23 AM Ski": false,
+                    "2018-10-21 AM Snowboard": false,
+                },
+                "child": {
+                    "2018-10-22 PM Ski": false,
+                    "2018-10-21 PM Ski": false,
+                },
+                "mini": {
+                    "2018-10-24 PM Telemark": false,
+                    "2018-10-22 AM Telemark": false,
+                },
+            },
+
+            showGroupAlert: {
+                "adult": false,
+                "child": false,
+                "mini": false
+            },
+
             privateLesson: {},
         }
     }
@@ -280,6 +337,7 @@ class BookingLesson extends Component {
 
     };
 
+    // show/hide of group/private lesson component
     toggle = (item) => {
         if (item === 'group_show') {
             const {group_show} = this.state;
@@ -306,8 +364,9 @@ class BookingLesson extends Component {
         this.setState({request: e.target.value});
     };
 
+    // change AM/PM and activity in a group lesson
     handleGroupInfoChange = (e) => {
-        const {groupLesson} = this.state;
+        const {groupLesson, showGroupLessonDate, showGroupAlert} = this.state;
         const keyname = e.target.name; // e.g. adult 2018-10-23 PM Ski
         const keysplit = keyname.split(" ");
 
@@ -327,11 +386,44 @@ class BookingLesson extends Component {
         }
         if (original_keys.indexOf(new_key) === -1) {
             delete original_json[old_key];
+            delete showGroupLessonDate[ageType][old_key];
             original_json[new_key] = old_value;
+            showGroupLessonDate[ageType][new_key] = false;
+            // showGroupAlert[ageType] = false;
+        } else {
+            // showGroupAlert[ageType] = true;
         }
         this.forceUpdate();
     };
 
+    // change date in a group lesson
+    handleGroupDateChange = (date, keyname) => {
+        // keyname e.g. adult 2018-10-23 PM Ski
+
+        const {groupLesson, showGroupLessonDate, showGroupAlert} = this.state;
+        const keysplit = keyname.split(" ");
+        const ageType = keysplit[0];
+        const original_json = groupLesson[ageType]; // e.g. adult's json
+        const original_keys = Object.keys(original_json);
+        const old_key = keysplit.slice(1, 4).join(" ");
+        const old_value = original_json[old_key];
+
+        const new_date = moment(date).format("YYYY-MM-DD");
+        const new_key = new_date + " " + keysplit[2] + " " + keysplit[3];
+
+        if (original_keys.indexOf(new_date) === -1) {
+            delete original_json[old_key];
+            delete showGroupLessonDate[ageType][old_key];
+            original_json[new_key] = old_value;
+            showGroupLessonDate[ageType][new_key] = false;
+            // showGroupAlert[ageType] = false;
+        } else {
+            // showGroupAlert[ageType] = true;
+        }
+        this.forceUpdate();
+    };
+
+    // change members in a group lesson
     handleGroupMemberChange = (e) => {
         const {groupLesson} = this.state;
 
@@ -365,7 +457,80 @@ class BookingLesson extends Component {
         this.forceUpdate();
     };
 
+    // delete an item in group lesson
+    handleGroupDelete = (keyname) => {
+        // keyname e.g. adult 2018-10-23 PM Ski
+        const {groupLesson, showGroupLessonDate} = this.state;
+        const keysplit = keyname.split(" ");
+        const ageType = keysplit[0];
+        const searchKey = keysplit.slice(1, 4).join(" ");
 
+        delete groupLesson[ageType][searchKey];
+        delete showGroupLessonDate[ageType][searchKey];
+        this.forceUpdate();
+    };
+
+    // change the rendering state of datePicker in group lesson
+    handleGroupDatePickerShow = (keyname) => {
+        // keyname e.g. adult 018-10-23 PM Ski
+
+        const {showGroupLessonDate} = this.state;
+        const keysplit = keyname.split(" ");
+        const ageType = keysplit[0];
+        const searchKey = keysplit.slice(1, 4).join(" ");
+
+        const ages = Object.keys(showGroupLessonDate);
+        for (let age of ages) {
+            const keys = Object.keys(showGroupLessonDate[age]);
+            for (let key of keys) {
+                if (age !== ageType || key !== searchKey) {
+                    showGroupLessonDate[age][key] = false;
+                }
+            }
+        }
+
+        const originalState = showGroupLessonDate[ageType][searchKey];
+        showGroupLessonDate[ageType][searchKey] = !originalState;
+        this.forceUpdate();
+    };
+
+    // add new item in group lessons
+    handleGroupAddLesson = (ageType) => {
+        const {groupLesson, showGroupLessonDate, startDate, endDate} = this.state;
+        const original_json = groupLesson[ageType];
+        const original_keys = Object.keys(original_json);
+
+        // create a list of valid trip dates
+        let date_range = [];
+        let current_date = startDate;
+        do {
+            date_range.push(current_date);
+            current_date = moment(current_date).add(1, "days").format("YYYY-MM-DD");
+        } while (moment(current_date).isSameOrBefore(moment(endDate)))
+
+        let ap_range = ["AM", "PM"];
+        let act_range = ["Ski", "Snowboard", "Telemark"];
+
+        function addNewItem() {
+            for (let date of date_range) {
+                for (let ap of ap_range) {
+                    for (let act of act_range) {
+                        let key = date + " " + ap + " " + act;
+                        if (original_keys.indexOf(key) === -1) {
+                            groupLesson[ageType][key] = [];
+                            showGroupLessonDate[ageType][key] = false;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        addNewItem();
+        this.forceUpdate();
+    };
+
+    // sort json keys by Date + AM/PM
     sortByTime = (listname) => {
         listname.sort((a, b) => {
                 const asplit = a.split(" ");
@@ -400,9 +565,12 @@ class BookingLesson extends Component {
     }
 
     render() {
-        const {group_show, private_show, specificIns, insInfo, request, startDate, endDate, members, groupLesson, privateLesson} = this.state;
+        const {group_show, private_show, specificIns, insInfo, request, startDate, endDate, members, groupLesson, showGroupLessonDate, privateLesson, showGroupAlert} = this.state;
         const placeHolderText = "Any Specific requirements you want your instructor to know? " +
             "What do you want to get out of the lesson? Max. 150 characters.";
+        const duplicateAlertText = "A same \"Date + AM/PM + Activity\"\n" +
+            "                                combination has already been\n" +
+            "                                selected.";
 
         // Members Info
         const memberKeys = Object.keys(members); // array
@@ -420,86 +588,125 @@ class BookingLesson extends Component {
             }
         }
 
-        // Group lesson info
-        const group_adult = groupLesson['adult']; // json
-        const group_child = groupLesson['child'];
-        const group_mini = groupLesson['mini'];
-        const group_adult_keys = Object.keys(group_adult);
-        const group_child_keys = Object.keys(group_child);
-        const group_mini_keys = Object.keys(group_mini);
-        this.sortByTime(group_adult_keys);
-        this.sortByTime(group_child_keys);
-        this.sortByTime(group_mini_keys);
 
+        let createGroupLessonRows = (ageType) => {
+            // ageType: adult | child | mini
 
-        // Group Adult
-        const group_adult_rows = group_adult_keys.map(keyname => {
-            const keysplit = keyname.split(" ");
+            let members_of_ageType = [];
 
-            const date = keysplit[0]; // Date
-            const ap = keysplit[1]; // AM/PM
-            const act = keysplit[2]; // Ski/Snowboard/Telemark
+            switch (ageType) {
+                case "adult":
+                    members_of_ageType = member_adult;
+                    break;
+                case "child":
+                    members_of_ageType = member_child;
+                    break;
+                case "mini":
+                    members_of_ageType = member_mini;
+                    break;
+                default:
+                    break;
+            }
 
-            const parti = groupLesson['adult'][keyname]; // Participants, an array
+            const original_jsons = groupLesson[ageType];
+            const original_keys = Object.keys(original_jsons);
+            this.sortByTime(original_keys);
 
-            return (
-                <div key={keyname}>
-                    <ListBorder/>
-                    <div className='row'>
-                        <div className='col-2'>
-                            <div>{date} &nbsp;
-                                <Icon className='fa fas fa-edit'/>
+            return <TransitionGroup>
+                {original_keys.map(keyname => {
+                    //e.g. keyname: "2018-10-23 PM Ski"
+                    const keysplit = keyname.split(" ");
+
+                    const date = keysplit[0]; // Date
+                    const ap = keysplit[1]; // AM/PM
+                    const act = keysplit[2]; // Ski/Snowboard/Telemark
+
+                    const parti = groupLesson[ageType][keyname]; // Participants, an array
+
+                    return <CSSTransition
+                        key={keyname}
+                        timeout={300}
+                        classNames="fade"
+                    >
+                        <div key={keyname}>
+                            <ListBorder/>
+                            <div className='row'>
+                                <div className='col-2'>
+                                    <div>{date} &nbsp;
+                                        <Icon className='fa fas fa-edit'
+                                              onClick={() => this.handleGroupDatePickerShow(ageType + " " + keyname)}/>
+                                        {showGroupLessonDate[ageType][keyname] ?
+                                            <DateDiv>
+                                                <DatePicker
+                                                    inline
+                                                    selected={moment(date)}
+                                                    minDate={moment(startDate)}
+                                                    maxDate={moment(endDate)}
+                                                    onChange={(date) => this.handleGroupDateChange(date, ageType + " " + keyname)}
+                                                />
+                                            </DateDiv> : null}
+                                    </div>
+                                </div>
+                                <div className='col-2'>
+                                    <label>
+                                        <OptionSelector value={ap}
+                                                        name={ageType + " " + keyname + " ap"}
+                                                        onChange={this.handleGroupInfoChange}>
+                                            <option value="PM"
+                                                    selected="selected">PM
+                                            </option>
+                                            <option value="AM">AM</option>
+                                        </OptionSelector>
+                                    </label>
+                                </div>
+                                <div className='col-md-2 col-sm-3 col-4'>
+                                    <label>
+                                        <OptionSelector value={act}
+                                                        name={ageType + " " + keyname + " act"}
+                                                        onChange={this.handleGroupInfoChange}>
+                                            <option value="Ski">Ski</option>
+                                            <option value="Snowboard">Snowboard
+                                            </option>
+                                            <option value="Telemark">Telemark
+                                            </option>
+                                        </OptionSelector>
+                                    </label>
+                                </div>
+                                <div className='col-md-5 col-sm-4 col-3'>
+                                    {members_of_ageType.map(mid =>
+                                        <div key={mid}
+                                             style={{
+                                                 display: 'inline-block',
+                                                 marginRight: '30px',
+                                                 position: 'relative'
+                                             }}>
+                                            <CheckBoxInput
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                checked={parti.indexOf(mid) !== -1}
+                                                id={ageType + " " + keyname + " " + mid}
+                                                onChange={this.handleGroupMemberChange}/>
+                                            <label
+                                                className="form-check-label"
+                                                htmlFor={ageType + " " + keyname + " " + mid}> {members[mid]['firstName']}</label>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='col-1'>
+                                    <Icon className='fa fas fa-trash-alt'
+                                          onClick={() => this.handleGroupDelete(ageType + " " + keyname)}/>
+                                </div>
                             </div>
                         </div>
-                        <div className='col-2'>
-                            <label>
-                                <OptionSelector value={ap}
-                                                name={"adult " + keyname + " ap"}
-                                                onChange={this.handleGroupInfoChange}>
-                                    <option value="PM" selected="selected">PM
-                                    </option>
-                                    <option value="AM">AM</option>
-                                </OptionSelector>
-                            </label>
-                        </div>
-                        <div className='col-md-2 col-sm-3 col-4'>
-                            <label>
-                                <OptionSelector value={act}
-                                                name={"adult " + keyname + " act"}
-                                                onChange={this.handleGroupInfoChange}>
-                                    <option value="Ski">Ski</option>
-                                    <option value="Snowboard">Snowboard</option>
-                                    <option value="Telemark">Telemark</option>
-                                </OptionSelector>
-                            </label>
-                        </div>
-                        <div className='col-md-5 col-sm-4 col-3'>
-                            {member_adult.map(mid =>
-                                <div key={mid}
-                                     style={{
-                                         display: 'inline-block',
-                                         marginRight: '30px',
-                                         position: 'relative'
-                                     }}>
-                                    <CheckBoxInput className="form-check-input"
-                                                   type="checkbox"
-                                                   checked={parti.indexOf(mid) !== -1}
-                                                   id={"adult " + keyname + " " + mid}
-                                                   onChange={this.handleGroupMemberChange}/>
-                                    <label
-                                        className="form-check-label"
-                                        htmlFor={"adult " + keyname + " " + mid}> {members[mid]['firstName']}</label>
-                                </div>
-                            )}
-                        </div>
-                        <div className='col-1'>
-                            <Icon className='fa fas fa-trash-alt'/>
-                        </div>
-                    </div>
-                </div>
+                    </CSSTransition>
+                })}
+            </TransitionGroup>
+        };
 
-            )
-        });
+        const group_adult_rows = createGroupLessonRows("adult");
+        const group_child_rows = createGroupLessonRows("child");
+        const group_mini_rows = createGroupLessonRows("mini");
+
 
         return (
             <div className='container' style={{marginTop: '20px'}}>
@@ -554,48 +761,96 @@ class BookingLesson extends Component {
                     </div>
 
                     {/* adult group lesson */}
-                    {group_adult_keys.length === 0 ? null :
-                        <div style={{marginBottom: '16px'}}>
-                            <HeaderL2>Teen & Adult &nbsp; (Age 15+)</HeaderL2>
+                    <div style={{marginBottom: '16px'}}>
+                        <HeaderL2>Teen & Adult &nbsp; (Age 15+)</HeaderL2>
+                        {showGroupAlert["adult"] ?
+                            <DuplicateAlert> {duplicateAlertText} </DuplicateAlert> : null}
 
-                            <div className='row'
-                                 style={{
-                                     fontSize: "18px",
-                                     marginBottom: '10px'
-                                 }}>
-                                <div className='col-2'>
-                                    Date
-                                </div>
-                                <div className='col-2'>
-                                    AM/PM
-                                </div>
-                                <div className='col-md-2 col-3'>
-                                    Activity
-                                </div>
-                                <div className='col-md-4 col-3'>
-                                    Participants
-                                </div>
-                                <div className='col-2'
-                                     style={{
-                                         color: 'rgb(73,131,178)',
-                                         fontSize: '16px',
-                                         transform: 'translate(0,4px)'
-                                     }}>
-                                    Add Lesson
-                                </div>
+                        <div className='row'
+                             style={{
+                                 fontSize: "18px",
+                                 marginBottom: '10px'
+                             }}>
+                            <div className='col-2'>
+                                Date
                             </div>
-
-                            {group_adult_rows}
+                            <div className='col-2'>
+                                AM/PM
+                            </div>
+                            <div className='col-md-2 col-3'>
+                                Activity
+                            </div>
+                            <div className='col-md-4 col-3'>
+                                Participants
+                            </div>
+                            <AddLessonText className='col-2'
+                                           onClick={() => this.handleGroupAddLesson("adult")}>
+                                Add Lesson
+                            </AddLessonText>
                         </div>
-                    }
-
+                        {group_adult_rows}
+                    </div>
 
                     {/* children group lesson */}
-                    <HeaderL2>Child &nbsp; (Age 6-14)</HeaderL2>
+                    <div style={{marginBottom: '16px'}}>
+                        <HeaderL2>Child &nbsp; (Age 6-14)</HeaderL2>
+                        {showGroupAlert["child"] ?
+                            <DuplicateAlert> {duplicateAlertText} </DuplicateAlert> : null}
+                        <div className='row'
+                             style={{
+                                 fontSize: "18px",
+                                 marginBottom: '10px'
+                             }}>
+                            <div className='col-2'>
+                                Date
+                            </div>
+                            <div className='col-2'>
+                                AM/PM
+                            </div>
+                            <div className='col-md-2 col-3'>
+                                Activity
+                            </div>
+                            <div className='col-md-4 col-3'>
+                                Participants
+                            </div>
+                            <AddLessonText className='col-2'
+                                           onClick={() => this.handleGroupAddLesson("child")}>
+                                Add Lesson
+                            </AddLessonText>
+                        </div>
+                        {group_child_rows}
+                    </div>
 
                     {/* Mini group lesson */}
-                    <HeaderL2>Mini &nbsp; (Age 3-5)</HeaderL2>
+                    <div style={{marginBottom: '16px'}}>
+                        <HeaderL2>Mini &nbsp; (Age 3-5)</HeaderL2>
+                        {showGroupAlert["mini"] ?
+                            <DuplicateAlert> {duplicateAlertText} </DuplicateAlert> : null}
 
+                        <div className='row'
+                             style={{
+                                 fontSize: "18px",
+                                 marginBottom: '10px'
+                             }}>
+                            <div className='col-2'>
+                                Date
+                            </div>
+                            <div className='col-2'>
+                                AM/PM
+                            </div>
+                            <div className='col-md-2 col-3'>
+                                Activity
+                            </div>
+                            <div className='col-md-4 col-3'>
+                                Participants
+                            </div>
+                            <AddLessonText className='col-2'
+                                           onClick={() => this.handleGroupAddLesson("mini")}>
+                                Add Lesson
+                            </AddLessonText>
+                        </div>
+                        {group_mini_rows}
+                    </div>
 
                 </div>
 
