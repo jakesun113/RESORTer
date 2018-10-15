@@ -12,6 +12,7 @@ class FacebookLoginBtn extends Component {
             redirectToReferrer: false,
             facebookDuplicated: false,
             duplicatedProvider: null,
+            from: this.props.from,
             authenticationFailed: false,
             loginError: false
         };
@@ -89,10 +90,7 @@ class FacebookLoginBtn extends Component {
 
                         //if come to login because token has been expired,
                         //redirect to where it comes from
-                        if (this.props.location.state) {
-                            const {from} = this.props.location.state;
-                            console.log(from);
-
+                        if (this.state.from) {
                             this.setState({
                                 redirect: false,
                                 redirectToReferrer: true
@@ -125,28 +123,24 @@ class FacebookLoginBtn extends Component {
 
         //if come to login because token has been expired,
         //redirect to where it comes from
-        if (this.props.location.state) {
-            const {from} = this.props.location.state;
-            if (this.state.redirectToReferrer) {
-
-                //if come from booking pages (step 2 to step 6)
-                let re = new RegExp(/\/booking\/[^\n]*\/(sleep|doing|equipment|learn|summary)/, 'g');
-                // if (from.indexOf('/booking/') === -1) {
-                if (re.test(from)) {
-                    const {masterID, resortID, tripID} = this.props.location.state;
-                    return <Redirect to={{
-                        pathname: from,
-                        state: {
-                            masterID: masterID,
-                            resortID: resortID,
-                            tripID: tripID
-                        }
-                    }}/>;
-                } else {
-                    return <Redirect to={from}/>;
-                }
+        if (this.state.redirectToReferrer) {
+            //if come from booking pages (step 2 to step 6)
+            let re = new RegExp(/\/booking\/[^\n]*\/(sleep|doing|equipment|learn|summary)/, 'g');
+            // if (from.indexOf('/booking/') === -1) {
+            if (re.test(this.state.from)) {
+                return <Redirect to={{
+                    pathname: this.state.from,
+                    state: {
+                        masterID: this.props.masterID,
+                        resortID: this.props.resortID,
+                        tripID: this.props.tripID
+                    }
+                }}/>;
+            } else {
+                return <Redirect to={this.state.from}/>;
             }
         }
+
 
         return (
             <React.Fragment>

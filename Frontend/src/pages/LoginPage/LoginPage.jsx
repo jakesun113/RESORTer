@@ -248,17 +248,24 @@ class LoginPage extends Component {
             return <Redirect to={"/"}/>;
         }
 
+        let from;
+        let masterID;
+        let resortID;
+        let tripID;
+
         //if come to login because token has been expired,
         //redirect to where it comes from
         if (this.props.location.state) {
-            const {from} = this.props.location.state;
+            from = this.props.location.state.from;
 
             if (this.state.redirectToReferrer) {
                 //if come from booking pages (step 2 to step 6)
                 let re = new RegExp(/\/booking\/[^\n]*\/(sleep|doing|equipment|learn|summary)/, 'g');
                 // if (from.indexOf('/booking/') === -1) {
                 if (re.test(from)) {
-                    const {masterID, resortID, tripID} = this.props.location.state;
+                    masterID = this.props.location.state.masterID;
+                    resortID = this.props.location.state.resortID;
+                    tripID = this.props.location.state.tripID;
                     return <Redirect to={{
                         pathname: from,
                         state: {
@@ -306,7 +313,8 @@ class LoginPage extends Component {
                         <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
                         <div
                             className="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4">
-                            <FacebookLogin/>
+                            <FacebookLogin from={from} masterID={masterID}
+                                           resortID={resortID} tripID={tripID}/>
                         </div>
                         <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
                     </div>
@@ -322,7 +330,8 @@ class LoginPage extends Component {
                                 marginRight: "auto"
                             }}
                         >
-                            <GoogleLogin/>
+                            <GoogleLogin from={from} masterID={masterID}
+                                         resortID={resortID} tripID={tripID}/>
                         </div>
                         <div className="col-sm-2 col-md-3 col-lg-4 col-xl-4"/>
                     </div>
