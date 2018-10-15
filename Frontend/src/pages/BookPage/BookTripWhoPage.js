@@ -12,7 +12,7 @@ import axios from "axios";
 import { withCookies, Cookies } from "react-cookie";
 import { instanceOf } from "prop-types";
 import handleLogOut from "../../components/template/HandleLogOut";
-
+import AlertWindow from "../../components/template/AlertWindow";
 //FIXME:If can receive this.history.state.tripID, show trip information (In BookingIndex)
 function StartDate(props) {
   function handleChange(date) {
@@ -49,7 +49,8 @@ class SelectTripDate extends Component {
       startDate: moment().add(4, "days"), // initially, start date is today + 4 days
       endDate: moment().add(9, "days"),
       width: 0,
-      hidePlanButton: false
+      hidePlanButton: false,
+      showAlertWindow: false
     };
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
@@ -100,8 +101,10 @@ class SelectTripDate extends Component {
       }
       //no login
       else {
-        alert("guest or login");
         //alert window
+        this.setState({
+          showAlertWindow: true
+        });
       }
     } catch (err) {}
   };
@@ -131,6 +134,44 @@ class SelectTripDate extends Component {
   render() {
     let currentStartDate = this.state.startDate;
 
+    let alertWindow;
+    if (this.state.showAlertWindow) {
+      alertWindow = (
+        <AlertWindow
+          onHandleClose={() => {
+            this.setState({ isShowLoginWindow: false });
+          }}
+          btnNum="2"
+          displayText="Want to book a journey as a guest user before login?"
+          btnOneMode="customMode"
+          onHandClickOne={() => {
+            this.setState({
+              showAlertWindow : false
+            });
+          }}
+          btnOneText="Book as guest user" 
+          btnTwoMode="customMode"
+          onHandClickTwo ={() => {
+            console.log(this.props.history.location) 
+            this.props.history.push({
+              pathname: "/login",
+              state: {
+                from: this.props.history.location.pathname
+              }
+            });
+          }}
+          btnTwoText="Login"
+          onHandleClose= {() => {
+            this.setState({
+              showAlertWindow :false
+            })
+          }}
+        />
+      );
+    }else{
+      null
+    }
+
     let planButton = (
       <div>
         <p style={{ opacity: 0 }}>
@@ -153,6 +194,7 @@ class SelectTripDate extends Component {
     );
     return (
       <div className="container">
+      {alertWindow}
         <div className="row">
           <div className="col-sm">
             <p>
