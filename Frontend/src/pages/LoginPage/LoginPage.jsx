@@ -252,8 +252,8 @@ class LoginPage extends Component {
         //redirect to where it comes from
         if (this.props.location.state) {
             const {from} = this.props.location.state;
-            if (this.state.redirectToReferrer) {
 
+            if (this.state.redirectToReferrer) {
                 //if come from booking pages (step 2 to step 6)
                 let re = new RegExp(/\/booking\/[^\n]*\/(sleep|doing|equipment|learn|summary)/, 'g');
                 // if (from.indexOf('/booking/') === -1) {
@@ -268,6 +268,7 @@ class LoginPage extends Component {
                         }
                     }}/>;
                 } else {
+
                     return <Redirect to={from}/>;
                 }
             }
