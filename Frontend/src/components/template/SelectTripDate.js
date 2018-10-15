@@ -66,7 +66,6 @@ class SelectTripDate extends Component {
     //1) While Login
     try {
       //if login & Personal Profile was completed
-      //FIXME: can not auth token in normal way
       if (sessionStorage.getItem("userSocialData")) {
         axios
           .get(
