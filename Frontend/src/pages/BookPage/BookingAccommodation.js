@@ -295,22 +295,24 @@ class BookingAccommodation extends Component {
             requirement: "",
             warning_status: false,
             infoShow: false,
-            token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
-            provider:
-            JSON.parse(sessionStorage.getItem("userSocialData"))["provider"] || null
+            // token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
+            provider: JSON.parse(sessionStorage.getItem("userSocialData"))["provider"] || null
         };
     }
 
     handleAuth = async eventType => {
-        const {provider, token} = this.state;
+        const {provider} = this.state;
         const {cookies, history, masterID, resortID, tripID} = this.props;
+
+        // console.log("token");
+        // console.log(token);
 
         if (sessionStorage.getItem("guestUser") === null) {
             // not a guest user
             if (provider === "email") {
                 const BaseURL = "http://127.0.0.1:3333/api/";
                 const postData = {
-                    token: token,
+                    token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
                     provider: provider
                 };
                 await axios

@@ -175,8 +175,7 @@ class BookingLesson extends Component {
         this.state = {
             group_show: true,
             private_show: true,
-            token: cookies.get("access-token") || null,
-            provider: cookies.get("user-provider") || null,
+            provider: JSON.parse(sessionStorage.getItem("userSocialData"))["provider"] || null,
 
             specificIns: "No",
             insInfo: "",
@@ -239,7 +238,7 @@ class BookingLesson extends Component {
 
     handleAuth = async (eventType) => {
 
-        const {provider, token} = this.state;
+        const {provider} = this.state;
         const {cookies, history, masterID, resortID, tripID} = this.props;
 
         if (sessionStorage.getItem('guestUser') === null) {
@@ -247,10 +246,9 @@ class BookingLesson extends Component {
             if (provider === 'email') {
                 const BaseURL = "http://127.0.0.1:3333/api/";
                 const postData = {
-                    token: token,
+                    token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
                     provider: provider
                 };
-
                 await axios.post(BaseURL + "checkTokenAuth", postData).then(response => {
                     if (response.data.status === "ExpiredJWT") {
                         alert('Token Expire');
