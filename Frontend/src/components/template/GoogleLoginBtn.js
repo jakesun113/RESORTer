@@ -9,6 +9,8 @@ class GoogleLoginBtn extends Component {
         super(props);
         this.state = {
             redirect: false,
+            redirectToReferrer: false,
+            from: this.props.from,
             googleDuplicated: false,
             duplicatedProvider: null,
             authenticationFailed: false,
@@ -87,9 +89,18 @@ class GoogleLoginBtn extends Component {
                         };
                         sessionStorage.setItem("userFinishTrip", JSON.stringify(userFinishTrip));
 
-                        this.setState({
-                            redirect: true,
-                        });
+                        //if come to login because token has been expired,
+                        //redirect to where it comes from
+                        if (this.state.from) {
+                            this.setState({
+                                redirect: false,
+                                redirectToReferrer: true
+                            });
+                        } else {
+                            this.setState({
+                                redirect: true
+                            });
+                        }
                     }
                 }
             );
@@ -109,6 +120,26 @@ class GoogleLoginBtn extends Component {
             console.log("google console");
             this.googleResponse(response, "google");
         };
+        //if come to login because token has been expired,
+        //redirect to where it comes from
+        if (this.state.redirectToReferrer) {
+            //if come from booking pages (step 2 to step 6)
+            let re = new RegExp(/\/booking\/[^\n]*\/(sleep|doing|equipment|learn|summary)/, 'g');
+            // if (from.indexOf('/booking/') === -1) {
+            if (re.test(this.state.from)) {
+                return <Redirect to={{
+                    pathname: this.state.from,
+                    state: {
+                        masterID: this.props.masterID,
+                        resortID: this.props.resortID,
+                        tripID: this.props.tripID
+                    }
+                }}/>;
+            } else {
+                return <Redirect to={this.state.from}/>;
+            }
+        }
+
         return (
             <React.Fragment>
                 <GoogleLogin

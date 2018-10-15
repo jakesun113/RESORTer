@@ -22,7 +22,7 @@ const imagePath = "UserPortrait";
 class MemberController {
 
   //Check whether a use has completed profile
-  async checkCompleteProfile({request,response,params,auth}){
+  async checkCompleteProfile({response,params}){
 
     try{
       const userToken = await Token.findBy('Token', params.token);
