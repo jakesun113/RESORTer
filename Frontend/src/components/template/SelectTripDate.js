@@ -64,20 +64,19 @@ class SelectTripDate extends Component {
     handleClick = () => {
         //TODO: If user is not login, alert either want to 'login' or 'guestUser'
 
-        //1) While Login
-        try {
-            //if login & Personal Profile was completed
-            //FIXME: can not auth token in normal way
-            if (sessionStorage.getItem("userSocialData")) {
-                axios
-                    .get(
-                        "http://127.0.0.1:3333/api/checkProfile/" +
-                        JSON.parse(sessionStorage.getItem("userToken")).token
-                    )
-                    .then(response => {
-                        if (response.data.status === "success") {
-                            //show the addTrip
-                            this.props.showAddTripMember();
+    //1) While Login
+    try {
+      //if login & Personal Profile was completed
+      if (sessionStorage.getItem("userSocialData")) {
+        axios
+          .get(
+            "http://127.0.0.1:3333/api/checkProfile/" +
+              JSON.parse(sessionStorage.getItem("userToken")).token
+          )
+          .then(response => {
+            if (response.data.status === "success") {
+              //show the addTrip
+              this.props.showAddTripMember();
 
                             this.setState({
                                 hidePlanButton: true
