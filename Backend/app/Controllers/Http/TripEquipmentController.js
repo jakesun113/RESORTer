@@ -204,7 +204,7 @@ class TripEquipmentController {
         skipRentalSuccess: true
       });
 
-    } catch {
+    } catch (error) {
       console.log(error);
       return JSON.stringify({
         skipRentalSuccess: false
@@ -212,6 +212,7 @@ class TripEquipmentController {
     }
 
   }
+
   async uploadEquipmentInfo({request}) {
 
   }
