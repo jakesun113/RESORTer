@@ -171,7 +171,6 @@ class BookingLesson extends Component {
 
     constructor(props) {
         super(props);
-        const {cookies} = props;
         this.state = {
             group_show: true,
             private_show: true,
