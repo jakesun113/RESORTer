@@ -235,6 +235,20 @@ class BookingActivity extends Component {
                             }
                         }
                     });
+            } else {
+                switch (eventType) {
+                    case "skipAccommodation":
+                        this.skipAccommodation();
+                        break;
+                    case "goPrevious":
+                        this.goPrevious();
+                        break;
+                    case "goNext":
+                        this.goNext("doing");
+                        break;
+                    default:
+                        break;
+                }
             }
         } else {
             // is a guest user, then no need to handle auth
@@ -670,11 +684,13 @@ class BookingActivity extends Component {
                 </AArow>
 
                 <NOTE>
-                    *Lessons and rental in this are subject to availability at resort
+                    *Lessons and rental in this are subject to availability at
+                    resort
                 </NOTE>
 
                 <div className="row">
-                    <div className="col-12" style={{transform: "translate(20px,0)"}}>
+                    <div className="col-12"
+                         style={{transform: "translate(20px,0)"}}>
                         <CheckBoxInput
                             className="form-check-input"
                             type="checkbox"
@@ -687,7 +703,8 @@ class BookingActivity extends Component {
                             className="form-check-label"
                             htmlFor="skip"
                         >
-                            Only lift passes required, lessons and rental not required for
+                            Only lift passes required, lessons and rental not
+                            required for
                             this trip
                         </label>
                     </div>
@@ -700,7 +717,8 @@ class BookingActivity extends Component {
                 <div style={{height: "40px"}}/>
 
                 <LeaveRow>
-                    <BtmEllipseButton onClick={() => this.handleAuth("goPrevious")}>
+                    <BtmEllipseButton
+                        onClick={() => this.handleAuth("goPrevious")}>
                         <div
                             style={{
                                 fontSize: "12px",

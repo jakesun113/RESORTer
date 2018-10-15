@@ -152,8 +152,10 @@ class RadioSelector extends Component {
     render() {
         const {header, v1, v2, v3, v4, curValue} = this.props;
         return (
-            <div className="row" style={{marginBottom: "20px", color: "#607375"}}>
-                <div className="col-12 col-md-2" style={{display: "inline-block"}}>
+            <div className="row"
+                 style={{marginBottom: "20px", color: "#607375"}}>
+                <div className="col-12 col-md-2"
+                     style={{display: "inline-block"}}>
                     {header}
                 </div>
 
@@ -367,6 +369,20 @@ class BookingAccommodation extends Component {
                             }
                         }
                     });
+            } else {
+                switch (eventType) {
+                    case "skipAccommodation":
+                        this.skipAccommodation();
+                        break;
+                    case "goPrevious":
+                        this.goPrevious();
+                        break;
+                    case "goNext":
+                        this.goNext("doing");
+                        break;
+                    default:
+                        break;
+                }
             }
         } else {
             // is a guest user, then no need to handle auth
@@ -640,8 +656,10 @@ class BookingAccommodation extends Component {
                     </UpperEllipseButton>
                     {infoShow ? (
                         <Info>
-                            Once skip accommodation, all your accommodation information will
-                            be gone. To save your options, please click Save&Continue.
+                            Once skip accommodation, all your accommodation
+                            information will
+                            be gone. To save your options, please click
+                            Save&Continue.
                         </Info>
                     ) : null}
                 </HeaderLine>
@@ -651,7 +669,8 @@ class BookingAccommodation extends Component {
 
                 {warning_status ? (
                     <Warning>
-                        Please fill all the fields (except "Specific Requirements") before
+                        Please fill all the fields (except "Specific
+                        Requirements") before
                         proceeding
                     </Warning>
                 ) : null}
@@ -715,12 +734,14 @@ class BookingAccommodation extends Component {
 
                 <div style={{height: "20px"}}/>
 
-                <Requirement curValue={requirement} onChange={this.handleChange}/>
+                <Requirement curValue={requirement}
+                             onChange={this.handleChange}/>
 
                 <div style={{height: "20px"}}/>
 
                 <LeaveRow>
-                    <BtmEllipseButton onClick={() => this.handleAuth("goPrevious")}>
+                    <BtmEllipseButton
+                        onClick={() => this.handleAuth("goPrevious")}>
                         <div
                             style={{
                                 fontSize: "12px",
