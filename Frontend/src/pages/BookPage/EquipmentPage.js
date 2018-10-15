@@ -133,7 +133,21 @@ class Equipmentpage extends Component {
                             }
                         }
                     });
-            }
+                } else {
+                    switch (eventType) {
+                        case "skipAccommodation":
+                            this.skipAccommodation();
+                            break;
+                        case "goPrevious":
+                            this.goPrevious();
+                            break;
+                        case "goNext":
+                            this.goNext("doing");
+                            break;
+                        default:
+                            break;
+                    }
+                }
         } else {
             // is a guest user, then no need to handle auth
             switch (eventType) {
