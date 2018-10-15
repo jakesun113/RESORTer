@@ -361,9 +361,9 @@ class TripController {
         let startDate = moment().subtract(1, "days");
         masterRentalInfoByDay.participant = "Jiacheng Sun";
         masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
-        masterRentalInfoByDay.duration = "Full day";
-        masterRentalInfoByDay.boots = 1;
-        masterRentalInfoByDay.poles = 0;
+        masterRentalInfoByDay.duration = "Full Day";
+        masterRentalInfoByDay.boots = true;
+        masterRentalInfoByDay.poles = false;
         masterRentalInfoByDay.grade = "Standard";
         masterRentalSkiArray.push(masterRentalInfoByDay);
       }
@@ -377,9 +377,9 @@ class TripController {
         let startDate = moment().subtract(1, "days");
         masterRentalInfoByDay.participant = "Jiacheng Sun";
         masterRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
-        masterRentalInfoByDay.duration = "Full day";
-        masterRentalInfoByDay.boots = 1;
-        masterRentalInfoByDay.board = 0;
+        masterRentalInfoByDay.duration = "Full Day";
+        masterRentalInfoByDay.boots = true;
+        masterRentalInfoByDay.board = false;
         masterRentalInfoByDay.grade = "Standard";
         masterRentalSnowboardArray.push(masterRentalInfoByDay);
       }
@@ -400,9 +400,9 @@ class TripController {
           let startDate = moment().subtract(1, "days");
           singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
           singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
-          singleFamilyRentalInfoByDay.duration = "Full day";
-          singleFamilyRentalInfoByDay.boots = 1;
-          singleFamilyRentalInfoByDay.poles = 0;
+          singleFamilyRentalInfoByDay.duration = "Full Day";
+          singleFamilyRentalInfoByDay.boots = true;
+          singleFamilyRentalInfoByDay.poles = false;
           singleFamilyRentalInfoByDay.grade = "Standard";
           singleFamilyRentalSkiArray.push(singleFamilyRentalInfoByDay);
         }
@@ -419,7 +419,7 @@ class TripController {
           let startDate = moment().subtract(1, "days");
           singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
           singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("YYYY-MM-DD");
-          singleFamilyRentalInfoByDay.duration = "Full day";
+          singleFamilyRentalInfoByDay.duration = "Full Day";
           singleFamilyRentalInfoByDay.outfit = "Medium";
           singleFamilyRentalInfoByDay.helmet = "Small";
           familyRentalOtherArray.push(singleFamilyRentalInfoByDay);
@@ -521,9 +521,9 @@ class TripController {
         let startDate = moment().subtract(1, "days");
         liftPassObj.date = startDate.add(i, "days").format("YYYY-MM-DD");
         liftPassObj.adultNumber = 4;
-        liftPassObj.adultDuration = "Full day";
+        liftPassObj.adultDuration = "Full Day";
         liftPassObj.childNumber = 0;
-        liftPassObj.childDuration = "Full day";
+        liftPassObj.childDuration = "Full Day";
         liftPassInfo.push(liftPassObj);
       }
       console.log("Start adding fake trip lift pass data.");
@@ -896,7 +896,7 @@ class TripController {
       tripInfo.endDate = endDate.format("YYYY-MM-DD");
       tripInfo.submitDate = moment(dbTrip.SubmitDate).format("YYYY-MM-DD");
       tripInfo.comment = dbTrip.Comment;
-      tripInfo.days = days;
+      tripInfo.days = days + 1;
       //add member info (information on who are going to the trip)
       let memberInfoArray = [];
       const activityArray = ["ski", "snowboard", "telemark", "snowbike", "snowshoe", "snowmobile"];
@@ -1069,9 +1069,9 @@ class TripController {
           let firstDate = startDate;
           liftPassObj.date = firstDate.add(i, "days").format("YYYY-MM-DD");
           liftPassObj.adultNumber = memberInfoArray.length;
-          liftPassObj.adultDuration = "Full day";
+          liftPassObj.adultDuration = "Full Day";
           liftPassObj.childNumber = 0;
-          liftPassObj.childDuration = "Full day";
+          liftPassObj.childDuration = "Full Day";
           liftPassArray.push(liftPassObj);
         }
 
