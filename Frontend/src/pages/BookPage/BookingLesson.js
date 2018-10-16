@@ -400,9 +400,9 @@ class BookingLesson extends Component {
             delete showGroupLessonDate[ageType][old_key];
             original_json[new_key] = old_value;
             showGroupLessonDate[ageType][new_key] = false;
-            // showGroupAlert[ageType] = false;
+            showGroupAlert[ageType] = false;
         } else {
-            // showGroupAlert[ageType] = true;
+            showGroupAlert[ageType] = true;
         }
         this.forceUpdate();
     };
@@ -422,14 +422,14 @@ class BookingLesson extends Component {
         const new_date = moment(date).format("YYYY-MM-DD");
         const new_key = new_date + " " + keysplit[2] + " " + keysplit[3];
 
-        if (original_keys.indexOf(new_date) === -1) {
+        if (original_keys.indexOf(new_key) === -1) {
             delete original_json[old_key];
             delete showGroupLessonDate[ageType][old_key];
             original_json[new_key] = old_value;
             showGroupLessonDate[ageType][new_key] = false;
-            // showGroupAlert[ageType] = false;
+            showGroupAlert[ageType] = false;
         } else {
-            // showGroupAlert[ageType] = true;
+            showGroupAlert[ageType] = true;
         }
         this.forceUpdate();
     };
@@ -623,95 +623,88 @@ class BookingLesson extends Component {
             const original_keys = Object.keys(original_jsons);
             this.sortByTime(original_keys);
 
-            return <TransitionGroup>
-                {original_keys.map(keyname => {
-                    //e.g. keyname: "2018-10-23 PM Ski"
-                    const keysplit = keyname.split(" ");
+            return original_keys.map(keyname => {
+                //e.g. keyname: "2018-10-23 PM Ski"
+                const keysplit = keyname.split(" ");
 
-                    const date = keysplit[0]; // Date
-                    const ap = keysplit[1]; // AM/PM
-                    const act = keysplit[2]; // Ski/Snowboard/Telemark
+                const date = keysplit[0]; // Date
+                const ap = keysplit[1]; // AM/PM
+                const act = keysplit[2]; // Ski/Snowboard/Telemark
 
-                    const parti = groupLesson[ageType][keyname]; // Participants, an array
+                const parti = groupLesson[ageType][keyname]; // Participants, an array
 
-                    return <CSSTransition
-                        key={keyname}
-                        timeout={300}
-                        classNames="fade"
-                    >
-                        <div key={keyname}>
-                            <ListBorder/>
-                            <div className='row'>
-                                <div className='col-2'>
-                                    <div>{date} &nbsp;
-                                        <Icon className='fa fas fa-edit'
-                                              onClick={() => this.handleGroupDatePickerShow(ageType + " " + keyname)}/>
-                                        {showGroupLessonDate[ageType][keyname] ?
-                                            <DateDiv>
-                                                <DatePicker
-                                                    inline
-                                                    selected={moment(date)}
-                                                    minDate={moment(startDate)}
-                                                    maxDate={moment(endDate)}
-                                                    onChange={(date) => this.handleGroupDateChange(date, ageType + " " + keyname)}
-                                                />
-                                            </DateDiv> : null}
-                                    </div>
-                                </div>
-                                <div className='col-2'>
-                                    <label>
-                                        <OptionSelector value={ap}
-                                                        name={ageType + " " + keyname + " ap"}
-                                                        onChange={this.handleGroupInfoChange}>
-                                            <option value="PM"
-                                                    selected="selected">PM
-                                            </option>
-                                            <option value="AM">AM</option>
-                                        </OptionSelector>
-                                    </label>
-                                </div>
-                                <div className='col-md-2 col-sm-3 col-4'>
-                                    <label>
-                                        <OptionSelector value={act}
-                                                        name={ageType + " " + keyname + " act"}
-                                                        onChange={this.handleGroupInfoChange}>
-                                            <option value="Ski">Ski</option>
-                                            <option value="Snowboard">Snowboard
-                                            </option>
-                                            <option value="Telemark">Telemark
-                                            </option>
-                                        </OptionSelector>
-                                    </label>
-                                </div>
-                                <div className='col-md-5 col-sm-4 col-3'>
-                                    {members_of_ageType.map(mid =>
-                                        <div key={mid}
-                                             style={{
-                                                 display: 'inline-block',
-                                                 marginRight: '30px',
-                                                 position: 'relative'
-                                             }}>
-                                            <CheckBoxInput
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                checked={parti.indexOf(mid) !== -1}
-                                                id={ageType + " " + keyname + " " + mid}
-                                                onChange={this.handleGroupMemberChange}/>
-                                            <label
-                                                className="form-check-label"
-                                                htmlFor={ageType + " " + keyname + " " + mid}> {members[mid]['firstName']}</label>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className='col-1'>
-                                    <Icon className='fa fas fa-trash-alt'
-                                          onClick={() => this.handleGroupDelete(ageType + " " + keyname)}/>
-                                </div>
+                return <div key={keyname}>
+                    <ListBorder/>
+                    <div className='row'>
+                        <div className='col-2'>
+                            <div>{date} &nbsp;
+                                <Icon className='fa fas fa-edit'
+                                      onClick={() => this.handleGroupDatePickerShow(ageType + " " + keyname)}/>
+                                {showGroupLessonDate[ageType][keyname] ?
+                                    <DateDiv>
+                                        <DatePicker
+                                            inline
+                                            selected={moment(date)}
+                                            minDate={moment(startDate)}
+                                            maxDate={moment(endDate)}
+                                            onChange={(date) => this.handleGroupDateChange(date, ageType + " " + keyname)}
+                                        />
+                                    </DateDiv> : null}
                             </div>
                         </div>
-                    </CSSTransition>
-                })}
-            </TransitionGroup>
+                        <div className='col-2'>
+                            <label>
+                                <OptionSelector value={ap}
+                                                name={ageType + " " + keyname + " ap"}
+                                                onChange={this.handleGroupInfoChange}>
+                                    <option value="PM"
+                                            selected="selected">PM
+                                    </option>
+                                    <option value="AM">AM</option>
+                                </OptionSelector>
+                            </label>
+                        </div>
+                        <div className='col-md-2 col-sm-3 col-4'>
+                            <label>
+                                <OptionSelector value={act}
+                                                name={ageType + " " + keyname + " act"}
+                                                onChange={this.handleGroupInfoChange}>
+                                    <option value="Ski">Ski</option>
+                                    <option value="Snowboard">Snowboard
+                                    </option>
+                                    <option value="Telemark">Telemark
+                                    </option>
+                                </OptionSelector>
+                            </label>
+                        </div>
+                        <div className='col-md-5 col-sm-4 col-3'>
+                            {members_of_ageType.map(mid =>
+                                <div key={mid}
+                                     style={{
+                                         display: 'inline-block',
+                                         marginRight: '30px',
+                                         position: 'relative'
+                                     }}>
+                                    <CheckBoxInput
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={parti.indexOf(mid) !== -1}
+                                        id={ageType + " " + keyname + " " + mid}
+                                        onChange={this.handleGroupMemberChange}/>
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor={ageType + " " + keyname + " " + mid}> {members[mid]['firstName']}</label>
+                                </div>
+                            )}
+                        </div>
+                        <div className='col-1'>
+                            <Icon className='fa fas fa-trash-alt'
+                                  onClick={() => this.handleGroupDelete(ageType + " " + keyname)}/>
+                        </div>
+                    </div>
+                </div>
+
+            })
         };
 
         const group_adult_rows = createGroupLessonRows("adult");
