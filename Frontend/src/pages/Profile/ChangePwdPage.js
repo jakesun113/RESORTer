@@ -234,9 +234,7 @@ class ChangePwdPage extends Component {
                 <div
                   className="form-group col-4"
                   style={{
-                    textAlign: "center",
-                    background: "black",
-                    color: "white"
+                    textAlign: "center"
                   }}
                 >
                   <label
@@ -287,9 +285,7 @@ class ChangePwdPage extends Component {
                 <div
                   className="form-group col-4"
                   style={{
-                    textAlign: "center",
-                    background: "black",
-                    color: "white"
+                    textAlign: "center"
                   }}
                 >
                   <label
@@ -345,12 +341,7 @@ class ChangePwdPage extends Component {
                   className="form-group col-4"
                   style={{ textAlign: "center" }}
                 >
-                  <SmallEllipseBtn
-                    text="Change Password"
-                    style={{
-                      backgroundColor: "black"
-                    }}
-                  />
+                  <SmallEllipseBtn text="Change Password" />
                   {this.state.authencationFailed ? (
                     <div style={{ color: "red", fontWeight: "bolder" }}>
                       Authentication failed - Internal server error
