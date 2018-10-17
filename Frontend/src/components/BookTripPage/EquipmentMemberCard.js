@@ -146,6 +146,7 @@ class EquipmentMemberCard extends Component {
                                     ? currentActivity.map(activity => (
                                         <ActivityCard
                                             key={activity.id}
+                                            id={activity.id}
                                             ActivityName={activity.ActivityName}
                                             EquipmentOne={activity.EquipmentOne}
                                             EquipmentOneChecked={activity.EquipmentOneChecked}

@@ -1,10 +1,14 @@
 import React, {Component} from "react";
 import SmallEllipseBtn from "../../components/template/SmallEllipseBtn";
 import MemberBtn from "../../components/BookTripPage/MemberBtn";
-import MemberCard from "../../components/BookTripPage/EquipmentMemberCard";
-import styled from "styled-components";
+//import MemberCard from "../../components/BookTripPage/EquipmentMemberCard";
 import axios from "axios/index";
 import handleLogOut from "../../components/template/HandleLogOut";
+import EquipmentPageTip from "../../components/BookTripPage/EquipmentPageTip";
+import ActivityCard from "../../components/BookTripPage/ActivityEquipmentCard";
+import NumberSelector from "../../components/template/NumberSelector";
+import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 const UpperEllipseButton = styled.button`
   border: 0 solid black;
@@ -19,6 +23,10 @@ const UpperEllipseButton = styled.button`
     cursor: pointer;
   }
 `;
+const StyledSelect = styled.select`
+  width: 80%;
+  border: solid 1px rgba(198, 226, 247, 1);
+`;
 
 class Equipmentpage extends Component {
     constructor(props) {
@@ -31,6 +39,7 @@ class Equipmentpage extends Component {
             outfit: null,
             helmet: null,
             warning: false,
+            isShowTip: true,
             token: JSON.parse(sessionStorage.getItem("userToken")).token || null,
             provider: JSON.parse(sessionStorage.getItem("userSocialData"))['provider'] || null,
             getFinished: false
@@ -166,6 +175,7 @@ class Equipmentpage extends Component {
     handleEquipmentOneChange = (id, isChecked) => {
         const {currentActivity} = this.state;
         currentActivity[id-1].EquipmentOneChecked = isChecked;
+        console.log(id)
         this.forceUpdate();
     };
 
@@ -228,6 +238,12 @@ class Equipmentpage extends Component {
     };
 
     componentDidMount() {
+        //if user is already clicked tip before
+        if (sessionStorage.getItem("userCloseTip")) {
+            this.setState({
+                isShowTip: false
+            });
+        }
         const {tripID, masterID} = this.props;
         const url = "http://127.0.0.1:3333/api/getEquipmentInfo/" + tripID + "/" + masterID;
         fetch(url)
@@ -367,7 +383,7 @@ class Equipmentpage extends Component {
     };
 
     render() {
-        let {currentMember, members, warning, hasActivity, currentActivity, outfit, helmet, getFinished} = this.state;
+        let {currentMember, members, isShowTip, warning, hasActivity, currentActivity, outfit, helmet, getFinished} = this.state;
         let memberArray = [];
         Object.keys(members).forEach(member_id => {
             memberArray.push(members[member_id])
@@ -422,22 +438,270 @@ class Equipmentpage extends Component {
                         </div>
                         <br/>
                         {/* equipment info */}
-                        {console.log(currentActivity)}
-                        <MemberCard
-                            key={members[currentMember].id}
-                            memberName={members[currentMember].fullName}
-                            memberAge={members[currentMember].age}
-                            hasActivity={hasActivity}
-                            currentActivity={currentActivity}
-                            memberOutfit={outfit}
-                            memberHelmet={helmet}
-                            memberShoeSize={members[currentMember].shoeSize}
-                            memberHeight={members[currentMember].height}
-                            memberWeight={members[currentMember].weight}
-                            handleEquipmentOneChange={this.handleEquipmentOneChange}
-                            handleEquipmentTwoChange={this.handleEquipmentTwoChange}
-                            handleGradeChange={this.handleGradeChange}
-                        />
+                        <div>
+                    {/* 1 */}
+                    <div
+                        className="row"
+                        style={{marginBottom: "10px", marginTop: "20px"}}
+                    >
+                        <div className="col-lg-1"/>
+                        <div className="col-12 col-lg-4" style={{whiteSpace: "nowrap"}}>
+                            Rental for &nbsp;
+                            <span style={{color: "#FF4040"}}>{members[currentMember].fullName}</span>
+                        </div>
+                        <div className="col-12 col-lg-2" style={{whiteSpace: "nowrap"}}>
+                            Age &nbsp;
+                            <span style={{color: "#3D9BE9"}}>{members[currentMember].age}</span>
+                        </div>
+
+                        <div className="col-12 col-lg-4">
+                            {isShowTip ? (
+                                <EquipmentPageTip onHandleClose={this.handleClose}/>
+                            ) : (
+                                ""
+                            )}
+                        </div>
+                        <div className="col-12 col-lg-1"/>
+                    </div>
+                    {/* tip for first time book */}
+                    <div className="row" style={{marginTop: "20px"}}>
+                        <div className="col-12 col-lg-1"/>
+                        <div className="col-md-12 col-lg-10">
+                            <table className="table table-borderless">
+                                <thead>
+                                <tr style={{color: "#FF4040"}}>
+                                    <th scope="col-10">
+                                        <p style={{textAlign: "center"}}>
+                                            A first time package is sold if you have never done a
+                                            snowsport (skiing, snowboarding, or telemarking) and
+                                            includes a lift pass, gear rental and a lesson.
+                                        </p>
+                                    </th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div className="col-12 col-lg-1"/>
+                    </div>
+
+                    {/* 2 */}
+                    <div
+                        className="row"
+                        style={{
+                            fontWeight: "bold",
+                            marginBottom: "10px",
+                            whiteSpace: "nowrap"
+                        }}
+                    >
+                        <div className="col-lg-1"/>
+                        <div className="col-md-12 col-lg-10">
+                            <table className="table table-borderless">
+                                <thead>
+                                <tr style={{color: "#686369"}}>
+                                    <th scope="col-2">Activity</th>
+                                    <th scope="col-4">Equipment</th>
+                                    <th scope="col-4">Grade</th>
+                                </tr>
+                                </thead>
+                                {hasActivity
+                                    ? currentActivity.map(activity => (
+                                        <ActivityCard
+                                            key={activity.id}
+                                            id={activity.id}
+                                            ActivityName={activity.ActivityName}
+                                            EquipmentOne={activity.EquipmentOne}
+                                            EquipmentOneChecked={activity.EquipmentOneChecked}
+                                            EquipmentTwo={activity.EquipmentTwo}
+                                            EquipmentTwoChecked={activity.EquipmentTwoChecked}
+                                            Grade={activity.Grade}
+                                            handleEquipmentOneChange={this.handleEquipmentOneChange}
+                                            handleEquipmentTwoChange={this.handleEquipmentTwoChange}
+                                            handleGradeChange={this.handleGradeChange}
+                                        />
+                                    ))
+                                    : null}
+                            </table>
+                        </div>
+                        <div className="col-lg-1"/>
+                    </div>
+
+                    {/* 3 */}
+                    <div
+                        className="row"
+                        style={{
+                            fontWeight: "bold",
+                            whiteSpace: "nowrap"
+                        }}
+                    >
+                        <div className="col-lg-1"/>
+                        <div className="col-md-12 col-lg-10">
+                            <table
+                                className="table table-borderless"
+                                style={{color: "#686369"}}
+                            >
+                                <thead>
+                                <tr>
+                                    <th scope="col-3"/>
+                                    <th scope="col-3"/>
+                                    <th scope="col-2"/>
+                                    <th scope="col-1"/>
+                                    <th scope="col-3"/>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Outfit (jacket, pants):*</td>
+                                    <td>
+                                        <StyledSelect id="outfit" defaultValue={outfit}>
+                                            <option value="None">None</option>
+                                            <option value="Small">Small</option>
+                                            <option value="Medium">Medium</option>
+                                            <option value="Large">Large</option>
+                                        </StyledSelect>
+                                    </td>
+                                    <td/>
+                                    <td>
+                                        Helmet:
+                                        <p style={{color: "red", position: "absolute"}}>
+                                            Helmets are compulsory for children up to 15 (3-15)
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <StyledSelect id="helmet" defaultValue={helmet}>
+                                            <option value="None">None</option>
+                                            <option value="Small">Small</option>
+                                            <option value="Medium">Medium</option>
+                                            <option value="Large">Large</option>
+                                        </StyledSelect>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="col-lg-1"/>
+                    </div>
+
+                    {/* 4 */}
+                    <div
+                        className="row"
+                        style={{
+                            fontWeight: "bold",
+                            whiteSpace: "nowrap"
+                        }}
+                    >
+                        <div className="col-lg-1"/>
+                        <div className="col-md-12 col-lg-10">
+                            <table
+                                className="table table-borderless"
+                                style={{color: "#686369"}}
+                            >
+                                <thead>
+                                <tr>
+                                    <th scope="col-4"/>
+                                    <th scope="col-4"/>
+                                    <th scope="col-4"/>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    {/* 1 */}
+                                    <td>
+                                        <NumberSelector
+                                            labelName="Shoe size**:"
+                                            referName="shoeSize"
+                                            cur_value={members[currentMember].shoeSize}
+                                            onChange={this.handleChange}
+                                            unit="(AU)"
+                                        />
+                                    </td>
+                                    {/* 2 */}
+                                    <td>
+                                        <NumberSelector
+                                            labelName="Height**:"
+                                            referName="height"
+                                            cur_value={members[currentMember].height}
+                                            onChange={this.handleChange}
+                                            unit="(cm)"
+                                        />
+                                    </td>
+                                    {/* 3 */}
+                                    <td>
+                                        <NumberSelector
+                                            labelName="Weight**:"
+                                            referName="weight"
+                                            cur_value={members[currentMember].weight}
+                                            onChange={this.handleChange}
+                                            unit="(kg)"
+                                        />
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="col-lg-1"/>
+                    </div>
+                    {/* tips */}
+                    <div
+                        className="row"
+                        style={{
+                            fontWeight: "bold",
+                            whiteSpace: "nowrap"
+                        }}
+                    >
+                        <div className="col-lg-1"/>
+                        <div className="col-md-12 col-lg-10">
+                            <table
+                                className="table table-borderless"
+                                style={{color: "#686369"}}
+                            >
+                                <thead>
+                                <tr>
+                                    <th scope="col-12"/>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td style={{fontSize: "15px", color: "#4682B4"}}>
+                                        <p>
+                                            * subject to availability. Confirm with resort when they
+                                            make contact
+                                        </p>
+                                        <p>** required fields</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="col-lg-1"/>
+                    </div>
+                    {/* privacy statement */}
+                    <div
+                        className="row"
+                        style={{
+                            fontWeight: "bold",
+                            whiteSpace: "nowrap"
+                        }}
+                    >
+                        <div className="col-lg-1"/>
+                        <div className="col-md-12 col-lg-10">
+                            <table
+                                className="table table-borderless"
+                                style={{color: "#686369"}}
+                            >
+                                <thead>
+                                <tr>
+                                    <td style={{fontSize: "15px", color: "#4682B4"}}>
+                                        <Link to="/term-privacy/privacy-statement">
+                                            Privacy Statement
+                                        </Link>
+                                    </td>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div className="col-lg-1"/>
+                    </div>
+                </div>
 
                         {/* btn */}
                         <div
