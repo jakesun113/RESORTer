@@ -1138,13 +1138,10 @@ class BookingLesson extends Component {
                     <div style={{marginBottom: '16px'}}>
                         <HeaderL2> Mini &nbsp; (Age 3 - 5 )
                         </HeaderL2>
-                        {
-                            showGroupAlert["mini"] ?
-                                <
-                                    DuplicateAlert> {duplicateAlertText}
-                                </DuplicateAlert> :
-                                null}
-
+                        {showGroupAlert["mini"] ?
+                            <DuplicateAlert> {duplicateAlertText}
+                            </DuplicateAlert> :
+                            null}
                         <div
                             className='row'
                             style={{fontSize: "18px", marginBottom: '10px'}}>

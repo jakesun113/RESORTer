@@ -48,16 +48,20 @@ export const CheckBoxInput = styled.input`
   }
   
   &:checked + label:after, &:not(:checked) + label:after{
-    content: "\\f00c";
-    font-family: "Font Awesome 5 Free",serif; 
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
     position: absolute;
     top: 1px;
-    left: 1px;
+    left: 0px;
     font-size: 0.9em;
-    color:#00A6FF;
+    color: #00a6ff;
+    font-weight: 600;
     -webkit-transition: all 0.1s ease-in;
     transition: all 0.1s ease-in;
-    font-weight: 100; 
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
   }
    
   &:not(:checked) + label:after{
@@ -91,7 +95,8 @@ class ActivitySelector extends Component {
                     <TEXT><strong>{text}</strong></TEXT>
                 </div>
                 <CHECKBOX className='col-2 form-check'>
-                    <CheckBoxInput className="form-check-input" type="checkbox" checked={checkStatus} id={id}
+                    <CheckBoxInput className="form-check-input" type="checkbox"
+                                   checked={checkStatus} id={id}
                                    onChange={this.handleChange}/>
                     <label className="form-check-label" htmlFor={id}/>
                 </CHECKBOX>
