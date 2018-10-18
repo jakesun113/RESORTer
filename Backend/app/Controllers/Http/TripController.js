@@ -1,15 +1,15 @@
-'use strict';
-const Database = use('Database');
-const Trip = use('App/Models/Trip');
-const TripAccommodation = use('App/Models/TripAccommodation');
-const TripActivity = use('App/Models/TripActivity');
-const TripEquipment = use('App/Models/TripEquipment');
-const TripLiftPass = use('App/Models/TripLiftpass');
-const ResortInfo = use('App/Models/ResortInfo');
+"use strict";
+const Database = use("Database");
+const Trip = use("App/Models/Trip");
+const TripAccommodation = use("App/Models/TripAccommodation");
+const TripActivity = use("App/Models/TripActivity");
+const TripEquipment = use("App/Models/TripEquipment");
+const TripLiftPass = use("App/Models/TripLiftpass");
+const ResortInfo = use("App/Models/ResortInfo");
 const Member = use("App/Models/Member");
 const ValidationToken = use("App/Models/ValidationToken");
 const FamilyMember = use("App/Models/FamilyMember");
-const moment = use('moment');
+const moment = use("moment");
 const topSix = 6;
 
 /*
@@ -17,24 +17,26 @@ const topSix = 6;
  */
 
 class TripController {
-
-  async acquireTripDate({params,response}){
-
+  async acquireTripDate({ params, response }) {
+    const trip = await Trip.find(params.tripID);
+    response.send(
+      JSON.stringify({ startDate: trip.StartDate, endDate: trip.EndDate })
+    );
   }
-  async acquireSelfInfoAndFamilyInfo({response, params}) {
-
+  async acquireSelfInfoAndFamilyInfo({ response, params }) {
     try {
-      const validationToken = await ValidationToken.findBy('Token', params.token);
-      const userInfo = await Member
-        .query()
-        .where('id', '=', validationToken.MemberID)
-        .fetch()
+      const validationToken = await ValidationToken.findBy(
+        "Token",
+        params.token
+      );
+      const userInfo = await Member.query()
+        .where("id", "=", validationToken.MemberID)
+        .fetch();
       let user = userInfo.rows[0];
       //FIXME:Better way to exclude EncryptedPW column
       user.EncryptedPW = null;
-      const familyMember = await FamilyMember
-        .query()
-        .where('MemberID', '=', validationToken.MemberID)
+      const familyMember = await FamilyMember.query()
+        .where("MemberID", "=", validationToken.MemberID)
         .fetch();
 
       let dataResponse = {};
@@ -42,16 +44,13 @@ class TripController {
       dataResponse.familyMember = familyMember;
 
       return response.send(dataResponse);
-
     } catch (err) {
       console.log(err);
-      return response.send('SERVER ERROR')
+      return response.send("SERVER ERROR");
     }
-
   }
 
   async addFakeTripData() {
-
     const userID1 = 1;
     const userID2 = 2;
     //in Australia
@@ -100,7 +99,9 @@ class TripController {
         familyMember.SnowbikeAbility = 1;
         familyMember.SnowmobileAbility = 1;
         familyMember.SnowshoeAbility = 1;
-        familyMember.DOB = moment().subtract(1000, "days").format("YYYY-MM-DD");
+        familyMember.DOB = moment()
+          .subtract(1000, "days")
+          .format("YYYY-MM-DD");
         familyMember.IsDisabled = false;
         familyMember.MemberID = userID2;
 
@@ -119,9 +120,13 @@ class TripController {
         trip.MasterMemberID = userID1;
         trip.IsTripDone = true;
         trip.IsMasterMemberGoing = true;
-        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
-        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.GroupMemberIDs = JSON.stringify({ family_members: [1, 2, 3] });
+        trip.StartDate = moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
+        trip.EndDate = moment()
+          .add(1, "days")
+          .format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
         trip.Comment = "Fake further comments";
 
@@ -134,9 +139,13 @@ class TripController {
         trip.MasterMemberID = userID1;
         trip.IsTripDone = true;
         trip.IsMasterMemberGoing = true;
-        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
-        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.GroupMemberIDs = JSON.stringify({ family_members: [1, 2, 3] });
+        trip.StartDate = moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
+        trip.EndDate = moment()
+          .add(1, "days")
+          .format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
         trip.Comment = "Fake further comments";
 
@@ -149,9 +158,13 @@ class TripController {
         trip.MasterMemberID = userID1;
         trip.IsTripDone = true;
         trip.IsMasterMemberGoing = true;
-        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
-        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.GroupMemberIDs = JSON.stringify({ family_members: [1, 2, 3] });
+        trip.StartDate = moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
+        trip.EndDate = moment()
+          .add(1, "days")
+          .format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
         trip.Comment = "Fake further comments";
 
@@ -164,9 +177,13 @@ class TripController {
         trip.MasterMemberID = userID1;
         trip.IsTripDone = true;
         trip.IsMasterMemberGoing = true;
-        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
-        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.GroupMemberIDs = JSON.stringify({ family_members: [1, 2, 3] });
+        trip.StartDate = moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
+        trip.EndDate = moment()
+          .add(1, "days")
+          .format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
         trip.Comment = "Fake further comments";
 
@@ -179,9 +196,13 @@ class TripController {
         trip.MasterMemberID = userID1;
         trip.IsTripDone = true;
         trip.IsMasterMemberGoing = true;
-        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
-        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.GroupMemberIDs = JSON.stringify({ family_members: [1, 2, 3] });
+        trip.StartDate = moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
+        trip.EndDate = moment()
+          .add(1, "days")
+          .format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
         trip.Comment = "Fake further comments";
 
@@ -194,9 +215,13 @@ class TripController {
         trip.MasterMemberID = userID2;
         trip.IsTripDone = true;
         trip.IsMasterMemberGoing = true;
-        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
-        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.GroupMemberIDs = JSON.stringify({ family_members: [1, 2, 3] });
+        trip.StartDate = moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
+        trip.EndDate = moment()
+          .add(1, "days")
+          .format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
         trip.Comment = "Fake further comments";
 
@@ -209,9 +234,13 @@ class TripController {
         trip.MasterMemberID = userID2;
         trip.IsTripDone = true;
         trip.IsMasterMemberGoing = true;
-        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
-        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.GroupMemberIDs = JSON.stringify({ family_members: [1, 2, 3] });
+        trip.StartDate = moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
+        trip.EndDate = moment()
+          .add(1, "days")
+          .format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
         trip.Comment = "Fake further comments";
 
@@ -224,9 +253,13 @@ class TripController {
         trip.MasterMemberID = userID2;
         trip.IsTripDone = true;
         trip.IsMasterMemberGoing = true;
-        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
-        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.GroupMemberIDs = JSON.stringify({ family_members: [1, 2, 3] });
+        trip.StartDate = moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
+        trip.EndDate = moment()
+          .add(1, "days")
+          .format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
         trip.Comment = "Fake further comments";
 
@@ -239,9 +272,13 @@ class TripController {
         trip.MasterMemberID = userID2;
         trip.IsTripDone = true;
         trip.IsMasterMemberGoing = true;
-        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
-        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.GroupMemberIDs = JSON.stringify({ family_members: [1, 2, 3] });
+        trip.StartDate = moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
+        trip.EndDate = moment()
+          .add(1, "days")
+          .format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
         trip.Comment = "Fake further comments";
 
@@ -254,9 +291,13 @@ class TripController {
         trip.MasterMemberID = userID2;
         trip.IsTripDone = true;
         trip.IsMasterMemberGoing = true;
-        trip.GroupMemberIDs = JSON.stringify({family_members: [1, 2, 3]});
-        trip.StartDate = moment().subtract(1, "days").format("YYYY-MM-DD");
-        trip.EndDate = moment().add(1, "days").format("YYYY-MM-DD");
+        trip.GroupMemberIDs = JSON.stringify({ family_members: [1, 2, 3] });
+        trip.StartDate = moment()
+          .subtract(1, "days")
+          .format("YYYY-MM-DD");
+        trip.EndDate = moment()
+          .add(1, "days")
+          .format("YYYY-MM-DD");
         trip.SubmitDate = moment().format("YYYY-MM-DD");
         trip.Comment = "Fake further comments";
 
@@ -275,8 +316,7 @@ class TripController {
         //insert empty data for tripID 16
         if (i === tripID - 1) {
           tripAccommodation.TripID = i + 1;
-        }
-        else {
+        } else {
           tripAccommodation.TripID = i + 1;
           tripAccommodation.AccoType = "Apartment";
           tripAccommodation.AccoCate = "Economy";
@@ -309,7 +349,9 @@ class TripController {
             ability: [1, 1, 3, 1, 1],
             skipEquipmentLesson: false
           };
-          tripActivity.MasterMemberActivity = JSON.stringify({2: master_activity});
+          tripActivity.MasterMemberActivity = JSON.stringify({
+            2: master_activity
+          });
           let family_activity = {
             activity: [false, false, false, false, false, false],
             ability: [3, 1, 1, 1, 1],
@@ -320,15 +362,16 @@ class TripController {
             2: family_activity,
             3: family_activity
           });
-        }
-        else {
+        } else {
           tripActivity.TripID = i + 1;
           let master_activity = {
             activity: [true, true, true, true, true, true],
             ability: [1, 1, 3, 1, 1],
             skipEquipmentLesson: false
           };
-          tripActivity.MasterMemberActivity = JSON.stringify({2: master_activity});
+          tripActivity.MasterMemberActivity = JSON.stringify({
+            2: master_activity
+          });
           let family_activity = {
             activity: [true, false, false, false, false, false],
             ability: [3, 1, 1, 1, 1],
@@ -349,7 +392,6 @@ class TripController {
 
     //fake data of trip equipment table
     if (tripEquipmentCount === 0) {
-
       let masterRentalInfo = {};
       let masterRentalSkiArray = [];
 
@@ -363,7 +405,9 @@ class TripController {
         let masterRentalInfoByDay = {};
         let startDate = moment().subtract(1, "days");
         masterRentalInfoByDay.participant = "Jiacheng Sun";
-        masterRentalInfoByDay.date = startDate.add(i, "days").format("D MMMM YYYY");
+        masterRentalInfoByDay.date = startDate
+          .add(i, "days")
+          .format("D MMMM YYYY");
         masterRentalInfoByDay.duration = "Full Day";
         masterRentalInfoByDay.boots = true;
         masterRentalInfoByDay.poles = false;
@@ -379,7 +423,9 @@ class TripController {
         let masterRentalInfoByDay = {};
         let startDate = moment().subtract(1, "days");
         masterRentalInfoByDay.participant = "Jiacheng Sun";
-        masterRentalInfoByDay.date = startDate.add(i, "days").format("D MMMM YYYY");
+        masterRentalInfoByDay.date = startDate
+          .add(i, "days")
+          .format("D MMMM YYYY");
         masterRentalInfoByDay.duration = "Full Day";
         masterRentalInfoByDay.boots = true;
         masterRentalInfoByDay.board = false;
@@ -402,7 +448,9 @@ class TripController {
           let singleFamilyRentalInfoByDay = {};
           let startDate = moment().subtract(1, "days");
           singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
-          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("D MMMM YYYY");
+          singleFamilyRentalInfoByDay.date = startDate
+            .add(i, "days")
+            .format("D MMMM YYYY");
           singleFamilyRentalInfoByDay.duration = "Full Day";
           singleFamilyRentalInfoByDay.boots = true;
           singleFamilyRentalInfoByDay.poles = false;
@@ -421,7 +469,9 @@ class TripController {
           let singleFamilyRentalInfoByDay = {};
           let startDate = moment().subtract(1, "days");
           singleFamilyRentalInfoByDay.participant = "Fake Member" + j;
-          singleFamilyRentalInfoByDay.date = startDate.add(i, "days").format("D MMMM YYYY");
+          singleFamilyRentalInfoByDay.date = startDate
+            .add(i, "days")
+            .format("D MMMM YYYY");
           singleFamilyRentalInfoByDay.duration = "Full Day";
           singleFamilyRentalInfoByDay.outfit = "Medium";
           singleFamilyRentalInfoByDay.helmet = "Small";
@@ -459,8 +509,7 @@ class TripController {
               tripEquipment.Weight = null;
 
               await tripEquipment.save();
-            }
-            else {
+            } else {
               tripEquipment.MemberType = "family";
               tripEquipment.MemberID = j;
               tripEquipment.RentInfo = JSON.stringify({
@@ -478,8 +527,7 @@ class TripController {
               await tripEquipment.save();
             }
           }
-        }
-        else {
+        } else {
           //for each trip, insert number of group member data
           for (let j = 0; j < equipmentNum; j++) {
             const tripEquipment = new TripEquipment();
@@ -487,17 +535,18 @@ class TripController {
             if (j === 0) {
               tripEquipment.MemberType = "master";
               tripEquipment.MemberID = userID2;
-              tripEquipment.RentInfo = JSON.stringify({masterRentalInfo});
+              tripEquipment.RentInfo = JSON.stringify({ masterRentalInfo });
               tripEquipment.ShoeSize = 7;
               tripEquipment.Height = 180;
               tripEquipment.Weight = 55;
 
               await tripEquipment.save();
-            }
-            else {
+            } else {
               tripEquipment.MemberType = "family";
               tripEquipment.MemberID = j;
-              tripEquipment.RentInfo = JSON.stringify({familyRentalInfo: familyRentalInfo[j - 1]});
+              tripEquipment.RentInfo = JSON.stringify({
+                familyRentalInfo: familyRentalInfo[j - 1]
+              });
               tripEquipment.ShoeSize = 8;
               tripEquipment.Height = 178;
               tripEquipment.Weight = 65;
@@ -536,13 +585,12 @@ class TripController {
         if (i === tripID - 1) {
           tripLiftPass.TripID = i + 1;
           tripLiftPass.IsRemoved = true;
-          tripLiftPass.LiftpassInfo = JSON.stringify({liftPassInfo: null});
-        }
-        else {
+          tripLiftPass.LiftpassInfo = JSON.stringify({ liftPassInfo: null });
+        } else {
           tripLiftPass.TripID = i + 1;
           tripLiftPass.IsRemoved = false;
           tripLiftPass.Comment = "Fake Comment";
-          tripLiftPass.LiftpassInfo = JSON.stringify({liftPassInfo});
+          tripLiftPass.LiftpassInfo = JSON.stringify({ liftPassInfo });
         }
 
         await tripLiftPass.save();
@@ -555,71 +603,74 @@ class TripController {
   /*
   REQUEST: {"resortName":"","token":""}
   */
-  async enrollNewTrip({request, response, auth}) {
-
+  async enrollNewTrip({ request, response, auth }) {
     try {
-      let backToken = request.input('token'); //token that will be sent back to front end
+      let backToken = request.input("token"); //token that will be sent back to front end
       try {
-        if (request.input('provider') === 'email') {
+        if (request.input("provider") === "email") {
           await auth.check();
           //Update new token for email user
-          console.log(request.input('token'));
-          const validationToken = await ValidationToken.findBy('Token', request.input('token'));
-          const member = await Member.findBy('id', validationToken.MemberID);
+          console.log(request.input("token"));
+          const validationToken = await ValidationToken.findBy(
+            "Token",
+            request.input("token")
+          );
+          const member = await Member.findBy("id", validationToken.MemberID);
 
           let userToken = await auth.generate(member);
           backToken = userToken.token;
-          validationToken.merge({Token: userToken.token});
+          validationToken.merge({ Token: userToken.token });
           await validationToken.save();
         }
       } catch (err) {
         console.log(err);
-        return response.send(JSON.stringify({status: 'ExpiredJWT'}))
+        return response.send(JSON.stringify({ status: "ExpiredJWT" }));
       }
 
-      const validationToken = await ValidationToken.findBy('Token', backToken);
-      const resortInfo = await ResortInfo.findBy('Name', request.input('ResortName'));
+      const validationToken = await ValidationToken.findBy("Token", backToken);
+      const resortInfo = await ResortInfo.findBy(
+        "Name",
+        request.input("ResortName")
+      );
 
       let groupMemberId = [];
-      await request.input('GroupMember').map(member => {
-        groupMemberId.push(member.id)
+      await request.input("GroupMember").map(member => {
+        groupMemberId.push(member.id);
       });
 
       const newTrip = new Trip();
       newTrip.ResortID = resortInfo.id;
       newTrip.MasterMemberID = validationToken.MemberID;
       newTrip.IsTripDone = 0;
-      newTrip.StartDate = request.input('StartDate');
-      newTrip.EndDate = request.input('EndDate');
-      newTrip.IsMasterMemberGoing = request.input('IsMasterMemberGoing');
-      newTrip.GroupMemberIDs = JSON.stringify({family_members: groupMemberId});
+      newTrip.StartDate = request.input("StartDate");
+      newTrip.EndDate = request.input("EndDate");
+      newTrip.IsMasterMemberGoing = request.input("IsMasterMemberGoing");
+      newTrip.GroupMemberIDs = JSON.stringify({
+        family_members: groupMemberId
+      });
       await newTrip.save();
 
       let responseData = {};
-      responseData.status = 'success';
+      responseData.status = "success";
       responseData.masterID = validationToken.MemberID;
       responseData.token = backToken;
       responseData.tripID = newTrip.id;
       responseData.resortID = resortInfo.id;
 
-      return response.send(JSON.stringify(responseData))
-
+      return response.send(JSON.stringify(responseData));
     } catch (err) {
-
-      response.send(JSON.stringify({status: 'fail'}));
-      console.log(err)
-
+      response.send(JSON.stringify({ status: "fail" }));
+      console.log(err);
     }
   }
 
-
   async getPopularResorts() {
-
     //first, get most popular resorts ID from trip table
     //only return the resort ID whose trip is "done"
     try {
-      const resortIDs = await Database.table('trips')
-        .where({'IsTripDone': 1}).column('ResortID');
+      const resortIDs = await Database.table("trips")
+        .where({ IsTripDone: 1 })
+        .column("ResortID");
       //console.log(resortIDs);
 
       //array contains all the resorts ID
@@ -638,8 +689,8 @@ class TripController {
       //console.log(counts);
 
       //array that sorts the resort by its occurring time
-      let popularResortArray = Object.keys(counts).sort(function (a, b) {
-        return counts[b] - counts[a]
+      let popularResortArray = Object.keys(counts).sort(function(a, b) {
+        return counts[b] - counts[a];
       });
       //console.log(popularResortArray);
 
@@ -650,7 +701,7 @@ class TripController {
         let resortID = popularResortArray[i];
 
         let resortInfo = {};
-        const resort = await ResortInfo.findBy('id', resortID);
+        const resort = await ResortInfo.findBy("id", resortID);
         resortInfo.id = resort.id;
         resortInfo.image = resort.Image;
         resortInfo.name = resort.Name;
@@ -665,29 +716,30 @@ class TripController {
 
       return JSON.stringify({
         popularResorts: resortInfoArray
-      })
+      });
     } catch (e) {
       console.log(e);
     }
   }
 
-  async getPopularResortsByCountry({params}) {
-
+  async getPopularResortsByCountry({ params }) {
     try {
       //first, get the country of the user
       const token = params.token;
       //console.log(token);
-      const dbMemberID = await Database.table('validation_tokens')
-        .where("Token", token).select('MemberID');
+      const dbMemberID = await Database.table("validation_tokens")
+        .where("Token", token)
+        .select("MemberID");
 
-      const member = await Member.findBy('id', dbMemberID[0].MemberID);
+      const member = await Member.findBy("id", dbMemberID[0].MemberID);
       const country = member.Country;
       console.log(country);
 
       //then, get most popular resorts ID from trip table
       //only return the resort ID whose trip is "done"
-      const resortIDs = await Database.table('trips')
-        .where({'IsTripDone': 1}).column('ResortID');
+      const resortIDs = await Database.table("trips")
+        .where({ IsTripDone: 1 })
+        .column("ResortID");
       //console.log(resortIDs);
 
       //array contains all the resorts ID
@@ -708,7 +760,7 @@ class TripController {
       // whether resorts in the specific country is in the trip table,
       //if so, add the resort ID in the array
       for (let i = 0; i < Object.keys(counts).length; i++) {
-        const resort = await ResortInfo.findBy('id', Object.keys(counts)[i]);
+        const resort = await ResortInfo.findBy("id", Object.keys(counts)[i]);
         if (resort.Country === country) {
           identicalResortIDs.push(Object.keys(counts)[i]);
         }
@@ -720,8 +772,8 @@ class TripController {
       if (identicalResortIDs.length > 0) {
         console.log("this country has resorts");
         //array that sorts the resort by its occurring time
-        let popularResortArray = identicalResortIDs.sort(function (a, b) {
-          return counts[b] - counts[a]
+        let popularResortArray = identicalResortIDs.sort(function(a, b) {
+          return counts[b] - counts[a];
         });
         //console.log(popularResortArray);
 
@@ -732,7 +784,7 @@ class TripController {
           let resortID = popularResortArray[i];
 
           let resortInfo = {};
-          const resort = await ResortInfo.findBy('id', resortID);
+          const resort = await ResortInfo.findBy("id", resortID);
           resortInfo.id = resort.id;
           resortInfo.image = resort.Image;
           resortInfo.name = resort.Name;
@@ -762,17 +814,19 @@ class TripController {
     }
   }
 
-  async getBookingHistory({params}) {
+  async getBookingHistory({ params }) {
     try {
       //first, get the user ID
       const token = params.token;
-      const dbMemberID = await Database.table('validation_tokens')
-        .where("Token", token).select('MemberID');
+      const dbMemberID = await Database.table("validation_tokens")
+        .where("Token", token)
+        .select("MemberID");
 
       //then, get all the trips ID from trip table
       //only return the trip ID of the specific member
-      const trips = await Database.table('trips')
-        .where({'MasterMemberID': dbMemberID[0].MemberID});
+      const trips = await Database.table("trips").where({
+        MasterMemberID: dbMemberID[0].MemberID
+      });
       //console.log(trips);
 
       if (trips.length > 0) {
@@ -780,12 +834,14 @@ class TripController {
         let tripArray = [];
         for (let i = 0; i < trips.length; i++) {
           let tripInfo = {};
-          const resort = await ResortInfo.findBy('id', trips[i].ResortID);
+          const resort = await ResortInfo.findBy("id", trips[i].ResortID);
           tripInfo.id = trips[i].id;
           if (trips[i].SubmitDate) {
-            tripInfo.submitDate = moment(trips[i].SubmitDate).format("D MMMM YYYY");
+            tripInfo.submitDate = moment(trips[i].SubmitDate).format(
+              "D MMMM YYYY"
+            );
           } else {
-            tripInfo.submitDate = "-"
+            tripInfo.submitDate = "-";
           }
           tripInfo.name = resort.Name;
           tripInfo.startDate = moment(trips[i].StartDate).format("D MMMM YYYY");
@@ -797,7 +853,10 @@ class TripController {
             tripInfo.status = "In Progress";
             tripInfo.checkButton = "Continue";
           }
-          tripInfo.bookingStep = await this.getBookingStep(tripInfo.id, tripInfo.name);
+          tripInfo.bookingStep = await this.getBookingStep(
+            tripInfo.id,
+            tripInfo.name
+          );
           tripInfo.masterID = dbMemberID[0].MemberID;
           tripInfo.resortID = trips[i].ResortID;
           tripArray.push(tripInfo);
@@ -819,32 +878,35 @@ class TripController {
     } catch (e) {
       console.log(e);
     }
-
   }
 
   async getBookingStep(tripID, resortName) {
-
-    const trip = await Trip.findBy('id', tripID);
+    const trip = await Trip.findBy("id", tripID);
     const stepPrefix = "/booking/" + resortName;
     let bookingStep = null;
 
     //if the trip has been submitted, go to the trip summary page
     if (trip.IsTripDone) {
-      bookingStep = "/trip/" + tripID + "/summary"
+      bookingStep = "/trip/" + tripID + "/summary";
     }
     //otherwise, go to the corresponding booking step
     else {
-      const tripAccommodation = await Database.table('trip_accommodations')
-        .where("tripID", tripID);
+      const tripAccommodation = await Database.table(
+        "trip_accommodations"
+      ).where("tripID", tripID);
 
       //if the accommodation step has been completed
       if (tripAccommodation[0]) {
-        const tripActivity = await Database.table('trip_activities')
-          .where("tripID", tripID);
+        const tripActivity = await Database.table("trip_activities").where(
+          "tripID",
+          tripID
+        );
         //if the activity step has been completed
         if (tripActivity[0]) {
-          const tripEquipment = await Database.table('trip_equipments')
-            .where("tripID", tripID);
+          const tripEquipment = await Database.table("trip_equipments").where(
+            "tripID",
+            tripID
+          );
 
           //if the equipment step has been completed
           if (tripEquipment[0]) {
@@ -853,7 +915,7 @@ class TripController {
 
             //if the lesson step has been completed, go to the plan summary step
             // if (tripLesson[0]) {
-            bookingStep = stepPrefix + "/summary"
+            bookingStep = stepPrefix + "/summary";
             // }
             //otherwise, go to the lesson step
             // else {
@@ -862,32 +924,34 @@ class TripController {
           }
           //otherwise, go to the equipment step
           else {
-            bookingStep = stepPrefix + "/equipment"
+            bookingStep = stepPrefix + "/equipment";
           }
         }
         //otherwise, go to the activity step
         else {
-          bookingStep = stepPrefix + "/doing"
+          bookingStep = stepPrefix + "/doing";
         }
       }
       //otherwise, go to the accommodation step
       else {
-        bookingStep = stepPrefix + "/sleep"
+        bookingStep = stepPrefix + "/sleep";
       }
     }
     return bookingStep;
   }
 
-  async getTripSummary({params}) {
-
+  async getTripSummary({ params }) {
     try {
       const tripID = params.id;
       console.log(tripID);
       const dbTrip = await Trip.findBy("id", tripID);
-      const resort = await ResortInfo.findBy('id', dbTrip.ResortID);
-      const tripAccommodation = await TripAccommodation.findBy('TripID', tripID);
-      const tripActivity = await TripActivity.findBy('TripID', tripID);
-      const tripLiftPass = await TripLiftPass.findBy('TripID', tripID);
+      const resort = await ResortInfo.findBy("id", dbTrip.ResortID);
+      const tripAccommodation = await TripAccommodation.findBy(
+        "TripID",
+        tripID
+      );
+      const tripActivity = await TripActivity.findBy("TripID", tripID);
+      const tripLiftPass = await TripLiftPass.findBy("TripID", tripID);
       //add trip basic info
       let tripInfo = {};
       tripInfo.place = resort.Name;
@@ -902,16 +966,23 @@ class TripController {
       tripInfo.days = days + 1;
       //add member info (information on who are going to the trip)
       let memberInfoArray = [];
-      const activityArray = ["ski", "snowboard", "telemark", "snowbike", "snowshoe", "snowmobile"];
+      const activityArray = [
+        "ski",
+        "snowboard",
+        "telemark",
+        "snowbike",
+        "snowshoe",
+        "snowmobile"
+      ];
       //activity based rental information
       let rentalInfo = {};
       //if master member is going, add his information
       if (dbTrip.IsMasterMemberGoing === 1) {
-        const member = await Member.findBy('id', dbTrip.MasterMemberID);
+        const member = await Member.findBy("id", dbTrip.MasterMemberID);
         const tripEquipmentMaster = await TripEquipment.findBy({
-          'TripID': tripID,
-          'MemberType': "master",
-          'MemberID': dbTrip.MasterMemberID
+          TripID: tripID,
+          MemberType: "master",
+          MemberID: dbTrip.MasterMemberID
         });
         let name = "";
         if (member.Firstname !== null && member.Lastname !== null) {
@@ -927,7 +998,8 @@ class TripController {
         memberInfo.height = tripEquipmentMaster.Height;
 
         //add master rental information
-        let masterRentalInfo = JSON.parse(tripEquipmentMaster.RentInfo).masterRentalInfo;
+        let masterRentalInfo = JSON.parse(tripEquipmentMaster.RentInfo)
+          .masterRentalInfo;
         rentalInfo.skiInfo = masterRentalInfo.skiInfo;
         rentalInfo.snowboardInfo = masterRentalInfo.snowboardInfo;
         rentalInfo.telemarkInfo = masterRentalInfo.telemarkInfo;
@@ -973,11 +1045,11 @@ class TripController {
       for (let i = 0; i < familyMemberArray.length; i++) {
         let familyMemberID = familyMemberArray[i];
         //console.log(familyMemberID);
-        const familyMember = await FamilyMember.findBy('id', familyMemberID);
+        const familyMember = await FamilyMember.findBy("id", familyMemberID);
         const tripEquipmentFamily = await TripEquipment.findBy({
-          'TripID': tripID,
-          'MemberType': "family",
-          'MemberID': familyMemberID
+          TripID: tripID,
+          MemberType: "family",
+          MemberID: familyMemberID
         });
         let name = "";
         if (familyMember.FirstName !== null && familyMember.LastName !== null) {
@@ -995,41 +1067,46 @@ class TripController {
 
         //add family rental information
 
-        familyRentalInfo = JSON.parse(tripEquipmentFamily.RentInfo).familyRentalInfo;
+        familyRentalInfo = JSON.parse(tripEquipmentFamily.RentInfo)
+          .familyRentalInfo;
 
         //only when family individual rental information is not null
         if (familyRentalInfo.skiInfo !== null) {
           if (rentalInfo.skiInfo !== null) {
-            rentalInfo.skiInfo = rentalInfo.skiInfo.concat(familyRentalInfo.skiInfo);
-          }
-          else {
+            rentalInfo.skiInfo = rentalInfo.skiInfo.concat(
+              familyRentalInfo.skiInfo
+            );
+          } else {
             rentalInfo.skiInfo = familyRentalInfo.skiInfo;
           }
         }
 
         if (familyRentalInfo.snowboardInfo !== null) {
           if (rentalInfo.skiInfo !== null) {
-            rentalInfo.snowboardInfo = rentalInfo.snowboardInfo.concat(familyRentalInfo.snowboardInfo);
-          }
-          else {
+            rentalInfo.snowboardInfo = rentalInfo.snowboardInfo.concat(
+              familyRentalInfo.snowboardInfo
+            );
+          } else {
             rentalInfo.snowboardInfo = familyRentalInfo.snowboardInfo;
           }
         }
 
         if (familyRentalInfo.telemarkInfo !== null) {
           if (rentalInfo.skiInfo !== null) {
-            rentalInfo.telemarkInfo = rentalInfo.telemarkInfo.concat(familyRentalInfo.telemarkInfo);
-          }
-          else {
+            rentalInfo.telemarkInfo = rentalInfo.telemarkInfo.concat(
+              familyRentalInfo.telemarkInfo
+            );
+          } else {
             rentalInfo.telemarkInfo = familyRentalInfo.telemarkInfo;
           }
         }
 
         if (familyRentalInfo.otherInfo !== null) {
           if (rentalInfo.otherInfo !== null) {
-            rentalInfo.otherInfo = rentalInfo.otherInfo.concat(familyRentalInfo.otherInfo);
-          }
-          else {
+            rentalInfo.otherInfo = rentalInfo.otherInfo.concat(
+              familyRentalInfo.otherInfo
+            );
+          } else {
             rentalInfo.otherInfo = familyRentalInfo.otherInfo;
           }
         }
@@ -1062,12 +1139,10 @@ class TripController {
       accommodationInfo.bathNum = tripAccommodation.NumOfBathroom;
       accommodationInfo.requirement = tripAccommodation.Requirement;
 
-
       //add liftPass information
       let liftPassInfo = {};
       //first time to go to summary page
       if (tripLiftPass === null) {
-
         let liftPassArray = [];
         //console.log(days);
 
@@ -1085,11 +1160,12 @@ class TripController {
         liftPassInfo.isRemoved = false;
         liftPassInfo.comment = "";
         liftPassInfo.liftPassArray = liftPassArray;
-      }
-      else {
+      } else {
         liftPassInfo.isRemoved = tripLiftPass.IsRemoved;
         liftPassInfo.comment = tripLiftPass.Comment;
-        liftPassInfo.liftPassArray = JSON.parse(tripLiftPass.LiftpassInfo).liftPassInfo;
+        liftPassInfo.liftPassArray = JSON.parse(
+          tripLiftPass.LiftpassInfo
+        ).liftPassInfo;
       }
 
       //console.log(rentalInfo);
@@ -1105,8 +1181,7 @@ class TripController {
     }
   }
 
-  async completeTrip({request}) {
-
+  async completeTrip({ request }) {
     try {
       const requestData = request.all();
       const dbTrip = await Trip.findBy("id", requestData.tripID);
@@ -1122,47 +1197,44 @@ class TripController {
       return JSON.stringify({
         completeTripSuccess: true
       });
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
       return JSON.stringify({
         completeTripSuccess: false
       });
     }
-
   }
 
-  async checkTokenAuth({request, response, auth}) {
-
+  async checkTokenAuth({ request, response, auth }) {
     try {
-      let backToken = request.input('token');//token that will be sent back to front end
+      let backToken = request.input("token"); //token that will be sent back to front end
       try {
-        if (request.input('provider') === 'email') {
+        if (request.input("provider") === "email") {
           await auth.check();
-          const validationToken = await ValidationToken.findBy('Token', request.input('token'));
-          const member = await Member.findBy('id', validationToken.MemberID);
+          const validationToken = await ValidationToken.findBy(
+            "Token",
+            request.input("token")
+          );
+          const member = await Member.findBy("id", validationToken.MemberID);
 
           let userToken = await auth.generate(member);
           backToken = userToken.token;
-          validationToken.merge({Token: userToken.token});
+          validationToken.merge({ Token: userToken.token });
           await validationToken.save();
         }
       } catch (e) {
         console.log(e);
-        return response.send(JSON.stringify({status: 'ExpiredJWT'}))
+        return response.send(JSON.stringify({ status: "ExpiredJWT" }));
       }
       let responseData = {};
-      responseData.status = 'success';
+      responseData.status = "success";
       responseData.token = backToken;
-      return response.send(JSON.stringify(responseData))
+      return response.send(JSON.stringify(responseData));
     } catch (e) {
-      response.send(JSON.stringify({status: 'fail'}));
-      console.log(e)
+      response.send(JSON.stringify({ status: "fail" }));
+      console.log(e);
     }
-
-
   }
-
 }
 
 module.exports = TripController;
