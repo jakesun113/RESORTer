@@ -291,20 +291,13 @@ class BookingLesson extends Component {
                         }
                     }
                 },
-                'Flexible': {
-                    "anytime": {
-                        "7hr": {
-                            "price": "$980",
-                            "max": 3
-                        }
-                    }
-                }
             },
 
             // key: ACT Date AM/PM Time Duration
             privateLesson: {
-                "Ski 2018-10-23 AM 10:30 2hr": ["3", "7"],
                 "Snowboard 2018-10-24 PM-Bookend 3:00 1.5hr": ["1", "2"],
+                "Ski 2018-10-23 AM 10:30 2hr": ["3", "7"],
+                "Snowboard 2018-10-23 AM-Bookend 8:30 4hr": ["3", "7"],
             },
 
             showPrivateLessonDate: {
@@ -662,14 +655,14 @@ class BookingLesson extends Component {
             const b_split = b.split(" ");
 
             const a_date = a_split[1];
-            const a_ap = a_split[2]; // AM PM
+            const a_ap = a_split[2].slice(0, 2); // AM PM
             const a_st = a_split[3]; // start time
-            const a_dur = a_split[4]; // duration
+            const a_dur = a_split[4].split("hr")[0]; // duration
 
             const b_date = b_split[1];
-            const b_ap = b_split[2]; // AM PM
+            const b_ap = b_split[2].slice(0, 2); // AM PM
             const b_st = b_split[3]; // start time
-            const b_dur = b_split[4]; // duration
+            const b_dur = b_split[4].split("hr")[0]; // duration
 
             if (a_date < b_date) {
                 return -1
@@ -683,13 +676,26 @@ class BookingLesson extends Component {
                 } else if (a_ap === "PM" && b_ap === "AM") {
                     return 1
                 } else {
-                    // todo: compare start time and duration
+                    const a_timestamp = "01/01/2000 " + a_st + " " + a_ap;
+                    const b_timestamp = "01/01/2000 " + b_st + " " + b_ap;
+                    const a_time = new Date(a_timestamp).getTime();
+                    const b_time = new Date(b_timestamp).getTime();
 
-
+                    if (a_time < b_time) {
+                        return -1
+                    } else if (a_time > b_time) {
+                        return 1
+                    } else {
+                        if (a_dur < b_dur) {
+                            return -1
+                        } else if (a_dur > b_dur) {
+                            return 1
+                        } else {
+                            return 0
+                        }
+                    }
                 }
             }
-
-
         });
     };
 
@@ -770,7 +776,7 @@ class BookingLesson extends Component {
                                           }/>
                                     {showGroupLessonDate[ageType][keyname] ?
                                         <DateDiv>
-                                            < DatePicker
+                                            <DatePicker
                                                 inline
                                                 selected={moment(date)}
                                                 minDate={moment(startDate)}
@@ -818,19 +824,17 @@ class BookingLesson extends Component {
                             <div
                                 className='col-md-5 col-sm-4 col-3'>
                                 {members_of_ageType.map(mid =>
-                                    <div
-                                        key={mid}
-                                        style={
-                                            {
-                                                display: 'inline-block',
-                                                marginRight:
-                                                    '30px',
-                                                position:
-                                                    'relative'
-                                            }
-                                        }>
-                                        <
-                                            CheckBoxInput
+                                    <div key={mid}
+                                         style={
+                                             {
+                                                 display: 'inline-block',
+                                                 marginRight:
+                                                     '30px',
+                                                 position:
+                                                     'relative'
+                                             }
+                                         }>
+                                        <CheckBoxInput
                                             className="form-check-input"
                                             type="checkbox"
                                             checked={parti.indexOf(mid) !== -1
@@ -839,7 +843,7 @@ class BookingLesson extends Component {
                                             onChange={this.handleGroupMemberChange
                                             }
                                         />
-                                        < label
+                                        <label
                                             className="form-check-label"
                                             htmlFor={ageType + " " + keyname + " " + mid}> {members[mid]['firstName']}
                                         </label>
@@ -869,6 +873,153 @@ class BookingLesson extends Component {
 
         //todo:create private lesson rows
         const pri_ls_keys = Object.keys(privateLesson);
+        this.sortPrivateByTime(pri_ls_keys);
+
+        const private_rows = pri_ls_keys.map(keyname => {
+            // keyname e.g. Snowboard 2018-10-24 PM-Bookend 3:00 1.5hr
+
+            const keysplit = keyname.split(" ");
+            const act = keysplit[0];
+            const date = keysplit[1];
+            const ap = keysplit[2];
+            const st = keysplit[3];
+            const dur = keysplit[4];
+
+            const price = priLesInfo[ap][st][dur]['price'];
+            const max_ppl = priLesInfo[ap][st][dur]['max'];
+
+            const ap_options = Object.keys(priLesInfo);
+            const st_options = Object.keys(priLesInfo[ap]);
+            const dur_options = Object.keys(priLesInfo[ap][st]);
+
+            const parti = privateLesson[keyname];
+
+            return (
+                <div key={keyname}>
+                    < ListBorder/>
+                    <div className='row'>
+
+                        {/*Avtivity*/}
+                        <div className='col-3 col-md-2'>
+                            <label>
+                                < OptionSelector
+                                    value={act}
+                                    name={keyname + ' act'}>
+                                    <option
+                                        value="Ski"> Ski
+                                    </option>
+                                    <option
+                                        value="Snowboard"> Snowboard
+                                    </option>
+                                    <option
+                                        value="Telemark"> Telemark
+                                    </option>
+                                </OptionSelector>
+                            </label>
+                        </div>
+
+                        {/*Time*/}
+                        <div className='col-5 col-md-3'>
+                            <div className='row' style={{marginBottom: '6px'}}>
+                                <PriTimeLable>Date</PriTimeLable> {date} &nbsp;
+                                <Icon className='fa fas fa-edit'/>
+                            </div>
+
+                            <div className='row'>
+                                <label>
+                                    <PriTimeLable>AM/PM</PriTimeLable>
+                                    <OptionSelector
+                                        value={ap}
+                                        name={keyname + ' ap'}>
+                                        {ap_options.map(keyVal =>
+                                            <option
+                                                value={keyVal}>{keyVal}
+                                            </option>)
+                                        }
+                                    </OptionSelector>
+                                </label>
+                            </div>
+
+                            <div className='row'>
+                                < label>
+                                    <PriTimeLable>Start</PriTimeLable>
+                                    < OptionSelector
+                                        value={st}
+                                        name={keyname + ' st'}>
+                                        {st_options.map(keyVal =>
+                                            <option
+                                                value={keyVal}>{keyVal}
+                                            </option>)
+                                        }
+                                    </OptionSelector>
+                                </label>
+                            </div>
+
+                            <div className='row'>
+                                < label>
+                                    <PriTimeLable>Duration</PriTimeLable>
+                                    < OptionSelector
+                                        value={dur}
+                                        name={keyname + ' dur'}>
+                                        {dur_options.map(keyVal =>
+                                            <option
+                                                value={keyVal}>{keyVal}
+                                            </option>)
+                                        }
+                                    </OptionSelector>
+                                </label>
+                            </div>
+
+                            <div className='row' style={{marginBottom: '6px'}}>
+                                <PriTimeLable>Price</PriTimeLable>
+                                {price}
+                            </div>
+
+                            <div className='row'>
+                                <PriTimeLable>Max. #
+                                    Participants</PriTimeLable>{max_ppl}
+                            </div>
+                        </div>
+
+                        {/*Participants*/}
+                        <div className='col-3 col-md-6'>
+
+                            {memberKeys.map(mid =>
+                                <div key={mid}
+                                     style={
+                                         {
+                                             display: 'inline-block',
+                                             marginRight:
+                                                 '30px',
+                                             position:
+                                                 'relative'
+                                         }
+                                     }>
+                                    <CheckBoxInput
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        checked={parti.indexOf(mid) !== -1
+                                        }
+                                        id={keyname + " " + mid}
+                                    />
+                                    <label
+                                        className="form-check-label"
+                                        htmlFor={keyname + " " + mid}> {members[mid]['firstName']}
+                                    </label>
+                                </div>
+                            )
+                            }
+                        </div>
+
+                        {/*Add Lesson*/}
+                        <div className='col-1 col-md-1'>
+                            <Icon className='fa fas fa-trash-alt'/>
+                        </div>
+                    </div>
+
+                </div>
+            )
+        });
 
         return (
             <div
@@ -890,7 +1041,7 @@ class BookingLesson extends Component {
                 </HeaderLine>
 
                 < Warning> A first time package is sold if you have never done a
-                    snowsport(skiing, snowboarding, or telemarking ) and
+                    snowsport (skiing, snowboarding, or telemarking) and
                     includes a lift pass, gear rental and a lesson. </Warning>
 
 
@@ -1125,155 +1276,7 @@ class BookingLesson extends Component {
                         </AddLessonText>
                     </RowHeader>
 
-                    {/*todo: delete this block later*/}
-                    < ListBorder/>
-                    <div className='row'>
-
-                        {/*Avtivity*/}
-                        <div className='col-3 col-md-2'>
-                            < label>
-                                < OptionSelector
-                                    value={"Ski"}
-                                    name={'act'}>
-                                    <option
-                                        value="Ski"
-                                        selected="selected"> Ski
-                                    </option>
-                                    <option
-                                        value="Snowboard"
-                                        selected="selected"> Snowboard
-                                    </option>
-                                    <option
-                                        value="Telemark"
-                                        selected="selected"> Telemark
-                                    </option>
-                                </OptionSelector>
-                            </label>
-                        </div>
-
-                        {/*Time*/}
-                        <div className='col-5 col-md-3'>
-                            <div className='row' style={{marginBottom: '6px'}}>
-                                <PriTimeLable>Date</PriTimeLable> 2018-10-21 &nbsp;
-                                <Icon className='fa fas fa-edit'/>
-                            </div>
-
-                            <div className='row'>
-                                < label>
-                                    <PriTimeLable>AM/PM</PriTimeLable>
-                                    < OptionSelector
-                                        value={"AM-Bookend"}
-                                        name={'AP'}>
-                                        <option
-                                            value="AM-Bookend"
-                                            selected="selected"> AM-Bookend
-                                        </option>
-                                        <option
-                                            value="AM"
-                                            selected="selected"> AM
-                                        </option>
-                                        <option
-                                            value="PM"
-                                            selected="selected"> PM
-                                        </option>
-                                        <option
-                                            value="PM-Bookend"
-                                            selected="selected"> PM-Bookend
-                                        </option>
-                                    </OptionSelector>
-                                </label>
-                            </div>
-
-                            <div className='row'>
-                                < label>
-                                    <PriTimeLable>Start</PriTimeLable>
-                                    < OptionSelector
-                                        value={"10:30"}
-                                        name={'ST'}>
-                                        <option
-                                            value="10:30"
-                                            selected="selected"> 10:30
-                                        </option>
-                                    </OptionSelector>
-                                </label>
-                            </div>
-
-                            <div className='row'>
-                                < label>
-                                    <PriTimeLable>Duration</PriTimeLable>
-                                    < OptionSelector
-                                        value={"2hr"}
-                                        name={'DU'}>
-                                        <option
-                                            value="2hr"
-                                            selected="selected"> 2hr
-                                        </option>
-                                    </OptionSelector>
-                                </label>
-                            </div>
-
-                            <div className='row' style={{marginBottom: '6px'}}>
-                                <PriTimeLable>Price</PriTimeLable>
-                                $290
-                            </div>
-
-                            <div className='row'>
-                                <PriTimeLable>Max. # Participants</PriTimeLable>
-                                3
-                            </div>
-                        </div>
-
-                        {/*Participants*/}
-                        <div className='col-3 col-md-6'>
-
-                            <div style={{
-                                display: 'inline-block',
-                                marginRight: '30px',
-                                position: 'relative'
-                            }}>
-                                <CheckBoxInput className="form-check-input"
-                                               type="checkbox" checked={true}
-                                               id={1}/>
-                                <label
-                                    className="form-check-label"
-                                    htmlFor={1}> Jack
-                                </label>
-                            </div>
-
-                            <div style={{
-                                display: 'inline-block',
-                                marginRight: '30px',
-                                position: 'relative'
-                            }}>
-                                <CheckBoxInput className="form-check-input"
-                                               type="checkbox" checked={true}
-                                               id={2}/>
-                                <label
-                                    className="form-check-label"
-                                    htmlFor={2}> Susan
-                                </label>
-                            </div>
-
-                            <div style={{
-                                display: 'inline-block',
-                                marginRight: '30px',
-                                position: 'relative'
-                            }}>
-                                <CheckBoxInput className="form-check-input"
-                                               type="checkbox" checked={true}
-                                               id={3}/>
-                                <label
-                                    className="form-check-label"
-                                    htmlFor={3}> Wendy
-                                </label>
-                            </div>
-                        </div>
-
-                        {/*Add Lesson*/}
-                        <div className='col-1 col-md-1'>
-                            <Icon className='fa fas fa-trash-alt'/>
-                        </div>
-                    </div>
+                    {private_rows}
 
 
                 </div>
