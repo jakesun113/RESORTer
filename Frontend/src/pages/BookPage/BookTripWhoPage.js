@@ -67,7 +67,6 @@ class SelectTripDate extends Component {
       axios
         .get("http://localhost:3333/api/acquireTripDate/" + tripID)
         .then(response => {
-          console.log(response.data);
           this.props.showAddTripMember(true);
 
           this.setState({
@@ -146,7 +145,7 @@ class SelectTripDate extends Component {
             endDate: moment(date).add(5, "days")
           },
           () => {
-            this.props.setStartDate(date)
+            this.props.setStartDate(date);
             this.props.setEndDate(moment(date).add(5, "days"));
           }
         );
@@ -277,11 +276,18 @@ class BookTripPage extends Component {
       endDate: null,
       user: null,
       groupMember: [],
-      isBackFromSleepPage: false
+      isBackFromSleepPage: false,
+      tripID: null
     };
     this.submitTripMember = this.submitTripMember.bind(this);
   }
-
+  componentDidMount() {
+    if (this.props.history.location.state != undefined) {
+      this.setState({
+        tripID: this.props.history.location.state.tripID
+      });
+    }
+  }
   //Show the addTripMember Interface
   showAddTripMember = isBackFromSleepPage => {
     this.setState({
@@ -454,6 +460,7 @@ class BookTripPage extends Component {
               place={place}
               submitTripMember={this.submitTripMember}
               isBackFromSleepPage={this.state.isBackFromSleepPage}
+              tripID={this.state.tripID}
             />
           ) : null}
           <br />
