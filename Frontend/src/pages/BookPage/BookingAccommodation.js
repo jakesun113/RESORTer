@@ -12,10 +12,10 @@ const Info = styled.div`
   position: relative;
   left: 20px;
   color: rgba(255, 97, 97, 1);
-  //font-style: italic;
+
   font-weight: 900;
   font-size: smaller;
-  //background-color: #00A6FF;
+
 `;
 
 export const HeaderLine = styled.div`
@@ -136,11 +136,14 @@ const RadioInput = styled.input`
 `;
 
 const Warning = styled.p`
-  margin-bottom: 10px;
-  color: rgba(255, 97, 97, 1);
-  font-style: italic;
-  font-weight: 100;
-  font-size: smaller;
+  color:rgba(255, 97, 97, 1);
+  
+  padding:0 15px;
+  font-weight: 800;
+  border: 1px solid #F1E4DF;
+  border-radius: 4px;
+  background-color: #F1E4DF;
+  box-shadow: 2px 2px rgba(0,0,0,0.2);
 `;
 
 class RadioSelector extends Component {

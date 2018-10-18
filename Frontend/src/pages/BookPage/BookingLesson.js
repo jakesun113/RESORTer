@@ -60,7 +60,7 @@ const Warning = styled.p`
   border: 1px solid #F1E4DF;
   border-radius: 4px;
   background-color: #F1E4DF;
-  box-shadow: 1px 1px rgba(0,0,0,0.3);
+  box-shadow: 2px 2px rgba(0,0,0,0.2);
   //font-size:smaller;
 `;
 
