@@ -7,7 +7,6 @@ import AddSavedMemberCard from "./AddSavedMemberCard";
 import AlertWindow from "../template/AlertWindow";
 import AddGroupMemberCard from "../GroupMemberPage/AddGroupMemberCard";
 
-//FIXME: No person in a trip, can not be saved and proceeded
 class AddTripMember extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +19,8 @@ class AddTripMember extends Component {
       showAlertWindow: false,
       showAddNewGroupMemberCard: false,
       isTripHasPerson: null,
-      canSaveAndContinue: true // control whether the user have trip members in a trip
+      canSaveAndContinue: true, // control whether the user have trip members in a trip
+      isBackFromSleepPage:this.props.isBackFromSleepPage
     };
     this.addSavedGroupMember = this.addSavedGroupMember.bind(this);
   }
@@ -28,7 +28,7 @@ class AddTripMember extends Component {
   //Http Request Acquires GroupMembers
   async componentDidMount() {
     //if the user is not a guest User TODO: If guestUser
-    if (!sessionStorage.getItem("guestUser")) {
+    if (!sessionStorage.getItem("guestUser") && this.props.isBackFromSleepPage === false) {
       //Acquire the groupMember information when loading
       await axios
         .get(
@@ -42,6 +42,10 @@ class AddTripMember extends Component {
             numberOfFamilyMember: response.data.familyMember.length
           });
         });
+    }
+    //TODO: If comes from sleepPage
+    else{
+
     }
   }
 
@@ -84,7 +88,18 @@ class AddTripMember extends Component {
           savedGroupMember: response.data.familyMember,
           showAddSavedGroupMemberCard: !this.state.showAddSavedGroupMemberCard
         });
+        //Close AddNewGroupMemberCard
+        if (this.state.showAddNewGroupMemberCard === true) {
+         this.handleAfterAddNewGroupMemberClose()
+        }
       });
+  }
+
+  //Close AddSavedGroupMemberCard
+  handleAddSavedGroupMemberCardClose = () => {
+    this.setState({
+      showAddSavedGroupMemberCard : false
+    })
   }
 
   //Handle adding savedMember
@@ -130,6 +145,9 @@ class AddTripMember extends Component {
     this.setState({
       showAddNewGroupMemberCard: !this.state.showAddNewGroupMemberCard
     });
+    if(this.state.showAddSavedGroupMemberCard === true){
+      this.handleAddSavedGroupMemberCardClose()
+    }
   };
 
   //This function just used to overwrite the existed function inside of AddGroupMemberCard.js component

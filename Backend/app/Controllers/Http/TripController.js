@@ -12,12 +12,15 @@ const FamilyMember = use("App/Models/FamilyMember");
 const moment = use('moment');
 const topSix = 6;
 
-/**
+/*
 
  */
 
 class TripController {
 
+  async acquireTripDate({params,response}){
+
+  }
   async acquireSelfInfoAndFamilyInfo({response, params}) {
 
     try {

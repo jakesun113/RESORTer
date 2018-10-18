@@ -30,9 +30,9 @@ class AddSavedMemberCard extends Component {
                     style={{
                         border: "1px solid grey",
                         padding: "20px",
-                        WebkitBoxShadow: "10px 10px 5px 0px rgba(0,0,0,0.11)",
-                        MozBoxShadow: " 10px 10px 5px 0px rgba(0,0,0,0.11)",
-                        boxShadow: "10px 10px 5px 0px rgba(0,0,0,0.11)"
+                        // WebkitBoxShadow: "10px 10px 5px 0px rgba(0,0,0,0.11)",
+                        // MozBoxShadow: " 10px 10px 5px 0px rgba(0,0,0,0.11)",
+                        // boxShadow: "10px 10px 5px 0px rgba(0,0,0,0.11)"
                     }}
                 >
                     <p

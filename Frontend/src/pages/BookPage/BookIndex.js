@@ -12,7 +12,7 @@ class BookIndex extends Component {
   render() {
     const { match, history, location } = this.props;
     const place = match.params.placeName;
-
+    
     let masterID;
     let resortID;
     let tripID;
@@ -24,14 +24,34 @@ class BookIndex extends Component {
       tripID = location.state.tripID;
     }
 
+    let isBackFromSleepPage = false;
+    if (
+      re.test(this.props.location.pathname) &&
+      this.props.location.state != undefined
+    ) {
+      isBackFromSleepPage = true;
+    }
+
     return (
       <div>
         <div className="row">
           <Switch>
-            <Route
-              path={`/booking/${place}/who`}
-              render={() => <BookTripWhoPage place={place} history={history} />}
-            />
+            {isBackFromSleepPage === true ? (
+              <Route
+                path={`/booking/${place}/who`}
+                render={() => (
+                  <BookTripWhoPage place={place} history={history} masterID = {masterID} resortID = {resortID} tripID={tripID} />
+                )}
+              />
+            ) : (
+              <Route
+                path={`/booking/${place}/who`}
+                render={() => (
+                  <BookTripWhoPage place={place} history={history} />
+                )}
+              />
+            )}
+
             <Route
               path={`/booking/${place}/sleep`}
               render={() => (

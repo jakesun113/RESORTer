@@ -59,6 +59,16 @@ class SelectTripDate extends Component {
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
     this.props.setDate(this.state.startDate, this.state.endDate);
+
+    //Whether from the sleep page
+    if(this.props.history.location.state != undefined){
+      this.props.showAddTripMember(true);
+      //TODO: Setting the data picker
+      this.setState({
+        startDate:moment('123'),
+        endDate:moment('123')
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -86,7 +96,7 @@ class SelectTripDate extends Component {
           .then(response => {
             if (response.data.status === "success") {
               //show the addTrip
-              this.props.showAddTripMember();
+              this.props.showAddTripMember(false);
 
               this.setState({
                 hidePlanButton: true
@@ -152,7 +162,6 @@ class SelectTripDate extends Component {
           btnOneText="Book as guest user" 
           btnTwoMode="customMode"
           onHandClickTwo ={() => {
-            console.log(this.props.history.location) 
             this.props.history.push({
               pathname: "/login",
               state: {
@@ -245,15 +254,17 @@ class BookTripPage extends Component {
       startDate: null,
       endDate: null,
       user: null,
-      groupMember: null
+      groupMember: null,
+      isBackFromSleepPage:false
     };
     this.submitTripMember = this.submitTripMember.bind(this);
   }
 
   //Show the addTripMember Interface
-  showAddTripMember = () => {
+  showAddTripMember = (isBackFromSleepPage) => {
     this.setState({
-      addTripMember: true
+      addTripMember: true,
+      isBackFromSleepPage:isBackFromSleepPage
     });
   };
 
@@ -416,6 +427,7 @@ class BookTripPage extends Component {
             <AddTripMember
               place={place}
               submitTripMember={this.submitTripMember}
+              isBackFromSleepPage = {this.state.isBackFromSleepPage}  
             />
           ) : null}
           <br />
