@@ -11,7 +11,7 @@ class AddTripMember extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      groupMember: null,
+      groupMember: [],
       user: null,
       numberOfFamilyMember: 0, //control whether show the addSavedMember button
       savedGroupMember: [],
