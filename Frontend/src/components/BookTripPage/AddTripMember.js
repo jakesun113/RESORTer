@@ -20,7 +20,7 @@ class AddTripMember extends Component {
       showAddNewGroupMemberCard: false,
       isTripHasPerson: null,
       canSaveAndContinue: true, // control whether the user have trip members in a trip
-      isBackFromSleepPage:this.props.isBackFromSleepPage
+      isBackFromSleepPage: this.props.isBackFromSleepPage
     };
     this.addSavedGroupMember = this.addSavedGroupMember.bind(this);
   }
@@ -28,7 +28,10 @@ class AddTripMember extends Component {
   //Http Request Acquires GroupMembers
   async componentDidMount() {
     //if the user is not a guest User TODO: If guestUser
-    if (!sessionStorage.getItem("guestUser") && this.props.isBackFromSleepPage === false) {
+    if (
+      !sessionStorage.getItem("guestUser") &&
+      this.props.isBackFromSleepPage === false
+    ) {
       //Acquire the groupMember information when loading
       await axios
         .get(
@@ -44,8 +47,34 @@ class AddTripMember extends Component {
         });
     }
     //TODO: If comes from sleepPage
-    else{
-
+    else {
+      //Acquire trip member
+      await axios
+        .get("http://localhost:3333/api/acquireTripMember/" + this.props.tripID)
+        .then(response => {
+          if (response.data.familyMember != null) {
+            this.setState({
+              groupMember: response.data.familyMember
+            });
+          }
+          if (response.data.masterMember != null) {
+            this.setState({
+              user: response.data.masterMember
+            });
+          }
+        });
+      //Show the AddSavedGroupMember
+      await axios
+        .get(
+          "http://127.0.0.1:3333/api/acquireSelfInfoAndFamilyInfo/" +
+            JSON.parse(sessionStorage.getItem("userToken")).token
+        )
+        .then(response => {
+          this.setState({
+            savedGroupMember: response.data.familyMember,
+            numberOfFamilyMember: response.data.familyMember.length,
+          });
+        });
     }
   }
 
@@ -90,7 +119,7 @@ class AddTripMember extends Component {
         });
         //Close AddNewGroupMemberCard
         if (this.state.showAddNewGroupMemberCard === true) {
-         this.handleAfterAddNewGroupMemberClose()
+          this.handleAfterAddNewGroupMemberClose();
         }
       });
   }
@@ -98,9 +127,9 @@ class AddTripMember extends Component {
   //Close AddSavedGroupMemberCard
   handleAddSavedGroupMemberCardClose = () => {
     this.setState({
-      showAddSavedGroupMemberCard : false
-    })
-  }
+      showAddSavedGroupMemberCard: false
+    });
+  };
 
   //Handle adding savedMember
   handleSavedMember = user => {
@@ -145,8 +174,8 @@ class AddTripMember extends Component {
     this.setState({
       showAddNewGroupMemberCard: !this.state.showAddNewGroupMemberCard
     });
-    if(this.state.showAddSavedGroupMemberCard === true){
-      this.handleAddSavedGroupMemberCardClose()
+    if (this.state.showAddSavedGroupMemberCard === true) {
+      this.handleAddSavedGroupMemberCardClose();
     }
   };
 

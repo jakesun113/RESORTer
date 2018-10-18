@@ -95,6 +95,8 @@ Route.get("/api/getTripSummary/:id", "TripController.getTripSummary");
 Route.post("/api/completeTrip", "TripController.completeTrip");
 //request for startDate and EndDate for a trip
 Route.get("api/acquireTripDate/:tripID","TripController.acquireTripDate")
+//request for trip members for a trip
+Route.get("api/acquireTripMember/:tripID","TripController.acquireTripMember")
 /*TripController end*/
 
 /*TripAccommodationController start*/

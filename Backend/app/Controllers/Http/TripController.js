@@ -17,11 +17,38 @@ const topSix = 6;
  */
 
 class TripController {
+  async acquireTripMember({ params, response }) {
+    try {
+      const trip = await Trip.find(params.tripID)
+      let member;
+      let familyMember;
+      if(trip.IsMasterMemberGoing === 1){
+        member = await Member.find(trip.MasterMemberID)
+      }else{
+        member = null
+      }
+
+      if(JSON.parse(trip.GroupMemberIDs).family_members.length > 0){
+        familyMember = await Database.from("family_members").whereIn('id',JSON.parse(trip.GroupMemberIDs).family_members)
+      }else{
+        familyMember = null
+      }
+
+      response.send(JSON.stringify({masterMember:member,familyMember:familyMember}))
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async acquireTripDate({ params, response }) {
-    const trip = await Trip.find(params.tripID);
-    response.send(
-      JSON.stringify({ startDate: trip.StartDate, endDate: trip.EndDate })
-    );
+    try {
+      const trip = await Trip.find(params.tripID);
+      response.send(
+        JSON.stringify({ startDate: trip.StartDate, endDate: trip.EndDate })
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
   async acquireSelfInfoAndFamilyInfo({ response, params }) {
     try {
