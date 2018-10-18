@@ -25,10 +25,22 @@ const Icon = styled.div`
   }
 `;
 
+const PriTimeLable = styled.span`
+  font-weight: 800;
+  color: rgb(73,131,178);
+  margin-right: 10px;
+`;
+
 const Title = styled.span`
   color: rgb(73,131,178);
   font-size: 25px;
   padding-right: 20px;
+`;
+
+
+const RowHeader = styled.div`
+   font-size: 18px;
+   margin-bottom: 10px;   
 `;
 
 const HeaderL2 = styled.div`
@@ -42,8 +54,8 @@ const HeaderL2 = styled.div`
 const Warning = styled.p`
   margin-bottom: 10px; 
   color:rgba(255, 97, 97, 1);
-  font-style: italic;
-  font-weight: 100;
+  
+  font-weight: 800;
   //font-size:smaller;
 `;
 
@@ -63,9 +75,9 @@ const DateDiv = styled.div`
 
 const AddLessonText = styled.div`
   color: rgb(73,131,178);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 800;
-  transform: translate(0,4px);
+  transform: translate(0,2px);
   transition: color 0.5s;
   
   &:hover{
@@ -231,7 +243,76 @@ class BookingLesson extends Component {
                 "mini": false
             },
 
-            privateLesson: {},
+            // the info for private lesson for current resort
+            priLesInfo: {
+                'AM-Bookend': {
+                    "8:30": {
+                        "2hr": {
+                            "price": "$250",
+                            "max": 3
+                        },
+                        "4hr": {
+                            "price": "$510",
+                            "max": 3
+                        }
+                    },
+                },
+                'AM': {
+                    "10:30": {
+                        "2hr": {
+                            "price": "$320",
+                            "max": 3
+                        }
+                    },
+                    "9:00": {
+                        "3hr": {
+                            "price": "$430",
+                            "max": 3
+                        }
+                    },
+                },
+                'PM': {
+                    "1:00": {
+                        "2hr": {
+                            "price": "$280",
+                            "max": 3
+                        },
+                        "3hr": {
+                            "price": "$390",
+                            "max": 3
+                        }
+                    },
+                },
+                'PM-Bookend': {
+                    "3:00": {
+                        "1.5hr": {
+                            "price": "$165",
+                            "max": 3
+                        }
+                    }
+                },
+                'Flexible': {
+                    "anytime": {
+                        "7hr": {
+                            "price": "$980",
+                            "max": 3
+                        }
+                    }
+                }
+            },
+
+            // key: ACT Date AM/PM Time Duration
+            privateLesson: {
+                "Ski 2018-10-23 AM 10:30 2hr": ["3", "7"],
+                "Snowboard 2018-10-24 PM-Bookend 3:00 1.5hr": ["1", "2"],
+            },
+
+            showPrivateLessonDate: {
+                "Ski 2018-10-23 AM 10:30am 2hr": false,
+                "Snowboard 2018-10-24 PM-Bookend 3pm 1.5hr": false,
+            },
+
+            showPrivateAlert: false,
         }
     }
 
@@ -436,7 +517,7 @@ class BookingLesson extends Component {
 
     // change members in a group lesson
     handleGroupMemberChange = (e) => {
-        const {groupLesson} = this.state;
+        const {groupLesson, showGroupAlert} = this.state;
 
         const keyname = e.target.id; // e.g. adult 2018-10-23 PM Ski 312
         const keysplit = keyname.split(" ");
@@ -454,6 +535,7 @@ class BookingLesson extends Component {
             if (old_array.indexOf(mid) === -1) {
                 old_array.push(mid);
                 groupLesson[ageType][searchKey] = old_array
+                showGroupAlert[ageType] = false;
             } else {
                 alert("logic error");
             }
@@ -461,6 +543,7 @@ class BookingLesson extends Component {
             const rmv_index = old_array.indexOf(mid);
             if (rmv_index !== -1) {
                 old_array.splice(rmv_index, 1);
+                showGroupAlert[ageType] = false;
             } else {
                 alert("logic error");
             }
@@ -471,13 +554,14 @@ class BookingLesson extends Component {
     // delete an item in group lesson
     handleGroupDelete = (keyname) => {
         // keyname e.g. adult 2018-10-23 PM Ski
-        const {groupLesson, showGroupLessonDate} = this.state;
+        const {groupLesson, showGroupLessonDate, showGroupAlert} = this.state;
         const keysplit = keyname.split(" ");
         const ageType = keysplit[0];
         const searchKey = keysplit.slice(1, 4).join(" ");
 
         delete groupLesson[ageType][searchKey];
         delete showGroupLessonDate[ageType][searchKey];
+        showGroupAlert[ageType] = false;
         this.forceUpdate();
     };
 
@@ -507,7 +591,7 @@ class BookingLesson extends Component {
 
     // add new item in group lessons
     handleGroupAddLesson = (ageType) => {
-        const {groupLesson, showGroupLessonDate, startDate, endDate} = this.state;
+        const {groupLesson, showGroupLessonDate, startDate, endDate, showGroupAlert} = this.state;
         const original_json = groupLesson[ageType];
         const original_keys = Object.keys(original_json);
 
@@ -538,11 +622,12 @@ class BookingLesson extends Component {
         }
 
         addNewItem();
+        showGroupAlert[ageType] = false;
         this.forceUpdate();
     };
 
     // sort json keys by Date + AM/PM
-    sortByTime = (listname) => {
+    sortGroupByTime = (listname) => {
         listname.sort((a, b) => {
                 const asplit = a.split(" ");
                 const bsplit = b.split(" ");
@@ -571,12 +656,53 @@ class BookingLesson extends Component {
         ;
     };
 
+    sortPrivateByTime = (listname) => {
+        listname.sort((a, b) => {
+            const a_split = a.split(" ");
+            const b_split = b.split(" ");
+
+            const a_date = a_split[1];
+            const a_ap = a_split[2]; // AM PM
+            const a_st = a_split[3]; // start time
+            const a_dur = a_split[4]; // duration
+
+            const b_date = b_split[1];
+            const b_ap = b_split[2]; // AM PM
+            const b_st = b_split[3]; // start time
+            const b_dur = b_split[4]; // duration
+
+            if (a_date < b_date) {
+                return -1
+            }
+            else if (a_date > b_date) {
+                return 1
+            }
+            else {
+                if (a_ap === "AM" && b_ap === "PM") {
+                    return -1
+                } else if (a_ap === "PM" && b_ap === "AM") {
+                    return 1
+                } else {
+                    // todo: compare start time and duration
+
+
+                }
+            }
+
+
+        });
+    };
+
     componentDidMount() {
 
     }
 
     render() {
-        const {group_show, private_show, specificIns, insInfo, request, startDate, endDate, members, groupLesson, showGroupLessonDate, privateLesson, showGroupAlert} = this.state;
+        const {
+            group_show, private_show, specificIns, insInfo, request,
+            startDate, endDate, members, groupLesson, showGroupLessonDate, showGroupAlert,
+            priLesInfo, privateLesson, showPrivateLessonDate, showPrivateAlert
+        } = this.state;
         const placeHolderText = "Any Specific requirements you want your instructor to know? " +
             "What do you want to get out of the lesson? Max. 150 characters.";
         const duplicateAlertText = "A same \"Date + AM/PM + Activity\"\n" +
@@ -602,7 +728,6 @@ class BookingLesson extends Component {
 
         let createGroupLessonRows = (ageType) => {
             // ageType: adult | child | mini
-
             let members_of_ageType = [];
 
             switch (ageType) {
@@ -621,285 +746,331 @@ class BookingLesson extends Component {
 
             const original_jsons = groupLesson[ageType];
             const original_keys = Object.keys(original_jsons);
-            this.sortByTime(original_keys);
+            this.sortGroupByTime(original_keys);
 
             return original_keys.map(keyname => {
-                //e.g. keyname: "2018-10-23 PM Ski"
-                const keysplit = keyname.split(" ");
+                    //e.g. keyname: "2018-10-23 PM Ski"
+                    const keysplit = keyname.split(" ");
 
-                const date = keysplit[0]; // Date
-                const ap = keysplit[1]; // AM/PM
-                const act = keysplit[2]; // Ski/Snowboard/Telemark
+                    const date = keysplit[0]; // Date
+                    const ap = keysplit[1]; // AM/PM
+                    const act = keysplit[2]; // Ski/Snowboard/Telemark
 
-                const parti = groupLesson[ageType][keyname]; // Participants, an array
+                    const parti = groupLesson[ageType][keyname]; // Participants, an array
 
-                return <div key={keyname}>
-                    <ListBorder/>
-                    <div className='row'>
-                        <div className='col-2'>
-                            <div>{date} &nbsp;
-                                <Icon className='fa fas fa-edit'
-                                      onClick={() => this.handleGroupDatePickerShow(ageType + " " + keyname)}/>
-                                {showGroupLessonDate[ageType][keyname] ?
-                                    <DateDiv>
-                                        <DatePicker
-                                            inline
-                                            selected={moment(date)}
-                                            minDate={moment(startDate)}
-                                            maxDate={moment(endDate)}
-                                            onChange={(date) => this.handleGroupDateChange(date, ageType + " " + keyname)}
+                    return <div key={keyname}>
+                        < ListBorder/>
+                        < div
+                            className='row'>
+                            <div
+                                className='col-2'>
+                                <div> {date} &nbsp;
+                                    <Icon className='fa fas fa-edit'
+                                          onClick={() => this.handleGroupDatePickerShow(ageType + " " + keyname)
+                                          }/>
+                                    {showGroupLessonDate[ageType][keyname] ?
+                                        <DateDiv>
+                                            < DatePicker
+                                                inline
+                                                selected={moment(date)}
+                                                minDate={moment(startDate)}
+                                                maxDate={moment(endDate)}
+                                                onChange={(date) =>
+                                                    this.handleGroupDateChange(date, ageType + " " + keyname)
+                                                }/>
+                                        </DateDiv> : null}
+                                </div>
+                            </div>
+                            <div
+                                className='col-2'>
+                                < label>
+                                    < OptionSelector
+                                        value={ap}
+                                        name={ageType + " " + keyname + " ap"}
+                                        onChange={this.handleGroupInfoChange
+                                        }>
+                                        <option value="PM" selected="selected"> PM
+                                        </option>
+                                        < option value="AM"> AM
+                                        </option>
+                                    </OptionSelector>
+                                </label>
+                            </div>
+                            < div
+                                className='col-md-2 col-sm-3 col-4'>
+                                < label>
+                                    < OptionSelector
+                                        value={act}
+                                        name={ageType + " " + keyname + " act"}
+                                        onChange={this.handleGroupInfoChange
+                                        }>
+                                        <option value="Ski"> Ski
+                                        </option>
+                                        <option
+                                            value="Snowboard"> Snowboard
+                                        </option>
+                                        <option
+                                            value="Telemark"> Telemark
+                                        </option>
+                                    </OptionSelector>
+                                </label>
+                            </div>
+                            <div
+                                className='col-md-5 col-sm-4 col-3'>
+                                {members_of_ageType.map(mid =>
+                                    <div
+                                        key={mid}
+                                        style={
+                                            {
+                                                display: 'inline-block',
+                                                marginRight:
+                                                    '30px',
+                                                position:
+                                                    'relative'
+                                            }
+                                        }>
+                                        <
+                                            CheckBoxInput
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            checked={parti.indexOf(mid) !== -1
+                                            }
+                                            id={ageType + " " + keyname + " " + mid}
+                                            onChange={this.handleGroupMemberChange
+                                            }
                                         />
-                                    </DateDiv> : null}
+                                        < label
+                                            className="form-check-label"
+                                            htmlFor={ageType + " " + keyname + " " + mid}> {members[mid]['firstName']}
+                                        </label>
+                                    </div>
+                                )
+                                }
+                            </div>
+                            < div
+                                className='col-1'>
+                                < Icon
+                                    className='fa fas fa-trash-alt'
+                                    onClick={() =>
+                                        this.handleGroupDelete(ageType + " " + keyname)
+                                    }
+                                />
                             </div>
                         </div>
-                        <div className='col-2'>
-                            <label>
-                                <OptionSelector value={ap}
-                                                name={ageType + " " + keyname + " ap"}
-                                                onChange={this.handleGroupInfoChange}>
-                                    <option value="PM"
-                                            selected="selected">PM
-                                    </option>
-                                    <option value="AM">AM</option>
-                                </OptionSelector>
-                            </label>
-                        </div>
-                        <div className='col-md-2 col-sm-3 col-4'>
-                            <label>
-                                <OptionSelector value={act}
-                                                name={ageType + " " + keyname + " act"}
-                                                onChange={this.handleGroupInfoChange}>
-                                    <option value="Ski">Ski</option>
-                                    <option value="Snowboard">Snowboard
-                                    </option>
-                                    <option value="Telemark">Telemark
-                                    </option>
-                                </OptionSelector>
-                            </label>
-                        </div>
-                        <div className='col-md-5 col-sm-4 col-3'>
-                            {members_of_ageType.map(mid =>
-                                <div key={mid}
-                                     style={{
-                                         display: 'inline-block',
-                                         marginRight: '30px',
-                                         position: 'relative'
-                                     }}>
-                                    <CheckBoxInput
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        checked={parti.indexOf(mid) !== -1}
-                                        id={ageType + " " + keyname + " " + mid}
-                                        onChange={this.handleGroupMemberChange}/>
-                                    <label
-                                        className="form-check-label"
-                                        htmlFor={ageType + " " + keyname + " " + mid}> {members[mid]['firstName']}</label>
-                                </div>
-                            )}
-                        </div>
-                        <div className='col-1'>
-                            <Icon className='fa fas fa-trash-alt'
-                                  onClick={() => this.handleGroupDelete(ageType + " " + keyname)}/>
-                        </div>
                     </div>
-                </div>
 
-            })
+                }
+            )
         };
 
         const group_adult_rows = createGroupLessonRows("adult");
         const group_child_rows = createGroupLessonRows("child");
         const group_mini_rows = createGroupLessonRows("mini");
 
+        //todo:create private lesson rows
+        const pri_ls_keys = Object.keys(privateLesson);
 
         return (
-            <div className='container' style={{marginTop: '20px'}}>
+            <div
+                className='container'
+                style={{marginTop: '20px'}}>
                 <HeaderLine>
-                    <Title>
-                        <strong>5. LESSONS?</strong>
+                    < Title>
+                        < strong> 5. LESSONS ?
+                        </strong>
                     </Title>
-                    <UpperEllipseButton
-                        onClick={() => this.handleAuth('skipAccommodation')}>
-                        <div style={{
-                            fontSize: '12px',
-                            color: 'white',
-                        }}>Skip Lessons
+                    < UpperEllipseButton
+                        onClick={() =>
+                            this.handleAuth('skipAccommodation')
+                        }>
+                        <div style={{fontSize: '12px', color: 'white',}}>Skip
+                            Lessons
                         </div>
                     </UpperEllipseButton>
                 </HeaderLine>
 
-                <Warning>A first time package is sold if you have never done a
-                    snowsport (skiing, snowboarding, or telemarking) and
-                    includes a lift pass, gear rental and a lesson.</Warning>
+                < Warning> A first time package is sold if you have never done a
+                    snowsport(skiing, snowboarding, or telemarking ) and
+                    includes a lift pass, gear rental and a lesson. </Warning>
 
 
                 {/*group lessons*/}
-                <div style={{margin: '25px 0 5px 0'}}>
+                <div
+                    style={{margin: '25px 0 5px 0'}}>
                     <Header
                         style={{
                             display: 'inline-block',
-                            marginRight: '30px',
-                            fontWeight: '900'
-                        }}>Group
-                        Lessons</Header>
-                    <a data-toggle="collapse" href="#group"
-                       aria-expanded="true" aria-controls="group"
-                       onClick={() => this.toggle('group_show')}>
+                            marginRight:
+                                '30px',
+                            fontWeight:
+                                '900'
+                        }}>
+                        Group Lessons </Header>
+                    <a data-toggle="collapse"
+                       href="#group"
+                       aria-expanded="true"
+                       aria-controls="group"
+                       onClick={() =>
+                           this.toggle('group_show')}>
                         {group_show ? 'Hide' : 'Show'}
                     </a>
                 </div>
 
-                <div className="collapse show" id="group">
-                    <div className='alert alert-primary'
-                         style={{marginBottom: "20px"}}>
-                        Lesson durations vary from resort to resort but
-                        typically adult lesson duration is around <strong>2 -3
-                        hours</strong>.<br/>
-                        <strong>AM</strong> lessons start
-                        around <strong>10am</strong>;<br/>
-                        <strong>PM</strong> lessons start
-                        around <strong>1.30pm</strong>;<br/>
-                        Children lesson duration can be full day or half day.
-                        Start and end times are aimed to allow parents time to
-                        drop off and pick up children.<br/>
+                < div
+                    className="collapse show"
+                    id="group">
+                    < div
+                        className='alert alert-primary'
+                        style={{marginBottom: "20px"}}>Lesson durations vary
+                        from resort to resort but
+                        typically adult lesson duration is around < strong> 2 -
+                            3
+                            hours </strong>.<br/>< strong> AM </strong> lessons
+                        start around < strong> 10
+                            am </strong>;<br/>< strong> PM </strong> lessons
+                        start around < strong> 1.30 pm </strong>;<br/>Children
+                        lesson duration can be full day or half day.Start and
+                        end times are aimed to allow parents time to drop off
+                        and pick up children.
+                        <br/>
                     </div>
 
                     {/* adult group lesson */}
-                    <div style={{marginBottom: '16px'}}>
-                        <HeaderL2>Teen & Adult &nbsp; (Age 15+)</HeaderL2>
+                    <div style={
+                        {marginBottom: '16px'}
+                    }>
+                        <HeaderL2> Teen & Adult &nbsp; (Age 15 + )
+                        </HeaderL2>
                         {showGroupAlert["adult"] ?
-                            <DuplicateAlert> {duplicateAlertText} </DuplicateAlert> : null}
-
-                        <div className='row'
-                             style={{
-                                 fontSize: "18px",
-                                 marginBottom: '10px'
-                             }}>
-                            <div className='col-2'>
-                                Date
-                            </div>
-                            <div className='col-2'>
-                                AM/PM
-                            </div>
-                            <div className='col-md-2 col-3'>
-                                Activity
-                            </div>
-                            <div className='col-md-4 col-3'>
-                                Participants
-                            </div>
-                            <AddLessonText className='col-2'
-                                           onClick={() => this.handleGroupAddLesson("adult")}>
+                            <DuplicateAlert> {duplicateAlertText}</DuplicateAlert> : null}
+                        <RowHeader className='row'>
+                            <div className='col-2'>Date</div>
+                            < div className='col-2'>AM / PM</div>
+                            <div className='col-md-2 col-3'>Activity</div>
+                            < div className='col-md-4 col-3'>Participants</div>
+                            < AddLessonText className='col-2'
+                                            onClick={() => this.handleGroupAddLesson("adult")}>
                                 Add Lesson
                             </AddLessonText>
-                        </div>
-                        {group_adult_rows}
+                        </RowHeader>
+                        {
+                            group_adult_rows
+                        }
                     </div>
 
                     {/* children group lesson */}
-                    <div style={{marginBottom: '16px'}}>
-                        <HeaderL2>Child &nbsp; (Age 6-14)</HeaderL2>
+                    <div
+                        style={
+                            {
+                                marginBottom: '16px'
+                            }
+                        }>
+                        <HeaderL2> Child &nbsp; (Age 6 - 14 )</HeaderL2>
                         {showGroupAlert["child"] ?
-                            <DuplicateAlert> {duplicateAlertText} </DuplicateAlert> : null}
-                        <div className='row'
-                             style={{
-                                 fontSize: "18px",
-                                 marginBottom: '10px'
-                             }}>
-                            <div className='col-2'>
-                                Date
+                            <DuplicateAlert> {duplicateAlertText}</DuplicateAlert> : null}
+                        <div
+                            className='row'
+                            style={{fontSize: "18px", marginBottom: '10px'}}>
+                            <div className='col-2'>Date</div>
+                            <div className='col-2'>AM / PM</div>
+                            <div className='col-md-2 col-3'>Activity</div>
+                            <div className='col-md-4 col-3'>Participants
                             </div>
-                            <div className='col-2'>
-                                AM/PM
-                            </div>
-                            <div className='col-md-2 col-3'>
-                                Activity
-                            </div>
-                            <div className='col-md-4 col-3'>
-                                Participants
-                            </div>
-                            <AddLessonText className='col-2'
-                                           onClick={() => this.handleGroupAddLesson("child")}>
-                                Add Lesson
+                            <AddLessonText className='col-2' onClick={() =>
+                                this.handleGroupAddLesson("child")}>Add Lesson
                             </AddLessonText>
                         </div>
-                        {group_child_rows}
-                    </div>
+                        {group_child_rows}</div>
 
-                    {/* Mini group lesson */}
+                    {/* Mini group lesson */
+                    }
                     <div style={{marginBottom: '16px'}}>
-                        <HeaderL2>Mini &nbsp; (Age 3-5)</HeaderL2>
-                        {showGroupAlert["mini"] ?
-                            <DuplicateAlert> {duplicateAlertText} </DuplicateAlert> : null}
+                        <HeaderL2> Mini &nbsp; (Age 3 - 5 )
+                        </HeaderL2>
+                        {
+                            showGroupAlert["mini"] ?
+                                <
+                                    DuplicateAlert> {duplicateAlertText}
+                                </DuplicateAlert> :
+                                null}
 
-                        <div className='row'
-                             style={{
-                                 fontSize: "18px",
-                                 marginBottom: '10px'
-                             }}>
+                        <div
+                            className='row'
+                            style={{fontSize: "18px", marginBottom: '10px'}}>
                             <div className='col-2'>
                                 Date
                             </div>
                             <div className='col-2'>
-                                AM/PM
+                                AM / PM
                             </div>
-                            <div className='col-md-2 col-3'>
+                            <div
+                                className='col-md-2 col-3'>
                                 Activity
                             </div>
-                            <div className='col-md-4 col-3'>
+                            <div
+                                className='col-md-4 col-3'>
                                 Participants
                             </div>
-                            <AddLessonText className='col-2'
-                                           onClick={() => this.handleGroupAddLesson("mini")}>
-                                Add Lesson
+                            < AddLessonText
+                                className='col-2'
+                                onClick={() =>
+                                    this.handleGroupAddLesson("mini")
+                                }>
+                                Add
+                                Lesson
                             </AddLessonText>
                         </div>
-                        {group_mini_rows}
+                        {
+                            group_mini_rows
+                        }
                     </div>
 
                 </div>
 
-                <div style={{height: '30px'}}/>
+                < div style={{height: '30px'}}/>
 
                 {/*private lessons*/}
-                <div style={{margin: '25px 0 5px 0'}}>
-                    <Header
-                        style={{
-                            display: 'inline-block',
-                            marginRight: '30px',
-                            fontWeight: '900'
-                        }}>Private
-                        Lessons</Header>
+                <div
+                    style={{margin: '25px 0 5px 0'}}>
+                    <Header style={{
+                        display: 'inline-block',
+                        marginRight: '30px',
+                        fontWeight: '900'
+                    }}>
+                        Private
+                        Lessons </Header>
                     <a data-toggle="collapse" href="#private"
                        aria-expanded="true" aria-controls="private"
                        onClick={() => this.toggle('private_show')}>
-                        {private_show ? 'Hide' : 'Show'}
-                    </a>
+                        {private_show ? 'Hide' : 'Show'}</a>
                 </div>
 
-                <div className="collapse show" id="private">
+                < div
+                    className="collapse show"
+                    id="private">
                     <div className='alert alert-warning'>
-                        A maximum of up to 4 people can join a lesson. Everyone
-                        must be at the same ability level. <br/>
-                        Children under age 5 (inclusive) cannot attend a private
-                        lesson with children above age 6 (inclusive) or
-                        adults. Instead, they should book a separate private
-                        lesson.<br/>
-                        <span style={{fontSize: 'small'}}>* Activities & time are subject to availability.
-                            Confirm
-                            with resort when they make contact.</span>
+                        A maximum of up to 4 people can join a lesson.Everyone
+                        must be at the same ability level. < br/>Children under
+                        age 5(inclusive) cannot attend a private lesson with
+                        children above age 6(inclusive) or adults.Instead, they
+                        should book a separate private lesson.
+                        <br/>
+                        <span
+                            style={{fontSize: 'small'}}>* Activities & time are subject
+                            to availability. Confirm with resort when they make contact. </span>
                     </div>
 
                     <div className='row'>
-                        <div className='col-3'>
-                            Specific instructor in mind?
+                        <div className='col-3'>Specific instructor in mind ?
                         </div>
                         <div className='col-9'>
                             <label>
-                                <OptionSelector value={specificIns}
-                                                name={'specificIns'}
-                                                onChange={this.handleInsChange}>
-                                    <option value="No">No</option>
-                                    <option value="Yes">Yes</option>
+                                < OptionSelector value={specificIns}
+                                                 name={'specificIns'}
+                                                 onChange={this.handleInsChange
+                                                 }>
+                                    <option value="No"> No</option>
+                                    <option value="Yes"> Yes</option>
                                 </OptionSelector>
                             </label>
                         </div>
@@ -909,28 +1080,201 @@ class BookingLesson extends Component {
 
                     {specificIns === 'Yes' ?
                         <div className='row'>
-                            <div className='col-3'>
-                                Name or description of the instructor
+                            <div
+                                className='col-3'>Name or description of the
+                                instructor
                             </div>
-                            <div className='col-9'>
-                                <TextInput value={insInfo}
-                                           onChange={this.handleInsInfoChange}/>
+                            < div
+                                className='col-9'>
+                                < TextInput
+                                    value={insInfo}
+                                    onChange={this.handleInsInfoChange
+                                    }/>
                             </div>
-                        </div>
-                        : null}
+                        </div> : null}
 
                     <div style={{height: '10px'}}/>
 
-                    <div className='row'>
-                        <div className='col-3'>
-                            Any special requests?
+                    < div className='row'>
+                        <div className='col-3'>Any special requests ?
                         </div>
-                        <div className='col-9'>
-                            <TextInput value={request}
-                                       onChange={this.handleRequestChange}
-                                       placeholder={placeHolderText}/>
+                        <div
+                            className='col-9'>
+                            < TextInput
+                                value={request}
+                                onChange={this.handleRequestChange
+                                }
+                                placeholder={placeHolderText}
+                            />
                         </div>
                     </div>
+
+                    <div style={{height: '30px'}}/>
+
+                    <RowHeader
+                        className='row'>
+                        <div className='col-4 col-md-2'>Activity</div>
+                        <div className='col-3 col-md-3'>
+                            Time
+                        </div>
+                        <div className='col-3 col-md-5'>
+                            Participants
+                        </div>
+                        <AddLessonText className='col-1 col-md-2'>
+                            Add Lesson
+                        </AddLessonText>
+                    </RowHeader>
+
+                    {/*todo: delete this block later*/}
+                    < ListBorder/>
+                    <div className='row'>
+
+                        {/*Avtivity*/}
+                        <div className='col-3 col-md-2'>
+                            < label>
+                                < OptionSelector
+                                    value={"Ski"}
+                                    name={'act'}>
+                                    <option
+                                        value="Ski"
+                                        selected="selected"> Ski
+                                    </option>
+                                    <option
+                                        value="Snowboard"
+                                        selected="selected"> Snowboard
+                                    </option>
+                                    <option
+                                        value="Telemark"
+                                        selected="selected"> Telemark
+                                    </option>
+                                </OptionSelector>
+                            </label>
+                        </div>
+
+                        {/*Time*/}
+                        <div className='col-5 col-md-3'>
+                            <div className='row' style={{marginBottom: '6px'}}>
+                                <PriTimeLable>Date</PriTimeLable> 2018-10-21 &nbsp;
+                                <Icon className='fa fas fa-edit'/>
+                            </div>
+
+                            <div className='row'>
+                                < label>
+                                    <PriTimeLable>AM/PM</PriTimeLable>
+                                    < OptionSelector
+                                        value={"AM-Bookend"}
+                                        name={'AP'}>
+                                        <option
+                                            value="AM-Bookend"
+                                            selected="selected"> AM-Bookend
+                                        </option>
+                                        <option
+                                            value="AM"
+                                            selected="selected"> AM
+                                        </option>
+                                        <option
+                                            value="PM"
+                                            selected="selected"> PM
+                                        </option>
+                                        <option
+                                            value="PM-Bookend"
+                                            selected="selected"> PM-Bookend
+                                        </option>
+                                    </OptionSelector>
+                                </label>
+                            </div>
+
+                            <div className='row'>
+                                < label>
+                                    <PriTimeLable>Start</PriTimeLable>
+                                    < OptionSelector
+                                        value={"10:30"}
+                                        name={'ST'}>
+                                        <option
+                                            value="10:30"
+                                            selected="selected"> 10:30
+                                        </option>
+                                    </OptionSelector>
+                                </label>
+                            </div>
+
+                            <div className='row'>
+                                < label>
+                                    <PriTimeLable>Duration</PriTimeLable>
+                                    < OptionSelector
+                                        value={"2hr"}
+                                        name={'DU'}>
+                                        <option
+                                            value="2hr"
+                                            selected="selected"> 2hr
+                                        </option>
+                                    </OptionSelector>
+                                </label>
+                            </div>
+
+                            <div className='row' style={{marginBottom: '6px'}}>
+                                <PriTimeLable>Price</PriTimeLable>
+                                $290
+                            </div>
+
+                            <div className='row'>
+                                <PriTimeLable>Max. # Participants</PriTimeLable>
+                                3
+                            </div>
+                        </div>
+
+                        {/*Participants*/}
+                        <div className='col-3 col-md-6'>
+
+                            <div style={{
+                                display: 'inline-block',
+                                marginRight: '30px',
+                                position: 'relative'
+                            }}>
+                                <CheckBoxInput className="form-check-input"
+                                               type="checkbox" checked={true}
+                                               id={1}/>
+                                <label
+                                    className="form-check-label"
+                                    htmlFor={1}> Jack
+                                </label>
+                            </div>
+
+                            <div style={{
+                                display: 'inline-block',
+                                marginRight: '30px',
+                                position: 'relative'
+                            }}>
+                                <CheckBoxInput className="form-check-input"
+                                               type="checkbox" checked={true}
+                                               id={2}/>
+                                <label
+                                    className="form-check-label"
+                                    htmlFor={2}> Susan
+                                </label>
+                            </div>
+
+                            <div style={{
+                                display: 'inline-block',
+                                marginRight: '30px',
+                                position: 'relative'
+                            }}>
+                                <CheckBoxInput className="form-check-input"
+                                               type="checkbox" checked={true}
+                                               id={3}/>
+                                <label
+                                    className="form-check-label"
+                                    htmlFor={3}> Wendy
+                                </label>
+                            </div>
+                        </div>
+
+                        {/*Add Lesson*/}
+                        <div className='col-1 col-md-1'>
+                            <Icon className='fa fas fa-trash-alt'/>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
