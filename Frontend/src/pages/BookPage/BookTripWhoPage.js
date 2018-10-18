@@ -58,16 +58,23 @@ class SelectTripDate extends Component {
   componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
-    this.props.setDate(this.state.startDate, this.state.endDate);
+    this.props.setStartDate(this.state.startDate);
+    this.props.setEndDate(this.state.endDate);
 
     //Whether from the sleep page
-    if(this.props.history.location.state != undefined){
-      this.props.showAddTripMember(true);
-      //TODO: Setting the data picker
-      this.setState({
-        startDate:moment('123'),
-        endDate:moment('123')
-      })
+    if (this.props.history.location.state != undefined) {
+      let { tripID } = this.props.history.location.state;
+      axios
+        .get("http://localhost:3333/api/acquireTripDate/" + tripID)
+        .then(response => {
+          console.log(response.data);
+          this.props.showAddTripMember(true);
+
+          this.setState({
+            startDate: moment(response.data.startDate),
+            endDate: moment(response.data.endDate)
+          });
+        });
     }
   }
 
@@ -123,22 +130,37 @@ class SelectTripDate extends Component {
     const { startDate, endDate } = this.state;
 
     if (choice === "endDate") {
-      this.setState({
-        [choice]: date
-      });
+      this.setState(
+        {
+          [choice]: date
+        },
+        () => {
+          this.props.setEndDate(date);
+        }
+      );
     } else {
       if (date > endDate) {
-        this.setState({
-          [choice]: date,
-          endDate: moment(date).add(5, "days")
-        });
+        this.setState(
+          {
+            [choice]: date,
+            endDate: moment(date).add(5, "days")
+          },
+          () => {
+            this.props.setStartDate(date)
+            this.props.setEndDate(moment(date).add(5, "days"));
+          }
+        );
       } else {
-        this.setState({
-          [choice]: date
-        });
+        this.setState(
+          {
+            [choice]: date
+          },
+          () => {
+            this.props.setStartDate(date);
+          }
+        );
       }
     }
-    this.props.setDate(startDate, endDate);
   };
 
   render() {
@@ -156,12 +178,12 @@ class SelectTripDate extends Component {
           btnOneMode="customMode"
           onHandClickOne={() => {
             this.setState({
-              showAlertWindow : false
+              showAlertWindow: false
             });
           }}
-          btnOneText="Book as guest user" 
+          btnOneText="Book as guest user"
           btnTwoMode="customMode"
-          onHandClickTwo ={() => {
+          onHandClickTwo={() => {
             this.props.history.push({
               pathname: "/login",
               state: {
@@ -170,15 +192,15 @@ class SelectTripDate extends Component {
             });
           }}
           btnTwoText="Login"
-          onHandleClose= {() => {
+          onHandleClose={() => {
             this.setState({
-              showAlertWindow :false
-            })
+              showAlertWindow: false
+            });
           }}
         />
       );
-    }else{
-      null
+    } else {
+      null;
     }
 
     let planButton = (
@@ -203,7 +225,7 @@ class SelectTripDate extends Component {
     );
     return (
       <div className="container">
-      {alertWindow}
+        {alertWindow}
         <div className="row">
           <div className="col-sm">
             <p>
@@ -254,30 +276,33 @@ class BookTripPage extends Component {
       startDate: null,
       endDate: null,
       user: null,
-      groupMember: null,
-      isBackFromSleepPage:false
+      groupMember: [],
+      isBackFromSleepPage: false
     };
     this.submitTripMember = this.submitTripMember.bind(this);
   }
 
   //Show the addTripMember Interface
-  showAddTripMember = (isBackFromSleepPage) => {
+  showAddTripMember = isBackFromSleepPage => {
     this.setState({
       addTripMember: true,
-      isBackFromSleepPage:isBackFromSleepPage
+      isBackFromSleepPage: isBackFromSleepPage
     });
   };
 
-  setDate = (startDate, endDate) => {
+  setStartDate = startDate => {
     this.setState({
-      startDate: startDate,
+      startDate: startDate
+    });
+  };
+  setEndDate = endDate => {
+    this.setState({
       endDate: endDate
     });
   };
 
   async submitTripMember(user, groupMember) {
     const { cookies } = this.props;
-
     await this.setState({
       user: user,
       groupMember: groupMember
@@ -417,7 +442,8 @@ class BookTripPage extends Component {
               <SelectTripDate
                 showAddTripMember={this.showAddTripMember}
                 history={history}
-                setDate={this.setDate}
+                setStartDate={this.setStartDate}
+                setEndDate={this.setEndDate}
               />
             </div>
             <div className="col-1" />
@@ -427,7 +453,7 @@ class BookTripPage extends Component {
             <AddTripMember
               place={place}
               submitTripMember={this.submitTripMember}
-              isBackFromSleepPage = {this.state.isBackFromSleepPage}  
+              isBackFromSleepPage={this.state.isBackFromSleepPage}
             />
           ) : null}
           <br />

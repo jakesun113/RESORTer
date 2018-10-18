@@ -93,6 +93,8 @@ Route.get("/api/getBookingHistory/:token", "TripController.getBookingHistory");
 Route.get("/api/getTripSummary/:id", "TripController.getTripSummary");
 //complete a trip (IsTripDone, Comment, SubmitDate)
 Route.post("/api/completeTrip", "TripController.completeTrip");
+//request for startDate and EndDate for a trip
+Route.get("api/acquireTripDate/:tripID","TripController.acquireTripDate")
 /*TripController end*/
 
 /*TripAccommodationController start*/
