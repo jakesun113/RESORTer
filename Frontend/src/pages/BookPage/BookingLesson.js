@@ -55,16 +55,25 @@ const Warning = styled.p`
   margin-bottom: 10px; 
   color:rgba(255, 97, 97, 1);
   
+  padding:0 15px;
   font-weight: 800;
+  border: 1px solid #F1E4DF;
+  border-radius: 4px;
+  background-color: #F1E4DF;
+  box-shadow: 1px 1px rgba(0,0,0,0.3);
   //font-size:smaller;
 `;
 
 const DuplicateAlert = styled.div`
   display: inline-block;
   margin-left: 30px;
-  color:rgba(255, 97, 97, 1);
-  font-style: italic;
-  font-weight: 100;
+  color:#6D705B;
+  //font-style: italic;
+  padding:0 15px;
+  font-weight: 300;
+  border: 1px solid #BDC1A5;
+  border-radius: 4px;
+  background-color: #EDF1D4;
 `;
 
 const DateDiv = styled.div`
@@ -975,7 +984,7 @@ class BookingLesson extends Component {
                                 {price}
                             </div>
 
-                            <div className='row'>
+                            <div className='row' style={{marginBottom: '6px'}}>
                                 <PriTimeLable>Max. #
                                     Participants</PriTimeLable>{max_ppl}
                             </div>
